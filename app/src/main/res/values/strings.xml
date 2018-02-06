@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">SmartHotel</string>
+    <string name="versionCode">1</string>
+    <string name="versionName">1.0.0</string>
+    <string name="tv_hotel_login">Hotel IPTV Login</string>
+    <string name="btn_login">Login</string>
+    <string name="tv_live">Live</string>
+    <string name="tv_vod">Vod</string>
+    <string name="tv_cuisines">Cuisines</string>
+    <string name="tv_services">Services</string>
+    <string name="tv_setting">Setting</string>
+    <string name="tv_scnenrise">Scnenries</string>
+    <string name="tv_expense">Expense</string>
+    <string name="exitdialog_out">Exit</string>
+    <string name="exitdialog_back">See again</string>
+    <string name="exitdialog_hint">Exit hints</string>
+    <string name="exitdialog_out_hint">Do you really want to quit?</string>
+    <string name="system_setting">System setting</string>
+    <string name="ip_setting">Server address setting</string>
+    <string name="login_setting">Login setting</string>
+    <string name="label_setting_host_tips">It is used to modify the server address connected to set-top box.
+        Any errors during modification might lead to connection fail and set-top box can’t work correctly.
+        To change the server address, please consult your local operator to check the new address to ensure set-top boxes work properly.</string>
+    <string name="submit">Submit</string>
+    <string name="recovery_address">Restore the default address</string>
+    <string name="server_address">Server address</string>
+    <string name="room_number">Room number</string>
+    <string name="english">English</string>
+    <string name="chinese">中文</string>
+    <string name="device_id">Device ID:</string>
+    <string name="version">Version:</string>
+    <string name="error">The program is running down...</string>
+    <string name="click_again_to_welcome_activity">Click back to the welcome interface again</string>
+
+    <string-array name="day_of_week">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+</resources>

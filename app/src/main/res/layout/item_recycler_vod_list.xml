@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativelayout_movie_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20px"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_recycleview_movie"
+            android:layout_width="match_parent"
+            android:layout_height="100px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:focusable="false"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:id="@+id/view_recycleview_movie_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/img_recycleview_movie"
+            android:layout_alignTop="@+id/img_recycleview_movie"
+            android:focusable="false" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text_recycleview_movie_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/img_recycleview_movie"
+            android:layout_below="@id/img_recycleview_movie"
+            android:focusable="false"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="32px" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text_recycleview_movie_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/img_recycleview_movie"
+            android:layout_below="@+id/text_recycleview_movie_name"
+            android:focusable="false"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white"
+            android:textSize="32px" />
+    </android.support.v7.widget.CardView>
+</com.zhy.autolayout.AutoLinearLayout>

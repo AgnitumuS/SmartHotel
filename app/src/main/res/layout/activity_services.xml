@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:padding="60px"
+    tools:context="com.wanlong.hotel.ui.activity.ServicesActivity">
+
+    <LinearLayout
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="叫醒服务"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="洗衣服务"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="擦鞋服务"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="美容美发"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="航班订票"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16px"
+            android:paddingTop="16px"
+            android:text="健身服务"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">SmartHotel</string>
+
+    <string name="tv_hotel_login">酒店IPTV登录</string>
+    <string name="btn_login">登录</string>
+    <string name="tv_live">直播</string>
+    <string name="tv_vod">点播</string>
+    <string name="tv_cuisines">美食</string>
+    <string name="tv_services">服务</string>
+    <string name="tv_setting">设置</string>
+    <string name="tv_scnenrise">旅游</string>
+    <string name="tv_expense">账单</string>
+    <string name="exitdialog_out">退出</string>
+    <string name="exitdialog_back">再看看</string>
+    <string name="exitdialog_hint">退出提示</string>
+    <string name="exitdialog_out_hint">你真的要退出吗？</string>
+    <string name="system_setting">系统设置</string>
+    <string name="ip_setting">服务器地址设置</string>
+    <string name="login_setting">登录设置</string>
+    <string name="label_setting_host_tips">此处用于修改机顶盒连接服务器的地址,如果修改错误机顶盒将无法连接服务器,并无法正常使用,若服务器更改,请咨询当地运营商查询新地址,以保证机顶盒正常运行.</string>
+    <string name="submit">提交</string>
+    <string name="recovery_address">恢复默认地址</string>
+    <string name="server_address">服务器地址</string>
+    <string name="room_number">房间号</string>
+
+    <string name="device_id">设备ID:</string>
+    <string name="version">版本:</string>
+    <string name="error">程序开小差了呢...</string>
+    <string name="click_again_to_welcome_activity">再次点击回到欢迎界面</string>
+
+    <string-array name="day_of_week">
+        <item>星期天</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </string-array>
+
+</resources>

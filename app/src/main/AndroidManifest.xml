@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wanlong.hotel">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 悬浮窗 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 开机启动 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--应用程序设计为电视机用户的体验方式。	本特性的“television”定义为典型的客厅电视用户体验方式： -->
+    <!--大屏幕显示，用户可坐得更远，主要的输入方式是方向键之类，一般不使用触摸屏或鼠标（指点设备）。-->
+    <uses-feature
+        android:name="android.hardware.type.television"
+        android:required="true" />
+
+    <!-- 声明不支持触摸 -->
+    <!--应用程序用到比基本触摸事件更加复杂的手势触摸功能，比如滑动。 这是基本 faketouch 特性的超集。-->
+    <!--默认情况下，应用程序是必须使用本特性的。 这样，应用程序默认就不适用于那些仅能仿真触摸接口（fake touch）的设备。 -->
+    <!--如果应用程序需要能够适用于提供仿真触摸接口的设备（甚至是仅提供方向键的设备），-->
+    <!--则必须用带有 android:required="false" 的 android.hardware.touchscreen 将触摸屏显式声明为非必需的。 -->
+    <!--即便应用程序是用到了但不是必需真正的触摸屏接口，也应该进行这种声明。-->
+    <!--如果应用程序确实需要触摸屏接口（为了处理滑动之类的触摸手势），就不必进行任何声明，因为默认这就是必需的。 -->
+    <!--不过，最好还是对所有要用到的特性都进行显式声明，因此必要的话还是应该声明本特性。-->
+    <!--如果需要用到更复杂的触摸操作，比如多个手指的手势，则应该声明后续的更为高级的触摸屏-->
+    <!--<uses-feature-->
+    <!--android:name="android.hardware.touchscreen"-->
+    <!--android:required="false" />-->
+    <!-- 如果你的应用要同时运行在手机、平板、以及电视设备上，需要将required属性设置为false -->
+
+    <!--横屏显示-->
+    <uses-feature
+        android:name="android.hardware.screen.landscape"
+        android:required="true" />
+
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+
+    <application
+        android:name=".app.App"
+        android:allowBackup="true"
+        android:banner="@mipmap/ic_launcher"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:logo="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- 设计尺寸 -->
+        <meta-data
+            android:name="design_width"
+            android:value="1920" />
+        <meta-data
+            android:name="design_height"
+            android:value="1080" />
+
+        <activity
+            android:name=".ui.activity.StartActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!-- 让app显示在电视上 -->
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <!-- 让app显示在手机上 -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.LanguageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.WelcomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.LoginSettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.activity.LiveActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.VodListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.VodDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.VodPlayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.CuisinesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.ServicesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.ScnenriesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.ExpenseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+    </application>
+
+</manifest>

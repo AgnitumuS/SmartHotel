@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/hotel_logo"
+    android:focusable="false">
+
+    <RelativeLayout
+        android:layout_width="1500px"
+        android:layout_height="800px"
+        android:layout_centerInParent="true"
+        android:background="@drawable/input_green_normal"
+        android:focusable="false">
+
+        <TextView
+            android:id="@+id/tv_guest_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="32px"
+            android:layout_marginTop="32px"
+            android:focusable="false"
+            android:text="尊敬的顾客"
+            android:textColor="@color/white"
+            android:textSize="48px" />
+
+        <TextView
+            android:id="@+id/tv_hotel_welcome_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_guest_name"
+            android:focusable="false"
+            android:padding="32px"
+            android:text="        承蒙阁下莅临XXX大酒店，“开拓进取，团结奋进，诚信热情，争创一流”是我们的服务宗旨。在您住店期间，我们将为您提供尽善尽美的服务，使您感受到温馨与真诚，愿我们的服务给您留下美好的印象。\n
+        恭祝您旅途愉快、商务成功、万事如意！\n
+        欢迎您再次光临！"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <Button
+            android:id="@+id/btn_chinese"
+            android:layout_width="320px"
+            android:layout_height="100px"
+            android:layout_above="@id/btn_english"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32px"
+            android:background="@drawable/btn_background1"
+            android:focusable="true"
+            android:text="@string/chinese"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+        <Button
+            android:id="@+id/btn_english"
+            android:layout_width="320px"
+            android:layout_height="100px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32px"
+            android:background="@drawable/btn_background1"
+            android:focusable="true"
+            android:text="@string/english"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="40px" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
