@@ -11,6 +11,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.CsvFormatStrategy;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -122,17 +123,17 @@ public class App extends Application {
                 .tag("HotelLog")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build();
 
-//        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
-//            //项目上线前，可以实现以下方法，以保证上线后不输出日志。
-//            @Override
-//            public boolean isLoggable(int priority, String tag) {
-//                return BuildConfig.DEBUG;
-//            }
-//        });
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            //项目上线前，可以实现以下方法，以保证上线后不输出日志。
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return true;
+            }
+        });
 
         //Save logs to the file
         //TODO: More information will be added later
-        Logger.addLogAdapter(new DiskLogAdapter());
+//        Logger.addLogAdapter(new DiskLogAdapter());
         //Add custom tag to Csv format strategy
         FormatStrategy diskformatStrategy = CsvFormatStrategy.newBuilder()
                 .tag("HotelLog")
