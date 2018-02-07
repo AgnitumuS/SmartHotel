@@ -56,6 +56,7 @@ public class App extends Application {
         CrashHandler.getInstance().init(this);//全局异常捕获
     }
 
+    //得到UUID
     private void getUUID() {
         DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(this);
         sUUID = deviceUuidFactory.getDeviceUuid();
@@ -71,6 +72,7 @@ public class App extends Application {
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
     }
 
+    //初始化OkGo
     private void initOkGo() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
