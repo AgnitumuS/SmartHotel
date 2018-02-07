@@ -140,6 +140,7 @@ public class App extends Application {
         Logger.addLogAdapter(new DiskLogAdapter(diskformatStrategy));
     }
 
+    //退出应用
     public void exit() {
         ActivityCollector.finishAll();
         System.exit(0);
