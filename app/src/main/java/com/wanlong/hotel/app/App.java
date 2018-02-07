@@ -11,6 +11,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.CsvFormatStrategy;
 import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -38,7 +39,7 @@ public class App extends Application {
 
     private static App application;
     public static UUID sUUID;
-    public static final boolean RELEASE = false;
+    public static final boolean RELEASE_VERSION = false;
 
     public static App getApplication() {
         return application;
@@ -108,8 +109,8 @@ public class App extends Application {
                 .setCacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
                 .setRetryCount(2);                          //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
-                //.addCommonHeaders(headers)                      //全局公共头
-                //.addCommonParams(params);
+        //.addCommonHeaders(headers)                      //全局公共头
+        //.addCommonParams(params);
     }
 
     //初始化Logger
@@ -122,17 +123,21 @@ public class App extends Application {
                 .tag("HotelLog")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build();
 
-//        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
-//            //项目上线前，可以实现以下方法，以保证上线后不输出日志。
-//            @Override
-//            public boolean isLoggable(int priority, String tag) {
-//                return BuildConfig.DEBUG;
-//            }
-//        });
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            //项目上线前，可以实现以下方法，以保证上线后不输出日志。
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                if (RELEASE_VERSION) {
+                    return false;//release版本不输出日志
+                } else {
+                    return true;
+                }
+            }
+        });
 
         //Save logs to the file
         //TODO: More information will be added later
-        Logger.addLogAdapter(new DiskLogAdapter());
+//        Logger.addLogAdapter(new DiskLogAdapter());
         //Add custom tag to Csv format strategy
         FormatStrategy diskformatStrategy = CsvFormatStrategy.newBuilder()
                 .tag("HotelLog")
