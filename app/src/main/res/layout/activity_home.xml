@@ -9,6 +9,10 @@
     android:paddingTop="50px"
     tools:context="com.wanlong.hotel.ui.activity.HomeActivity">
 
+    <!--子控件跟随父控件状态改变-->
+    <!--android:duplicateParentState="true"-->
+    <!--去掉TextView上下默认留白-->
+    <!--android:includeFontPadding="false"-->
     <TextView
         android:id="@+id/tv_welcome_guest"
         android:layout_width="wrap_content"
@@ -19,6 +23,7 @@
         android:focusable="false"
         android:text="Welcome Mr.Wang"
         android:textColor="@color/white"
+        android:includeFontPadding="false"
         android:textSize="40px" />
 
     <TextView
