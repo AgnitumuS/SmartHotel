@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanlong.hotel.ui.activity.VodPlayActivity">
+    tools:context="com.wanlong.iptv.ui.activity.VodPlayActivity">
 
-    <com.wanlong.hotel.player.VodVideoPlayer
+    <com.wanlong.iptv.player.VodVideoPlayer
         android:id="@+id/vod_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
