@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanlong.hotel.ui.activity.LiveActivity">
+    tools:context="com.wanlong.iptv.ui.activity.LiveActivity">
 
-    <com.wanlong.hotel.player.LiveVideoPlayer
+    <com.wanlong.iptv.player.LiveVideoPlayer
         android:id="@+id/live_video_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

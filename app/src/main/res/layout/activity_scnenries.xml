@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="60px"
-    tools:context="com.wanlong.hotel.ui.activity.ScnenriesActivity">
+    tools:context="com.wanlong.iptv.ui.activity.ScnenriesActivity">
 
 </RelativeLayout>

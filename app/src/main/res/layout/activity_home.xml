@@ -7,7 +7,7 @@
     android:background="@drawable/background"
     android:focusable="false"
     android:paddingTop="50px"
-    tools:context="com.wanlong.hotel.ui.activity.HomeActivity">
+    tools:context="com.wanlong.iptv.ui.activity.HomeActivity">
 
     <!--子控件跟随父控件状态改变-->
     <!--android:duplicateParentState="true"-->
@@ -61,7 +61,7 @@
         android:scaleType="centerCrop"
         tools:src="@drawable/weather" />
 
-    <com.wanlong.hotel.ui.weigets.RoundImageView
+    <com.wanlong.iptv.ui.weigets.RoundImageView
         android:id="@+id/img_ad"
         android:layout_width="560px"
         android:layout_height="400px"

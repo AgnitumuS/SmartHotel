@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:padding="60px"
-    tools:context="com.wanlong.hotel.ui.activity.CuisinesActivity">
+    tools:context="com.wanlong.iptv.ui.activity.CuisinesActivity">
 
     <LinearLayout
         android:layout_width="300px"
