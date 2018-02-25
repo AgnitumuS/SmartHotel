@@ -36,7 +36,7 @@
         android:focusable="false"
         android:textColor="@color/white"
         android:textSize="36px"
-        tools:text="2018/1/25 15:54 Thursday" />
+        tools:text="2018/2/25 09:06 Sunday" />
 
     <ImageView
         android:id="@+id/img_show"

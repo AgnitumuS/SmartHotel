@@ -69,7 +69,7 @@ dependencies {
     //log工具 https://github.com/orhanobut/logger
     compile 'com.orhanobut:logger:2.1.1'
     //视频播放框架 https://github.com/CarGuo/GSYVideoPlayer
-    compile 'com.shuyu:gsyVideoPlayer-java:3.0.0'
+    compile 'com.shuyu:gsyVideoPlayer-java:4.0.0-beat1'
     //轮播图 https://github.com/youth5201314/banner
     compile 'com.youth.banner:banner:1.4.10'
     //okgo https://github.com/jeasonlzy/okhttp-OkGo
