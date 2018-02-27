@@ -74,10 +74,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
                 break;
         }
-        mLiveVideoPlayer.setUp("http://192.168.1.201/earth1.mp4", false, "");
+        mLiveVideoPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
         mLiveVideoPlayer.startPlayLogic();
         mLiveVideoPlayer.setIsTouchWigetFull(true);
-        mLiveVideoPlayer.setStandardVideoAllCallBack(new SimpleVideoCallBack() {
+        mLiveVideoPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
             @Override
             public void onPrepared(String url, Object... objects) {
                 super.onPrepared(url, objects);

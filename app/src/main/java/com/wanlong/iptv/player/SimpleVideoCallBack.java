@@ -1,12 +1,17 @@
 package com.wanlong.iptv.player;
 
-import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack;
+import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack;
 
 /**
  * Created by luojianjun on 2017/8/21.
  */
 
-public class SimpleVideoCallBack implements StandardVideoAllCallBack {
+public class SimpleVideoCallBack implements VideoAllCallBack {
+    @Override
+    public void onStartPrepared(String url, Object... objects) {
+
+    }
+
     @Override
     public void onPrepared(String url, Object... objects) {
 
