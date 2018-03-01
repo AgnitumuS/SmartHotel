@@ -10,6 +10,9 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.ui.activity.LoginActivity;
 
@@ -139,7 +142,27 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 //        String name = preferences.getString("name", "");
 //        String mac = preferences.getString("mac", "");
 //        String ip = Security.decrypt(preferences.getString("ip", ""), Apis.KEY);
-//        final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
+        final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
+        OkGo.<String>post("")
+                .tag(this)
+                .isMultipart(true)
+                .params("",new File(file))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                    }
+                });
 //        Request<String> request = NoHttp.createStringRequest(ip + "user/fun/user_report.php", RequestMethod.POST);
 //        FileBinary fileBinary = new FileBinary(new File(file));
 //        fileBinary.setUploadListener(0, new OnUploadListener() {
