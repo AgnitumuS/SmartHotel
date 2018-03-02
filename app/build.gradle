@@ -63,8 +63,8 @@ dependencies {
     //fastjson https://github.com/alibaba/fastjson
     compile 'com.alibaba:fastjson:1.2.44'
     //glide https://github.com/bumptech/glide
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     compile 'com.android.support:support-v4:27+'
     //log工具 https://github.com/orhanobut/logger
     compile 'com.orhanobut:logger:2.1.1'
