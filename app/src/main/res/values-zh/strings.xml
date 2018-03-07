@@ -27,6 +27,10 @@
     <string name="version">版本:</string>
     <string name="error">程序开小差了呢...</string>
     <string name="click_again_to_welcome_activity">再次点击回到欢迎界面</string>
+    <string name="play_setting">播放设置</string>
+    <string name="update_setting">更新设置</string>
+    <string name="about_us">关于我们</string>
+    <string name="report_setting">报告问题</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>
