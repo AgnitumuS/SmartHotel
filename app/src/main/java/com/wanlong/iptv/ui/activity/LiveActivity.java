@@ -68,6 +68,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "jb_dmp":
             case "GX-1":
             case "S905W":
+            case "p230":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 break;
             default:

@@ -1,12 +1,22 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.player.SimpleVideoCallBack;
+import com.wanlong.iptv.player.VodVideoPlayer;
+
+import butterknife.BindView;
 
 public class VodPlayActivity extends BaseActivity {
+
+    @BindView(R.id.vod_player)
+    VodVideoPlayer mVodPlayer;
 
     @Override
     protected int getContentResId() {
@@ -15,12 +25,64 @@ public class VodPlayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        initPlayer();
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    private void initPlayer() {
+        switch (Build.MODEL) {
+            case "etv2021":
+            case "jb_dmp":
+            case "GX-1":
+            case "S905W":
+            case "p230":
+                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                break;
+            default:
+                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                break;
+        }
+//        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
+        mVodPlayer.startPlayLogic();
+        mVodPlayer.setIsTouchWigetFull(true);
+        mVodPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
+            @Override
+            public void onPrepared(String url, Object... objects) {
+                super.onPrepared(url, objects);
+            }
+
+            @Override
+            public void onAutoComplete(String url, Object... objects) {
+                super.onAutoComplete(url, objects);
+            }
+
+            @Override
+            public void onPlayError(String url, Object... objects) {
+                super.onPlayError(url, objects);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mVodPlayer.onVideoPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mVodPlayer.onVideoResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mVodPlayer.release();
     }
 
     /**
@@ -53,5 +115,4 @@ public class VodPlayActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }
