@@ -14,6 +14,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.HomeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
+import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -49,7 +50,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @BindView(R.id.tv_room)
     TextView mTvRoom;
     @BindView(R.id.tv_message)
-    TextView mTvMessage;
+    MarqueeTextView mTvMessage;
 
 
     @Override
@@ -62,6 +63,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
+        initImgAd();
+        mTvMessage.setText("You have a new message. Please check it.");
+    }
+
+    private void initImgAd() {
         GlideApp.with(this)
                 .load(R.drawable.wooden_house)
                 .transform(new RoundedCorners(12))

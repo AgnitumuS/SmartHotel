@@ -31,6 +31,11 @@
     <string name="version">Version:</string>
     <string name="error">The program is running down...</string>
     <string name="click_again_to_welcome_activity">Click back to the welcome interface again</string>
+    <string name="play_setting">Play Setting</string>
+    <string name="update_setting">Update Setting</string>
+    <string name="about_us">About Us</string>
+    <string name="report_setting">Report Setting</string>
+    <string name="click_again_to_exit_playback">Click again to exit playback</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>
