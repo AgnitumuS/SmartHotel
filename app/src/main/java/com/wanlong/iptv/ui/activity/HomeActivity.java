@@ -63,6 +63,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
+        initImgAd();
+        mTvMessage.setText("You have a new message. Please check it.");
+    }
+
+    private void initImgAd() {
         GlideApp.with(this)
                 .load(R.drawable.wooden_house)
                 .transform(new RoundedCorners(12))
@@ -75,7 +80,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 .load(R.drawable.sence)
                 .transform(new RoundedCorners(12))
                 .into(mImgAd);
-        mTvMessage.setText("You have a new message. Please check it.");
     }
 
     @Override

@@ -31,6 +31,7 @@
     <string name="update_setting">更新设置</string>
     <string name="about_us">关于我们</string>
     <string name="report_setting">报告问题</string>
+    <string name="click_again_to_exit_playback">再次点击退出播放</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>
