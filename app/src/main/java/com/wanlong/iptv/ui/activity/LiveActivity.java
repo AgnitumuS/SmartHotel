@@ -1,9 +1,13 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -27,6 +31,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
+    @BindView(R.id.relativelayout_list)
+    RelativeLayout mRelativelayoutList;
 
     @Override
     protected int getContentResId() {
@@ -66,6 +72,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "jb_dmp":
             case "GX-1":
             case "S905W":
+            case "Prevail CATV":
             case "p230":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 break;
@@ -127,7 +134,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
 //                            @Override
 //                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                finish();
+                finish();
 //                            }
 //                        })
 //                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
@@ -144,6 +151,31 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return super.onKeyDown(keyCode, event);
     }
 
+    //定义变量
+    private static final int STOPPLAY = 0;
+    private static final int MOBILE_QWER = 1;
+
+    //程序启动时，初始化并发送消息
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case STOPPLAY:
+                    mLiveVideoPlayer.onVideoPause();
+                    break;
+                case MOBILE_QWER:
+                    //当3秒到达后，作相应的操作。
+                    if (mRelativelayoutList.getVisibility() == View.VISIBLE) {
+                        mRelativelayoutList.setVisibility(View.GONE);
+                    }
+                    if (mRelativelayoutList.getVisibility() == View.VISIBLE) {
+                        mRelativelayoutList.setVisibility(View.GONE);
+                    }
+                    break;
+            }
+        }
+    };
+
     @Override
     public void loadDataSuccess(LiveData liveData) {
         mLiveCategoryAdapter.setData(liveData);
@@ -155,5 +187,4 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
-
 }

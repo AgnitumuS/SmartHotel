@@ -38,6 +38,7 @@ public class VodPlayActivity extends BaseActivity {
             case "jb_dmp":
             case "GX-1":
             case "S905W":
+            case "Prevail CATV":
             case "p230":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 break;
