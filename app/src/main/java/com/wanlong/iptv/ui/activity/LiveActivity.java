@@ -1,13 +1,14 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -22,6 +23,7 @@ import com.wanlong.iptv.ui.adapter.LiveCategoryAdapter;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
@@ -31,8 +33,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
-    @BindView(R.id.relativelayout_list)
-    RelativeLayout mRelativelayoutList;
+    @BindView(R.id.linearlayout_list)
+    LinearLayout mLinearlayoutList;
+
 
     @Override
     protected int getContentResId() {
@@ -165,11 +168,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     break;
                 case MOBILE_QWER:
                     //当3秒到达后，作相应的操作。
-                    if (mRelativelayoutList.getVisibility() == View.VISIBLE) {
-                        mRelativelayoutList.setVisibility(View.GONE);
+                    if (mLinearlayoutList.getVisibility() == View.VISIBLE) {
+                        mLinearlayoutList.setVisibility(View.GONE);
                     }
-                    if (mRelativelayoutList.getVisibility() == View.VISIBLE) {
-                        mRelativelayoutList.setVisibility(View.GONE);
+                    if (mLinearlayoutList.getVisibility() == View.VISIBLE) {
+                        mLinearlayoutList.setVisibility(View.GONE);
                     }
                     break;
             }
@@ -186,5 +189,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public void loadFailed() {
         Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

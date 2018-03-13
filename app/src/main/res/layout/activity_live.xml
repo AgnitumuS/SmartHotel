@@ -12,28 +12,38 @@
         android:layout_height="match_parent" />
 
     <RelativeLayout
-        android:id="@+id/relativelayout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_live_category"
-            android:layout_width="300px"
+        <LinearLayout
+            android:id="@+id/linearlayout_list"
+            android:layout_width="800px"
             android:layout_height="match_parent"
             android:layout_marginBottom="250px"
             android:layout_marginLeft="60px"
             android:layout_marginTop="100px"
-            android:background="@color/color_55ffffff" />
+            android:background="@color/transparent"
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_live_list"
-            android:layout_width="300px"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="250px"
-            android:layout_marginTop="100px"
-            android:layout_toRightOf="@id/recycler_live_category"
-            android:background="@color/color_55ffffff" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_live_category"
+                android:layout_width="399px"
+                android:layout_height="match_parent"
+                android:background="@color/color_55ffffff" />
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/transparent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_live_list"
+                android:layout_width="399px"
+                android:layout_height="match_parent"
+                android:background="@color/color_55ffffff" />
+        </LinearLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
