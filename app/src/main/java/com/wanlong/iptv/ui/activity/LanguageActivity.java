@@ -75,7 +75,7 @@ public class LanguageActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) < 2000) {
-                new AlertDialog.Builder(LanguageActivity.this)
+                new AlertDialog.Builder(LanguageActivity.this,R.style.Theme_AppCompat_Dialog_Alert)
                         .setTitle(getString(R.string.exitdialog_hint))
                         .setMessage(getString(R.string.exitdialog_out_hint))
                         .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {

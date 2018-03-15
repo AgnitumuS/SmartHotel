@@ -38,11 +38,14 @@ public class VodPlayActivity extends BaseActivity {
             case "jb_dmp":
             case "GX-1":
             case "S905W":
+            case "Prevail CATV":
             case "p230":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
 //        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
