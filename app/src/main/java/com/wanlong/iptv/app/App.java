@@ -58,7 +58,7 @@ public class App extends Application {
     }
 
     //得到UUID
-    private void getUUID() {
+    public void getUUID() {
         DeviceUuidFactory deviceUuidFactory = new DeviceUuidFactory(this);
         sUUID = deviceUuidFactory.getDeviceUuid();
     }

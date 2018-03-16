@@ -15,6 +15,7 @@ import com.wanlong.iptv.entity.HomeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
+import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -86,7 +87,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     protected void initData() {
         new TimeThread().start();
         setPresenter(new HomePresenter(this));
-//        getPresenter().loadLiveData("");
+        getPresenter().loadLiveData(Apis.HEADER+Apis.HOME_AD);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
