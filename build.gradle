@@ -28,10 +28,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-ext {
-    lifecycle = '1.0.0'
-    lifecycleRuntime = '1.0.3'
-    room = '1.0.0'
-    supportLibraryVersion = '27.+'
-    dagger = '2.12'
-}
+//ext {
+//    lifecycle = '1.0.0'
+//    lifecycleRuntime = '1.0.3'
+//    room = '1.0.0'
+//    supportLibraryVersion = '27.+'
+//    dagger = '2.12'
+//}
