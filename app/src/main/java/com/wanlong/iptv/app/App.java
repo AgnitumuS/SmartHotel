@@ -76,9 +76,13 @@ public class App extends Application {
     //初始化OkGo
     private void initOkGo() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("Hotel-OkGo");
         //log打印级别，决定了log显示的详细程度
-        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        if(RELEASE_VERSION){
+            loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BASIC);
+        }else {
+            loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        }
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.INFO);
         builder.addInterceptor(loggingInterceptor);
@@ -120,7 +124,7 @@ public class App extends Application {
                 .methodCount(2)         // (Optional) How many method line to show. Default curtain2
                 .methodOffset(5)        // (Optional) Hides internal method calls up to offset. Default 5
                 //.logStrategy(customLog) // (Optional) Changes the log strategy to print out. Default LogCat
-                .tag("HotelLog")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .tag("Hotel-Log")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
@@ -140,7 +144,7 @@ public class App extends Application {
 //        Logger.addLogAdapter(new DiskLogAdapter());
         //Add custom tag to Csv format strategy
         FormatStrategy diskformatStrategy = CsvFormatStrategy.newBuilder()
-                .tag("HotelLog")
+                .tag("Hotel-Log")
                 .build();
         Logger.addLogAdapter(new DiskLogAdapter(diskformatStrategy));
     }

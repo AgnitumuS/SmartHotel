@@ -6,8 +6,8 @@ package com.wanlong.iptv.utils;
 
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
-    public static String HEADER = "http://192.168.1.214/iptv/";
+    public static String HEADER = "http://192.168.1.214:80/iptv/api/";
 
-    public static String HOME_AD = "api/ads";
+    public static String HOME_AD = "ads";
 
 }

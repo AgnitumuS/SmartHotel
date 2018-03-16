@@ -7,12 +7,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.ui.activity.LoginActivity;
 
@@ -88,7 +88,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {//延迟3秒杀进程
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                Log.e(TAG, "error : ", e);
+                Logger.e(TAG + "  error : " + e);
             }
             //退出程序
 //            AppManager.getAppManager().AppExit(mContext);
@@ -129,7 +129,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         //保存日志文件
         String filename = saveCrashInfo2File(ex);
         if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
-//            uploadFile(filename);
+            uploadFile(filename);
         }
         return true;
     }
@@ -138,87 +138,33 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 上传文件到服务器
      */
     private void uploadFile(String filename) {
-//        SharedPreferences preferences = mContext.getSharedPreferences("login", Context.MODE_PRIVATE);
-//        String name = preferences.getString("name", "");
-//        String mac = preferences.getString("mac", "");
-//        String ip = Security.decrypt(preferences.getString("ip", ""), Apis.KEY);
         final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
         OkGo.<String>post("")
                 .tag(this)
                 .isMultipart(true)
-                .params("",new File(file))
+                .params("", new File(file))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-
+                        Logger.d("upload error log success");
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        File dir = new File(file);
+                        if (dir.exists()) {
+                            dir.delete();
+                        }
+                        filehasUpload = true;
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
+                        filehasUpload = false;
                     }
                 });
-//        Request<String> request = NoHttp.createStringRequest(ip + "user/fun/user_report.php", RequestMethod.POST);
-//        FileBinary fileBinary = new FileBinary(new File(file));
-//        fileBinary.setUploadListener(0, new OnUploadListener() {
-//            @Override
-//            public void onStart(int what) {
-//
-//            }
-//
-//            @Override
-//            public void onCancel(int what) {
-//
-//            }
-//
-//            @Override
-//            public void onProgress(int what, int progress) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish(int what) {
-//                File dir = new File(file);
-//                if (dir.exists()) {
-//                    dir.delete();
-//                }
-//                filehasUpload = true;
-//            }
-//
-//            @Override
-//            public void onError(int what, Exception exception) {
-//
-//            }
-//        });
-//        request.add("name", name)
-//                .add("mac", mac)
-//                .add("crash", fileBinary);
-//        App.getRequestQueue().add(0, request, new OnResponseListener<String>() {
-//            @Override
-//            public void onStart(int what) {
-//
-//            }
-//
-//            @Override
-//            public void onSucceed(int what, Response<String> response) {
-//                Logger.d("CrashHandler", "上传成功");
-//            }
-//
-//            @Override
-//            public void onFailed(int what, Response<String> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish(int what) {
-//
-//            }
-//        });
     }
 
     /**
@@ -238,7 +184,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 paramsMap.put("versionCode", versionCode);
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "an error occured when collect package info", e);
+            Logger.e(TAG + "  an error occured when collect package info  " + e);
         }
         //获取所有系统信息
         Field[] fields = Build.class.getDeclaredFields();
@@ -248,7 +194,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 field.setAccessible(true);
                 paramsMap.put(field.getName(), field.get(null).toString());
             } catch (Exception e) {
-                Log.e(TAG, "an error occured when collect crash info", e);
+                Logger.e(TAG + "  an error occured when collect crash info  " + e);
             }
         }
     }
@@ -302,7 +248,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
             return fileName;
         } catch (Exception e) {
-            Log.e(TAG, "an error occured while writing file...", e);
+            Logger.e(TAG + "  an error occured while writing file...  " + e);
         }
         return null;
     }
