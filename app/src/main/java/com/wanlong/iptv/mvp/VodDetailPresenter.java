@@ -30,7 +30,7 @@ public class VodDetailPresenter extends BasePresenter<VodDetailPresenter.VodDeta
                         Log.d("HomePresenter", response.body());
                         try {
                             VodDetailData vodDetailData = JSON.parseObject(response.body(), VodDetailData.class);
-                            getView().showLoadVodDetailSuccess(vodDetailData);
+                            getView().loadVodDetailSuccess(vodDetailData);
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -45,13 +45,13 @@ public class VodDetailPresenter extends BasePresenter<VodDetailPresenter.VodDeta
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().showLoadVodDetailFailed();
+                        getView().loadVodDetailFailed();
                     }
                 });
     }
 
     public interface VodDetailView extends BaseView{
-        void showLoadVodDetailSuccess(VodDetailData vodDetailData);
-        void showLoadVodDetailFailed();
+        void loadVodDetailSuccess(VodDetailData vodDetailData);
+        void loadVodDetailFailed();
     }
 }

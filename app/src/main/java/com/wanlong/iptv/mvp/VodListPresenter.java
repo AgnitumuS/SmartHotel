@@ -21,7 +21,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
     }
 
     public void loadVodListData(String url){
-        Logger.d("VodListData", url);
+        Logger.d("VodListPresenter", url);
         OkGo.<String>get(url)
                 .tag(this)
                 .execute(new StringCallback() {
@@ -30,7 +30,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                         Log.d("HomePresenter", response.body());
                         try {
                             VodListData vodListData = JSON.parseObject(response.body(), VodListData.class);
-                            getView().showLoadVodListSuccess(vodListData);
+                            getView().loadVodListSuccess(vodListData);
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -45,13 +45,13 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().showLoadVodListFailed();
+                        getView().loadVodListFailed();
                     }
                 });
     }
 
     public interface VodListView extends BaseView{
-        void showLoadVodListSuccess(VodListData vodListData);
-        void showLoadVodListFailed();
+        void loadVodListSuccess(VodListData vodListData);
+        void loadVodListFailed();
     }
 }

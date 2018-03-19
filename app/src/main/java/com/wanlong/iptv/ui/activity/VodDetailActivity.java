@@ -27,12 +27,12 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
 
 
     @Override
-    public void showLoadVodDetailSuccess(VodDetailData vodDetailData) {
+    public void loadVodDetailSuccess(VodDetailData vodDetailData) {
 
     }
 
     @Override
-    public void showLoadVodDetailFailed() {
+    public void loadVodDetailFailed() {
         Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }

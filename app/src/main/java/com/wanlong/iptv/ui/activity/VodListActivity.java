@@ -47,18 +47,18 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     @Override
     protected void initData() {
         setPresenter(new VodListPresenter(this));
-//        getPresenter().loadVodListData("");
+        getPresenter().loadVodListData("");
 
     }
 
     @Override
-    public void showLoadVodListSuccess(VodListData vodListData) {
+    public void loadVodListSuccess(VodListData vodListData) {
         mVodCategoryAdapter.setData(vodListData);
         mVodListAdapter.setData(vodListData);
     }
 
     @Override
-    public void showLoadVodListFailed() {
+    public void loadVodListFailed() {
         Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }

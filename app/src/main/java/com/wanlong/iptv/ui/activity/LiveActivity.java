@@ -66,7 +66,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-//        getPresenter().loadLiveData("");
+        getPresenter().loadLiveData("");
     }
 
     //初始化播放器
