@@ -1,8 +1,10 @@
 package com.wanlong.iptv.ui.activity;
 
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.entity.ServicesData;
+import com.wanlong.iptv.mvp.ServicesPresenter;
 
-public class ServicesActivity extends BaseActivity {
+public class ServicesActivity extends BaseActivity<ServicesPresenter> implements ServicesPresenter.ServicesView {
 
     @Override
     protected int getContentResId() {
@@ -16,6 +18,17 @@ public class ServicesActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        setPresenter(new ServicesPresenter(this));
+        getPresenter().loadServicesData("");
+    }
+
+    @Override
+    public void loadDataSuccess(ServicesData servicesData) {
+
+    }
+
+    @Override
+    public void loadFailed() {
 
     }
 }

@@ -14,7 +14,7 @@ public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements
     @Override
     protected void initView() {
         setPresenter(new CuisinesPresenter(this));
-//        getPresenter().loadCuisinesData("");
+        getPresenter().loadCuisinesData("");
     }
 
     @Override

@@ -116,7 +116,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, CuisinesActivity.class));
                 break;
             case R.id.tv_scnenries:
-                startActivity(new Intent(HomeActivity.this, ScnenriesActivity.class));
+                startActivity(new Intent(HomeActivity.this, SceneriesActivity.class));
                 break;
             case R.id.tv_expense:
                 startActivity(new Intent(HomeActivity.this, ExpenseActivity.class));

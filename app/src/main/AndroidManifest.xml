@@ -124,7 +124,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activity.ScnenriesActivity"
+            android:name=".ui.activity.SceneriesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
         <activity
