@@ -1,7 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.widget.Toast;
-
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.VodDetailData;
@@ -33,7 +31,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
 
     @Override
     public void loadVodDetailFailed() {
-        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
 }

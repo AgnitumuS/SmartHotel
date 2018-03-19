@@ -21,7 +21,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView>{
     }
 
     public void loadLiveData(String url){
-        Logger.d("LiveData", url);
+        Logger.d("LivePresenter", url);
         OkGo.<String>get(url)
                 .tag(this)
                 .execute(new StringCallback() {

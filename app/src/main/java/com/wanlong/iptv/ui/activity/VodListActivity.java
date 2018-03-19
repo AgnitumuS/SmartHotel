@@ -3,7 +3,6 @@ package com.wanlong.iptv.ui.activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
@@ -59,7 +58,7 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
 
     @Override
     public void loadVodListFailed() {
-        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
 }

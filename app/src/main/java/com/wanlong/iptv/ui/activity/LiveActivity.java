@@ -190,7 +190,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadFailed() {
-        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
 
