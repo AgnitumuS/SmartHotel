@@ -140,8 +140,6 @@ public class App extends Application {
         });
 
         //Save logs to the file
-        //TODO: More information will be added later
-//        Logger.addLogAdapter(new DiskLogAdapter());
         //Add custom tag to Csv format strategy
         FormatStrategy diskformatStrategy = CsvFormatStrategy.newBuilder()
                 .tag("Hotel-Log")

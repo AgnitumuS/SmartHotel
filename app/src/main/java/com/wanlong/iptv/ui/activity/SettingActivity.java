@@ -1,8 +1,36 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Intent;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import com.wanlong.iptv.R;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class SettingActivity extends BaseActivity {
+
+    @BindView(R.id.system_setting)
+    Button mSystemSetting;
+    @BindView(R.id.login_setting)
+    Button mLoginSetting;
+    @BindView(R.id.play_setting)
+    Button mPlaySetting;
+    @BindView(R.id.ll_1)
+    LinearLayout mLl1;
+    @BindView(R.id.report_setting)
+    Button mReportSetting;
+    @BindView(R.id.update_setting)
+    Button mUpdateSetting;
+    @BindView(R.id.about_setting)
+    Button mAboutSetting;
+    @BindView(R.id.ll_2)
+    LinearLayout mLl2;
+    @BindView(R.id.ll)
+    LinearLayout mLl;
 
     @Override
     protected int getContentResId() {
@@ -17,5 +45,27 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+    }
+
+    @OnClick({R.id.system_setting, R.id.login_setting, R.id.play_setting, R.id.report_setting, R.id.update_setting, R.id.about_setting})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.system_setting:
+                Intent intent = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+            case R.id.login_setting:
+                startActivity(new Intent(SettingActivity.this, LoginSettingActivity.class));
+                break;
+            case R.id.play_setting:
+                break;
+            case R.id.report_setting:
+                break;
+            case R.id.update_setting:
+                break;
+            case R.id.about_setting:
+                break;
+        }
     }
 }
