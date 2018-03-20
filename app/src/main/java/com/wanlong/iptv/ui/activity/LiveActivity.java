@@ -1,11 +1,13 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,8 +25,9 @@ import com.wanlong.iptv.ui.adapter.LiveCategoryAdapter;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
+public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView, View.OnTouchListener {
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
@@ -32,10 +35,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
-    @BindView(R.id.linearlayout_channel_list)
-    LinearLayout mLinearlayoutChannelList;
-    @BindView(R.id.relativelayout_channel_info)
-    RelativeLayout mRelativelayoutChannelInfo;
+    @BindView(R.id.channel_list)
+    LinearLayout mChannelList;
+    @BindView(R.id.channel_info)
+    RelativeLayout mChannelInfo;
+    @BindView(R.id.relativelayout_channel)
+    RelativeLayout mRelativelayoutChannel;
 
 
     @Override
@@ -60,6 +65,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mRecyclerLiveList.setLayoutManager(linearLayoutManager2);
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
+        mRelativelayoutChannel.setOnTouchListener(this);
         initPlayer();
     }
 
@@ -67,6 +73,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     protected void initData() {
         setPresenter(new LivePresenter(this));
         getPresenter().loadLiveData("");
+        resetTime();
     }
 
     //初始化播放器
@@ -86,7 +93,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
-        mLiveVideoPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
+        String url1 = "http://192.168.1.231/earth1.mp4";
+        String url2 = "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4";
+        mLiveVideoPlayer.setUp(url2, false, "");
         mLiveVideoPlayer.startPlayLogic();
         mLiveVideoPlayer.setIsTouchWigetFull(true);
         mLiveVideoPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
@@ -125,6 +134,35 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveVideoPlayer.release();
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (v.getId() == R.id.relativelayout_channel) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (mChannelList.getVisibility() == View.GONE) {
+                        mChannelList.setVisibility(View.VISIBLE);
+                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                    } else {
+                        resetTime();
+                    }
+                    if (mChannelInfo.getVisibility() == View.GONE) {
+                        mChannelInfo.setVisibility(View.VISIBLE);
+                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                    } else {
+                        resetTime();
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+
+                    break;
+                case MotionEvent.ACTION_UP:
+
+                    break;
+            }
+        }
+        return super.onTouchEvent(event);
+    }
+
     /**
      * 2s内点击退出
      */
@@ -132,15 +170,81 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - exitTime) < 2000) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_UP://上一个节目
+                resetTime();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    if (mChannelInfo.getVisibility() == View.GONE) {
+                        mChannelInfo.setVisibility(View.VISIBLE);
+                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                    } else {
+                        resetTime();
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
+                resetTime();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    if (mChannelInfo.getVisibility() == View.GONE) {
+                        mChannelInfo.setVisibility(View.VISIBLE);
+                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                    } else {
+                        resetTime();
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                if (mChannelList.getVisibility() == View.VISIBLE) {
+                    resetTime();
+                } else {
+                    mChannelList.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                }
+                if (mChannelInfo.getVisibility() == View.GONE) {
+                    mChannelInfo.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                } else {
+                    resetTime();
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (mChannelList.getVisibility() == View.VISIBLE) {
+                    resetTime();
+                } else {
+                    mChannelList.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                }
+                if (mChannelInfo.getVisibility() == View.GONE) {
+                    mChannelInfo.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                } else {
+                    resetTime();
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_ENTER:
+                if (mChannelList.getVisibility() == View.GONE) {
+                    mChannelList.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                } else {
+                    resetTime();
+                }
+                if (mChannelInfo.getVisibility() == View.GONE) {
+                    mChannelInfo.setVisibility(View.VISIBLE);
+                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+                } else {
+                    resetTime();
+                }
+                break;
+            case KeyEvent.KEYCODE_BACK:
+                if ((System.currentTimeMillis() - exitTime) < 2000) {
 //                new AlertDialog.Builder(LiveActivity.this)
 //                        .setTitle(getString(R.string.exitdialog_hint))
 //                        .setMessage(getString(R.string.exitdialog_out_hint))
 //                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
 //                            @Override
 //                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                finish();
+                    finish();
 //                            }
 //                        })
 //                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
@@ -148,13 +252,23 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //                            public void onClick(DialogInterface dialog, int which) {//响应事件
 //                            }
 //                        }).show();
-            } else {
-                Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            }
-            return true;
+                } else {
+                    Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                }
+                return true;
+            default:
+                break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void resetTime() {
+        if (mChannelList.getVisibility() == View.VISIBLE
+                || mChannelInfo.getVisibility() == View.VISIBLE) {
+            mHandler.removeMessages(MOBILE_QWER);
+            mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+        }
     }
 
     //定义变量
@@ -171,11 +285,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     break;
                 case MOBILE_QWER:
                     //当3秒到达后，作相应的操作。
-                    if (mLinearlayoutChannelList.getVisibility() == View.VISIBLE) {
-                        mLinearlayoutChannelList.setVisibility(View.GONE);
+                    if (mChannelList.getVisibility() == View.VISIBLE) {
+                        mChannelList.setVisibility(View.GONE);
                     }
-                    if (mRelativelayoutChannelInfo.getVisibility() == View.VISIBLE) {
-                        mRelativelayoutChannelInfo.setVisibility(View.GONE);
+                    if (mChannelInfo.getVisibility() == View.VISIBLE) {
+                        mChannelInfo.setVisibility(View.GONE);
                     }
                     break;
             }
@@ -194,4 +308,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         Logger.d("请求直播数据失败");
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
