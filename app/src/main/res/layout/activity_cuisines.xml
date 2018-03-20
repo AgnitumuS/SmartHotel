@@ -21,7 +21,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="中式餐饮"
+            android:text="@string/chinese_food"
             android:textColor="@color/white"
             android:textSize="40px" />
 
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="法式餐饮"
+            android:text="@string/france_food"
             android:textColor="@color/white"
             android:textSize="40px" />
 
@@ -41,7 +41,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="日本料理"
+            android:text="@string/japan_food"
             android:textColor="@color/white"
             android:textSize="40px" />
 
@@ -51,7 +51,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="韩国料理"
+            android:text="@string/korea_food"
             android:textColor="@color/white"
             android:textSize="40px" />
 
@@ -61,7 +61,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="甜点小吃"
+            android:text="@string/xiaochi"
             android:textColor="@color/white"
             android:textSize="40px" />
 
@@ -71,7 +71,7 @@
             android:gravity="center"
             android:paddingBottom="16px"
             android:paddingTop="16px"
-            android:text="咖啡茶饮"
+            android:text="@string/caffe_tea"
             android:textColor="@color/white"
             android:textSize="40px" />
     </LinearLayout>

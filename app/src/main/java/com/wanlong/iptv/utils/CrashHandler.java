@@ -86,7 +86,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {//自己处理
             try {//延迟3秒杀进程
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Logger.e(TAG + "  error : " + e);
             }
@@ -129,7 +129,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         //保存日志文件
         String filename = saveCrashInfo2File(ex);
         if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
-            uploadFile(filename);
+//            uploadFile(filename);
         }
         return true;
     }

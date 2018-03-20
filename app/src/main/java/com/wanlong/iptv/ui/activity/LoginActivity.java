@@ -80,10 +80,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - exitTime) < 2000) {
-                if (Build.MODEL == "S905W" || Build.MODEL == "Prevail CATV") {
-
-                } else {
+//            if ((System.currentTimeMillis() - exitTime) < 2000) {
+            switch (Build.MODEL) {
+                case "S905W":
+                case "Prevail CATV":
+                    return true;
+                default:
                     new AlertDialog.Builder(LoginActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
                             .setTitle(getString(R.string.exitdialog_hint))
                             .setMessage(getString(R.string.exitdialog_out_hint))
@@ -98,11 +100,11 @@ public class LoginActivity extends BaseActivity {
                                 public void onClick(DialogInterface dialog, int which) {//响应事件
                                 }
                             }).show();
-                }
-
-            } else {
-                exitTime = System.currentTimeMillis();
+                    break;
             }
+//            } else {
+//                exitTime = System.currentTimeMillis();
+//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

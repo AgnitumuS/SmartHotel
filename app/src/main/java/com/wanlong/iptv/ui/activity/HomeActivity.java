@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.orhanobut.logger.Logger;
@@ -182,26 +181,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - exitTime) < 2000) {
-//                new AlertDialog.Builder(HomeActivity.this)
-//                        .setTitle(getString(R.string.exitdialog_hint))
-//                        .setMessage(getString(R.string.exitdialog_out_hint))
-//                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+//            if ((System.currentTimeMillis() - exitTime) < 2000) {
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 finish();
-//                            }
-//                        })
-//                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//响应事件
-//                            }
-//                        }).show();
-            } else {
-                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            }
+//            } else {
+//                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
+//                exitTime = System.currentTimeMillis();
+//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

@@ -73,6 +73,7 @@ public class SettingActivity extends BaseActivity {
             case R.id.report_setting:
                 break;
             case R.id.update_setting:
+                startActivity(new Intent(SettingActivity.this, UpdateActivity.class));
                 break;
             case R.id.about_setting:
                 break;

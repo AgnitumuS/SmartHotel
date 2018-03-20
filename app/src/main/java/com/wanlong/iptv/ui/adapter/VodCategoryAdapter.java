@@ -27,7 +27,7 @@ public class VodCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public VodCategoryAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-
+        categorys = mContext.getResources().getStringArray(R.array.vod_category);
     }
 
     public void setData(VodListData vodListData) {

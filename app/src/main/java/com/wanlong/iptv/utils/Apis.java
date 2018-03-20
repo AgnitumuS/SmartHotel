@@ -10,4 +10,7 @@ public class Apis {
 
     public static String HOME_AD = "ads";
 
+    //应用更新接口
+    public static final String APP_UPDATE = "apk/software/apk_update.json";
+
 }

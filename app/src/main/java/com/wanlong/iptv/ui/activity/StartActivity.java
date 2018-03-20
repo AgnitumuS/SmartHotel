@@ -6,6 +6,7 @@ import android.os.Message;
 import android.widget.ImageView;
 
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.imageloader.GlideApp;
 
 import butterknife.BindView;
 
@@ -24,6 +25,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        GlideApp.with(this).load(R.drawable.hotel_logo).into(mImgStart);
 //        Animation loadAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image);
 //        mImgStart.setAnimation(loadAnimation);
 //        loadAnimation.setAnimationListener(new Animation.AnimationListener() {

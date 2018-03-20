@@ -31,6 +31,27 @@
     <string name="about_us">关于我们</string>
     <string name="report_setting">报告问题</string>
     <string name="click_again_to_exit_playback">再次点击退出播放</string>
+    <string name="cctv_news">19:00 新闻联播</string>
+    <string name="animal_world">20:00 动物世界</string>
+    <string name="check_update">正在检查更新......</string>
+    <string name="yes">确定</string>
+    <string name="current_version">当前版本</string>
+    <string name="find_new_version">发现新版本</string>
+    <string name="new_version">新版本</string>
+    <string name="cancel">取消</string>
+    <string name="chinese_food">中式餐饮</string>
+    <string name="france_food">法式餐饮</string>
+    <string name="japan_food">日本料理</string>
+    <string name="korea_food">韩国料理</string>
+    <string name="xiaochi">甜点小吃</string>
+    <string name="caffe_tea">咖啡茶饮</string>
+    <string name="latast_version">你拥有最新的版本</string>
+    <string name="wakeup_service">叫醒服务</string>
+    <string name="laundry_service">洗衣服务</string>
+    <string name="polish_shoes">擦鞋服务</string>
+    <string name="beauty_service">美容服务</string>
+    <string name="flight_service">航班服务</string>
+    <string name="fitness_Service">健身服务</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>
@@ -41,5 +62,27 @@
         <item>星期五</item>
         <item>星期六</item>
     </string-array>
+
+    <string-array name="live_category">
+        <item>中央台</item>
+        <item>各地卫视</item>
+        <item>地方台</item>
+        <item>付费节目</item>
+    </string-array>
+
+    <string-array name="vod_category">
+        <item>搜    索</item>
+        <item>全    部</item>
+        <item>筛    选</item>
+        <item>猜你喜欢</item>
+        <item>港片情怀</item>
+        <item>动画电影</item>
+        <item>动作科幻</item>
+        <item>欧美大片</item>
+        <item>爆笑喜剧</item>
+        <item>浪漫爱情</item>
+        <item>高分佳作</item>
+    </string-array>
+
 
 </resources>

@@ -1,7 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,6 @@ import com.wanlong.iptv.ui.adapter.LiveCategoryAdapter;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView, View.OnTouchListener {
 
@@ -72,7 +70,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-        getPresenter().loadLiveData("");
+//        getPresenter().loadLiveData("");
         resetTime();
     }
 
@@ -131,6 +129,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeMessages(MOBILE_QWER);
         mLiveVideoPlayer.release();
     }
 
@@ -238,20 +237,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
             case KeyEvent.KEYCODE_BACK:
                 if ((System.currentTimeMillis() - exitTime) < 2000) {
-//                new AlertDialog.Builder(LiveActivity.this)
-//                        .setTitle(getString(R.string.exitdialog_hint))
-//                        .setMessage(getString(R.string.exitdialog_out_hint))
-//                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
                     finish();
-//                            }
-//                        })
-//                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//响应事件
-//                            }
-//                        }).show();
                 } else {
                     Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
                     exitTime = System.currentTimeMillis();
@@ -306,12 +292,5 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public void loadFailed() {
 //        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

@@ -1,14 +1,14 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -28,6 +28,8 @@ public class LanguageActivity extends BaseActivity {
     Button mBtnChinese;
     @BindView(R.id.btn_english)
     Button mBtnEnglish;
+    @BindView(R.id.img_language_activity)
+    ImageView mImgLanguageActivity;
 
     @Override
     protected int getContentResId() {
@@ -36,6 +38,7 @@ public class LanguageActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        GlideApp.with(this).load(R.drawable.hotel_logo).into(mImgLanguageActivity);
         if (!Utils.isPhone(this)) {
             mBtnChinese.requestFocus();
         }
@@ -74,25 +77,25 @@ public class LanguageActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - exitTime) < 2000) {
-                new AlertDialog.Builder(LanguageActivity.this,R.style.Theme_AppCompat_Dialog_Alert)
-                        .setTitle(getString(R.string.exitdialog_hint))
-                        .setMessage(getString(R.string.exitdialog_out_hint))
-                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                startActivity(new Intent(LanguageActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//响应事件
-                            }
-                        }).show();
-            } else {
-                exitTime = System.currentTimeMillis();
-            }
+//            if ((System.currentTimeMillis() - exitTime) < 2000) {
+//                new AlertDialog.Builder(LanguageActivity.this,R.style.Theme_AppCompat_Dialog_Alert)
+//                        .setTitle(getString(R.string.exitdialog_hint))
+//                        .setMessage(getString(R.string.exitdialog_out_hint))
+//                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+            startActivity(new Intent(LanguageActivity.this, LoginActivity.class));
+            finish();
+//                            }
+//                        })
+//                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {//响应事件
+//                            }
+//                        }).show();
+//            } else {
+//                exitTime = System.currentTimeMillis();
+//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

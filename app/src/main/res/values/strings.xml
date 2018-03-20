@@ -36,6 +36,27 @@
     <string name="about_us">About Us</string>
     <string name="report_setting">Report Setting</string>
     <string name="click_again_to_exit_playback">Click again to exit playback</string>
+    <string name="cctv_news">19:00 CCTV News</string>
+    <string name="animal_world">20:00 Animal World</string>
+    <string name="check_update">Checking update now......</string>
+    <string name="yes">Yes</string>
+    <string name="current_version">Current Version</string>
+    <string name="find_new_version">Find new version</string>
+    <string name="new_version">new version</string>
+    <string name="cancel">cancel</string>
+    <string name="chinese_food">Chinese food</string>
+    <string name="france_food">French food</string>
+    <string name="japan_food">Japan food</string>
+    <string name="korea_food">Korea food</string>
+    <string name="xiaochi">Dessert snack</string>
+    <string name="caffe_tea">Coffee and tea</string>
+    <string name="latast_version">You have the latast version</string>
+    <string name="wakeup_service">Wake-up service</string>
+    <string name="laundry_service">Laundry service</string>
+    <string name="polish_shoes">Polish shoes</string>
+    <string name="beauty_service">Beauty service</string>
+    <string name="flight_service">Flight service</string>
+    <string name="fitness_Service">Fitness Service</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>
@@ -45,6 +66,27 @@
         <item>Thursday</item>
         <item>Friday</item>
         <item>Saturday</item>
+    </string-array>
+
+    <string-array name="live_category">
+        <item>CCTV</item>
+        <item>Provincial TV</item>
+        <item>Local TV</item>
+        <item>Pay Program</item>
+    </string-array>
+
+    <string-array name="vod_category">
+        <item>Search</item>
+        <item>All</item>
+        <item>Filter</item>
+        <item>Guess you like</item>
+        <item>Hongkong film</item>
+        <item>Animated film</item>
+        <item>Science film</item>
+        <item>American film</item>
+        <item>Comedy</item>
+        <item>Love film</item>
+        <item>Good film</item>
     </string-array>
 
 </resources>

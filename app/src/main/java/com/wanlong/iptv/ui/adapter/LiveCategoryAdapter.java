@@ -23,11 +23,12 @@ public class LiveCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private LiveData mLiveData;
     private LayoutInflater mInflater;
+    private String[] categorys;
 
     public LiveCategoryAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-
+        categorys = mContext.getResources().getStringArray(R.array.live_category);
     }
 
     public void setData(LiveData liveData) {
@@ -46,8 +47,6 @@ public class LiveCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         viewHolder.setIsRecyclable(false);
         viewHolder.mTvItemRecyclerLivecategory.setText(categorys[position]);
     }
-
-    private String[] categorys = {"中央台", "各地卫视", "地方台", "精品节目"};
 
     @Override
     public int getItemCount() {
