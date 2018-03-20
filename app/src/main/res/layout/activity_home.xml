@@ -38,7 +38,7 @@
         android:textSize="36px"
         tools:text="2018/2/25 09:06 Sunday" />
 
-    <ImageView
+    <com.wanlong.iptv.ui.weigets.RoundImageView
         android:id="@+id/img_show"
         android:layout_width="1152px"
         android:layout_height="720px"
@@ -47,9 +47,9 @@
         android:layout_marginTop="12px"
         android:focusable="false"
         android:scaleType="centerCrop"
-        tools:src="@drawable/wooden_house" />
+        tools:src="@drawable/hotel_room" />
 
-    <ImageView
+    <com.wanlong.iptv.ui.weigets.RoundImageView
         android:id="@+id/img_weather"
         android:layout_width="560px"
         android:layout_height="280px"

@@ -39,8 +39,8 @@
                 android:background="#3aaacf"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/system_setting"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
 
@@ -53,8 +53,8 @@
                 android:background="#3a70c0"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/login_setting"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
 
@@ -66,8 +66,8 @@
                 android:background="#7252d7"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/play_setting"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
         </LinearLayout>
@@ -93,8 +93,8 @@
                 android:background="#cb5d45"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/report_setting"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
 
@@ -107,8 +107,8 @@
                 android:background="#e88108"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/update_setting"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
 
@@ -120,8 +120,8 @@
                 android:background="#1da14c"
                 android:clipToPadding="false"
                 android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:text="@string/about_us"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="48px" />
         </LinearLayout>

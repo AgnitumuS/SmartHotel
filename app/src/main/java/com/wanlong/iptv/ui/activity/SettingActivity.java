@@ -7,6 +7,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.utils.Utils;
+
+import org.evilbinary.tv.widget.BorderEffect;
+import org.evilbinary.tv.widget.BorderView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,7 +43,13 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        if(!Utils.isPhone(this)){
+            BorderView borderView = new BorderView(this);
+            BorderEffect.mScale = 1.05f;
+            borderView.setBackgroundResource(R.drawable.border_touming);
+            borderView.attachTo(mLl1);
+            borderView.attachTo(mLl2);
+        }
     }
 
     @Override

@@ -73,7 +73,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void initImgAd() {
         GlideApp.with(this)
-                .load(R.drawable.wooden_house)
+                .load(R.drawable.hotel_room)
                 .transform(new RoundedCorners(12))
                 .into(mImgShow);
         GlideApp.with(this)

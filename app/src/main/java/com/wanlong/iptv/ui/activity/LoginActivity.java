@@ -2,6 +2,7 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -80,20 +81,25 @@ public class LoginActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) < 2000) {
-                new AlertDialog.Builder(LoginActivity.this,R.style.Theme_AppCompat_Dialog_Alert)
-                        .setTitle(getString(R.string.exitdialog_hint))
-                        .setMessage(getString(R.string.exitdialog_out_hint))
-                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                App.getApplication().exit();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//响应事件
-                            }
-                        }).show();
+                if (Build.MODEL == "S905W" || Build.MODEL == "Prevail CATV") {
+
+                } else {
+                    new AlertDialog.Builder(LoginActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                            .setTitle(getString(R.string.exitdialog_hint))
+                            .setMessage(getString(R.string.exitdialog_out_hint))
+                            .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                    App.getApplication().exit();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {//响应事件
+                                }
+                            }).show();
+                }
+
             } else {
                 exitTime = System.currentTimeMillis();
             }
