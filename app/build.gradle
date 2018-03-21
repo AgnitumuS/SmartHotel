@@ -76,6 +76,10 @@ dependencies {
     compile 'com.lzy.net:okgo:3.0.4'
     //内存泄漏检测leakcanary  https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    //运行时权限RxPermissions
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    //RxJava2
+    compile 'io.reactivex.rxjava2:rxjava:2.1.8'
 //    compile 'com.lzy.net:okrx2:2.0.2'
 //    compile 'com.lzy.net:okserver:2.0.5'
     /////////////////////////////////////////////////////////////////////////
