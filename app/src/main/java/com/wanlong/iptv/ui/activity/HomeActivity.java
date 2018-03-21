@@ -15,7 +15,6 @@ import com.wanlong.iptv.entity.HomeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
-import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -89,7 +88,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     protected void initData() {
         new TimeThread().start();
         setPresenter(new HomePresenter(this));
-        getPresenter().loadLiveData(Apis.HEADER+Apis.HOME_AD);
+//        getPresenter().loadLiveData(Apis.HEADER + Apis.HOME_AD);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
@@ -140,6 +139,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Logger.e("HomeActivity:load failed");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     //时钟
     public class TimeThread extends Thread {
         @Override
@@ -182,8 +186,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            if ((System.currentTimeMillis() - exitTime) < 2000) {
-                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-                finish();
+            startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+            finish();
 //            } else {
 //                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
 //                exitTime = System.currentTimeMillis();

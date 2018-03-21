@@ -74,6 +74,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         resetTime();
     }
 
+    private String[] urls = {"http://192.168.1.231/earth1.mp4","http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
+
     //初始化播放器
     private void initPlayer() {
         switch (Build.MODEL) {
@@ -91,9 +93,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
-        String url1 = "http://192.168.1.231/earth1.mp4";
-        String url2 = "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4";
-        mLiveVideoPlayer.setUp(url2, false, "");
+        mLiveVideoPlayer.setUp(urls[0], false, "");
         mLiveVideoPlayer.startPlayLogic();
         mLiveVideoPlayer.setIsTouchWigetFull(true);
         mLiveVideoPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
@@ -129,8 +129,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        urls = null;
         mHandler.removeMessages(MOBILE_QWER);
+        mHandler = null;
         mLiveVideoPlayer.release();
+        mLiveVideoPlayer = null;
     }
 
     @Override
