@@ -19,6 +19,7 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
+import com.squareup.leakcanary.LeakCanary;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.CrashHandler;
 import com.wanlong.iptv.utils.DeviceUuidFactory;
@@ -50,6 +51,7 @@ public class App extends Application {
         super.onCreate();
         application = this;
         getUUID();
+        initLeakcanary();
         initLogger();
         initOkGo();
         initPlayer();
@@ -145,6 +147,18 @@ public class App extends Application {
                 .tag("Hotel-Log")
                 .build();
         Logger.addLogAdapter(new DiskLogAdapter(diskformatStrategy));
+    }
+
+    //初始化Leakcanary
+    public void initLeakcanary(){
+        if(!RELEASE_VERSION){
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            LeakCanary.install(this);
+        }
     }
 
     //退出应用
