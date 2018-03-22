@@ -74,8 +74,6 @@ public class UpdateActivity extends BaseActivity {
     private void dawnload() {
         int verCode = appUpdate.getVerCode();
         if (verCode > Integer.parseInt(getResources().getString(R.string.versionCode))) {
-            //存在新版本，准备下载
-//                    Toast.makeText(ListActivity.this, "执行下载", Toast.LENGTH_SHORT).show();
             String version = String.valueOf(verCode);
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < version.length(); i++) {
@@ -106,7 +104,6 @@ public class UpdateActivity extends BaseActivity {
     }
 
     private ProgressDialog progressDialog;
-    private final static String PROGRESS_KEY = "download_single_progress";
 
     //下载APK
     private void downloadApk(String url) {
@@ -134,13 +131,12 @@ public class UpdateActivity extends BaseActivity {
                     @Override
                     public void downloadProgress(Progress progress) {
                         super.downloadProgress(progress);
-                        progressDialog.setProgress((int)(progress.fraction*100));
+                        progressDialog.setProgress((int) (progress.fraction * 100));
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
-
                     }
                 });
     }

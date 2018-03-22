@@ -19,6 +19,8 @@ import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,7 +88,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initData() {
-        new TimeThread().start();
+        mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
 //        getPresenter().loadLiveData(Apis.HEADER + Apis.HOME_AD);
     }
@@ -142,22 +144,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mTimer.cancel();
+        mTimer = null;
     }
 
     //时钟
-    public class TimeThread extends Thread {
+    private Timer mTimer = new Timer(true);
+
+    private TimerTask mTimerTask = new TimerTask() {
         @Override
         public void run() {
-            do {
-                try {
-                    Thread.sleep(1000);
-                    mHandler.sendEmptyMessage(UPDATE_TIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            } while (true);
+            mHandler.sendEmptyMessage(UPDATE_TIME);
         }
-    }
+    };
 
     private static final int UPDATE_TIME = 0;
 
