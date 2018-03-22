@@ -65,7 +65,8 @@
         <activity
             android:name=".ui.activity.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!-- 让app显示在电视上 -->

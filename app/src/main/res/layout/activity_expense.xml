@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wanlong.iptv.ui.activity.ExpenseActivity"
-    android:background="@drawable/background">
+    android:background="@color/color_181818">
 
 </RelativeLayout>

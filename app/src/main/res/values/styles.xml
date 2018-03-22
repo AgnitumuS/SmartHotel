@@ -11,4 +11,18 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <!-- 防止欢迎页白屏或者黑屏，设置图片 -->
+    <!--作者：sendtion-->
+    <!--链接：https://www.jianshu.com/p/09b876b865ac-->
+    <!--來源：简书-->
+    <!--著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/color_181818</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <!--<item name="android:windowDisablePreview">true</item>-->
+    </style>
+
+
 </resources>

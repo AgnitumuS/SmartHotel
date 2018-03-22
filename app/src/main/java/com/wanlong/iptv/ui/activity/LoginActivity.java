@@ -38,8 +38,6 @@ public class LoginActivity extends BaseActivity {
     Button mBtnLoginSetting;
     @BindView(R.id.img_bg_login)
     ImageView mImgBgLogin;
-    @BindView(R.id.img_bg)
-    ImageView mImgBg;
 
     @Override
     protected int getContentResId() {
@@ -48,7 +46,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        GlideApp.with(this).load(R.drawable.metro).into(mImgBg);
         GlideApp.with(this).load(R.drawable.bg_login).into(mImgBgLogin);
         if (!Utils.isPhone(this)) {
             mBtnLogin.requestFocus();

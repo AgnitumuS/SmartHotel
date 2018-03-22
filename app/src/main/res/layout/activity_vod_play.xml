@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_181818"
     tools:context="com.wanlong.iptv.ui.activity.VodPlayActivity">
 
     <com.wanlong.iptv.player.VodVideoPlayer
