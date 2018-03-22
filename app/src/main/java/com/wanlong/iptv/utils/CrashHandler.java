@@ -1,5 +1,6 @@
 package com.wanlong.iptv.utils;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -7,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
@@ -14,7 +16,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.ui.activity.LoginActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,16 +87,31 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             mDefaultHandler.uncaughtException(thread, ex);
         } else {//自己处理
             try {//延迟3秒杀进程
-                Thread.sleep(1000);
+                Thread.sleep(1000); // 1秒后重启，可有可无，仅凭个人喜好
+                Intent intent = new Intent(mContext, getTopActivity());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
             } catch (InterruptedException e) {
+                Log.e(TAG, "error : ", e);
                 Logger.e(TAG + "  error : " + e);
             }
-            //退出程序
-//            AppManager.getAppManager().AppExit(mContext);
-            mContext.startActivity(new Intent(mContext, LoginActivity.class));
-//            android.os.Process.killProcess(android.os.Process.myPid());
+            // 退出程序
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
+//            mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
+    }
 
+    public Class<?> getTopActivity() {
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        String className = manager.getRunningTasks(1).get(0).topActivity.getClassName();
+        Class<?> cls = null;
+        try {
+            cls = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return cls;
     }
 
     /**

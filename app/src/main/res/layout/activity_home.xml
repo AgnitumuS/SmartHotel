@@ -187,7 +187,7 @@
         android:layout_alignParentBottom="true"
         android:focusable="false">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_room"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -207,7 +207,6 @@
             android:layout_marginTop="32px"
             android:focusable="false"
             android:gravity="center"
-            android:includeFontPadding="false"
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="36px"

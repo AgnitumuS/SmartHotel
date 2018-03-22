@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,7 +53,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @BindView(R.id.tv_setting)
     TextView mTvSetting;
     @BindView(R.id.tv_room)
-    TextView mTvRoom;
+    AppCompatTextView mTvRoom;
     @BindView(R.id.tv_message)
     MarqueeTextView mTvMessage;
 
@@ -71,7 +72,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mTvMessage.setText("You have a new message. Please check it.");
     }
 
+    //加载图片
     private void initImgAd() {
+//        mImgShow.setOnClickListener(event -> Log.d("HomeActivity", "onclick"));//Lambda 表达式
         GlideApp.with(this)
                 .load(R.drawable.hotel_room)
                 .transform(new RoundedCorners(12))
