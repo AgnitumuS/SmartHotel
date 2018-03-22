@@ -8,10 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
@@ -34,6 +36,8 @@ public class LoginActivity extends BaseActivity {
     TextView mTvVersion;
     @BindView(R.id.btn_login_setting)
     Button mBtnLoginSetting;
+    @BindView(R.id.img_bg_login)
+    ImageView mImgBgLogin;
 
     @Override
     protected int getContentResId() {
@@ -42,6 +46,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        GlideApp.with(this).load(R.drawable.bg_login).into(mImgBgLogin);
         if (!Utils.isPhone(this)) {
             mBtnLogin.requestFocus();
         }
@@ -109,5 +114,4 @@ public class LoginActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }
