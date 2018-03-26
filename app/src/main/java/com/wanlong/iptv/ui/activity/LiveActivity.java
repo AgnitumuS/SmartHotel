@@ -28,7 +28,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
-//    @BindView(R.id.recycler_live_category)
+    //    @BindView(R.id.recycler_live_category)
 //    RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
@@ -45,7 +45,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return R.layout.activity_live;
     }
 
-//    private LiveCategoryAdapter mLiveCategoryAdapter;
+    //    private LiveCategoryAdapter mLiveCategoryAdapter;
     private LiveListAdapter mLiveListAdapter;
 
     @Override
@@ -62,7 +62,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mRecyclerLiveList.setLayoutManager(linearLayoutManager2);
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
-        mRelativelayoutChannel.setOnTouchListener(this);
+//        mRelativelayoutChannel.setOnTouchListener(this);
         initPlayer();
     }
 
@@ -73,7 +73,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         resetTime();
     }
 
-    private String[] urls = {"http://192.168.1.231/earth1.mp4","http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
+    private String[] urls = {"http://192.168.1.231/earth1.mp4", "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
 
     //初始化播放器
     private void initPlayer() {
@@ -110,6 +110,13 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             public void onPlayError(String url, Object... objects) {
                 super.onPlayError(url, objects);
             }
+
+            @Override
+            public void onClickBlank(String url, Object... objects) {
+                showList();
+                showInfo();
+                super.onClickBlank(url, objects);
+            }
         });
     }
 
@@ -135,23 +142,24 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveVideoPlayer = null;
     }
 
+//    @OnClick({R.id.relativelayout_channel})
+//    public void onViewClicked(View view) {
+//        switch (view.getId()) {
+//            case R.id.relativelayout_channel:
+//                showList();
+//                showInfo();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (v.getId() == R.id.relativelayout_channel) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    if (mChannelList.getVisibility() == View.GONE) {
-                        mChannelList.setVisibility(View.VISIBLE);
-                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                    } else {
-                        resetTime();
-                    }
-                    if (mChannelInfo.getVisibility() == View.GONE) {
-                        mChannelInfo.setVisibility(View.VISIBLE);
-                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                    } else {
-                        resetTime();
-                    }
+
                     break;
                 case MotionEvent.ACTION_MOVE:
 
@@ -173,69 +181,25 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP://上一个节目
-                resetTime();
-                if (mChannelList.getVisibility() == View.GONE) {
-                    if (mChannelInfo.getVisibility() == View.GONE) {
-                        mChannelInfo.setVisibility(View.VISIBLE);
-                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                    } else {
-                        resetTime();
-                    }
-                }
+                showList();
+                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
-                resetTime();
-                if (mChannelList.getVisibility() == View.GONE) {
-                    if (mChannelInfo.getVisibility() == View.GONE) {
-                        mChannelInfo.setVisibility(View.VISIBLE);
-                        mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                    } else {
-                        resetTime();
-                    }
-                }
+                showList();
+                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (mChannelList.getVisibility() == View.VISIBLE) {
-                    resetTime();
-                } else {
-                    mChannelList.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                }
-                if (mChannelInfo.getVisibility() == View.GONE) {
-                    mChannelInfo.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                } else {
-                    resetTime();
-                }
+                showList();
+                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (mChannelList.getVisibility() == View.VISIBLE) {
-                    resetTime();
-                } else {
-                    mChannelList.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                }
-                if (mChannelInfo.getVisibility() == View.GONE) {
-                    mChannelInfo.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                } else {
-                    resetTime();
-                }
+                showList();
+                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
-                if (mChannelList.getVisibility() == View.GONE) {
-                    mChannelList.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                } else {
-                    resetTime();
-                }
-                if (mChannelInfo.getVisibility() == View.GONE) {
-                    mChannelInfo.setVisibility(View.VISIBLE);
-                    mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
-                } else {
-                    resetTime();
-                }
+                showList();
+                showInfo();
                 break;
             case KeyEvent.KEYCODE_BACK:
                 if ((System.currentTimeMillis() - exitTime) < 2000) {
@@ -251,6 +215,27 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return super.onKeyDown(keyCode, event);
     }
 
+    //显示左边节目列表
+    private void showList() {
+        if (mChannelList.getVisibility() == View.GONE) {
+            mChannelList.setVisibility(View.VISIBLE);
+            mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+        } else {
+            resetTime();
+        }
+    }
+
+    //显示下方节目信息
+    private void showInfo() {
+        if (mChannelInfo.getVisibility() == View.GONE) {
+            mChannelInfo.setVisibility(View.VISIBLE);
+            mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+        } else {
+            resetTime();
+        }
+    }
+
+    //重置UI消失时间
     public void resetTime() {
         if (mChannelList.getVisibility() == View.VISIBLE
                 || mChannelInfo.getVisibility() == View.VISIBLE) {
