@@ -20,7 +20,6 @@ import com.wanlong.iptv.entity.LiveData;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
-import com.wanlong.iptv.ui.adapter.LiveCategoryAdapter;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 
 import butterknife.BindView;
@@ -29,8 +28,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
-    @BindView(R.id.recycler_live_category)
-    RecyclerView mRecyclerLiveCategory;
+//    @BindView(R.id.recycler_live_category)
+//    RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
     @BindView(R.id.channel_list)
@@ -46,17 +45,17 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return R.layout.activity_live;
     }
 
-    private LiveCategoryAdapter mLiveCategoryAdapter;
+//    private LiveCategoryAdapter mLiveCategoryAdapter;
     private LiveListAdapter mLiveListAdapter;
 
     @Override
     protected void initView() {
         //直播分类列表
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerLiveCategory.setLayoutManager(linearLayoutManager1);
-        mLiveCategoryAdapter = new LiveCategoryAdapter(this);
-        mRecyclerLiveCategory.setAdapter(mLiveCategoryAdapter);
+//        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+//        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerLiveCategory.setLayoutManager(linearLayoutManager1);
+//        mLiveCategoryAdapter = new LiveCategoryAdapter(this);
+//        mRecyclerLiveCategory.setAdapter(mLiveCategoryAdapter);
         //直播节目列表
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
@@ -287,7 +286,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadDataSuccess(LiveData liveData) {
-        mLiveCategoryAdapter.setData(liveData);
+//        mLiveCategoryAdapter.setData(liveData);
         mLiveListAdapter.setData(liveData);
     }
 
