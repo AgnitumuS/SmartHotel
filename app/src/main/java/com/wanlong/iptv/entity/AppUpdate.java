@@ -6,38 +6,48 @@ package com.wanlong.iptv.entity;
 
 public class AppUpdate {
 
+
     /**
-     * apkname : iptv.apk
-     * verName : 1.0.0
-     * verCode : 2
-     * apk_url : http://192.168.1.216:9080/apk/software/iptv.apk
+     * apkVersion : 00-fdgfdA3
+     * versionCode : 32432f
+     * apkUrl : 192.168.1.109:8021/files/20180326133256/adsfsfv.mp3
+     * apkUsage : beta
      */
 
-    private String apkname;
-    private int verCode;
-    private String apk_url;
+    private String apkVersion;
+    private String versionCode;
+    private String apkUrl;
+    private String apkUsage;
 
-    public String getApkname() {
-        return apkname;
+    public String getApkVersion() {
+        return apkVersion;
     }
 
-    public void setApkname(String apkname) {
-        this.apkname = apkname;
+    public void setApkVersion(String apkVersion) {
+        this.apkVersion = apkVersion;
     }
 
-    public int getVerCode() {
-        return verCode;
+    public String getVersionCode() {
+        return versionCode;
     }
 
-    public void setVerCode(int verCode) {
-        this.verCode = verCode;
+    public void setVersionCode(String versionCode) {
+        this.versionCode = versionCode;
     }
 
-    public String getApk_url() {
-        return apk_url;
+    public String getApkUrl() {
+        return apkUrl;
     }
 
-    public void setApk_url(String apk_url) {
-        this.apk_url = apk_url;
+    public void setApkUrl(String apkUrl) {
+        this.apkUrl = apkUrl;
+    }
+
+    public String getApkUsage() {
+        return apkUsage;
+    }
+
+    public void setApkUsage(String apkUsage) {
+        this.apkUsage = apkUsage;
     }
 }

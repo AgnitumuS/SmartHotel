@@ -1,5 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,5 +59,14 @@ public class LoginSettingActivity extends BaseActivity {
             case R.id.btn_recovery:
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

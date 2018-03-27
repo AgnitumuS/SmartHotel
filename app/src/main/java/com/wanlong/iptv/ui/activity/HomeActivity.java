@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.HomeData;
+import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
@@ -20,7 +20,6 @@ import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -131,12 +130,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
     }
 
-    private List<HomeData> homeDatas;
+    private HomeTypeData mHomeTypeData;
 
     @Override
-    public void loadDataSuccess(List<HomeData> homeDatas) {
+    public void loadDataSuccess(HomeTypeData homeTypeData) {
         Logger.d("HomeActivity: load success");
-        this.homeDatas = homeDatas;
+        this.mHomeTypeData = homeTypeData;
 
     }
 

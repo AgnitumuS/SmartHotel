@@ -6,9 +6,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.entity.HomeData;
-
-import java.util.List;
+import com.wanlong.iptv.entity.HomeTypeData;
 
 /**
  * Created by lingchen on 2018/2/5. 11:27
@@ -29,10 +27,10 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.json(response.body().toString());
+                        Logger.json(response.body());
                         try {
-                            List<HomeData> homeDatas = JSON.parseArray(response.body(), HomeData.class);
-                            getView().loadDataSuccess(homeDatas);
+                            HomeTypeData homeTypeData = JSON.parseObject(response.body(), HomeTypeData.class);
+                            getView().loadDataSuccess(homeTypeData);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
@@ -55,7 +53,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
     }
 
     public interface HomeView extends BaseView {
-        void loadDataSuccess(List<HomeData> homeDatas);
+        void loadDataSuccess(HomeTypeData homeTypeData);
 
         void loadFailed();
     }

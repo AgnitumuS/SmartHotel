@@ -159,11 +159,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
     }
 
-    private int currentType = 0;
-    private int typeCounts;
+    private int currentType = 0;//当前分类
+    private int typeCounts;//节目类型总数
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
 
+    //切换节目分类
     private void switchType(int orientation) {
         if (typeCounts > 1) {
             if (orientation == LEFT) {
@@ -184,7 +185,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + mLiveTypeData.getChannelType().get(currentType));
         }
     }
-
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

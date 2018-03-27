@@ -8,8 +8,6 @@ public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
     public static String HEADER = "http://192.168.1.109:8021/";
 
-
-
     //登录
     public static final String APP_LOGIN = "api";
     //广告
@@ -21,6 +19,7 @@ public class Apis {
     //服务
     public static final String SERVICE = "api/service";
     //应用更新接口
-    public static final String APP_UPDATE = "apk/software/apk_update.json";
+    public static final String APP_UPDATE_RELEASE = "api/apk";
+    public static final String APP_UPDATE_BETA = "api/apk/beta";
 
 }
