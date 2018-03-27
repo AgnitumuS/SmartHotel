@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.LiveData;
+import com.wanlong.iptv.entity.LiveTypeData;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import butterknife.BindView;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 public class LiveCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private LiveData mLiveData;
+    private LiveTypeData mLiveTypeData;
     private LayoutInflater mInflater;
     private String[] categorys;
 
@@ -31,8 +31,8 @@ public class LiveCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         categorys = mContext.getResources().getStringArray(R.array.live_category);
     }
 
-    public void setData(LiveData liveData) {
-        mLiveData = liveData;
+    public void setData(LiveTypeData liveTypeData) {
+        mLiveTypeData = liveTypeData;
     }
 
     @Override

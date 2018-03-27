@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.LiveData;
+import com.wanlong.iptv.entity.LiveListData;
 import com.zhy.autolayout.utils.AutoUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +23,7 @@ import butterknife.ButterKnife;
 public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private LiveData mLiveData;
+    List<LiveListData> mLiveListDatas;
     private LayoutInflater mInflater;
 
     public LiveListAdapter(Context context) {
@@ -30,8 +32,8 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    public void setData(LiveData liveData) {
-        mLiveData = liveData;
+    public void setData(List<LiveListData> liveListDatas) {
+        this.mLiveListDatas = liveListDatas;
     }
 
     @Override
@@ -44,14 +46,16 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mTvItemRecyclerLiveList.setText(lists[position]);
+//        viewHolder.mTvItemRecyclerLiveList.setText(lists[position]);
+        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
     }
 
     private String[] lists = {"CCTV1", "CCTV2", "CCTV3", "CCTV4", "CCTV5", "CCTV6", "CCTV7", "CCTV8", "CCTV9", "CCTV10"};
 
     @Override
     public int getItemCount() {
-        return lists.length;
+//        return lists.length;
+        return mLiveListDatas.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

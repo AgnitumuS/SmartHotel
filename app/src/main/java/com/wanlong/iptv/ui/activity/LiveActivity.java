@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -16,11 +17,15 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.LiveData;
+import com.wanlong.iptv.entity.LiveListData;
+import com.wanlong.iptv.entity.LiveTypeData;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
+import com.wanlong.iptv.utils.Apis;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -38,6 +43,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     RelativeLayout mChannelInfo;
     @BindView(R.id.relativelayout_channel)
     RelativeLayout mRelativelayoutChannel;
+    @BindView(R.id.tv_live_category)
+    AppCompatTextView mTvLiveCategory;
 
 
     @Override
@@ -62,14 +69,13 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mRecyclerLiveList.setLayoutManager(linearLayoutManager2);
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
-//        mRelativelayoutChannel.setOnTouchListener(this);
         initPlayer();
     }
 
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-//        getPresenter().loadLiveData("");
+        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
         resetTime();
     }
 
@@ -156,7 +162,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (v.getId() == R.id.relativelayout_channel) {
+        if (v.getId() == R.id.recycler_live_list) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
 
@@ -269,14 +275,22 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
     };
 
+    private LiveTypeData mLiveTypeData;
+
     @Override
-    public void loadDataSuccess(LiveData liveData) {
-//        mLiveCategoryAdapter.setData(liveData);
-        mLiveListAdapter.setData(liveData);
+    public void loadTypeSuccess(LiveTypeData liveTypeData) {
+        mLiveTypeData = liveTypeData;
+        mTvLiveCategory.setText(liveTypeData.getChannelType().get(0));
+        getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + liveTypeData.getChannelType().get(0));
     }
 
     @Override
-    public void loadFailed() {
+    public void loadListSuccess(List<LiveListData> liveListDatas) {
+        mLiveListAdapter.setData(liveListDatas);
+    }
+
+    @Override
+    public void loadFailed(int data) {
 //        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }

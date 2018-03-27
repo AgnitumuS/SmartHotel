@@ -6,7 +6,6 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeData;
 
 import java.util.List;
@@ -25,8 +24,8 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
         Logger.d("HomeView:"+ url);
         OkGo.<String>get(url)
                 .tag(this)
-                .params("device_id", App.sUUID.toString())
-                .params("device_type", "android")
+//                .params("device_id", App.sUUID.toString())
+//                .params("device_type", "android")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

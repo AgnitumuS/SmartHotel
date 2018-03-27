@@ -10,10 +10,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.LoginData;
 import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
@@ -63,8 +71,7 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                startActivity(new Intent(LoginActivity.this, LanguageActivity.class));
-                finish();
+                login();
                 break;
             case R.id.btn_system_setting:
                 Intent intent = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面
@@ -75,6 +82,49 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(LoginActivity.this, LoginSettingActivity.class));
                 break;
         }
+    }
+
+    private LoginData mLoginData;
+    //登录
+    private void login(){
+        OkGo.<String>post(Apis.HEADER+Apis.APP_LOGIN)
+                .tag(this)
+                .params("mac","1")
+                .params("id","1")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.d(response.body().toString());
+                        mLoginData = JSON.parseObject(response.body(),LoginData.class);
+                        if(mLoginData.getCode().equals("200")){
+                            loginSuccess();
+                        }else {
+                            loginFailed();
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        loginFailed();
+                        super.onError(response);
+                    }
+                });
+    }
+
+    private void loginSuccess(){
+        Logger.d("登录成功");
+        startActivity(new Intent(LoginActivity.this, LanguageActivity.class));
+        finish();
+    }
+
+    private void loginFailed(){
+        Logger.d("登录失败");
+        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     /**

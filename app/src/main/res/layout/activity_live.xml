@@ -38,10 +38,13 @@
                     android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_live_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="48px"
                     tools:text="CCTV" />
 
                 <ImageView
