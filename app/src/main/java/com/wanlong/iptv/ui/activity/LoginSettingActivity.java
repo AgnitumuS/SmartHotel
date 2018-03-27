@@ -1,13 +1,15 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.view.KeyEvent;
+import android.app.Activity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.utils.Utils;
+import com.wanlong.iptv.utils.Apis;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,9 +41,35 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if (!Utils.isPhone(this)) {
-            mBtnSubmitIp.requestFocus();
-        }
+        mEditIp.setText(Apis.HEADER+"api");
+        mEditRoom.setText("501");
+//        if (!Utils.isPhone(this)) {
+//            mEditIp.requestFocus();
+//        }
+        mEditIp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View arg0, MotionEvent event) {
+                // TODO Auto-generated method stub
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //activity要换成自己的activity名字
+                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                }
+                return true;
+            }
+        });
+        mEditRoom.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View arg0, MotionEvent event) {
+                // TODO Auto-generated method stub
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    //activity要换成自己的activity名字
+                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -61,12 +89,13 @@ public class LoginSettingActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+////            startActivity(new Intent(LoginSettingActivity.this, LoginActivity.class));
+//            finish();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 }

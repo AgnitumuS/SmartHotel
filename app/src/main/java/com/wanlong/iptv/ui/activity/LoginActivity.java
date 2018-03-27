@@ -67,6 +67,21 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     @OnClick({R.id.btn_login, R.id.btn_system_setting, R.id.btn_login_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
