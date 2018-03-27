@@ -16,6 +16,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.ui.activity.LoginActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -88,7 +89,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         } else {//自己处理
             try {//延迟3秒杀进程
                 Thread.sleep(1000); // 1秒后重启，可有可无，仅凭个人喜好
-                Intent intent = new Intent(mContext, getTopActivity());
+                Intent intent = new Intent(mContext, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } catch (InterruptedException e) {
@@ -98,7 +99,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(0);
-//            mContext.startActivity(new Intent(mContext, LoginActivity.class));
+            mContext.startActivity(new Intent(mContext, LoginActivity.class));
         }
     }
 

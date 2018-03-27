@@ -9,6 +9,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.VodListData;
+import com.wanlong.iptv.entity.VodTypeData;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -18,6 +19,36 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
 
     public VodListPresenter(VodListView vodListView) {
         super(vodListView);
+    }
+
+    public void loadVodTypeData(String url){
+        Logger.d("VodListPresenter:"+ url);
+        OkGo.<String>get(url)
+                .tag(this)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body().toString());
+                        try {
+                            VodTypeData vodTypeData = JSON.parseObject(response.body(), VodTypeData.class);
+                            getView().loadVodTypeSuccess(vodTypeData);
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+//                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        getView().loadFailed(1);
+                    }
+                });
     }
 
     public void loadVodListData(String url){
@@ -45,13 +76,14 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadVodListFailed();
+                        getView().loadFailed(2);
                     }
                 });
     }
 
     public interface VodListView extends BaseView{
+        void loadVodTypeSuccess(VodTypeData vodTypeData);
         void loadVodListSuccess(VodListData vodListData);
-        void loadVodListFailed();
+        void loadFailed(int data);
     }
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.VodListData;
+import com.wanlong.iptv.entity.VodTypeData;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import butterknife.BindView;
@@ -18,20 +18,21 @@ import butterknife.ButterKnife;
  * Created by lingchen on 2018/1/27. 15:08
  * mail:lingchen52@foxmail.com
  */
-public class VodCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private VodListData mVodListData;
+    private VodTypeData mVodTypeData;
     private LayoutInflater mInflater;
 
-    public VodCategoryAdapter(Context context) {
+    public VodTypeAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        categorys = mContext.getResources().getStringArray(R.array.vod_category);
+//        categorys = mContext.getResources().getStringArray(R.array.vod_category);
     }
 
-    public void setData(VodListData vodListData) {
-        mVodListData = vodListData;
+    public void setData(VodTypeData vodTypeData) {
+        mVodTypeData = vodTypeData;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,7 +45,7 @@ public class VodCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mTvItemRecyclerVodCategory.setText(categorys[position]);
+        viewHolder.mTvItemRecyclerVodCategory.setText(mVodTypeData.getGenre().get(position));
     }
 
     private String[] categorys = {"搜    索", "全    部", "筛    选","猜你喜欢", "港片情怀",
@@ -52,7 +53,7 @@ public class VodCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return categorys.length;
+        return mVodTypeData.getGenre().size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

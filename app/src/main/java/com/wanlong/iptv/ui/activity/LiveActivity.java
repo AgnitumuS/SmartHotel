@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -28,13 +29,12 @@ import com.wanlong.iptv.utils.Apis;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView, View.OnTouchListener {
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
-    //    @BindView(R.id.recycler_live_category)
-//    RecyclerView mRecyclerLiveCategory;
     @BindView(R.id.recycler_live_list)
     RecyclerView mRecyclerLiveList;
     @BindView(R.id.channel_list)
@@ -45,6 +45,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     RelativeLayout mRelativelayoutChannel;
     @BindView(R.id.tv_live_category)
     AppCompatTextView mTvLiveCategory;
+    @BindView(R.id.img_left)
+    ImageView mImgLeft;
+    @BindView(R.id.img_right)
+    ImageView mImgRight;
 
 
     @Override
@@ -52,17 +56,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return R.layout.activity_live;
     }
 
-    //    private LiveCategoryAdapter mLiveCategoryAdapter;
     private LiveListAdapter mLiveListAdapter;
 
     @Override
     protected void initView() {
-        //直播分类列表
-//        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
-//        linearLayoutManager1.setOrientation(LinearLayoutManager.VERTICAL);
-//        mRecyclerLiveCategory.setLayoutManager(linearLayoutManager1);
-//        mLiveCategoryAdapter = new LiveCategoryAdapter(this);
-//        mRecyclerLiveCategory.setAdapter(mLiveCategoryAdapter);
         //直播节目列表
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
@@ -148,17 +145,46 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveVideoPlayer = null;
     }
 
-//    @OnClick({R.id.relativelayout_channel})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.relativelayout_channel:
-//                showList();
-//                showInfo();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    @OnClick({R.id.img_left, R.id.img_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.img_left:
+                resetTime();
+                switchType(LEFT);
+                break;
+            case R.id.img_right:
+                resetTime();
+                switchType(RIGHT);
+                break;
+        }
+    }
+
+    private int currentType = 0;
+    private int typeCounts;
+    private static final int LEFT = 1;
+    private static final int RIGHT = 2;
+
+    private void switchType(int orientation) {
+        if (typeCounts > 1) {
+            if (orientation == LEFT) {
+                if (currentType == 0) {
+                    currentType = typeCounts - 1;
+                } else {
+                    currentType -= 1;
+                }
+            }
+            if (orientation == RIGHT) {
+                if (currentType == typeCounts - 1) {
+                    currentType = 0;
+                } else {
+                    currentType += 1;
+                }
+            }
+            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
+            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + mLiveTypeData.getChannelType().get(currentType));
+        }
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -197,10 +223,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 showList();
                 showInfo();
+                switchType(LEFT);
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 showList();
                 showInfo();
+                switchType(RIGHT);
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
@@ -279,7 +307,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadTypeSuccess(LiveTypeData liveTypeData) {
-        mLiveTypeData = liveTypeData;
+        this.mLiveTypeData = liveTypeData;
+        typeCounts = liveTypeData.getChannelType().size();
         mTvLiveCategory.setText(liveTypeData.getChannelType().get(0));
         getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + liveTypeData.getChannelType().get(0));
     }
@@ -294,4 +323,5 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
+
 }

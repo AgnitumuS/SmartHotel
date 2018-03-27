@@ -11,8 +11,8 @@ public class LiveListData implements Serializable {
     /**
      * name : CCTV-1综合
      * type : cctv
-     * icon : null
-     * source : null
+     * icon :
+     * source :
      */
 
     private String name;

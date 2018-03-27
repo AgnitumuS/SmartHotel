@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.ServicesData;
 import com.wanlong.iptv.mvp.ServicesPresenter;
+import com.wanlong.iptv.utils.Apis;
 
 public class ServicesActivity extends BaseActivity<ServicesPresenter> implements ServicesPresenter.ServicesView {
 
@@ -19,7 +20,7 @@ public class ServicesActivity extends BaseActivity<ServicesPresenter> implements
     @Override
     protected void initData() {
         setPresenter(new ServicesPresenter(this));
-        getPresenter().loadServicesData("");
+        getPresenter().loadServicesData(Apis.HEADER + Apis.SERVICE);
     }
 
     @Override

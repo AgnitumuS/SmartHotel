@@ -34,8 +34,13 @@
                 android:background="@color/color_55ffffff">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/img_left"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:clickable="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_left_normal" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_live_category"
@@ -48,8 +53,13 @@
                     tools:text="CCTV" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/img_right"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_right_normal" />
             </RelativeLayout>
             <!--<android.support.v7.widget.RecyclerView-->
             <!--android:id="@+id/recycler_live_category"-->

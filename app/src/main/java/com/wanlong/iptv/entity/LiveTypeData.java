@@ -8,8 +8,13 @@ import java.util.List;
  * mail:lingchen52@foxmail.com
  */
 public class LiveTypeData implements Serializable {
-
-
+//    {
+//        "channelType": [
+//                  "cctv",
+//                "satellite",
+//                "测试类型"
+//    ]
+//    }
     private List<String> channelType;
 
     public List<String> getChannelType() {

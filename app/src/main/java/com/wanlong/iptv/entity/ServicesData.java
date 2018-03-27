@@ -7,4 +7,18 @@ import java.io.Serializable;
  * mail:lingchen52@foxmail.com
  */
 public class ServicesData implements Serializable {
+
+    /**
+     * serviceType : 健身,桑拿
+     */
+
+    private String serviceType;
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
 }

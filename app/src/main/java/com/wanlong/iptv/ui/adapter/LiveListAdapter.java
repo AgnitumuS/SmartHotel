@@ -11,6 +11,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.LiveListData;
 import com.zhy.autolayout.utils.AutoUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,17 +24,19 @@ import butterknife.ButterKnife;
 public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    List<LiveListData> mLiveListDatas;
+    private List<LiveListData> mLiveListDatas;
     private LayoutInflater mInflater;
 
     public LiveListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-
+        mLiveListDatas = new ArrayList<>();
     }
 
     public void setData(List<LiveListData> liveListDatas) {
-        this.mLiveListDatas = liveListDatas;
+        this.mLiveListDatas.clear();
+        this.mLiveListDatas.addAll(liveListDatas);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -46,15 +49,11 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-//        viewHolder.mTvItemRecyclerLiveList.setText(lists[position]);
         viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
     }
 
-    private String[] lists = {"CCTV1", "CCTV2", "CCTV3", "CCTV4", "CCTV5", "CCTV6", "CCTV7", "CCTV8", "CCTV9", "CCTV10"};
-
     @Override
     public int getItemCount() {
-//        return lists.length;
         return mLiveListDatas.size();
     }
 

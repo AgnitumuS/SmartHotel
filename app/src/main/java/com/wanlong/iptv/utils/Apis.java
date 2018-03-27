@@ -16,6 +16,10 @@ public class Apis {
     public static final String HOME_AD = "api/ads";
     //直播
     public static final String LIVE_TYPE = "api/channel";
+    //点播
+    public static final String VOD_TYPE = "api/genre";
+    //服务
+    public static final String SERVICE = "api/service";
     //应用更新接口
     public static final String APP_UPDATE = "apk/software/apk_update.json";
 
