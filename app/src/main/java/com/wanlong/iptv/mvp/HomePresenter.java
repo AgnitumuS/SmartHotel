@@ -18,12 +18,44 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
         super(homeView);
     }
 
-    public void loadLiveData(String url) {
+    public void loadTypeData(String url) {
         Logger.d("HomeView:"+ url);
         OkGo.<String>get(url)
                 .tag(this)
 //                .params("device_id", App.sUUID.toString())
 //                .params("device_type", "android")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            HomeTypeData homeTypeData = JSON.parseObject(response.body(), HomeTypeData.class);
+                            getView().loadDataSuccess(homeTypeData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        getView().loadFailed();
+                    }
+                });
+    }
+
+    public void loadMsgData(String url) {
+        Logger.d("HomeView:"+ url);
+        OkGo.<String>get(url)
+                .tag(this)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

@@ -12,12 +12,16 @@ public class Apis {
     public static final String APP_LOGIN = "api";
     //广告
     public static final String HOME_AD = "api/ads";
+    //消息
+    public static final String HOME_MSG = "api/cues";
     //直播
     public static final String LIVE_TYPE = "api/channel";
     //点播
     public static final String VOD_TYPE = "api/genre";
     //服务
     public static final String SERVICE = "api/service";
+    //美食
+    public static final String CUISINES = "api/cuisine";
     //应用更新接口
     public static final String APP_UPDATE_RELEASE = "api/apk";
     public static final String APP_UPDATE_BETA = "api/apk/beta";

@@ -1,14 +1,12 @@
 package com.wanlong.iptv.mvp;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.entity.CuisinesData;
+import com.wanlong.iptv.entity.CuisinesTypeData;
 
 /**
  * Created by lingchen on 2018/1/30. 15:47
@@ -21,16 +19,16 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
     }
 
     public void loadCuisinesData(String url) {
-        Logger.d("CuisinesData", url);
+        Logger.d("CuisinesTypeData", url);
         OkGo.<String>get(url)
                 .tag(this)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("HomePresenter", response.body());
+                        Logger.json(response.body());
                         try {
-                            CuisinesData cuisinesData = JSON.parseObject(response.body(), CuisinesData.class);
-                            getView().loadCuisinesDataSuccess(cuisinesData);
+                            CuisinesTypeData cuisinesTypeData = JSON.parseObject(response.body(), CuisinesTypeData.class);
+                            getView().loadCuisinesTypeDataSuccess(cuisinesTypeData);
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -51,7 +49,7 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
     }
 
     public interface CuisinesView extends BaseView {
-        void loadCuisinesDataSuccess(CuisinesData cuisinesData);
+        void loadCuisinesTypeDataSuccess(CuisinesTypeData cuisinesTypeData);
         void loadFailed();
     }
 }

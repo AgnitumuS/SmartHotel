@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
@@ -12,6 +13,8 @@ import com.wanlong.iptv.mvp.VodListPresenter;
 import com.wanlong.iptv.ui.adapter.VodListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,10 +42,20 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         mVodTypeAdapter = new VodTypeAdapter(this);
         mRecyclerVodCategory.setAdapter(mVodTypeAdapter);
         //点播节目列表
-        GridLayoutManager autoGridLayoutManager = new GridLayoutManager(this, 4);
+        GridLayoutManager autoGridLayoutManager = new GridLayoutManager(this, 5);
         mRecyclerVodList.setLayoutManager(autoGridLayoutManager);
         mVodListAdapter = new VodListAdapter(this);
         mRecyclerVodList.setAdapter(mVodListAdapter);
+        listener();
+    }
+
+    private void listener(){
+        mVodTypeAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                getPresenter().loadVodListData(Apis.HEADER + Apis.VOD_TYPE + "/" + mVodTypeData.getGenre().get(position));
+            }
+        });
     }
 
     @Override
@@ -52,14 +65,18 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
 
     }
 
+    private VodTypeData mVodTypeData;
+
     @Override
     public void loadVodTypeSuccess(VodTypeData vodTypeData) {
+        mVodTypeData = vodTypeData;
         mVodTypeAdapter.setData(vodTypeData);
+        getPresenter().loadVodListData(Apis.HEADER + Apis.VOD_TYPE + "/" + vodTypeData.getGenre().get(0));
     }
 
     @Override
-    public void loadVodListSuccess(VodListData vodListData) {
-        mVodListAdapter.setData(vodListData);
+    public void loadVodListSuccess(List<VodListData> vodListDatas) {
+        mVodListAdapter.setData(vodListDatas);
     }
 
     @Override

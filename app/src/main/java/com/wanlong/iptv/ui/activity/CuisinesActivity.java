@@ -1,10 +1,11 @@
 package com.wanlong.iptv.ui.activity;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.CuisinesData;
+import com.wanlong.iptv.entity.CuisinesTypeData;
 import com.wanlong.iptv.mvp.CuisinesPresenter;
+import com.wanlong.iptv.utils.Apis;
 
-public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements CuisinesPresenter.CuisinesView{
+public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements CuisinesPresenter.CuisinesView {
 
     @Override
     protected int getContentResId() {
@@ -14,7 +15,7 @@ public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements
     @Override
     protected void initView() {
         setPresenter(new CuisinesPresenter(this));
-        getPresenter().loadCuisinesData("");
+        getPresenter().loadCuisinesData(Apis.HEADER + Apis.CUISINES);
     }
 
     @Override
@@ -22,8 +23,11 @@ public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements
 
     }
 
+    private CuisinesTypeData mCuisinesTypeData;
+
     @Override
-    public void loadCuisinesDataSuccess(CuisinesData cuisinesData) {
+    public void loadCuisinesTypeDataSuccess(CuisinesTypeData cuisinesTypeData) {
+        mCuisinesTypeData = cuisinesTypeData;
 
     }
 

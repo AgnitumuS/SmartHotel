@@ -1,15 +1,23 @@
 package com.wanlong.iptv.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.VodListData;
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,17 +27,19 @@ import butterknife.ButterKnife;
 public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private VodListData mVodListData;
+    private List<VodListData> mVodListDatas;
     private LayoutInflater mInflater;
 
     public VodListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-
+        mVodListDatas = new ArrayList<>();
     }
 
-    public void setData(VodListData vodListData) {
-        mVodListData = vodListData;
+    public void setData(List<VodListData> vodListDatas) {
+        mVodListDatas.clear();
+        mVodListDatas.addAll(vodListDatas);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -42,15 +52,28 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-
+        Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
+//        viewHolder.mImgRecycleviewMovie.setImageResource(R.drawable.sence);
+        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
+        viewHolder.mTextRecycleviewMovieScore.setText("8.5");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mVodListDatas.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.img_recycleview_movie)
+        ImageView mImgRecycleviewMovie;
+        @BindView(R.id.view_recycleview_movie_type)
+        View mViewRecycleviewMovieType;
+        @BindView(R.id.text_recycleview_movie_name)
+        AppCompatTextView mTextRecycleviewMovieName;
+        @BindView(R.id.text_recycleview_movie_score)
+        AppCompatTextView mTextRecycleviewMovieScore;
+        @BindView(R.id.relativelayout_movie_list)
+        AutoRelativeLayout mRelativelayoutMovieList;
 
         ViewHolder(View view) {
             super(view);

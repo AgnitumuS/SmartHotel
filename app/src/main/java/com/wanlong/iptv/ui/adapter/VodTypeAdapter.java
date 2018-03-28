@@ -11,6 +11,9 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.VodTypeData;
 import com.zhy.autolayout.utils.AutoUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,17 +24,19 @@ import butterknife.ButterKnife;
 public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private VodTypeData mVodTypeData;
+    private List<String> types;
     private LayoutInflater mInflater;
 
     public VodTypeAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
 //        categorys = mContext.getResources().getStringArray(R.array.vod_category);
+        types = new ArrayList<>();
     }
 
     public void setData(VodTypeData vodTypeData) {
-        mVodTypeData = vodTypeData;
+        types.clear();
+        types.addAll(vodTypeData.getGenre());
         notifyDataSetChanged();
     }
 
@@ -45,7 +50,15 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mTvItemRecyclerVodCategory.setText(mVodTypeData.getGenre().get(position));
+        viewHolder.mTvItemRecyclerVodCategory.setText(types.get(position));
+        viewHolder.mTvItemRecyclerVodCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerVodCategory,position);
+            }
+        });
+
     }
 
     private String[] categorys = {"搜    索", "全    部", "筛    选","猜你喜欢", "港片情怀",
@@ -53,7 +66,7 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mVodTypeData.getGenre().size();
+        return types.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,5 +78,15 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ButterKnife.bind(this, view);
             AutoUtils.autoSize(view);
         }
+    }
+
+    private OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }

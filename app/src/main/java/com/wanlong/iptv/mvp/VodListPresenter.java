@@ -1,7 +1,5 @@
 package com.wanlong.iptv.mvp;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
@@ -10,6 +8,8 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.VodListData;
 import com.wanlong.iptv.entity.VodTypeData;
+
+import java.util.List;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -58,10 +58,10 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("HomePresenter", response.body());
+                        Logger.json(response.body());
                         try {
-                            VodListData vodListData = JSON.parseObject(response.body(), VodListData.class);
-                            getView().loadVodListSuccess(vodListData);
+                            List<VodListData> vodListDatas = JSON.parseArray(response.body(), VodListData.class);
+                            getView().loadVodListSuccess(vodListDatas);
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -83,7 +83,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
 
     public interface VodListView extends BaseView{
         void loadVodTypeSuccess(VodTypeData vodTypeData);
-        void loadVodListSuccess(VodListData vodListData);
+        void loadVodListSuccess(List<VodListData> vodListDatas);
         void loadFailed(int data);
     }
 }

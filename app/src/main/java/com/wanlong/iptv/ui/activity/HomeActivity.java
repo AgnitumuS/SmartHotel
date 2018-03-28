@@ -93,7 +93,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     protected void initData() {
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
-        getPresenter().loadLiveData(Apis.HEADER + Apis.HOME_AD);
+        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
+//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
