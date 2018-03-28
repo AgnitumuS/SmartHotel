@@ -84,6 +84,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+        ex.printStackTrace();
         if (!handleException(ex) && mDefaultHandler != null) {//如果自己没处理交给系统处理
             mDefaultHandler.uncaughtException(thread, ex);
         } else {//自己处理
@@ -92,7 +93,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Intent intent = new Intent(mContext, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 Log.e(TAG, "error : ", e);
                 Logger.e(TAG + "  error : " + e);
             }

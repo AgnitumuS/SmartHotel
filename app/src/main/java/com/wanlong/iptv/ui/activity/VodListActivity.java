@@ -1,5 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,14 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
             @Override
             public void onItemClick(View view, int position) {
                 getPresenter().loadVodListData(Apis.HEADER + Apis.VOD_TYPE + "/" + mVodTypeData.getGenre().get(position));
+            }
+        });
+        mVodListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(VodListActivity.this,VodPlayActivity.class);
+                intent.putExtra("url","http://192.168.1.231/earth1.mp4");
+                startActivity(intent);
             }
         });
     }

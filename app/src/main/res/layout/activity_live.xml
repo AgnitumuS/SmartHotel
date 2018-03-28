@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_181818"
+    android:focusable="false"
     tools:context="com.wanlong.iptv.ui.activity.LiveActivity">
 
     <com.wanlong.iptv.player.LiveVideoPlayer
@@ -16,7 +17,8 @@
         android:id="@+id/relativelayout_channel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent">
+        android:background="@color/transparent"
+        android:focusable="false">
 
         <LinearLayout
             android:id="@+id/channel_list"
@@ -26,20 +28,22 @@
             android:layout_marginLeft="100px"
             android:layout_marginTop="100px"
             android:background="@color/transparent"
+            android:focusable="false"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="120px"
-                android:background="@color/color_55ffffff">
+                android:background="@color/color_55ffffff"
+                android:focusable="false">
 
                 <ImageView
                     android:id="@+id/img_left"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:clickable="true"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+                    android:clickable="true"
                     android:src="@drawable/arrow_left_normal" />
 
                 <android.support.v7.widget.AppCompatTextView
@@ -47,6 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:focusable="false"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="48px"
@@ -56,9 +61,9 @@
                     android:id="@+id/img_right"
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:clickable="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:clickable="true"
                     android:src="@drawable/arrow_right_normal" />
             </RelativeLayout>
             <!--<android.support.v7.widget.RecyclerView-->
@@ -70,13 +75,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:background="@color/transparent" />
+                android:background="@color/transparent"
+                android:focusable="false" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_live_list"
                 android:layout_width="400px"
                 android:layout_height="wrap_content"
-                android:background="@color/color_55ffffff" />
+                android:background="@color/color_55ffffff"
+                android:focusable="false" />
         </LinearLayout>
 
 
@@ -85,13 +92,15 @@
             android:layout_width="match_parent"
             android:layout_height="200px"
             android:layout_alignParentBottom="true"
-            android:background="@color/color_55ffffff">
+            android:background="@color/color_55ffffff"
+            android:focusable="false">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="200px"
+                android:focusable="false"
                 android:text="CCTV1"
                 android:textColor="@color/white"
                 android:textSize="64px" />
@@ -101,19 +110,22 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="500px"
+                android:focusable="false"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:padding="10px"
                     android:text="@string/cctv_news"
                     android:textColor="@color/white"
                     android:textSize="40px" />
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:padding="10px"
                     android:text="@string/animal_world"
                     android:textColor="@color/white"

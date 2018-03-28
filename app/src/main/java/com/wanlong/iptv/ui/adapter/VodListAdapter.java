@@ -56,6 +56,13 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //        viewHolder.mImgRecycleviewMovie.setImageResource(R.drawable.sence);
         viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
         viewHolder.mTextRecycleviewMovieScore.setText("8.5");
+        viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(viewHolder.mImgRecycleviewMovie,position);
+            }
+        });
     }
 
     @Override
@@ -80,5 +87,15 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ButterKnife.bind(this, view);
             AutoUtils.autoSize(view);
         }
+    }
+
+    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }

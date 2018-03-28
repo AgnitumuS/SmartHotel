@@ -22,8 +22,11 @@ public class VodPlayActivity extends BaseActivity {
         return R.layout.activity_vod_play;
     }
 
+    private String url;
+
     @Override
     protected void initView() {
+        url = getIntent().getStringExtra("url");
         initPlayer();
     }
 
@@ -49,6 +52,7 @@ public class VodPlayActivity extends BaseActivity {
                 break;
         }
 //        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
+        mVodPlayer.setUp(url, false, "");
         mVodPlayer.startPlayLogic();
         mVodPlayer.setIsTouchWigetFull(true);
         mVodPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
