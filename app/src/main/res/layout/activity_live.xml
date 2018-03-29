@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    tools:context="com.wanlong.iptv.ui.activity.LiveActivity">
+    tools:context=".ui.activity.LiveActivity">
 
     <com.wanlong.iptv.player.LiveVideoPlayer
         android:id="@+id/live_video_player"

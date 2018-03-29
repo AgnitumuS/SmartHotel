@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_667788"
-    android:focusable="false">
+    android:focusable="false"
+    tools:context=".ui.activity.LoginSettingActivity">
 
     <TextView
         android:id="@+id/tv_server_address"

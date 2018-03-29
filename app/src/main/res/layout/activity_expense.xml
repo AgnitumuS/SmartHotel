@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.wanlong.iptv.ui.activity.ExpenseActivity"
-    android:background="@color/color_181818">
+    android:background="@color/color_181818"
+    android:focusable="false"
+    android:padding="60px"
+    tools:context=".ui.activity.ExpenseActivity">
 
 </RelativeLayout>

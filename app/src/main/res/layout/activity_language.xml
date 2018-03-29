@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_181818"
-    android:focusable="false">
+    android:focusable="false"
+    tools:context=".ui.activity.LanguageActivity">
 
     <ImageView
         android:id="@+id/img_language_activity"

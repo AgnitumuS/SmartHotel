@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    tools:context="com.wanlong.iptv.ui.activity.VodPlayActivity">
+    tools:context=".ui.activity.VodPlayActivity">
 
     <com.wanlong.iptv.player.VodVideoPlayer
         android:id="@+id/vod_player"

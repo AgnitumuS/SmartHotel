@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    tools:context="com.wanlong.iptv.ui.activity.VodListActivity">
+    tools:context=".ui.activity.VodListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

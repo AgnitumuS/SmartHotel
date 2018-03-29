@@ -7,7 +7,7 @@
     android:background="@color/color_181818"
     android:focusable="false"
     android:paddingTop="50px"
-    tools:context="com.wanlong.iptv.ui.activity.HomeActivity">
+    tools:context=".ui.activity.HomeActivity">
 
     <!--子控件跟随父控件状态改变-->
     <!--android:duplicateParentState="true"-->
