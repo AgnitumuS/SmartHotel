@@ -66,4 +66,14 @@ public class CuisinesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             AutoUtils.autoSize(view);
         }
     }
+
+    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
 }

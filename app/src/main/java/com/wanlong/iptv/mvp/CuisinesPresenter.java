@@ -9,6 +9,8 @@ import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.CuisinesListData;
 import com.wanlong.iptv.entity.CuisinesTypeData;
 
+import java.util.List;
+
 /**
  * Created by lingchen on 2018/1/30. 15:47
  * mail:lingchen52@foxmail.com
@@ -58,8 +60,8 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
                         try {
-                            CuisinesTypeData cuisinesTypeData = JSON.parseObject(response.body(), CuisinesTypeData.class);
-                            getView().loadCuisinesTypeDataSuccess(cuisinesTypeData);
+                            List<CuisinesListData> cuisinesTypeDatas = JSON.parseArray(response.body(), CuisinesListData.class);
+                            getView().loadCuisinesListDataSuccess(cuisinesTypeDatas);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -81,7 +83,7 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
 
     public interface CuisinesView extends BaseView {
         void loadCuisinesTypeDataSuccess(CuisinesTypeData cuisinesTypeData);
-        void loadCuisinesListDataSuccess(CuisinesListData cuisinesListData);
+        void loadCuisinesListDataSuccess(List<CuisinesListData> cuisinesTypeDatas);
         void loadFailed();
     }
 }

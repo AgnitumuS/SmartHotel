@@ -86,9 +86,14 @@ public class VodPlayActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        mVodPlayer.release();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        mVodPlayer.release();
     }
 
     /**

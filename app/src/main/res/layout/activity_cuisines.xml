@@ -18,7 +18,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_service_type"
+            android:id="@+id/recycler_cuisines_type"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -26,7 +26,7 @@
             android:focusable="false" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_service_list"
+            android:id="@+id/recycler_cuisines_list"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="5"

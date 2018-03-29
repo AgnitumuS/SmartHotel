@@ -24,18 +24,18 @@ import butterknife.ButterKnife;
 public class CuisinesTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<CuisinesTypeData> mCuisinesTypeDatas;
+    private List<String> mTypes;
     private LayoutInflater mInflater;
 
     public CuisinesTypeAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mCuisinesTypeDatas = new ArrayList<>();
+        mTypes = new ArrayList<>();
     }
 
-    public void setData(List<CuisinesTypeData> cuisinesTypeDatas) {
-        this.mCuisinesTypeDatas.clear();
-        this.mCuisinesTypeDatas.addAll(cuisinesTypeDatas);
+    public void setData(CuisinesTypeData cuisinesTypeData) {
+        this.mTypes.clear();
+        this.mTypes.addAll(cuisinesTypeData.getCuisineType());
         notifyDataSetChanged();
     }
 
@@ -49,12 +49,19 @@ public class CuisinesTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-//        viewHolder.mTvItemRecyclerLiveList.setText(mServicesDatas.get(position).getName());
+        viewHolder.mTvItemRecyclerLiveList.setText(mTypes.get(position));
+        viewHolder.mTvItemRecyclerLiveList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList,position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mCuisinesTypeDatas.size();
+        return mTypes.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,5 +72,15 @@ public class CuisinesTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ButterKnife.bind(this, view);
             AutoUtils.autoSize(view);
         }
+    }
+
+    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }
