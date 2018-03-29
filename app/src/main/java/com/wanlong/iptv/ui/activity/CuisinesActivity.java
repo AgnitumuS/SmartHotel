@@ -86,8 +86,8 @@ public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements
     }
 
     @Override
-    public void loadCuisinesListDataSuccess(List<CuisinesListData> cuisinesTypeDatas) {
-
+    public void loadCuisinesListDataSuccess(List<CuisinesListData> cuisinesListDatas) {
+        mCuisinesListAdapter.setData(cuisinesListDatas);
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.CuisinesTypeData;
+import com.wanlong.iptv.entity.CuisinesListData;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -24,18 +24,18 @@ import butterknife.ButterKnife;
 public class CuisinesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<CuisinesTypeData> mCuisinesTypeDatas;
+    private List<CuisinesListData> mCuisinesListDatas;
     private LayoutInflater mInflater;
 
     public CuisinesListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mCuisinesTypeDatas = new ArrayList<>();
+        mCuisinesListDatas = new ArrayList<>();
     }
 
-    public void setData(List<CuisinesTypeData> cuisinesTypeDatas) {
-        this.mCuisinesTypeDatas.clear();
-        this.mCuisinesTypeDatas.addAll(cuisinesTypeDatas);
+    public void setData(List<CuisinesListData> cuisinesListDatas) {
+        this.mCuisinesListDatas.clear();
+        this.mCuisinesListDatas.addAll(cuisinesListDatas);
         notifyDataSetChanged();
     }
 
@@ -54,7 +54,7 @@ public class CuisinesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mCuisinesTypeDatas.size();
+        return mCuisinesListDatas.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
