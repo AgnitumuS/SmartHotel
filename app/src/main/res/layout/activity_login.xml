@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="false"
     android:background="@color/color_181818"
+    android:focusable="false"
     tools:context=".ui.activity.LoginActivity">
 
     <RelativeLayout
         android:layout_width="1200px"
         android:layout_height="600px"
         android:layout_centerInParent="true"
+        android:background="@color/transparent"
         android:focusable="false">
 
         <ImageView
             android:id="@+id/img_bg_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:focusable="false"
             android:scaleType="centerCrop"
+            android:background="@color/color_181818"
             tools:src="@drawable/bg_login" />
 
         <TextView
