@@ -13,7 +13,7 @@ public class Apis {
     //广告
     public static final String HOME_AD = "api/ads";
     //消息
-    public static final String HOME_MSG = "api/cues";
+    public static final String HOME_MSG = "api/message";
     //直播
     public static final String LIVE_TYPE = "api/channel";
     //点播

@@ -94,7 +94,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
         getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
-//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
+        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
@@ -137,7 +137,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void loadDataSuccess(HomeTypeData homeTypeData) {
         Logger.d("HomeActivity: load success");
         this.mHomeTypeData = homeTypeData;
-
+//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_AD + "/" + mHomeTypeData.getAdsType().get(0));
     }
 
     @Override

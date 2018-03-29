@@ -21,8 +21,8 @@ import butterknife.BindView;
 
 public class VodListActivity extends BaseActivity<VodListPresenter> implements VodListPresenter.VodListView {
 
-    @BindView(R.id.recycler_vod_category)
-    RecyclerView mRecyclerVodCategory;
+    @BindView(R.id.recycler_vod_type)
+    RecyclerView mRecyclerVodType;
     @BindView(R.id.recycler_vod_list)
     RecyclerView mRecyclerVodList;
 
@@ -39,9 +39,9 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         //点播分类列表
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerVodCategory.setLayoutManager(linearLayoutManager);
+        mRecyclerVodType.setLayoutManager(linearLayoutManager);
         mVodTypeAdapter = new VodTypeAdapter(this);
-        mRecyclerVodCategory.setAdapter(mVodTypeAdapter);
+        mRecyclerVodType.setAdapter(mVodTypeAdapter);
         //点播节目列表
         GridLayoutManager autoGridLayoutManager = new GridLayoutManager(this, 5);
         mRecyclerVodList.setLayoutManager(autoGridLayoutManager);

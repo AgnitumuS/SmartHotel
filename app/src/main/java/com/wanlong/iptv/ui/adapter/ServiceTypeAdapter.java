@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.ServicesData;
+import com.wanlong.iptv.entity.ServicesTypeData;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -24,18 +24,18 @@ import butterknife.ButterKnife;
 public class ServiceTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<ServicesData> mServicesDatas;
+    private List<String> mTypes;
     private LayoutInflater mInflater;
 
     public ServiceTypeAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mServicesDatas = new ArrayList<>();
+        mTypes = new ArrayList<>();
     }
 
-    public void setData(List<ServicesData> servicesDatas) {
-        this.mServicesDatas.clear();
-        this.mServicesDatas.addAll(servicesDatas);
+    public void setData(ServicesTypeData servicesTypeData) {
+        this.mTypes.clear();
+        this.mTypes.addAll(servicesTypeData.getServiceType());
         notifyDataSetChanged();
     }
 
@@ -49,21 +49,39 @@ public class ServiceTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-//        viewHolder.mTvItemRecyclerLiveList.setText(mServicesDatas.get(position).getName());
+        viewHolder.mTvItemRecyclerLiveList.setText(mTypes.get(position));
+        viewHolder.mTvItemRecyclerLiveList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList,position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mServicesDatas.size();
+        return mTypes.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_item_recycler_live_list)
         AppCompatTextView mTvItemRecyclerLiveList;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
             AutoUtils.autoSize(view);
         }
+    }
+
+    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }

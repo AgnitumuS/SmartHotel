@@ -6,6 +6,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
+import com.wanlong.iptv.entity.CuisinesListData;
 import com.wanlong.iptv.entity.CuisinesTypeData;
 
 /**
@@ -18,7 +19,7 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
         super(cuisinesView);
     }
 
-    public void loadCuisinesData(String url) {
+    public void loadCuisinesTypeData(String url) {
         Logger.d("CuisinesTypeData", url);
         OkGo.<String>get(url)
                 .tag(this)
@@ -29,7 +30,37 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
                         try {
                             CuisinesTypeData cuisinesTypeData = JSON.parseObject(response.body(), CuisinesTypeData.class);
                             getView().loadCuisinesTypeDataSuccess(cuisinesTypeData);
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        getView().loadFailed();
+                    }
+                });
+    }
+
+    public void loadCuisinesListData(String url) {
+        Logger.d("CuisinesTypeData", url);
+        OkGo.<String>get(url)
+                .tag(this)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            CuisinesTypeData cuisinesTypeData = JSON.parseObject(response.body(), CuisinesTypeData.class);
+                            getView().loadCuisinesTypeDataSuccess(cuisinesTypeData);
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -50,6 +81,7 @@ public class CuisinesPresenter extends BasePresenter<CuisinesPresenter.CuisinesV
 
     public interface CuisinesView extends BaseView {
         void loadCuisinesTypeDataSuccess(CuisinesTypeData cuisinesTypeData);
+        void loadCuisinesListDataSuccess(CuisinesListData cuisinesListData);
         void loadFailed();
     }
 }

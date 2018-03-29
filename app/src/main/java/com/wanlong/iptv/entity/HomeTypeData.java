@@ -1,6 +1,7 @@
 package com.wanlong.iptv.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by lingchen on 2018/2/5. 11:29
@@ -8,17 +9,14 @@ import java.io.Serializable;
  */
 public class HomeTypeData implements Serializable{
 
-    /**
-     * adsType : other,image,home
-     */
 
-    private String adsType;
+    private List<String> adsType;
 
-    public String getAdsType() {
+    public List<String> getAdsType() {
         return adsType;
     }
 
-    public void setAdsType(String adsType) {
+    public void setAdsType(List<String> adsType) {
         this.adsType = adsType;
     }
 }
