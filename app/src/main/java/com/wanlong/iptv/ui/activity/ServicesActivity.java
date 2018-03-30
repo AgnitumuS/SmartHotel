@@ -67,7 +67,7 @@ public class ServicesActivity extends BaseActivity<ServicesPresenter> implements
     @Override
     protected void initData() {
         setPresenter(new ServicesPresenter(this));
-        getPresenter().loadServicesTypeData(Apis.HEADER + Apis.SERVICE);
+//        getPresenter().loadServicesTypeData(Apis.HEADER + Apis.SERVICE);
     }
 
     private ServicesTypeData mServicesTypeData;

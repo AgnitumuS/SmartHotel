@@ -86,7 +86,8 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                login();
+//                login();
+                loginSuccess();
                 break;
             case R.id.btn_system_setting:
                 Intent intent = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面
@@ -100,20 +101,21 @@ public class LoginActivity extends BaseActivity {
     }
 
     private LoginData mLoginData;
+
     //登录
-    private void login(){
-        OkGo.<String>post(Apis.HEADER+Apis.APP_LOGIN)
+    private void login() {
+        OkGo.<String>post(Apis.HEADER + Apis.APP_LOGIN)
                 .tag(this)
-                .params("mac","1")
-                .params("id","1")
+                .params("mac", "1")
+                .params("id", "1")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Logger.d(response.body().toString());
-                        mLoginData = JSON.parseObject(response.body(),LoginData.class);
-                        if(mLoginData.getCode().equals("200")){
+                        mLoginData = JSON.parseObject(response.body(), LoginData.class);
+                        if (mLoginData.getCode().equals("200")) {
                             loginSuccess();
-                        }else {
+                        } else {
                             loginFailed();
                         }
                     }
@@ -131,13 +133,13 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
-    private void loginSuccess(){
+    private void loginSuccess() {
         Logger.d("登录成功");
         startActivity(new Intent(LoginActivity.this, LanguageActivity.class));
         finish();
     }
 
-    private void loginFailed(){
+    private void loginFailed() {
         Logger.d("登录失败");
         Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }

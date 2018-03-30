@@ -50,7 +50,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @BindView(R.id.img_right)
     ImageView mImgRight;
 
-
     @Override
     protected int getContentResId() {
         return R.layout.activity_live;
@@ -72,7 +71,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
+        mTvLiveCategory.setText("CCTV");
+//        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
+
         resetTime();
     }
 
@@ -181,8 +182,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     currentType += 1;
                 }
             }
-            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
-            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + mLiveTypeData.getChannelType().get(currentType));
+//            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
+//            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + mLiveTypeData.getChannelType().get(currentType));
         }
     }
 

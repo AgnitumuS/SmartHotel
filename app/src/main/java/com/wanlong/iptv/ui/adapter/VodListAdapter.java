@@ -53,8 +53,8 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
-//        viewHolder.mImgRecycleviewMovie.setImageResource(R.drawable.sence);
-        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
+//        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
+        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
         viewHolder.mTextRecycleviewMovieScore.setText("8.5");
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +65,12 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
     }
 
+    private String[] movies = {"Planet Earth1","Planet Earth2","Planet Earth3","Planet Earth4","Planet Earth5","Planet Earth6","Planet Earth7","Planet Earth8","Planet Earth9","Planet Earth10",};
+
     @Override
     public int getItemCount() {
-        return mVodListDatas.size();
+//        return mVodListDatas.size();
+        return movies.length;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

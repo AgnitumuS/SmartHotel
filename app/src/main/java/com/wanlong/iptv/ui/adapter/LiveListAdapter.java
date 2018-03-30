@@ -49,17 +49,22 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
+//        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
+        viewHolder.mTvItemRecyclerLiveList.setText(tvs[position]);
     }
+
+    private String[] tvs = {"CCTV1", "CCTV2", "CCTV3", "CCTV4", "CCTV5", "CCTV6", "CCTV7", "CCTV8", "CCTV9", "CCTV10", "CCTV11", "CCTV12", "CCTV13", "CCTV14", "CCTV15"};
 
     @Override
     public int getItemCount() {
-        return mLiveListDatas.size();
+//        return mLiveListDatas.size();
+        return tvs.length;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_item_recycler_live_list)
         TextView mTvItemRecyclerLiveList;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

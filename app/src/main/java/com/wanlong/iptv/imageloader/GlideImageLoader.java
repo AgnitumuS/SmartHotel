@@ -3,7 +3,6 @@ package com.wanlong.iptv.imageloader;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.youth.banner.loader.ImageLoader;
 
 public class GlideImageLoader extends ImageLoader {
@@ -19,7 +18,8 @@ public class GlideImageLoader extends ImageLoader {
         //RESULT：缓存转换后的资源（最终的图像，即降低分辨率后的（或者是转换后的）
 //        imageView.setBackgroundColor(context.getResources().getColor(R.color.white));
 //        .transform(new RoundedCorners(25))1
-        GlideApp.with(context).load(path).fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+//        GlideApp.with(context).load(path).fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+        GlideApp.with(context).load(path).fitCenter().into(imageView);
 
     }
 

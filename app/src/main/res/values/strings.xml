@@ -83,13 +83,13 @@
         <item>ค้นหา</item>
         <item>ทั้งหมด</item>
         <item>ตัวกรอง</item>
-        <item>猜你喜欢</item>
-        <item>港片情怀</item>
-        <item>动画电影</item>
-        <item>动作科幻</item>
-        <item>欧美大片</item>
-        <item>爆笑喜剧</item>
-        <item>浪漫爱情</item>
-        <item>高分佳作</item>
+        <item>Guess you like</item>
+        <item>Hongkong film</item>
+        <item>Animated film</item>
+        <item>Science film</item>
+        <item>American film</item>
+        <item>Comedy</item>
+        <item>Love film</item>
+        <item>Good film</item>
     </string-array>
 </resources>

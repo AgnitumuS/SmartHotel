@@ -53,6 +53,7 @@ public class VodPlayActivity extends BaseActivity {
         }
 //        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
         mVodPlayer.setUp(url, false, "");
+        mVodPlayer.setBackgroundColor(getResources().getColor(R.color.color_181818));
         mVodPlayer.startPlayLogic();
         mVodPlayer.setIsTouchWigetFull(true);
         mVodPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
