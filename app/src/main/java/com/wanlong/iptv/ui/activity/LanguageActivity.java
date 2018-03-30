@@ -30,6 +30,8 @@ public class LanguageActivity extends BaseActivity {
     Button mBtnEnglish;
     @BindView(R.id.img_language_activity)
     ImageView mImgLanguageActivity;
+    @BindView(R.id.btn_thai)
+    Button mBtnThai;
 
     @Override
     protected int getContentResId() {
@@ -49,7 +51,7 @@ public class LanguageActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.btn_chinese, R.id.btn_english})
+    @OnClick({R.id.btn_chinese, R.id.btn_english,R.id.btn_thai})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_chinese:
@@ -58,6 +60,10 @@ public class LanguageActivity extends BaseActivity {
                 break;
             case R.id.btn_english:
                 LanguageSwitchUtils.languageSwitch(this, LanguageSwitchUtils.ENGLISH);
+                toHomeActivity();
+                break;
+            case R.id.btn_thai:
+                LanguageSwitchUtils.languageSwitch(this, LanguageSwitchUtils.THAI);
                 toHomeActivity();
                 break;
         }

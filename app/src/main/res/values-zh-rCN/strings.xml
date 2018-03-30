@@ -52,6 +52,10 @@
     <string name="beauty_service">美容服务</string>
     <string name="flight_service">航班服务</string>
     <string name="fitness_Service">健身服务</string>
+    <string name="welcome_text">        承蒙阁下莅临XXX大酒店，“开拓进取，团结奋进，诚信热情，争创一流”是我们的服务宗旨。在您住店期间，我们将为您提供尽善尽美的服务，使您感受到温馨与真诚，愿我们的服务给您留下美好的印象。\n
+        恭祝您旅途愉快、商务成功、万事如意！\n
+        欢迎您再次光临！</string>
+    <string name="respected_customers">尊敬的客户</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>

@@ -15,18 +15,28 @@ public class LanguageSwitchUtils {
 
     public static final int CHINESE = 0;//中文
     public static final int ENGLISH = 1;//英语
+    public static final int THAI = 2;//泰语
 
     /**
      * 语言切换
      */
-    public static void languageSwitch(Context context,int language) {
+    public static void languageSwitch(Context context, int language) {
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        if(language == CHINESE){
-            configuration.locale = Locale.SIMPLIFIED_CHINESE;
-        }else if(language == ENGLISH){
-            configuration.locale = Locale.ENGLISH;
+        switch (language) {
+            case CHINESE:
+                configuration.locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case ENGLISH:
+                configuration.locale = Locale.ENGLISH;
+                break;
+            case THAI:
+                String languageToLoad = "th-rTH";
+                Locale locale = new Locale(languageToLoad);
+                Locale.setDefault(locale);
+                configuration.locale = Locale.getDefault();
+                break;
         }
         resources.updateConfiguration(configuration, dm);
 //        Intent intent = new Intent(this, HomeActivity.class);
