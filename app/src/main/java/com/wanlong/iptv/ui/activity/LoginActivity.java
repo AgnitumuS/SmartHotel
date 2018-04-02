@@ -86,8 +86,8 @@ public class LoginActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-//                login();
-                loginSuccess();
+                login();
+//                loginSuccess();
                 break;
             case R.id.btn_system_setting:
                 Intent intent = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面

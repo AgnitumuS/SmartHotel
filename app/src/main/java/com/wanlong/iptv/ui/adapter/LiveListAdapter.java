@@ -49,16 +49,23 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-//        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
-        viewHolder.mTvItemRecyclerLiveList.setText(tvs[position]);
+        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
+//        viewHolder.mTvItemRecyclerLiveList.setText(tvs[position]);
+        viewHolder.mTvItemRecyclerLiveList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = viewHolder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList,position);
+            }
+        });
     }
 
     private String[] tvs = {"CCTV1", "CCTV2", "CCTV3", "CCTV4", "CCTV5", "CCTV6", "CCTV7", "CCTV8", "CCTV9", "CCTV10", "CCTV11", "CCTV12", "CCTV13", "CCTV14", "CCTV15"};
 
     @Override
     public int getItemCount() {
-//        return mLiveListDatas.size();
-        return tvs.length;
+        return mLiveListDatas.size();
+//        return tvs.length;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,5 +77,15 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ButterKnife.bind(this, view);
             AutoUtils.autoSize(view);
         }
+    }
+
+    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }

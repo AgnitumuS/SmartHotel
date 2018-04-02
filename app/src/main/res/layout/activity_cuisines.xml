@@ -10,7 +10,7 @@
     tools:context=".ui.activity.CuisinesActivity">
 
     <LinearLayout
-        android:layout_width="400px"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
@@ -18,7 +18,7 @@
         android:clipToPadding="false"
         android:focusable="false"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_cuisines_type"
@@ -26,88 +26,86 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:focusable="false"
-            android:visibility="gone" />
+            android:focusable="false" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_cuisines_list"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:focusable="false"
-            android:visibility="gone" />
+            android:focusable="false" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="84px"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/chinese_food"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="84px"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/chinese_food"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/france_food"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/france_food"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/japan_food"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/japan_food"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/korea_food"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/korea_food"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/xiaochi"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/xiaochi"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vod_list_bg_selector"
-            android:focusable="true"
-            android:gravity="center"
-            android:paddingBottom="16px"
-            android:paddingTop="16px"
-            android:text="@string/caffe_tea"
-            android:textColor="@color/white"
-            android:textSize="40px" />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@drawable/vod_list_bg_selector"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="16px"-->
+        <!--android:paddingTop="16px"-->
+        <!--android:text="@string/caffe_tea"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="40px" />-->
     </LinearLayout>
 
 </RelativeLayout>

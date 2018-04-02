@@ -1,9 +1,8 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.app.Activity;
-import android.view.MotionEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,40 +40,76 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mEditIp.setText(Apis.HEADER+"api");
+        mEditIp.setText(Apis.HEADER + "api");
         mEditRoom.setText("501");
 //        if (!Utils.isPhone(this)) {
 //            mEditIp.requestFocus();
 //        }
-        mEditIp.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View arg0, MotionEvent event) {
-                // TODO Auto-generated method stub
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    //activity要换成自己的activity名字
-                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                }
-                return true;
-            }
-        });
-        mEditRoom.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View arg0, MotionEvent event) {
-                // TODO Auto-generated method stub
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    //activity要换成自己的activity名字
-                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                }
-                return true;
-            }
-        });
+        initListener();
+//        mEditIp.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View arg0, MotionEvent event) {
+//                // TODO Auto-generated method stub
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                    //activity要换成自己的activity名字
+//                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+//                }
+//                return true;
+//            }
+//        });
+//        mEditRoom.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View arg0, MotionEvent event) {
+//                // TODO Auto-generated method stub
+//                if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//                    //activity要换成自己的activity名字
+//                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+//                }
+//                return true;
+//            }
+//        });
     }
 
     @Override
     protected void initData() {
 
+    }
+
+    private void initListener() {
+        mEditIp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mEditRoom.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @OnClick({R.id.btn_submit_ip, R.id.btn_submit_room, R.id.btn_recovery})

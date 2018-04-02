@@ -24,6 +24,7 @@ import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
+import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 
 import java.util.List;
@@ -66,18 +67,28 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
         initPlayer();
+        initListener();
+    }
+
+    private void initListener() {
+        mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        });
     }
 
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-        mTvLiveCategory.setText("CCTV");
-//        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
-
+//        mTvLiveCategory.setText("CCTV");
+        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
         resetTime();
     }
 
-    private String[] urls = {"http://192.168.1.231/earth1.mp4", "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
+    private String[] urls = {"http://192.168.1.231/earth1.mp4",
+            "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
 
     //初始化播放器
     private void initPlayer() {
@@ -182,8 +193,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     currentType += 1;
                 }
             }
-//            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
-//            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + mLiveTypeData.getChannelType().get(currentType));
+            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
+            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" +
+                    mLiveTypeData.getChannelType().get(currentType));
         }
     }
 

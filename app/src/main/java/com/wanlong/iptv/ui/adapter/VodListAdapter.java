@@ -53,8 +53,8 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
-//        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
-        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
+        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
+//        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
         viewHolder.mTextRecycleviewMovieScore.setText("8.5");
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +69,8 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-//        return mVodListDatas.size();
-        return movies.length;
+        return mVodListDatas.size();
+//        return movies.length;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

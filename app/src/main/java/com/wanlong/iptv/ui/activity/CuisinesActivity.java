@@ -70,7 +70,7 @@ public class CuisinesActivity extends BaseActivity<CuisinesPresenter> implements
     @Override
     protected void initData() {
         setPresenter(new CuisinesPresenter(this));
-//        getPresenter().loadCuisinesTypeData(Apis.HEADER + Apis.CUISINES);
+        getPresenter().loadCuisinesTypeData(Apis.HEADER + Apis.CUISINES);
     }
 
     private CuisinesTypeData mCuisinesTypeData;
