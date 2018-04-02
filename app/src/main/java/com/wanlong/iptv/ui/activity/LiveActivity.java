@@ -64,6 +64,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerLiveList.setLayoutManager(linearLayoutManager2);
+        mRecyclerLiveList.setNestedScrollingEnabled(false);
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
         initPlayer();

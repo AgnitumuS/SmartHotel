@@ -42,7 +42,7 @@ public class LanguageActivity extends BaseActivity {
     protected void initView() {
         GlideApp.with(this).load(R.drawable.hotel_logo).into(mImgLanguageActivity);
         if (!Utils.isPhone(this)) {
-            mBtnChinese.requestFocus();
+            mBtnThai.requestFocus();
         }
     }
 

@@ -26,14 +26,14 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="250px"
             android:layout_marginLeft="100px"
-            android:layout_marginTop="100px"
+            android:layout_marginTop="60px"
             android:background="@color/transparent"
             android:focusable="false"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="120px"
+                android:layout_height="100px"
                 android:background="@color/color_55ffffff"
                 android:focusable="false">
 
@@ -81,7 +81,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_live_list"
                 android:layout_width="400px"
-                android:layout_height="wrap_content"
+                android:layout_height="640px"
                 android:background="@color/color_55ffffff"
                 android:focusable="false" />
         </LinearLayout>

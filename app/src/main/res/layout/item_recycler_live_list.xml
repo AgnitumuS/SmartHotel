@@ -18,7 +18,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_live_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80px"
         android:background="@drawable/vod_list_bg_selector"
         android:clickable="true"
         android:focusable="true"
@@ -27,6 +27,6 @@
         android:paddingLeft="20px"
         android:paddingTop="12px"
         android:textColor="@color/white"
-        android:textSize="36px" />
+        android:textSize="40px" />
 
 </com.zhy.autolayout.AutoRelativeLayout>
