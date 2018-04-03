@@ -50,21 +50,23 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
+//        if (viewHolder.getLayoutPosition() == 0) {
+//            viewHolder.mTvItemRecyclerLiveList.requestFocus();
+//        }
 //        viewHolder.mTvItemRecyclerLiveList.setText(tvs[position]);
-        viewHolder.mTvItemRecyclerLiveList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    int position = viewHolder.getLayoutPosition();
-
-                }
-            }
-        });
+//        viewHolder.mTvItemRecyclerLiveList.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    int position = viewHolder.getLayoutPosition();
+//                }
+//            }
+//        });
         viewHolder.mTvItemRecyclerLiveList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList,position);
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList, position);
             }
         });
     }

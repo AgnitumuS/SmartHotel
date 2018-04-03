@@ -63,8 +63,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         //直播节目列表
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
+//        mRecyclerLiveList.setNestedScrollingEnabled(false);
         mRecyclerLiveList.setLayoutManager(linearLayoutManager2);
-        mRecyclerLiveList.setNestedScrollingEnabled(false);
         mLiveListAdapter = new LiveListAdapter(this);
         mRecyclerLiveList.setAdapter(mLiveListAdapter);
         initPlayer();
@@ -78,6 +78,28 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
             }
         });
+//        mRecyclerLiveList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+//                //判断是当前layoutManager是否为LinearLayoutManager
+//                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+//                if (layoutManager instanceof LinearLayoutManager) {
+//                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+//                    //获取最后一个可见view的位置
+//                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
+//                    //获取第一个可见view的位置
+//                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+//                    layoutManager.getChildAt(firstItemPosition).requestFocus();
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//            }
+//        });
     }
 
     @Override
@@ -235,14 +257,20 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                showList();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    showList();
+                } else {
+                    switchType(LEFT);
+                }
                 showInfo();
-                switchType(LEFT);
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                showList();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    showList();
+                } else {
+                    switchType(RIGHT);
+                }
                 showInfo();
-                switchType(RIGHT);
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:

@@ -21,11 +21,14 @@
         android:layout_height="80px"
         android:background="@drawable/vod_list_bg_selector"
         android:clickable="true"
+        android:ellipsize="marquee"
         android:focusable="true"
         android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
         android:paddingBottom="12px"
         android:paddingLeft="20px"
         android:paddingTop="12px"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="40px" />
 
