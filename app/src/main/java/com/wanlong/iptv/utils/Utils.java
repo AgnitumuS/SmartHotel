@@ -114,6 +114,32 @@ public class Utils {
             return getMacAddress(context);
         }
     }
+
+//    作者：A_客
+//    链接：https://www.jianshu.com/p/be244fb85a4e
+//    來源：简书
+//    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+    public static String getIpAddressString() {
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
+                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI
+                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+
 //    public String getEth0HW(){
 //        WifiEnterpriseConfig.Eap eap = getMacAddress(Context context);
 //        EthernetManager ethManager = (EthernetManager) getSystemService(Context.ETHERNET_SERVICE);

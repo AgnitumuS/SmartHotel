@@ -1,5 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -7,7 +8,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,7 +18,8 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.LiveListData;
+import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.entity.LiveTypeData;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
@@ -27,12 +28,10 @@ import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView, View.OnTouchListener {
+public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
@@ -105,12 +104,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void initData() {
         setPresenter(new LivePresenter(this));
-//        mTvLiveCategory.setText("CCTV");
-        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
+        mTvLiveCategory.setText("全部");
+        mImgLeft.setVisibility(View.GONE);
+        mImgRight.setVisibility(View.GONE);
+//        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
+        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE);
         resetTime();
     }
 
-    private String[] urls = {"http://192.168.1.231/earth1.mp4",
+    private String[] urls = {"http://192.168.1.231/vod/file-list.m3u8",
+            "http://192.168.1.231/earth1.mp4",
             "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
 
     //初始化播放器
@@ -185,11 +188,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         switch (view.getId()) {
             case R.id.img_left:
                 resetTime();
-                switchType(LEFT);
+//                switchType(LEFT);
                 break;
             case R.id.img_right:
                 resetTime();
-                switchType(RIGHT);
+//                switchType(RIGHT);
                 break;
         }
     }
@@ -222,24 +225,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (v.getId() == R.id.recycler_live_list) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
-
-                    break;
-                case MotionEvent.ACTION_UP:
-
-                    break;
-            }
-        }
-        return super.onTouchEvent(event);
-    }
-
     /**
      * 2s内点击退出
      */
@@ -260,7 +245,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-                    switchType(LEFT);
+//                    switchType(LEFT);
                 }
                 showInfo();
                 break;
@@ -268,7 +253,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-                    switchType(RIGHT);
+//                    switchType(RIGHT);
                 }
                 showInfo();
                 break;
@@ -279,6 +264,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
             case KeyEvent.KEYCODE_BACK:
                 if ((System.currentTimeMillis() - exitTime) < 2000) {
+                    if (App.PRISON) {
+                        startActivity(new Intent(LiveActivity.this, HomeActivity.class));
+                    }
                     finish();
                 } else {
                     Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
@@ -350,14 +338,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     public void loadTypeSuccess(LiveTypeData liveTypeData) {
         this.mLiveTypeData = liveTypeData;
-        typeCounts = liveTypeData.getChannelType().size();
-        mTvLiveCategory.setText(liveTypeData.getChannelType().get(0));
+//        typeCounts = liveTypeData.getChannelType().size();
+//        mTvLiveCategory.setText(liveTypeData.getChannelType().get(0));
         getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + liveTypeData.getChannelType().get(0));
     }
 
     @Override
-    public void loadListSuccess(List<LiveListData> liveListDatas) {
-        mLiveListAdapter.setData(liveListDatas);
+    public void loadListSuccess(Live liveListDatas) {
+        mLiveListAdapter.setData(liveListDatas.getPlaylist());
+
     }
 
     @Override

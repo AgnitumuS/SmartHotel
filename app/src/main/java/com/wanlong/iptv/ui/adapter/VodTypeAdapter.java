@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.VodTypeData;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -34,9 +33,9 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         types = new ArrayList<>();
     }
 
-    public void setData(VodTypeData vodTypeData) {
+    public void setData(List<String> vodType) {
         types.clear();
-        types.addAll(vodTypeData.getGenre());
+        types.addAll(vodType);
         notifyDataSetChanged();
     }
 

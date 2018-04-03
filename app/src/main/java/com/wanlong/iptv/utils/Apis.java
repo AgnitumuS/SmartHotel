@@ -6,7 +6,7 @@ package com.wanlong.iptv.utils;
 
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
-    public static String HEADER = "http://192.168.1.109:8021/";
+    public static String HEADER = "http://192.168.1.166:80/";
 
     //登录
     public static final String APP_LOGIN = "api";
@@ -25,5 +25,14 @@ public class Apis {
     //应用更新接口
     public static final String APP_UPDATE_RELEASE = "api/apk";
     public static final String APP_UPDATE_BETA = "api/apk/beta";
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    //用户登录接口
+    public static final String USER_LOGIN = "user/user_login.php";
+    //直播接口
+    public static final String USER_LIVE = "user/fun/user_play.php?live_json=?";
+    //点播
+    public static final String USER_VOD_TYPE = "user/fun/user_vodplay.php?vod_json=?";
 
 }

@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
-import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -42,14 +42,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvLive;
     @BindView(R.id.tv_vod)
     TextView mTvVod;
-    @BindView(R.id.tv_services)
-    TextView mTvServices;
-    @BindView(R.id.tv_cuisines)
-    TextView mTvCuisines;
-    @BindView(R.id.tv_scnenries)
-    TextView mTvScnenries;
-    @BindView(R.id.tv_expense)
-    TextView mTvExpense;
+    //    @BindView(R.id.tv_services)
+//    TextView mTvServices;
+//    @BindView(R.id.tv_cuisines)
+//    TextView mTvCuisines;
+//    @BindView(R.id.tv_scnenries)
+//    TextView mTvScnenries;
+//    @BindView(R.id.tv_expense)
+//    TextView mTvExpense;
     @BindView(R.id.tv_setting)
     TextView mTvSetting;
     @BindView(R.id.tv_room)
@@ -69,6 +69,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mTvLive.requestFocus();
         }
         initImgAd();
+        mTvWelcomeGuest.setText("");
         mTvMessage.setText("You have a new message. Please check it.");
     }
 
@@ -93,12 +94,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     protected void initData() {
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
-        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
-        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
+//        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
+//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
-    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
-            R.id.tv_cuisines, R.id.tv_scnenries, R.id.tv_expense, R.id.tv_setting})
+    //    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
+//            R.id.tv_cuisines, R.id.tv_scnenries, R.id.tv_expense, R.id.tv_setting})
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_show:
@@ -113,18 +115,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
-            case R.id.tv_services:
-                startActivity(new Intent(HomeActivity.this, ServicesActivity.class));
-                break;
-            case R.id.tv_cuisines:
-                startActivity(new Intent(HomeActivity.this, CuisinesActivity.class));
-                break;
-            case R.id.tv_scnenries:
-                startActivity(new Intent(HomeActivity.this, SceneriesActivity.class));
-                break;
-            case R.id.tv_expense:
-                startActivity(new Intent(HomeActivity.this, ExpenseActivity.class));
-                break;
+//            case R.id.tv_services:
+//                startActivity(new Intent(HomeActivity.this, ServicesActivity.class));
+//                break;
+//            case R.id.tv_cuisines:
+//                startActivity(new Intent(HomeActivity.this, CuisinesActivity.class));
+//                break;
+//            case R.id.tv_scnenries:
+//                startActivity(new Intent(HomeActivity.this, SceneriesActivity.class));
+//                break;
+//            case R.id.tv_expense:
+//                startActivity(new Intent(HomeActivity.this, ExpenseActivity.class));
+//                break;
             case R.id.tv_setting:
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
@@ -189,8 +191,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            if ((System.currentTimeMillis() - exitTime) < 2000) {
-            startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-            finish();
+            if (App.PRISON) {
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+                finish();
+            }
 //            } else {
 //                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
 //                exitTime = System.currentTimeMillis();

@@ -8,14 +8,12 @@ import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.VodListData;
-import com.wanlong.iptv.entity.VodTypeData;
+import com.wanlong.iptv.entity.VodList;
+import com.wanlong.iptv.entity.VodType;
 import com.wanlong.iptv.mvp.VodListPresenter;
 import com.wanlong.iptv.ui.adapter.VodListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
-
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -54,14 +52,15 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         mVodTypeAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                getPresenter().loadVodListData(Apis.HEADER + Apis.VOD_TYPE + "/" + mVodTypeData.getGenre().get(position));
+                getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE,mVodType.getCategory().get(position));
             }
         });
         mVodListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(VodListActivity.this,VodPlayActivity.class);
+                Intent intent = new Intent(VodListActivity.this,VodDetailActivity.class);
                 intent.putExtra("url","http://192.168.1.231/earth1.mp4");
+                intent.putExtra("vod_pic_dir",mVodList.getPlaylist().get(position).getVod_pic_dir());
                 startActivity(intent);
             }
         });
@@ -70,22 +69,24 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     @Override
     protected void initData() {
         setPresenter(new VodListPresenter(this));
-        getPresenter().loadVodTypeData(Apis.HEADER + Apis.VOD_TYPE);
-
+        getPresenter().loadVodTypeData(Apis.HEADER + Apis.USER_VOD_TYPE);
     }
 
-    private VodTypeData mVodTypeData;
+    private VodType mVodType;
 
     @Override
-    public void loadVodTypeSuccess(VodTypeData vodTypeData) {
-        mVodTypeData = vodTypeData;
-        mVodTypeAdapter.setData(vodTypeData);
-        getPresenter().loadVodListData(Apis.HEADER + Apis.VOD_TYPE + "/" + vodTypeData.getGenre().get(0));
+    public void loadVodTypeSuccess(VodType vodType) {
+        mVodType = vodType;
+        mVodTypeAdapter.setData(vodType.getCategory());
+        getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE,vodType.getCategory().get(0));
     }
 
+    private VodList mVodList;
+
     @Override
-    public void loadVodListSuccess(List<VodListData> vodListDatas) {
-        mVodListAdapter.setData(vodListDatas);
+    public void loadVodListSuccess(VodList vodListDatas) {
+        mVodList = vodListDatas;
+        mVodListAdapter.setData(vodListDatas.getPlaylist());
     }
 
     @Override

@@ -40,6 +40,7 @@ public class App extends Application {
     private static App application;
     public static UUID sUUID;
     public static final boolean RELEASE_VERSION = false;
+    public static final boolean PRISON = true;
 
     public static App getApplication() {
         return application;
@@ -79,9 +80,9 @@ public class App extends Application {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("Hotel-OkGo");
         //log打印级别，决定了log显示的详细程度
-        if(RELEASE_VERSION){
+        if (RELEASE_VERSION) {
             loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BASIC);
-        }else {
+        } else {
             loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         }
         //log颜色级别，决定了log在控制台显示的颜色
@@ -149,14 +150,18 @@ public class App extends Application {
     }
 
     //初始化Leakcanary
-    public void initLeakcanary(){
-        if(!RELEASE_VERSION){
+    public void initLeakcanary() {
+        if (!RELEASE_VERSION) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This process is dedicated to LeakCanary for heap analysis.
                 // You should not init your app in this process.
                 return;
             }
-            LeakCanary.install(this);
+            if (PRISON) {
+
+            } else {
+                LeakCanary.install(this);
+            }
         }
     }
 

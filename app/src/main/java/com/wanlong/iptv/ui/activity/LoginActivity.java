@@ -1,10 +1,13 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +22,7 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
-import com.wanlong.iptv.entity.LoginData;
+import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.Utils;
@@ -100,23 +103,55 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private LoginData mLoginData;
+    private Login data;
 
     //登录
     private void login() {
-        OkGo.<String>post(Apis.HEADER + Apis.APP_LOGIN)
+//        Toast.makeText(LoginActivity.this, "正在登录", Toast.LENGTH_SHORT).show();
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
                 .tag(this)
-                .params("mac", "1")
-                .params("id", "1")
+//                .params("mac", Utils.getMac(this))
+                .params("mac","00:11:22:33:44:55")
+                .params("uuid", App.sUUID.toString())
+                .params("ip", Utils.getIpAddressString())
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.d(response.body().toString());
-                        mLoginData = JSON.parseObject(response.body(), LoginData.class);
-                        if (mLoginData.getCode().equals("200")) {
-                            loginSuccess();
+                        Logger.json(response.body());
+                        data = JSON.parseObject(response.body(), Login.class);
+                        if (data != null && data.getCode() != null) {
+                            if (data.getCode().equals("0")) {
+                                Toast.makeText(LoginActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("1")) {
+                                //存储
+                                loginSuccess();
+                                Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-1")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-2")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-3")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-4")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-5")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-6")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                            } else if (data.getCode().equals("-7")) {
+                                loginFailed();
+                                Toast.makeText(LoginActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             loginFailed();
+                            Log.d("ServerSettingActivity", "服务器返回数据异常");
+                            Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -133,10 +168,25 @@ public class LoginActivity extends BaseActivity {
                 });
     }
 
+    private SharedPreferences sharedPreferences;
+    private boolean firstOpen;
+
     private void loginSuccess() {
         Logger.d("登录成功");
-        startActivity(new Intent(LoginActivity.this, LanguageActivity.class));
-        finish();
+        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (firstOpen) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstOpen", false);
+            editor.commit();
+        }
+        if (App.PRISON) {
+            startActivity(new Intent(LoginActivity.this, LiveActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(LoginActivity.this, LanguageActivity.class));
+            finish();
+        }
     }
 
     private void loginFailed() {

@@ -110,61 +110,61 @@
             android:textColor="@color/white"
             android:textSize="36px" />
 
-        <TextView
-            android:id="@+id/tv_services"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-            android:layout_weight="1"
-            android:background="@drawable/btn_background1"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="@string/tv_services"
-            android:textColor="@color/white"
-            android:textSize="36px" />
+        <!--<TextView-->
+        <!--android:id="@+id/tv_services"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="2px"-->
+        <!--android:layout_marginRight="2px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/btn_background1"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/tv_services"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="36px" />-->
 
-        <TextView
-            android:id="@+id/tv_cuisines"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-            android:layout_weight="1"
-            android:background="@drawable/btn_background1"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="@string/tv_cuisines"
-            android:textColor="@color/white"
-            android:textSize="36px" />
+        <!--<TextView-->
+        <!--android:id="@+id/tv_cuisines"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="2px"-->
+        <!--android:layout_marginRight="2px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/btn_background1"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/tv_cuisines"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="36px" />-->
 
-        <TextView
-            android:id="@+id/tv_scnenries"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-            android:layout_weight="1"
-            android:background="@drawable/btn_background1"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="@string/tv_scnenrise"
-            android:textColor="@color/white"
-            android:textSize="36px" />
+        <!--<TextView-->
+        <!--android:id="@+id/tv_scnenries"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="2px"-->
+        <!--android:layout_marginRight="2px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/btn_background1"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/tv_scnenrise"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="36px" />-->
 
-        <TextView
-            android:id="@+id/tv_expense"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="2px"
-            android:layout_marginRight="2px"
-            android:layout_weight="1"
-            android:background="@drawable/btn_background1"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="@string/tv_expense"
-            android:textColor="@color/white"
-            android:textSize="36px" />
+        <!--<TextView-->
+        <!--android:id="@+id/tv_expense"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="2px"-->
+        <!--android:layout_marginRight="2px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@drawable/btn_background1"-->
+        <!--android:focusable="true"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/tv_expense"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="36px" />-->
 
         <TextView
             android:id="@+id/tv_setting"
@@ -187,6 +187,7 @@
         android:layout_alignParentBottom="true"
         android:focusable="false">
 
+        <!--android:text="Room：501"-->
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv_room"
             android:layout_width="wrap_content"
@@ -194,9 +195,9 @@
             android:layout_marginLeft="60px"
             android:focusable="false"
             android:gravity="center"
-            android:text="Room：501"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="36px"
+            tools:text="Room：501" />
 
         <com.wanlong.iptv.ui.weigets.MarqueeTextView
             android:id="@+id/tv_message"
@@ -204,7 +205,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginRight="60px"
-            android:layout_marginTop="32px"
             android:focusable="false"
             android:gravity="center"
             android:lines="1"

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.VodListData;
+import com.wanlong.iptv.entity.VodList;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<VodListData> mVodListDatas;
+    private List<VodList.PlaylistBean> mVodListDatas;
     private LayoutInflater mInflater;
 
     public VodListAdapter(Context context) {
@@ -36,7 +36,7 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mVodListDatas = new ArrayList<>();
     }
 
-    public void setData(List<VodListData> vodListDatas) {
+    public void setData(List<VodList.PlaylistBean> vodListDatas) {
         mVodListDatas.clear();
         mVodListDatas.addAll(vodListDatas);
         notifyDataSetChanged();
@@ -53,7 +53,7 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
-        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getTitle());
+        viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getVod_name());
 //        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
         viewHolder.mTextRecycleviewMovieScore.setText("8.5");
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {

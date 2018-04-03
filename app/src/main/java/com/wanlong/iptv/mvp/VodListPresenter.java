@@ -6,10 +6,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.entity.VodListData;
-import com.wanlong.iptv.entity.VodTypeData;
-
-import java.util.List;
+import com.wanlong.iptv.entity.VodList;
+import com.wanlong.iptv.entity.VodType;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -23,15 +21,17 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
 
     public void loadVodTypeData(String url){
         Logger.d("VodListPresenter:"+ url);
-        OkGo.<String>get(url)
+        OkGo.<String>post(url)
                 .tag(this)
+                .params("mac","00:11:22:33:44:55")
+                .params("category","?")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.json(response.body().toString());
+                        Logger.json(response.body());
                         try {
-                            VodTypeData vodTypeData = JSON.parseObject(response.body(), VodTypeData.class);
-                            getView().loadVodTypeSuccess(vodTypeData);
+                            VodType vodType = JSON.parseObject(response.body(), VodType.class);
+                            getView().loadVodTypeSuccess(vodType);
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -51,16 +51,18 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                 });
     }
 
-    public void loadVodListData(String url){
+    public void loadVodListData(String url,String type){
         Logger.d("VodListPresenter", url);
-        OkGo.<String>get(url)
+        OkGo.<String>post(url)
                 .tag(this)
+                .params("mac","00:11:22:33:44:55")
+                .params("category",type)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
                         try {
-                            List<VodListData> vodListDatas = JSON.parseArray(response.body(), VodListData.class);
+                            VodList vodListDatas = JSON.parseObject(response.body(), VodList.class);
                             getView().loadVodListSuccess(vodListDatas);
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -82,8 +84,8 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
     }
 
     public interface VodListView extends BaseView{
-        void loadVodTypeSuccess(VodTypeData vodTypeData);
-        void loadVodListSuccess(List<VodListData> vodListDatas);
+        void loadVodTypeSuccess(VodType vodType);
+        void loadVodListSuccess(VodList vodListDatas);
         void loadFailed(int data);
     }
 }

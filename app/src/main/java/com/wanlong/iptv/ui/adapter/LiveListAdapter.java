@@ -5,10 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.LiveListData;
+import com.wanlong.iptv.entity.Live;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
 public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<LiveListData> mLiveListDatas;
+    private List<Live.PlaylistBean> mLiveListDatas;
     private LayoutInflater mInflater;
 
     public LiveListAdapter(Context context) {
@@ -33,7 +35,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mLiveListDatas = new ArrayList<>();
     }
 
-    public void setData(List<LiveListData> liveListDatas) {
+    public void setData(List<Live.PlaylistBean> liveListDatas) {
         this.mLiveListDatas.clear();
         this.mLiveListDatas.addAll(liveListDatas);
         notifyDataSetChanged();
@@ -49,7 +51,10 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mTvItemRecyclerLiveList.setText(mLiveListDatas.get(position).getName());
+        if(!mLiveListDatas.get(position).getIcon().equals("")){
+            Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
+        }
+        viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
 //        if (viewHolder.getLayoutPosition() == 0) {
 //            viewHolder.mTvItemRecyclerLiveList.requestFocus();
 //        }
@@ -62,11 +67,11 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                }
 //            }
 //        });
-        viewHolder.mTvItemRecyclerLiveList.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mTvItemLiveList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerLiveList, position);
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemLiveList, position);
             }
         });
     }
@@ -80,8 +85,10 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.img_item_recycler_live_icon)
+        ImageView mImgItemLiveIcon;
         @BindView(R.id.tv_item_recycler_live_list)
-        TextView mTvItemRecyclerLiveList;
+        TextView mTvItemLiveList;
 
         ViewHolder(View view) {
             super(view);

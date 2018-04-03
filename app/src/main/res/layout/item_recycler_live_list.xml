@@ -10,10 +10,15 @@
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120px"
+        android:layout_height="64px"
         android:layout_alignParentLeft="true"
-        android:focusable="false" />
+        android:focusable="false"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16px"
+        android:layout_marginTop="8px"
+        android:layout_marginBottom="8px"
+        android:scaleType="centerCrop" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_live_list"
