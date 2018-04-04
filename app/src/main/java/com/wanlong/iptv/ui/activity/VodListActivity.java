@@ -15,6 +15,8 @@ import com.wanlong.iptv.ui.adapter.VodListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 public class VodListActivity extends BaseActivity<VodListPresenter> implements VodListPresenter.VodListView {
@@ -48,19 +50,25 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         listener();
     }
 
-    private void listener(){
+    private void listener() {
         mVodTypeAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE,mVodType.getCategory().get(position));
+                getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
             }
         });
         mVodListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(VodListActivity.this,VodDetailActivity.class);
-                intent.putExtra("url","http://192.168.1.231/earth1.mp4");
-                intent.putExtra("vod_pic_dir",mVodList.getPlaylist().get(position).getVod_pic_dir());
+                Intent intent = new Intent(VodListActivity.this, VodDetailActivity.class);
+                intent.putExtra("url", "http://192.168.1.231/earth1.mp4");
+                intent.putExtra("vod_pic_dir", mPlaylistBeans.get(position).getVod_pic_dir());
+                intent.putExtra("vod_name", mPlaylistBeans.get(position).getVod_name());
+                intent.putExtra("vod_release_time",mPlaylistBeans.get(position).getVod_release_time());
+                intent.putExtra("vod_scores",mPlaylistBeans.get(position).getVod_scores());
+                intent.putExtra("vod_category",mPlaylistBeans.get(position).getVod_category());
+                intent.putExtra("vod_actor",mPlaylistBeans.get(position).getVod_actor());
+                intent.putExtra("vod_detail",mPlaylistBeans.get(position).getVod_detail());
                 startActivity(intent);
             }
         });
@@ -78,14 +86,16 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     public void loadVodTypeSuccess(VodType vodType) {
         mVodType = vodType;
         mVodTypeAdapter.setData(vodType.getCategory());
-        getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE,vodType.getCategory().get(0));
+        getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
     }
 
-    private VodList mVodList;
+    private List<VodList.PlaylistBean> mPlaylistBeans;
 
     @Override
     public void loadVodListSuccess(VodList vodListDatas) {
-        mVodList = vodListDatas;
+        if (vodListDatas.getPlaylist() != null && vodListDatas.getPlaylist().size() > 0) {
+            mPlaylistBeans = vodListDatas.getPlaylist();
+        }
         mVodListAdapter.setData(vodListDatas.getPlaylist());
     }
 

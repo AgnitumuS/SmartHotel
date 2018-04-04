@@ -40,15 +40,22 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         return R.layout.activity_vod_detail;
     }
 
-    private Intent mIntent;
+    private Intent intent;
     private String url;
 
     @Override
     protected void initView() {
-        mIntent = getIntent();
-        url = mIntent.getStringExtra("url");
-        Glide.with(this).load(mIntent.getStringExtra("vod_pic_dir")).into(mImgMovieDetail);
-
+        intent = getIntent();
+        url = intent.getStringExtra("url");
+//        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
+//        mTextMovieCountDetail.setAlpha();
+        mTextMovieNameDetail.setText(intent.getStringExtra("vod_name"));
+        mTextMovieTimeDetail.setText("(" + intent.getStringExtra("vod_release_time") + ")");
+        mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
+        mTextMovieTypeDetail.setText(intent.getStringExtra("vod_category"));
+        mTextMoviePeopleDetail.setText(intent.getStringExtra("vod_actor"));
+        mTextMovieDescriptionDetail.setText(intent.getStringExtra("vod_detail"));
+        Glide.with(this).load(intent.getStringExtra("vod_pic_dir")).into(mImgMovieDetail);
     }
 
     @Override
@@ -59,8 +66,8 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
 
     @OnClick(R.id.text_movie_detail_play)
     public void onViewClicked() {
-        Intent intent = new Intent(VodDetailActivity.this,VodPlayActivity.class);
-        intent.putExtra("url",url);
+        Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
+        intent.putExtra("url", url);
         startActivity(intent);
     }
 

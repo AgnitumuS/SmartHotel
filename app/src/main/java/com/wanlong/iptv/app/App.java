@@ -41,6 +41,7 @@ public class App extends Application {
     public static UUID sUUID;
     public static final boolean RELEASE_VERSION = false;
     public static final boolean PRISON = true;
+    public static long newtime;
 
     public static App getApplication() {
         return application;
