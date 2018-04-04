@@ -1,12 +1,20 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.utils.Apis;
 
@@ -40,7 +48,7 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mEditIp.setText(Apis.HEADER + "api");
+        mEditIp.setText(Apis.HEADER);
         mEditRoom.setText("501");
 //        if (!Utils.isPhone(this)) {
 //            mEditIp.requestFocus();
@@ -77,6 +85,9 @@ public class LoginSettingActivity extends BaseActivity {
 
     }
 
+    private String newIP = "";
+    private boolean changeIP;
+
     private void initListener() {
         mEditIp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,12 +97,13 @@ public class LoginSettingActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                changeIP = true;
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                newIP = s.toString();
+                Logger.d("newIP:" + newIP);
             }
         });
         mEditRoom.addTextChangedListener(new TextWatcher() {
@@ -116,14 +128,53 @@ public class LoginSettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_submit_ip:
+                submitIP();
                 break;
             case R.id.btn_submit_room:
                 break;
             case R.id.btn_recovery:
+                mEditIp.setText(Apis.HEADER);
                 break;
         }
     }
 
+    private void submitIP() {
+        if (changeIP) {
+            if (newIP.equals("") && !newIP.startsWith("http://")) {
+                Toast.makeText(this, "请输入正确的IP地址", Toast.LENGTH_SHORT).show();
+            } else {
+                OkGo.<String>get(newIP + Apis.TIME_UPDATE)
+                        .tag(this)
+                        .cacheMode(CacheMode.NO_CACHE)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                if (response != null && response.body() != null && !response.body().equals("")) {
+                                    Toast.makeText(LoginSettingActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                                    saveIP();
+                                } else {
+                                    Toast.makeText(LoginSettingActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                Toast.makeText(LoginSettingActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
+    }
+
+    private SharedPreferences sharedPreferences;
+
+    private void saveIP() {
+        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("ip", newIP);
+        editor.commit();
+    }
 //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event) {
 //        if (keyCode == KeyEvent.KEYCODE_BACK) {

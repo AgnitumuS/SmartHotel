@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.utils.Apis;
 
 import butterknife.BindView;
 
@@ -53,6 +54,7 @@ public class StartActivity extends BaseActivity {
     private static final int OPEN = 1;
     private SharedPreferences sharedPreferences;
     private boolean firstOpen;
+    private String ip;
 
     @Override
     protected void initData() {
@@ -62,6 +64,14 @@ public class StartActivity extends BaseActivity {
     private void createSP() {
         sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        ip = sharedPreferences.getString("ip", "");
+        if (ip.equals("")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("ip", Apis.HEADER);
+            editor.commit();
+            ip = sharedPreferences.getString("ip", "");
+        }
+        Apis.HEADER = ip;
         if (firstOpen) {
 //            SharedPreferences.Editor editor = sharedPreferences.edit();
 //            editor.putBoolean("first", false);
