@@ -1,12 +1,8 @@
 package com.wanlong.iptv.server;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,6 +14,7 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.PushMSG;
+import com.wanlong.iptv.utils.Apis;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,69 +31,109 @@ import java.util.TimerTask;
  */
 
 public class AdService extends Service {
-    private SharedPreferences mSharedPreferences;
+
     public static final int INTERVAL_TIME = 5;//间隔时间
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mSharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
     }
 
-    //    private static long count;//计数
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
     //时钟
     private Timer mTimer = new Timer(true);
 
     private TimerTask mTimerTask = new TimerTask() {
         @Override
         public void run() {
-            mHandler.sendEmptyMessage(REQUEST);
+//          mHandler.sendEmptyMessage(REQUEST);
+            getAd();
+            doQueue();
         }
     };
 
-    private static final int REQUEST = 0;
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case REQUEST:
-                    getAd();
-                    doQueue();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        Thread.sleep(INTERVAL_TIME * 1000);
-////                        count += 1;
-//                        getAd();
-//                        doQueue();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+//    private static final int REQUEST = 0;
+//
+//    private Handler mHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what) {
+//                case REQUEST:
+//                    getAd();
+//                    doQueue();
+//                    break;
+//                default:
+//                    break;
 //            }
-//        }).start();
-        return super.onStartCommand(intent, flags, startId);
-    }
+//        }
+//    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mTimer.cancel();
         mTimer = null;
+    }
+
+    private PushMSG mPushMSG;
+    private String result;
+    private String date;//日期
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+
+    //获取插播内容
+    private void getAd() {
+        OkGo.<String>get(Apis.HEADER)
+                .tag(this)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        if (response.body() != null && response.body().startsWith("{") &&
+                                response.body().endsWith("}")) {
+                            try {
+                                mPushMSG = JSON.parseObject(response.body(), PushMSG.class);
+                                executeData(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+    }
+
+    //处理返回数据
+    private void executeData(Response<String> response) {
+        if (mPushMSG != null && mPushMSG.getCode().equals("0")) {
+            if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {//集合不为空
+                if (result == null) {
+                    result = response.body();
+                    date = mDateFormat.format(new Date(App.newtime * 1000));
+                    showAD(mPushMSG);
+                } else {
+                    if (!result.equals(response.body())) {//字符串比较返回数据是否变化
+                        result = response.body();
+//                      if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
+//                             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
+//                       }
+                        mAdListener.dismissAllText();
+                        showAD(mPushMSG);
+                    }
+                    //时间是否变化，单位：天
+                    if (!date.equals(mDateFormat.format(new Date(App.newtime * 1000)))) {
+                        date = mDateFormat.format(new Date(App.newtime * 1000));
+                        showAD(mPushMSG);
+                    }
+                }
+            }
+        }
     }
 
     //任务队列
@@ -132,54 +169,6 @@ public class AdService extends Service {
                 }
             }
         }
-    }
-
-    private PushMSG mPushMSG;
-    private String result;
-    private String date;//日期
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
-
-    //获取插播内容
-    private void getAd() {
-        OkGo.<String>get("")
-                .tag(this)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Logger.json(response.body());
-                        if (response.body() != null && response.body().startsWith("{") &&
-                                response.body().endsWith("}")) {
-                            try {
-                                mPushMSG = JSON.parseObject(response.body(), PushMSG.class);
-                                if (mPushMSG != null && mPushMSG.getCode().equals("0")) {
-                                    if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {//集合不为空
-                                        if (result == null) {
-                                            result = response.body();
-                                            date = mDateFormat.format(new Date(App.newtime * 1000));
-                                            showAD(mPushMSG);
-                                        } else {
-                                            if (!result.equals(response.body())) {//字符串比较返回数据是否变化
-                                                result = response.body();
-//                                                if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
-//                                                    ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-//                                                }
-                                                mAdListener.dismissAllText();
-                                                showAD(mPushMSG);
-                                            }
-                                            //时间是否变化，单位：天
-                                            if (!date.equals(mDateFormat.format(new Date(App.newtime * 1000)))) {
-                                                date = mDateFormat.format(new Date(App.newtime * 1000));
-                                                showAD(mPushMSG);
-                                            }
-                                        }
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                });
     }
 
     private List<PushMSG.CutInBean> mCutInBeens;
