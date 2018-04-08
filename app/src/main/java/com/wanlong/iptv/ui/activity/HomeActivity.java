@@ -1,13 +1,18 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +27,7 @@ import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
+import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
@@ -71,6 +77,49 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
+    protected void initWindowManager() {
+        super.initWindowManager();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (android.provider.Settings.canDrawOverlays(this)) {
+                setText();
+            }
+        } else {
+            setText();
+        }
+    }
+
+    private MarqueeTextView mMarqueeTextView;
+    private WindowManager wm;
+    private WindowManager.LayoutParams layoutParams;
+
+    private void setText() {
+        wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        //设置TextView的属性
+        layoutParams = new WindowManager.LayoutParams();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //这里是关键，使控件始终在最上方
+        layoutParams.alpha = 1f;
+        layoutParams.format = 1;
+        layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT | WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;// 设置窗口类型为系统级
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        //这个Gravity也不能少，不然的话，下面"移动歌词"的时候就会出问题了～ 可以试试[官网文档有说明]
+        layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        //创建自定义的TextView
+        mMarqueeTextView = new MarqueeTextView(this);
+        mMarqueeTextView.setTextSize(16f);
+        mMarqueeTextView.setPadding(0,0,0,32);
+//        mMarqueeTextView.setWidth(Utils.getDisplaySize(this).y);
+//        mMarqueeTextView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        mMarqueeTextView.setLayoutParams(layoutParams);
+        mMarqueeTextView.setTextColor(Color.WHITE);
+        mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
+        mMarqueeTextView.setText("我是字幕");
+        wm.addView(mMarqueeTextView, layoutParams);
+        wm.updateViewLayout(mMarqueeTextView, layoutParams);
+    }
+
+    @Override
     protected void initView() {
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
@@ -78,7 +127,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getTime();
         initImgAd();
         mTvWelcomeGuest.setText("");
-        mTvMessage.setText("You have a new message. Please check it.");
+//        mTvMessage.setText("You have a new message. Please check it.");
     }
 
     //加载图片
@@ -100,8 +149,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initData() {
+        Logger.d("mac:"+ Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
+        startService(new Intent(HomeActivity.this, AdService.class));
 //        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
 //        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
@@ -182,7 +233,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         public void onError(Response<String> response) {
                             super.onError(response);
                             App.newtime = System.currentTimeMillis() / 1000;
-
                         }
                     });
         } else {
@@ -242,6 +292,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                stopService(new Intent(HomeActivity.this, AdService.class));
                                 App.getApplication().exit();
                             }
                         })

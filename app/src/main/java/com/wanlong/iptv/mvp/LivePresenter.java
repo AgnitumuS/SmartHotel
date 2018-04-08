@@ -6,6 +6,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.entity.LiveTypeData;
 
@@ -53,7 +54,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView>{
         Logger.d("LivePresenter:"+url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac","00:11:22:33:44:55")
+                .params("mac", App.mac)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

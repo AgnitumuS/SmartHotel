@@ -29,6 +29,7 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
         super.onCreate(savedInstanceState);
         //设置横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        initWindowManager();
         setContentView(getContentResId());
         ButterKnife.bind(this);
         initView();
@@ -36,6 +37,10 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
     }
 
     protected abstract int getContentResId();
+
+    protected void initWindowManager() {
+
+    }
 
     protected abstract void initView();
 

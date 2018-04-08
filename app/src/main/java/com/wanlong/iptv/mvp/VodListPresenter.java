@@ -6,6 +6,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.VodList;
 import com.wanlong.iptv.entity.VodType;
 
@@ -23,7 +24,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
         Logger.d("VodListPresenter:"+ url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac","00:11:22:33:44:55")
+                .params("mac", App.mac)
                 .params("category","?")
                 .execute(new StringCallback() {
                     @Override
@@ -55,7 +56,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
         Logger.d("VodListPresenter", url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac","00:11:22:33:44:55")
+                .params("mac",App.mac)
                 .params("category",type)
                 .execute(new StringCallback() {
                     @Override

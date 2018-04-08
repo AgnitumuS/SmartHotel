@@ -61,7 +61,11 @@ public class LoginActivity extends BaseActivity {
         if (!Utils.isPhone(this)) {
             mBtnLogin.requestFocus();
         }
-        mTvDeviceID.setText(getString(R.string.device_id) + " " + App.sUUID.toString());
+        if (App.PRISON) {
+            mTvDeviceID.setText("MAC:" + Utils.getMac(this));
+        } else {
+            mTvDeviceID.setText(getString(R.string.device_id) + " " + App.sUUID.toString());
+        }
         mTvVersion.setText(getString(R.string.version) + " " + getString(R.string.versionName));
     }
 
@@ -111,7 +115,7 @@ public class LoginActivity extends BaseActivity {
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
                 .tag(this)
 //                .params("mac", Utils.getMac(this))
-                .params("mac","00:11:22:33:44:55")
+                .params("mac", Utils.getMac(this))
                 .params("uuid", App.sUUID.toString())
                 .params("ip", Utils.getIpAddressString())
                 .execute(new StringCallback() {

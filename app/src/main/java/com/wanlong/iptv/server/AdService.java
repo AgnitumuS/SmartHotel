@@ -11,9 +11,10 @@ import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.PushMSG;
+import com.wanlong.iptv.ui.activity.AdActivity;
+import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
 
 import java.text.ParseException;
@@ -88,14 +89,14 @@ public class AdService extends Service {
 
     //获取插播内容
     private void getAd() {
-        OkGo.<String>get(Apis.HEADER)
+        OkGo.<String>post(Apis.HEADER + Apis.USER_IN_STREAM)
                 .tag(this)
+                .params("mac", App.mac)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.json(response.body());
-                        if (response.body() != null && response.body().startsWith("{") &&
-                                response.body().endsWith("}")) {
+//                        Logger.json(response.body());
+                        if (response.body() != null) {
                             try {
                                 mPushMSG = JSON.parseObject(response.body(), PushMSG.class);
                                 executeData(response);
@@ -120,10 +121,10 @@ public class AdService extends Service {
                 } else {
                     if (!result.equals(response.body())) {//字符串比较返回数据是否变化
                         result = response.body();
-//                      if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
-//                             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-//                       }
-                        mAdListener.dismissAllText();
+                        if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
+                            ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
+                        }
+//                        mAdListener.dismissAllText();
                         showAD(mPushMSG);
                     }
                     //时间是否变化，单位：天
@@ -147,10 +148,10 @@ public class AdService extends Service {
                         if (differ.getSdiffer() == 0) {
                             differ.setPower(true);
                             if (differ.getCategoryid().equals("text")) {
-                                mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                                        differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+//                                mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+//                                        differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
                             } else if (differ.getCategoryid().equals("video")) {
-                                mAdListener.showVideo(differ.getPlaypath());
+//                                mAdListener.showVideo(differ.getPlaypath());
                             }
                         }
                     }
@@ -160,9 +161,9 @@ public class AdService extends Service {
                         if (differ.getEdiffer() == 0) {
                             differ.setPower(false);
                             if (differ.getCategoryid().equals("text")) {
-                                mAdListener.dismissText(differ.getPlaypath());
+//                                mAdListener.dismissText(differ.getPlaypath());
                             } else if (differ.getCategoryid().equals("video")) {
-                                mAdListener.dismissVideo();
+//                                mAdListener.dismissVideo();
                             }
                         }
                     }
@@ -264,10 +265,10 @@ public class AdService extends Service {
                 differ.setPower(true);
                 differs.add(differ);
                 if (differ.getCategoryid().equals("text")) {
-                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+//                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+//                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
                 } else if (differ.getCategoryid().equals("video")) {
-                    mAdListener.showVideo(differ.getPlaypath());
+//                    mAdListener.showVideo(differ.getPlaypath());
                 }
             } else {
 
@@ -419,6 +420,7 @@ public class AdService extends Service {
             setPlay_end_day(cutInBean.getPlay_end_day());
             setType(cutInBean.getType());
             setPlace(cutInBean.getPlace());
+            setLucency_size(cutInBean.getLucency_size());
             setFont_size(cutInBean.getFont_size());
             setFont_color("ff" + cutInBean.getFont_color());
             setBack_color("ff" + cutInBean.getBack_color());

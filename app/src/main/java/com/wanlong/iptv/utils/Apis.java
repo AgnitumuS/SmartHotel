@@ -36,4 +36,6 @@ public class Apis {
     public static final String USER_VOD_TYPE = "user/fun/user_vodplay.php?vod_json=?";
     //时间校准
     public static final String TIME_UPDATE = "user/time_update.php?update_time=?";
+    //插播
+    public static final String USER_IN_STREAM = "user/fun/user_emergency.php?emer_json=?";
 }

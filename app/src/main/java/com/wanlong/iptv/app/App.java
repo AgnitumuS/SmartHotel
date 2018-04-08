@@ -23,6 +23,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.CrashHandler;
 import com.wanlong.iptv.utils.DeviceUuidFactory;
+import com.wanlong.iptv.utils.Utils;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import java.util.UUID;
@@ -42,6 +43,7 @@ public class App extends Application {
     public static final boolean RELEASE_VERSION = false;
     public static final boolean PRISON = true;
     public static long newtime;
+    public static String mac = "";
 
     public static App getApplication() {
         return application;
@@ -51,6 +53,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
+        mac = Utils.getMac(this);
         getUUID();
         initLeakcanary();
         initLogger();

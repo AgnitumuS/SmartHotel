@@ -22,8 +22,16 @@ public class MarqueeTextView extends AppCompatTextView {
     private float mTextWidth;
     private float windowsWith;//控件的总长度
 
+    public MarqueeTextView(Context context) {
+        super(context);
+    }
+
     public MarqueeTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public MarqueeTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     public void setText(String text) {
@@ -63,7 +71,7 @@ public class MarqueeTextView extends AppCompatTextView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        windowsWith=canvas.getWidth();
+        windowsWith = canvas.getWidth();
         if (!textIsEmpty(mText)) {
             canvas.drawText(mText, mCoordinateX + windowsWith, 30, getPaint());
         }
@@ -74,7 +82,7 @@ public class MarqueeTextView extends AppCompatTextView {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (Math.abs(mCoordinateX) > (mTextWidth+windowsWith)) {//当移动的偏离度大于总长度
+                    if (Math.abs(mCoordinateX) > (mTextWidth + windowsWith)) {//当移动的偏离度大于总长度
                         mCoordinateX = 0;
                         invalidate();
                         if (!mStopMarquee) {

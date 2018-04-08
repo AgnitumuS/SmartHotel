@@ -1,16 +1,17 @@
 package com.wanlong.iptv.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by hasee on 2017/9/7.
  */
 
-public class PushMSG {
+public class PushMSG implements Serializable{
 
     /**
      * code : 0
-     * cut_in : [{"status":"ON","to_area":"","to_user":"","categoryid":"video","play_path":"http://192.168.1.109:8080/live/wqo0Y9LGyQ.m3u8","play_start_time":"12:00:00","play_end_time":"12:30:00","play_start_day":"","play_end_day":"","type":"emergency","place":"bottom","font_size":"50","back_color":"ffffff","font_color":"000000","lucency_size":"0"},{"status":"ON","to_area":"","to_user":"","categoryid":"text","play_path":"杭州万隆光电设备股份有限公司成都分公司","play_start_time":"07:00:00","play_end_time":"22:00:00","play_start_day":"","play_end_day":"","type":"emergency","place":"bottom","font_size":"50","back_color":"ffffff","font_color":"000000","lucency_size":"0"},{"status":"ON","to_area":"","to_user":"","categoryid":"video","play_path":"http://192.168.1.109:8080/live/5YUCQG38ym.m3u8","play_start_time":"19:00:00","play_end_time":"19:30:00","play_start_day":"2017-09-01","play_end_day":"2017-10-31","type":"timer","place":"bottom","font_size":"50","back_color":"ffffff","font_color":"000000","lucency_size":"0"},{"status":"ON","to_area":"","to_user":"","categoryid":"text","play_path":"DMM推出新功能啦,欢迎试用","play_start_time":"00:00:00","play_end_time":"23:59:59","play_start_day":"2017-09-01","play_end_day":"2017-10-31","type":"timer","place":"bottom","font_size":"50","back_color":"ffffff","font_color":"000000","lucency_size":"0"},{"status":"OFF","to_area":"","to_user":"","categoryid":"video","play_path":"http://192.168.1.109:8080/live/Lu7sm0RsSY.m3u8","play_start_time":"12:00:00","play_end_time":"12:30:00","play_start_day":"2017-09-01","play_end_day":"2017-09-30","type":"timer","place":"bottom","font_size":"50","back_color":"ffffff","font_color":"000000","lucency_size":"0"}]
+     * cut_in : [{"status":"ON","to_area":"","to_user":"","type":"emergency","categoryid":"video","play_path":"http://192.168.1.231/earth1.mp4","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"video","play_path":"http://192.168.1.231/vod/file-list.m3u8","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"emergency","categoryid":"text","play_path":"DMM推出新功能啦,欢迎试用","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"text","play_path":"杭州万隆光电设备股份有限公司成都分公司","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"}]
      */
 
     private String code;
@@ -37,35 +38,35 @@ public class PushMSG {
          * status : ON
          * to_area :
          * to_user :
-         * categoryid : video
-         * play_path : http://192.168.1.109:8080/live/wqo0Y9LGyQ.m3u8
-         * play_start_time : 12:00:00
-         * play_end_time : 12:30:00
-         * play_start_day :
-         * play_end_day :
          * type : emergency
-         * place : top  center  bottom
+         * categoryid : video
+         * play_path : http://192.168.1.231/earth1.mp4
+         * play_start_time : 08:00:00
+         * play_end_time : 22:00:00
+         * play_start_day : 2018-01-01
+         * play_end_day : 2018-12-31
          * font_size : 50
-         * back_color : ffffff
+         * lucency_size : 0
          * font_color : 000000
-         * lucency_size : 0 //文字背景透明度
+         * place : bottom
+         * back_color : 000000
          */
 
         private String status;
         private String to_area;
         private String to_user;
+        private String type;
         private String categoryid;
         private String play_path;
         private String play_start_time;
         private String play_end_time;
         private String play_start_day;
         private String play_end_day;
-        private String type;
-        private String place;
         private String font_size;
-        private String back_color;
-        private String font_color;
         private String lucency_size;
+        private String font_color;
+        private String place;
+        private String back_color;
 
         public String getStatus() {
             return status;
@@ -89,6 +90,14 @@ public class PushMSG {
 
         public void setTo_user(String to_user) {
             this.to_user = to_user;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
 
         public String getCategoryid() {
@@ -139,22 +148,6 @@ public class PushMSG {
             this.play_end_day = play_end_day;
         }
 
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getPlace() {
-            return place;
-        }
-
-        public void setPlace(String place) {
-            this.place = place;
-        }
-
         public String getFont_size() {
             return font_size;
         }
@@ -163,12 +156,12 @@ public class PushMSG {
             this.font_size = font_size;
         }
 
-        public String getBack_color() {
-            return back_color;
+        public String getLucency_size() {
+            return lucency_size;
         }
 
-        public void setBack_color(String back_color) {
-            this.back_color = back_color;
+        public void setLucency_size(String lucency_size) {
+            this.lucency_size = lucency_size;
         }
 
         public String getFont_color() {
@@ -179,12 +172,20 @@ public class PushMSG {
             this.font_color = font_color;
         }
 
-        public String getLucency_size() {
-            return lucency_size;
+        public String getPlace() {
+            return place;
         }
 
-        public void setLucency_size(String lucency_size) {
-            this.lucency_size = lucency_size;
+        public void setPlace(String place) {
+            this.place = place;
+        }
+
+        public String getBack_color() {
+            return back_color;
+        }
+
+        public void setBack_color(String back_color) {
+            this.back_color = back_color;
         }
     }
 }
