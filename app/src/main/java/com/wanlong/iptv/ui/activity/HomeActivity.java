@@ -1,8 +1,10 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
@@ -17,6 +23,7 @@ import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
+import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -68,6 +75,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
+        getTime();
         initImgAd();
         mTvWelcomeGuest.setText("");
         mTvMessage.setText("You have a new message. Please check it.");
@@ -154,6 +162,34 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mTimer = null;
     }
 
+    //获取服务器时间
+    private void getTime() {
+        if (Utils.isNetworkConnected(this)) {
+            OkGo.<String>get(Apis.HEADER + Apis.TIME_UPDATE)
+                    .tag(this)
+                    .cacheMode(CacheMode.NO_CACHE)
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            if (response != null && response.body() != null && !response.body().equals("")) {
+                                App.newtime = Long.parseLong(response.body());
+                            } else {
+                                App.newtime = System.currentTimeMillis() / 1000;
+                            }
+                        }
+
+                        @Override
+                        public void onError(Response<String> response) {
+                            super.onError(response);
+                            App.newtime = System.currentTimeMillis() / 1000;
+
+                        }
+                    });
+        } else {
+            App.newtime = System.currentTimeMillis() / 1000;
+        }
+    }
+
     //时钟
     private Timer mTimer = new Timer(true);
 
@@ -172,7 +208,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             super.handleMessage(msg);
             switch (msg.what) {
                 case UPDATE_TIME:
-                    String date = TimeUtils.stampToDate(System.currentTimeMillis());
+                    App.newtime += 1;
+                    String date = TimeUtils.stampToDate(App.newtime * 1000);
                     String str_dayofWeek = getResources().getStringArray(R.array.day_of_week)[TimeUtils.getDay() - 1];
                     mTvTime.setText(date + "  " + str_dayofWeek);
                     break;
@@ -191,9 +228,29 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            if ((System.currentTimeMillis() - exitTime) < 2000) {
+//            if (App.PRISON) {
+//                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+//                finish();
+//            } else {
+//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+//                finish();
+//            }
             if (App.PRISON) {
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish();
+                new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                        .setTitle(getString(R.string.exitdialog_hint))
+                        .setMessage(getString(R.string.exitdialog_out_hint))
+                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                App.getApplication().exit();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//响应事件
+                            }
+                        }).show();
+
             } else {
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 finish();

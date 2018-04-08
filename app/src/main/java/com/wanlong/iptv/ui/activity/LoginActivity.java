@@ -181,7 +181,7 @@ public class LoginActivity extends BaseActivity {
             editor.commit();
         }
         if (App.PRISON) {
-            startActivity(new Intent(LoginActivity.this, LiveActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         } else {
             startActivity(new Intent(LoginActivity.this, LanguageActivity.class));

@@ -82,7 +82,6 @@ public class StartActivity extends BaseActivity {
         }
     }
 
-
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

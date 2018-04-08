@@ -47,14 +47,15 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     protected void initView() {
         intent = getIntent();
         url = intent.getStringExtra("url");
+
 //        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
 //        mTextMovieCountDetail.setAlpha();
         mTextMovieNameDetail.setText(intent.getStringExtra("vod_name"));
         mTextMovieTimeDetail.setText("(" + intent.getStringExtra("vod_release_time") + ")");
         mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
-        mTextMovieTypeDetail.setText(intent.getStringExtra("vod_category"));
-        mTextMoviePeopleDetail.setText(intent.getStringExtra("vod_actor"));
-        mTextMovieDescriptionDetail.setText(intent.getStringExtra("vod_detail"));
+        mTextMovieTypeDetail.setText("类型："+intent.getStringExtra("vod_category"));
+        mTextMoviePeopleDetail.setText("主演："+intent.getStringExtra("vod_actor"));
+        mTextMovieDescriptionDetail.setText("简介："+intent.getStringExtra("vod_detail"));
         Glide.with(this).load(intent.getStringExtra("vod_pic_dir")).into(mImgMovieDetail);
     }
 
