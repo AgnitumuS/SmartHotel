@@ -49,7 +49,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed();
+                        getView().loadFailed(1);
                     }
                 });
     }
@@ -81,7 +81,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed();
+                        getView().loadFailed(2);
                     }
                 });
     }
@@ -114,7 +114,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed();
+                        getView().loadFailed(3);
                     }
                 });
     }
@@ -122,6 +122,6 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
     public interface HomeView extends BaseView {
         void loadDataSuccess(HomeTypeData homeTypeData);
         void loadHomeADSuccess(HomeAD homeAD);
-        void loadFailed();
+        void loadFailed(int error);
     }
 }

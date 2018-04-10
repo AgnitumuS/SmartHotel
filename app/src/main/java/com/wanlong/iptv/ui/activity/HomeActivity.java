@@ -134,18 +134,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     //加载图片
     private void initImgAd() {
 //        mImgShow.setOnClickListener(event -> Log.d("HomeActivity", "onclick"));//Lambda 表达式
-        GlideApp.with(this)
-                .load(R.drawable.hotel_room)
-                .transform(new RoundedCorners(12))
-                .into(mImgShow);
+//        GlideApp.with(this)
+//                .load(R.drawable.hotel_room)
+//                .transform(new RoundedCorners(12))
+//                .into(mImgShow);
         GlideApp.with(this)
                 .load(R.drawable.weather)
                 .transform(new RoundedCorners(12))
                 .into(mImgWeather);
-        GlideApp.with(this)
-                .load(R.drawable.sence)
-                .transform(new RoundedCorners(12))
-                .into(mImgAd);
+//        GlideApp.with(this)
+//                .load(R.drawable.sence)
+//                .transform(new RoundedCorners(12))
+//                .into(mImgAd);
     }
 
     @Override
@@ -218,21 +218,76 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());
-                showImgAD();
+                showImgAD(mAdImageBeans);
+            } else {
+                loadFailed(3);
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
             }
+        } else {
+            loadFailed(3);
         }
     }
 
-    private void showImgAD(){
+    private List<String> imgUrls1;
+    private List<String> imgUrls2;
+
+    private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
+        imgUrls1 = new ArrayList<>();
+        imgUrls2 = new ArrayList<>();
+        for (int i = 0; i < mAdImageBeans.size(); i++) {
+            if (mAdImageBeans.get(i).getAd_display_location().indexOf("1") != -1) {
+                imgUrls1.add(mAdImageBeans.get(i).getAd_src());
+            }
+            if (mAdImageBeans.get(i).getAd_display_location().indexOf("2") != -1) {
+                imgUrls2.add(mAdImageBeans.get(i).getAd_src());
+            }
+        }
+        if (imgUrls1.size() > 0) {
+            GlideApp.with(this)
+                    .load(imgUrls1.get(0))
+                    .transform(new RoundedCorners(12))
+                    .into(mImgShow);
+        } else {
+            GlideApp.with(this)
+                    .load(R.drawable.hotel_room)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgShow);
+        }
+        if (imgUrls2.size() > 0) {
+            GlideApp.with(this)
+                    .load(imgUrls2.get(0))
+                    .transform(new RoundedCorners(12))
+                    .into(mImgAd);
+        } else {
+            GlideApp.with(this)
+                    .load(R.drawable.sence)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgAd);
+        }
+
+//        GlideApp.with(this)
+//                .load(R.drawable.weather)
+//                .transform(new RoundedCorners(12))
+//                .into(mImgWeather);
 
     }
 
     @Override
-    public void loadFailed() {
+    public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
+        if (error == 3) {
+            GlideApp.with(this)
+                    .load(R.drawable.hotel_room)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgShow);
+            GlideApp.with(this)
+                    .load(R.drawable.sence)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgAd);
+
+        }
     }
 
     @Override
