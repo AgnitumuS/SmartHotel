@@ -38,4 +38,6 @@ public class Apis {
     public static final String TIME_UPDATE = "user/time_update.php?update_time=?";
     //插播
     public static final String USER_IN_STREAM = "user/fun/user_emergency.php?emer_json=?";
+    //首页广告
+    public static final String USER_HOME_AD = "user/fun/ad_play.php?ad_json=?";
 }

@@ -42,7 +42,9 @@ public class AdService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
+        if(mTimer != null && mTimerTask != null){
+            mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -79,7 +81,6 @@ public class AdService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mTimer.cancel();
-        mTimerTask.cancel();
         mTimer = null;
     }
 

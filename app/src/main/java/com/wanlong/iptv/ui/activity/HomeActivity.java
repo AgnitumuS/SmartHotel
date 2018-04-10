@@ -22,6 +22,7 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.HomeAD;
 import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
@@ -31,6 +32,8 @@ import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -106,7 +109,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         //创建自定义的TextView
         mMarqueeTextView = new MarqueeTextView(this);
         mMarqueeTextView.setTextSize(16f);
-        mMarqueeTextView.setPadding(0,0,0,32);
+        mMarqueeTextView.setPadding(0, 0, 0, 32);
 //        mMarqueeTextView.setWidth(Utils.getDisplaySize(this).y);
 //        mMarqueeTextView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         mMarqueeTextView.setLayoutParams(layoutParams);
@@ -147,10 +150,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initData() {
-        Logger.d("mac:"+ Utils.getMac(this));
+        Logger.d("mac:" + Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
         startService(new Intent(HomeActivity.this, AdService.class));
+        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
 //        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
 //        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
@@ -197,6 +201,33 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Logger.d("HomeActivity: load success");
         this.mHomeTypeData = homeTypeData;
 //        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_AD + "/" + mHomeTypeData.getAdsType().get(0));
+    }
+
+    private List<HomeAD.AdVideoBean> mAdVideoBeans;
+    private List<HomeAD.AdImageBean> mAdImageBeans;
+    private List<HomeAD.AdTextBean> mAdTextBeans;
+
+    @Override
+    public void loadHomeADSuccess(HomeAD homeAD) {
+        if (homeAD != null && homeAD.getCode().equals("0")) {
+            mAdVideoBeans = new ArrayList<>();
+            mAdImageBeans = new ArrayList<>();
+            mAdTextBeans = new ArrayList<>();
+            if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
+                mAdVideoBeans.addAll(homeAD.getAd_video());
+            }
+            if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
+                mAdImageBeans.addAll(homeAD.getAd_image());
+                showImgAD();
+            }
+            if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
+                mAdTextBeans.addAll(homeAD.getAd_text());
+            }
+        }
+    }
+
+    private void showImgAD(){
+
     }
 
     @Override
