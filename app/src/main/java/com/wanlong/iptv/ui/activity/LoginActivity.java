@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity {
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         if (firstOpen) {
             SharedPreferences.Editor editor = sharedPreferences.edit();

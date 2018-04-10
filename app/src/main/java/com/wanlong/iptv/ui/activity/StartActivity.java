@@ -3,11 +3,14 @@ package com.wanlong.iptv.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
 
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 
@@ -58,11 +61,13 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        Logger.d("mac:"+ App.mac);
+        Logger.d("model:"+ Build.MODEL);
         createSP();
     }
 
     private void createSP() {
-        sharedPreferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {

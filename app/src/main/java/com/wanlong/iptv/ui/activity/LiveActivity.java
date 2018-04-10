@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +17,6 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.entity.LiveTypeData;
 import com.wanlong.iptv.mvp.LivePresenter;
@@ -125,16 +123,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "S905W":
             case "Prevail CATV":
             case "p230":
+            case "0008":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
-                break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
-        mLiveVideoPlayer.setUp(urls[0], false, "");
-        mLiveVideoPlayer.startPlayLogic();
+//        mLiveVideoPlayer.setUp(urls[0], false, "");
+//        mLiveVideoPlayer.startPlayLogic();
         mLiveVideoPlayer.setIsTouchWigetFull(true);
         mLiveVideoPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
             @Override
@@ -264,9 +262,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
             case KeyEvent.KEYCODE_BACK:
                 if ((System.currentTimeMillis() - exitTime) < 2000) {
-                    if (App.PRISON) {
-                        startActivity(new Intent(LiveActivity.this, HomeActivity.class));
-                    }
+//                    if (App.PRISON) {
+//                        startActivity(new Intent(LiveActivity.this, HomeActivity.class));
+//                    }
                     finish();
                 } else {
                     Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
@@ -345,7 +343,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadListSuccess(Live liveListDatas) {
-        mLiveListAdapter.setData(liveListDatas.getPlaylist());
+        if (liveListDatas != null) {
+            if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
+                mLiveListAdapter.setData(liveListDatas.getPlaylist());
+                mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
+                mLiveVideoPlayer.startPlayLogic();
+            }
+        }
+
 
     }
 

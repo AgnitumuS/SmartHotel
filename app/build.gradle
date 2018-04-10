@@ -69,7 +69,7 @@ dependencies {
     //log工具 https://github.com/orhanobut/logger
     implementation 'com.orhanobut:logger:2.1.1'
     //视频播放框架 https://github.com/CarGuo/GSYVideoPlayer
-    implementation 'com.shuyu:gsyVideoPlayer-java:4.1.0'
+    implementation 'com.shuyu:gsyVideoPlayer-java:4.1.1'
     //轮播图 https://github.com/youth5201314/banner
     implementation 'com.youth.banner:banner:1.4.10'
     //网络框架okgo https://github.com/jeasonlzy/okhttp-OkGo

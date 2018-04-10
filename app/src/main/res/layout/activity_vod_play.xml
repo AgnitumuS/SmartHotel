@@ -8,10 +8,15 @@
     android:focusable="false"
     tools:context=".ui.activity.VodPlayActivity">
 
-    <com.wanlong.iptv.player.VodVideoPlayer
-        android:id="@+id/vod_player"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"/>
+        android:focusable="false">
 
+        <com.wanlong.iptv.player.VodVideoPlayer
+            android:id="@+id/vod_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true" />
+    </FrameLayout>
 </RelativeLayout>

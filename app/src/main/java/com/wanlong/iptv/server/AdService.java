@@ -79,6 +79,7 @@ public class AdService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mTimer.cancel();
+        mTimerTask.cancel();
         mTimer = null;
     }
 
