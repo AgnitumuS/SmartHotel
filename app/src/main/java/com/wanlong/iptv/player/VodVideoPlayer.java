@@ -23,17 +23,22 @@ import com.wanlong.iptv.R;
 
 public class VodVideoPlayer extends StandardGSYVideoPlayer {
 
-    public VodVideoPlayer(Context context, Boolean fullFlag) {
-        super(context, fullFlag);
-    }
-
     public VodVideoPlayer(Context context) {
         super(context);
+    }
+
+    public VodVideoPlayer(Context context, Boolean fullFlag) {
+        super(context, fullFlag);
     }
 
     public VodVideoPlayer(Context context, AttributeSet attrs) {
         super(context, attrs);
         getDisplay(context);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.video_layout_vod;
     }
 
     /**
@@ -126,11 +131,11 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
         return size;
     }
 
-    private static void getDisplay(Context context){
+    private static void getDisplay(Context context) {
         //获得屏幕宽高
         Point size = getDisplaySize(context);
-        pointX = size.x/2;
-        pointY = size.y/2;
+        pointX = size.x / 2;
+        pointY = size.y / 2;
         moveX = pointX;
         moveY = pointY;
     }
@@ -179,7 +184,7 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
 
     private static boolean firstKeyDown = true;
 
-    private void onClickUi(){
+    private void onClickUi() {
         if (mIfCurrentIsFullscreen && mLockCurScreen && mNeedLockFull) {
             onClickUiToggle();
             startDismissControlViewTimer();
@@ -188,8 +193,8 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     //第一次按下左右键
-    private void firstKeyDown(){
-        if(firstKeyDown){
+    private void firstKeyDown() {
+        if (firstKeyDown) {
             touchSurfaceDown(pointX, pointY);
             firstKeyDown = false;
         }
@@ -197,14 +202,14 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
     }
 
     //连续按下左右键
-    private void keyMove(){
+    private void keyMove() {
         if ((mIfCurrentIsFullscreen && mIsTouchWigetFull)
                 || (mIsTouchWiget && !mIfCurrentIsFullscreen)) {
             if (!mChangePosition && !mChangeVolume && !mBrightness) {
-                touchSurfaceMoveFullLogic(Math.abs(moveX-pointX), 0);
+                touchSurfaceMoveFullLogic(Math.abs(moveX - pointX), 0);
             }
         }
-        touchSurfaceMove(moveX-pointX, 0, pointY);
+        touchSurfaceMove(moveX - pointX, 0, pointY);
     }
 
     //定义变量
@@ -220,28 +225,28 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LEFT:
-                    if(tim > 0){
-                        if(tim > 1){
-                            moveX = moveX - pointX/13;
-                        }else {
-                            moveX = moveX - pointX/20;
+                    if (tim > 0) {
+                        if (tim > 1) {
+                            moveX = moveX - pointX / 13;
+                        } else {
+                            moveX = moveX - pointX / 20;
                         }
-                        tim-=1;
-                    }else {
-                        moveX = moveX - pointX/200;
+                        tim -= 1;
+                    } else {
+                        moveX = moveX - pointX / 200;
                     }
                     keyMove();
                     break;
                 case RIGHT:
-                    if(tim > 0){
-                        if(tim > 1){
-                            moveX = moveX + pointX/13;//13-20
-                        }else {
-                            moveX = moveX + pointX/20;
+                    if (tim > 0) {
+                        if (tim > 1) {
+                            moveX = moveX + pointX / 13;//13-20
+                        } else {
+                            moveX = moveX + pointX / 20;
                         }
-                        tim-=1;
-                    }else {
-                        moveX = moveX + pointX/200;
+                        tim -= 1;
+                    } else {
+                        moveX = moveX + pointX / 200;
                     }
                     keyMove();
                     break;
@@ -263,8 +268,8 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
 
     //重置
     public void resetTime() {
-            mHandler.removeMessages(CANCLE);
-            mHandler.sendEmptyMessageDelayed(CANCLE, 2500);
+        mHandler.removeMessages(CANCLE);
+        mHandler.sendEmptyMessageDelayed(CANCLE, 2500);
     }
 
 }

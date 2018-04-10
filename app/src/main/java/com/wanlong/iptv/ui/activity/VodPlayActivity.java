@@ -49,7 +49,6 @@ public class VodPlayActivity extends BaseActivity {
             case "0008":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKEXOPLAYER2);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
-                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
