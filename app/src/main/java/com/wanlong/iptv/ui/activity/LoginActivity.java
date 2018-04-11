@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -108,10 +109,19 @@ public class LoginActivity extends BaseActivity {
     }
 
     private Login data;
-
+    private String ip;
     //登录
     private void login() {
 //        Toast.makeText(LoginActivity.this, "正在登录", Toast.LENGTH_SHORT).show();
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        ip = sharedPreferences.getString("ip", "");
+        if (ip.equals("")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("ip", Apis.HEADER);
+            editor.commit();
+            ip = sharedPreferences.getString("ip", "");
+        }
+        Apis.HEADER = ip;
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
                 .tag(this)
 //                .params("mac", Utils.getMac(this))
@@ -122,41 +132,48 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
-                        data = JSON.parseObject(response.body(), Login.class);
-                        if (data != null && data.getCode() != null) {
-                            if (data.getCode().equals("0")) {
-                                Toast.makeText(LoginActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("1")) {
-                                //存储
-                                loginSuccess();
-                                Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-1")) {
+                        try{
+                            data = JSON.parseObject(response.body(), Login.class);
+                            if (data != null && data.getCode() != null) {
+                                if (data.getCode().equals("0")) {
+                                    Toast.makeText(LoginActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("1")) {
+                                    //存储
+                                    loginSuccess();
+                                    Toast.makeText(LoginActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-1")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-2")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-3")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-4")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-5")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-6")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-7")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
                                 loginFailed();
-                                Toast.makeText(LoginActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-2")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-3")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-4")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-5")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-6")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
-                            } else if (data.getCode().equals("-7")) {
-                                loginFailed();
-                                Toast.makeText(LoginActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                                Log.d("ServerSettingActivity", "服务器返回数据异常");
+                                Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
+                        }catch (JSONException e){
+                            e.printStackTrace();
                             loginFailed();
-                            Log.d("ServerSettingActivity", "服务器返回数据异常");
                             Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override

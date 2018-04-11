@@ -170,6 +170,7 @@ public class LoginSettingActivity extends BaseActivity {
     private SharedPreferences sharedPreferences;
 
     private void saveIP() {
+        Apis.HEADER = newIP;
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("ip", newIP);

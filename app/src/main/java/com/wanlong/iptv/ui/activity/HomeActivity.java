@@ -42,7 +42,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView {
+public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView,AdService.AdListener {
 
     @BindView(R.id.tv_welcome_guest)
     TextView mTvWelcomeGuest;
@@ -309,7 +309,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         @Override
                         public void onSuccess(Response<String> response) {
                             if (response != null && response.body() != null && !response.body().equals("")) {
-                                App.newtime = Long.parseLong(response.body());
+                                try{
+                                    App.newtime = Long.parseLong(response.body());
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                    App.newtime = System.currentTimeMillis() / 1000;
+                                }
+
                             } else {
                                 App.newtime = System.currentTimeMillis() / 1000;
                             }
@@ -400,4 +406,28 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void showText(String text, String place, String font_size, String back_color, String font_color) {
+
+    }
+
+    @Override
+    public void showVideo(String url) {
+
+    }
+
+    @Override
+    public void dismissAllText() {
+
+    }
+
+    @Override
+    public void dismissText(String text) {
+
+    }
+
+    @Override
+    public void dismissVideo() {
+
+    }
 }

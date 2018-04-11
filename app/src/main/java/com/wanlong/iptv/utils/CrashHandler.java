@@ -159,8 +159,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
         OkGo.<String>post("")
                 .tag(this)
-                .isMultipart(true)
-                .params("", new File(file))
+                .params("crashlog", new File(file))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

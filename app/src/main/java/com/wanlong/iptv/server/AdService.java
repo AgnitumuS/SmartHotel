@@ -126,7 +126,7 @@ public class AdService extends Service {
                         if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
                             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
                         }
-//                        mAdListener.dismissAllText();
+                        mAdListener.dismissAllText();
                         showAD(mPushMSG);
                     }
                     //时间是否变化，单位：天
@@ -150,10 +150,10 @@ public class AdService extends Service {
                         if (differ.getSdiffer() == 0) {
                             differ.setPower(true);
                             if (differ.getCategoryid().equals("text")) {
-//                                mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-//                                        differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                                mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+                                        differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
                             } else if (differ.getCategoryid().equals("video")) {
-//                                mAdListener.showVideo(differ.getPlaypath());
+                                mAdListener.showVideo(differ.getPlaypath());
                             }
                         }
                     }
@@ -163,9 +163,9 @@ public class AdService extends Service {
                         if (differ.getEdiffer() == 0) {
                             differ.setPower(false);
                             if (differ.getCategoryid().equals("text")) {
-//                                mAdListener.dismissText(differ.getPlaypath());
+                                mAdListener.dismissText(differ.getPlaypath());
                             } else if (differ.getCategoryid().equals("video")) {
-//                                mAdListener.dismissVideo();
+                                mAdListener.dismissVideo();
                             }
                         }
                     }
@@ -267,10 +267,10 @@ public class AdService extends Service {
                 differ.setPower(true);
                 differs.add(differ);
                 if (differ.getCategoryid().equals("text")) {
-//                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-//                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
                 } else if (differ.getCategoryid().equals("video")) {
-//                    mAdListener.showVideo(differ.getPlaypath());
+                    mAdListener.showVideo(differ.getPlaypath());
                 }
             } else {
 
