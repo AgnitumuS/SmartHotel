@@ -1,11 +1,13 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -293,8 +295,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mTimer.cancel();
-//        mTimer = null;
+        mTimer.cancel();
+        mTimer = null;
     }
 
     //获取服务器时间
@@ -370,21 +372,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                finish();
 //            }
             if (App.PRISON) {
-//                new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
-//                        .setTitle(getString(R.string.exitdialog_hint))
-//                        .setMessage(getString(R.string.exitdialog_out_hint))
-//                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-//                                stopService(new Intent(HomeActivity.this, AdService.class));
-//                                App.getApplication().exit();
-//                            }
-//                        })
-//                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//响应事件
-//                            }
-//                        }).show();
+                new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                        .setTitle(getString(R.string.exitdialog_hint))
+                        .setMessage(getString(R.string.exitdialog_out_hint))
+                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                stopService(new Intent(HomeActivity.this, AdService.class));
+                                App.getApplication().exit();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//响应事件
+                            }
+                        }).show();
             } else {
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 finish();
