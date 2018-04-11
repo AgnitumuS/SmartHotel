@@ -11,7 +11,7 @@ public class PushMSG implements Serializable{
 
     /**
      * code : 0
-     * cut_in : [{"status":"ON","to_area":"","to_user":"","type":"emergency","categoryid":"video","play_path":"http://192.168.1.231/earth1.mp4","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"video","play_path":"http://192.168.1.231/vod/file-list.m3u8","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"emergency","categoryid":"text","play_path":"DMM推出新功能啦,欢迎试用","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"text","play_path":"杭州万隆光电设备股份有限公司成都分公司","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"50","lucency_size":"0","font_color":"000000","place":"bottom","back_color":"000000"}]
+     * cut_in : [{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"video","play_path":"http://192.168.1.231/vod/file-list.m3u8","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"30","lucency_size":"28","font_color":"004a80","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"emergency","categoryid":"text","play_path":"DMM推出新功能啦,欢迎试用","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"30","lucency_size":"28","font_color":"004a80","place":"bottom","back_color":"000000"},{"status":"ON","to_area":"","to_user":"","type":"timer","categoryid":"text","play_path":"杭州万隆光电设备股份有限公司成都分公司","play_start_time":"08:00:00","play_end_time":"22:00:00","play_start_day":"2018-01-01","play_end_day":"2018-12-31","font_size":"30","lucency_size":"28","font_color":"004a80","place":"bottom","back_color":"000000"}]
      */
 
     private String code;
@@ -38,16 +38,16 @@ public class PushMSG implements Serializable{
          * status : ON
          * to_area :
          * to_user :
-         * type : emergency
+         * type : timer
          * categoryid : video
-         * play_path : http://192.168.1.231/earth1.mp4
+         * play_path : http://192.168.1.231/vod/file-list.m3u8
          * play_start_time : 08:00:00
          * play_end_time : 22:00:00
          * play_start_day : 2018-01-01
          * play_end_day : 2018-12-31
-         * font_size : 50
-         * lucency_size : 0
-         * font_color : 000000
+         * font_size : 30
+         * lucency_size : 28
+         * font_color : 004a80
          * place : bottom
          * back_color : 000000
          */

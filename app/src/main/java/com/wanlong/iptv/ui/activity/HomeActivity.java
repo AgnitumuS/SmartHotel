@@ -156,6 +156,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
         startService(new Intent(HomeActivity.this, AdService.class));
+        adCallback();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
 //        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
 //        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
@@ -406,9 +407,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         return super.onKeyDown(keyCode, event);
     }
 
+    private void adCallback(){
+        AdService.setAdListener(this);
+    }
+
     @Override
     public void showText(String text, String place, String font_size, String back_color, String font_color) {
-
+        mMarqueeTextView.setText(text);
     }
 
     @Override
