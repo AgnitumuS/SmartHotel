@@ -1,22 +1,31 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,43 +55,26 @@ public class LoginSettingActivity extends BaseActivity {
         return R.layout.activity_login_setting;
     }
 
+    private String from = "";
+
     @Override
     protected void initView() {
+        from = getIntent().getStringExtra("from");
+        if (from.equals("StartActivity")) {
+            mBtnSubmitIp.setText("登录");
+        }
         mEditIp.setText(Apis.HEADER);
         mEditRoom.setText("501");
-//        if (!Utils.isPhone(this)) {
-//            mEditIp.requestFocus();
-//        }
         initListener();
-//        mEditIp.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View arg0, MotionEvent event) {
-//                // TODO Auto-generated method stub
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//                    //activity要换成自己的activity名字
-//                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-//                }
-//                return true;
-//            }
-//        });
-//        mEditRoom.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View arg0, MotionEvent event) {
-//                // TODO Auto-generated method stub
-//                if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    InputMethodManager imm = (InputMethodManager) LoginSettingActivity.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-//                    //activity要换成自己的activity名字
-//                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-//                }
-//                return true;
-//            }
-//        });
     }
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void initData() {
-
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     private String newIP = "";
@@ -138,6 +130,7 @@ public class LoginSettingActivity extends BaseActivity {
         }
     }
 
+    //验证IP地址
     private void submitIP() {
         if (changeIP) {
             if (newIP.equals("") && !newIP.startsWith("http://")) {
@@ -150,7 +143,7 @@ public class LoginSettingActivity extends BaseActivity {
                             @Override
                             public void onSuccess(Response<String> response) {
                                 if (response != null && response.body() != null && !response.body().equals("")) {
-                                    Toast.makeText(LoginSettingActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
                                     saveIP();
                                 } else {
                                     Toast.makeText(LoginSettingActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
@@ -164,25 +157,136 @@ public class LoginSettingActivity extends BaseActivity {
                             }
                         });
             }
+        } else {
+            login();
         }
     }
 
-    private SharedPreferences sharedPreferences;
 
     private void saveIP() {
         Apis.HEADER = newIP;
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("ip", newIP);
         editor.commit();
+        login();
     }
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-////            startActivity(new Intent(LoginSettingActivity.this, LoginActivity.class));
+
+    private Login data;
+    private String ip;
+
+    //登录
+    private void login() {
+//        Toast.makeText(LoginActivity.this, "正在登录", Toast.LENGTH_SHORT).show();
+        ip = sharedPreferences.getString("ip", "");
+        if (ip.equals("")) {
+            editor.putString("ip", Apis.HEADER);
+            editor.commit();
+            ip = sharedPreferences.getString("ip", "");
+        }
+        Apis.HEADER = ip;
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
+                .tag(this)
+//                .params("mac", Utils.getMac(this))
+                .params("mac", Utils.getMac(this))
+                .params("uuid", App.sUUID.toString())
+                .params("ip", Utils.getIpAddressString())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            data = JSON.parseObject(response.body(), Login.class);
+                            if (data != null && data.getCode() != null) {
+                                if (data.getCode().equals("0")) {
+                                    Toast.makeText(LoginSettingActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("1")) {
+                                    //存储
+                                    loginSuccess();
+                                    Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-1")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-2")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-3")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-4")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-5")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-6")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-7")) {
+                                    loginFailed();
+                                    Toast.makeText(LoginSettingActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                loginFailed();
+                                Log.d("ServerSettingActivity", "服务器返回数据异常");
+                                Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            loginFailed();
+                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        loginFailed();
+                        super.onError(response);
+                    }
+                });
+    }
+
+    private boolean firstOpen;
+
+    private void loginSuccess() {
+        Logger.d("登录成功");
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (firstOpen) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstOpen", false);
+            editor.commit();
+        }
+        if (App.PRISON) {
+            startActivity(new Intent(LoginSettingActivity.this, HomeActivity.class));
+            finish();
+        } else {
+//            startActivity(new Intent(LoginSettingActivity.this, LanguageActivity.class));
 //            finish();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+        }
+    }
+
+    private void loginFailed() {
+        Logger.d("登录失败");
+        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            startActivity(new Intent(LoginSettingActivity.this, LoginActivity.class));
+            if (App.PRISON) {
+                if (Build.MODEL.equals("0008")) {
+                    if (from.equals("StartActivity")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

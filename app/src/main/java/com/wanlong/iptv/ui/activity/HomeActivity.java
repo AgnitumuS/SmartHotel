@@ -504,21 +504,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                finish();
 //            }
             if (App.PRISON) {
-                new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
-                        .setTitle(getString(R.string.exitdialog_hint))
-                        .setMessage(getString(R.string.exitdialog_out_hint))
-                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                stopService(new Intent(HomeActivity.this, AdService.class));
-                                App.getApplication().exit();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//响应事件
-                            }
-                        }).show();
+                if (Build.MODEL.equals("0008")) {
+                    return true;
+                } else {
+                    new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                            .setTitle(getString(R.string.exitdialog_hint))
+                            .setMessage(getString(R.string.exitdialog_out_hint))
+                            .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                    stopService(new Intent(HomeActivity.this, AdService.class));
+                                    App.getApplication().exit();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {//响应事件
+                                }
+                            }).show();
+                }
             } else {
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 finish();

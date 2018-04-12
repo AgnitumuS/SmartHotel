@@ -64,8 +64,10 @@ public class StartActivity extends BaseActivity {
         Logger.d("mac:" + App.mac);
         Logger.d("model:" + Build.MODEL);
         createSP();
+
     }
 
+    //创建SharedPreferences
     private void createSP() {
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
@@ -92,11 +94,15 @@ public class StartActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOGIN:
-                    startActivity(new Intent(StartActivity.this, LoginActivity.class));
+                    Intent intent1 = new Intent(StartActivity.this, LoginSettingActivity.class);
+                    intent1.putExtra("from","StartActivity");
+                    intent1.putExtra("firstOpen", firstOpen);
+                    startActivity(intent1);
                     finish();
                     break;
                 case OPEN:
-                    startActivity(new Intent(StartActivity.this, HomeActivity.class));
+                    Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                    startActivity(intent2);
                     finish();
                     break;
                 default:

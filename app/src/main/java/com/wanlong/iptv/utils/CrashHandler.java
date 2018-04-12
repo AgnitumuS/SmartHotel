@@ -18,6 +18,7 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.server.AdService;
+import com.wanlong.iptv.ui.activity.HomeActivity;
 import com.wanlong.iptv.ui.activity.LoginActivity;
 
 import java.io.File;
@@ -96,7 +97,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Thread.sleep(1000); // 1秒后重启，可有可无，仅凭个人喜好
                 mContext.stopService(new Intent(mContext, AdService.class));
                 App.ADserver = false;
-                Intent intent = new Intent(mContext, LoginActivity.class);
+                Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } catch (Exception e) {
