@@ -59,6 +59,7 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mBtnSubmitIp.requestFocus();
         from = getIntent().getStringExtra("from");
         if (from.equals("StartActivity")) {
             mBtnSubmitIp.setText("登录");

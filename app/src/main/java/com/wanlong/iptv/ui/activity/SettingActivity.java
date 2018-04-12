@@ -43,7 +43,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if(!Utils.isPhone(this)){
+        if (!Utils.isPhone(this)) {
             BorderView borderView = new BorderView(this);
             BorderEffect.mScale = 1.05f;
             borderView.setBackgroundResource(R.drawable.border_touming);
@@ -61,12 +61,15 @@ public class SettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.system_setting:
-                Intent intent = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                Intent intent1 = new Intent(Settings.ACTION_SETTINGS); //进入到系统设置界面
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent1);
                 break;
             case R.id.login_setting:
-                startActivity(new Intent(SettingActivity.this, LoginSettingActivity.class));
+                Intent intent2 = new Intent(SettingActivity.this, LoginSettingActivity.class);
+                intent2.putExtra("from", "SettingActivity");
+                intent2.putExtra("firstOpen", false);
+                startActivity(intent2);
                 break;
             case R.id.play_setting:
                 break;
