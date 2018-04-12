@@ -40,4 +40,6 @@ public class Apis {
     public static final String USER_IN_STREAM = "user/fun/user_emergency.php?emer_json=?";
     //首页广告
     public static final String USER_HOME_AD = "user/fun/ad_play.php?ad_json=?";
+    //用户登录状态
+    public static final String USER_LOGIN_STATUS ="user/user_login_status.php";
 }

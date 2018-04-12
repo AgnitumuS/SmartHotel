@@ -9,13 +9,17 @@ import android.support.annotation.Nullable;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.PushMSG;
+import com.wanlong.iptv.entity.UserStatus;
 import com.wanlong.iptv.ui.activity.AdActivity;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,8 +46,9 @@ public class AdService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(mTimer != null && mTimerTask != null){
+        if (mTimer != null && mTimerTask != null) {
             mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
+//            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 6 * 1000);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -54,34 +59,113 @@ public class AdService extends Service {
     private TimerTask mTimerTask = new TimerTask() {
         @Override
         public void run() {
-//          mHandler.sendEmptyMessage(REQUEST);
-            getAd();
-            doQueue();
+            try {
+                getAd();
+                doQueue();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     };
 
-//    private static final int REQUEST = 0;
-//
-//    private Handler mHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            switch (msg.what) {
-//                case REQUEST:
-//                    getAd();
-//                    doQueue();
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//    };
+    private TimerTask mLoginTask = new TimerTask() {
+        @Override
+        public void run() {
+            try {
+                autoLogin();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+//        mTimerTask.cancel();
+//        mLoginTask.cancel();
         mTimer.cancel();
         mTimer = null;
+        App.ADserver = false;
+    }
+
+    private UserStatus mUserStatus;
+
+    //自动登录
+    private void autoLogin() {
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN_STATUS)
+                .tag(this)
+                .cacheMode(CacheMode.NO_CACHE)
+                .params("mac", Utils.getMac(this))
+                .params("uuid", App.sUUID.toString())
+                .params("ip", Utils.getIpAddressString())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            mUserStatus = JSON.parseObject(response.body(), UserStatus.class);
+                            if (mUserStatus != null && mUserStatus.getCode() != null) {
+                                if (mUserStatus.getCode().equals("0")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("1")) {
+                                    //存储
+                                    loginSuccess();
+//                                    Toast.makeText(AdService.this, "成功", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-1")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-2")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-3")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-4")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-5")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-6")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                                } else if (mUserStatus.getCode().equals("-7")) {
+                                    loginFailed();
+//                                    Toast.makeText(AdService.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Logger.d("autoLogin:" + "服务器返回数据异常");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        loginFailed();
+                    }
+                });
+    }
+
+    private void loginSuccess() {
+        Logger.d("登录成功");
+    }
+
+    private void loginFailed() {
+        Logger.d("登录失败");
+//        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     private PushMSG mPushMSG;
@@ -93,21 +177,28 @@ public class AdService extends Service {
     private void getAd() {
         OkGo.<String>post(Apis.HEADER + Apis.USER_IN_STREAM)
                 .tag(this)
+                .cacheMode(CacheMode.NO_CACHE)
                 .params("mac", App.mac)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-//                        Logger.json(response.body());
-                        if (response.body() != null) {
+                        if (response != null && response.body() != null) {
                             try {
                                 mPushMSG = JSON.parseObject(response.body(), PushMSG.class);
                                 executeData(response);
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
                     }
                 });
     }
@@ -126,8 +217,14 @@ public class AdService extends Service {
                         if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
                             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
                         }
-                        mAdListener.dismissAllText();
-                        showAD(mPushMSG);
+                        try {
+                            mAdListener.dismissAllText();
+                            showAD(mPushMSG);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                     //时间是否变化，单位：天
                     if (!date.equals(mDateFormat.format(new Date(App.newtime * 1000)))) {
@@ -150,10 +247,23 @@ public class AdService extends Service {
                         if (differ.getSdiffer() == 0) {
                             differ.setPower(true);
                             if (differ.getCategoryid().equals("text")) {
-                                mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                                        differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
-                            } else if (differ.getCategoryid().equals("video")) {
-                                mAdListener.showVideo(differ.getPlaypath());
+                                try {
+                                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+                                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (differ.getCategoryid().equals("video")) {
+                                try {
+                                    mAdListener.showVideo(differ.getPlaypath());
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -163,9 +273,22 @@ public class AdService extends Service {
                         if (differ.getEdiffer() == 0) {
                             differ.setPower(false);
                             if (differ.getCategoryid().equals("text")) {
-                                mAdListener.dismissText(differ.getPlaypath());
-                            } else if (differ.getCategoryid().equals("video")) {
-                                mAdListener.dismissVideo();
+                                try {
+                                    mAdListener.dismissText(differ.getPlaypath());
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if (differ.getCategoryid().equals("video")) {
+                                try {
+                                    mAdListener.dismissVideo();
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -243,7 +366,13 @@ public class AdService extends Service {
             }
         }
         Collections.sort(newCutInBeens);//排序
-        getStartEnd();
+        try {
+            getStartEnd();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private List<Differ> differs;
@@ -267,10 +396,23 @@ public class AdService extends Service {
                 differ.setPower(true);
                 differs.add(differ);
                 if (differ.getCategoryid().equals("text")) {
-                    mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
-                } else if (differ.getCategoryid().equals("video")) {
-                    mAdListener.showVideo(differ.getPlaypath());
+                    try {
+                        mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
+                                differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (differ.getCategoryid().equals("video")) {
+                    try {
+                        mAdListener.showVideo(differ.getPlaypath());
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             } else {
 

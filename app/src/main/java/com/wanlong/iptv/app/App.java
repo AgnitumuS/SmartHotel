@@ -44,6 +44,8 @@ public class App extends Application {
     public static final boolean PRISON = true;
     public static long newtime;
     public static String mac = "";
+    public static String adText = "";
+    public static boolean ADserver = false;
 
     public static App getApplication() {
         return application;

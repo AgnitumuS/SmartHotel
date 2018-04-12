@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
+import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
@@ -42,7 +44,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView,AdService.AdListener {
+public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView, AdService.AdListener {
 
     @BindView(R.id.tv_welcome_guest)
     TextView mTvWelcomeGuest;
@@ -155,7 +157,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Logger.d("mac:" + Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
-        startService(new Intent(HomeActivity.this, AdService.class));
+        if (!App.ADserver) {
+            startService(new Intent(HomeActivity.this, AdService.class));
+            App.ADserver = true;
+        }
         adCallback();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
 //        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
@@ -296,6 +301,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopService(new Intent(HomeActivity.this, AdService.class));
+        App.ADserver = false;
         mTimer.cancel();
         mTimer = null;
     }
@@ -310,9 +317,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         @Override
                         public void onSuccess(Response<String> response) {
                             if (response != null && response.body() != null && !response.body().equals("")) {
-                                try{
+                                try {
                                     App.newtime = Long.parseLong(response.body());
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                     App.newtime = System.currentTimeMillis() / 1000;
                                 }
@@ -407,32 +414,60 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         return super.onKeyDown(keyCode, event);
     }
 
-    private void adCallback(){
+    private void adCallback() {
         AdService.setAdListener(this);
     }
 
     @Override
     public void showText(String text, String place, String font_size, String back_color, String font_color) {
-        mMarqueeTextView.setText(text);
+        if (App.adText.equals("")) {
+            App.adText = text;
+        } else {
+            App.adText = App.adText + "     " + text;
+        }
+        Logger.d(App.adText);
+        Log.d("adtext", App.adText);
+        if (mMarqueeTextView != null) {
+            mMarqueeTextView.setText(App.adText);
+        }
     }
 
     @Override
     public void showVideo(String url) {
-
+        Intent intent = new Intent(getApplicationContext(), AdActivity.class);
+        intent.putExtra("url", url);
+        ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
+                .startActivity(intent);
     }
 
     @Override
     public void dismissAllText() {
+        if (App.adText.equals("")) {
 
+        } else {
+            App.adText = "";
+        }
+        if (mMarqueeTextView != null) {
+            mMarqueeTextView.setText(App.adText);
+        }
     }
 
     @Override
     public void dismissText(String text) {
+        if (App.adText.equals("")) {
 
+        } else {
+            App.adText = App.adText.replace(text, "");
+        }
+        if (mMarqueeTextView != null) {
+            mMarqueeTextView.setText(App.adText);
+        }
     }
 
     @Override
     public void dismissVideo() {
-
+        if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
+            ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
+        }
     }
 }
