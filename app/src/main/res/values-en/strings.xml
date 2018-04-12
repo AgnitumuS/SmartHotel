@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">DMM-H</string>
+    <string name="app_name">RBS</string>
     <string name="versionCode">136</string>
     <string name="versionName">1.3.6</string>
-    <string name="tv_hotel_login">Hotel IPTV Login</string>
+    <string name="tv_hotel_login">IPTV Login</string>
     <string name="btn_login">Login</string>
     <string name="tv_live">Live</string>
     <string name="tv_vod">Vod</string>

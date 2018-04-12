@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DMM-H</string>
-    <string name="tv_hotel_login">酒店IPTV登录</string>
+    <string name="tv_hotel_login">IPTV登录</string>
     <string name="btn_login">登录</string>
     <string name="tv_live">直播</string>
     <string name="tv_vod">点播</string>
