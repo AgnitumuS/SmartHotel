@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -16,7 +17,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -27,6 +31,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeAD;
 import com.wanlong.iptv.entity.HomeTypeData;
+import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
@@ -140,7 +145,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void testBug() {
         mStrings = new ArrayList<>();
-        Log.d("bug",mStrings.get(0));
+        Log.d("bug", mStrings.get(0));
     }
 
     //加载图片
@@ -208,6 +213,112 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
         }
+    }
+
+    private Login data;
+    private String ip;
+
+    private void autoLogin() {
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        ip = sharedPreferences.getString("ip", "");
+        if (ip.equals("")) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("ip", Apis.HEADER);
+            editor.commit();
+            ip = sharedPreferences.getString("ip", "");
+        }
+        Apis.HEADER = ip;
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
+                .tag(this)
+//                .params("mac", Utils.getMac(this))
+                .params("mac", Utils.getMac(this))
+                .params("uuid", App.sUUID.toString())
+                .params("ip", Utils.getIpAddressString())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            data = JSON.parseObject(response.body(), Login.class);
+                            if (data != null && data.getCode() != null) {
+                                if (data.getCode().equals("0")) {
+                                    Toast.makeText(HomeActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("1")) {
+                                    //存储
+                                    loginSuccess();
+                                    Toast.makeText(HomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-1")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-2")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-3")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-4")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-5")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-6")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-7")) {
+                                    loginFailed();
+                                    Toast.makeText(HomeActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                loginFailed();
+                                Log.d("ServerSettingActivity", "服务器返回数据异常");
+                                Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            loginFailed();
+                            Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        loginFailed();
+                        super.onError(response);
+                    }
+                });
+    }
+
+    private SharedPreferences sharedPreferences;
+    private boolean firstOpen;
+
+    private void loginSuccess() {
+        Logger.d("登录成功");
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (firstOpen) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstOpen", false);
+            editor.commit();
+        }
+        if (App.PRISON) {
+            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+            finish();
+        }
+    }
+
+    private void loginFailed() {
+        Logger.d("登录失败");
+        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     private HomeTypeData mHomeTypeData;

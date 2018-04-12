@@ -229,6 +229,7 @@ public class LoginActivity extends BaseActivity {
             switch (Build.MODEL) {
                 case "S905W":
                 case "Prevail CATV":
+                case "0008":
                     return true;
                 default:
                     new AlertDialog.Builder(LoginActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
