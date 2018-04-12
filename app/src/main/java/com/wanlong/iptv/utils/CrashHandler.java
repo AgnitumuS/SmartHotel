@@ -9,13 +9,15 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.activity.LoginActivity;
 
 import java.io.File;
@@ -25,8 +27,10 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -90,6 +94,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         } else {//自己处理
             try {//延迟3秒杀进程
                 Thread.sleep(1000); // 1秒后重启，可有可无，仅凭个人喜好
+                mContext.stopService(new Intent(mContext, AdService.class));
+                App.ADserver = false;
                 Intent intent = new Intent(mContext, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
@@ -139,7 +145,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 @Override
                 public void run() {
                     Looper.prepare();
-                    Toast.makeText(mContext, mContext.getString(R.string.error), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, mContext.getString(R.string.error), Toast.LENGTH_LONG).show();
                     Looper.loop();
                 }
             }.start();
@@ -147,7 +153,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         //保存日志文件
         String filename = saveCrashInfo2File(ex);
         if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
-//            uploadFile(filename);
+            uploadFile(filename);
         }
         return true;
     }
@@ -156,14 +162,25 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 上传文件到服务器
      */
     private void uploadFile(String filename) {
+        Log.d("hotel-crash",filename);
+        Log.d("hotel-crash",Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD);
         final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
-        OkGo.<String>post("")
+        Log.d("hotel-crash",file);
+        List<File> files = new ArrayList<>();
+        files.add(new File(filename));
+        OkGo.<String>post(Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD)
                 .tag(this)
+                .cacheMode(CacheMode.NO_CACHE)
+//                .params("mac",Utils.getMac(mContext))
+//                .upFile(new File(file))
                 .params("crashlog", new File(file))
+//                .addFileParams("crashlog",files)
                 .execute(new StringCallback() {
+
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.d("upload error log success");
+                        Log.d("hotel-crash",response.body().toString());
+                        Log.d("hotel-crash","upload error log success");
                     }
 
                     @Override
@@ -174,14 +191,23 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                             dir.delete();
                         }
                         filehasUpload = true;
+                        Log.d("hotel-crash","upload error log finish");
+                    }
+
+                    @Override
+                    public void uploadProgress(Progress progress) {
+                        super.uploadProgress(progress);
+                        Log.d("hotel-crash","progress:"+progress.currentSize);
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         filehasUpload = false;
+                        Log.d("hotel-crash","upload error log failed");
                     }
                 });
+        Log.d("hotel-crash","OkGo");
     }
 
     /**

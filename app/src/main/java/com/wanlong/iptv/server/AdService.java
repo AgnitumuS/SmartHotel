@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -48,7 +49,7 @@ public class AdService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mTimer != null && mTimerTask != null) {
             mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
-//            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 6 * 1000);
+            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 6 * 1000);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -86,10 +87,18 @@ public class AdService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        mTimerTask.cancel();
-//        mLoginTask.cancel();
-        mTimer.cancel();
-        mTimer = null;
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+        if (mLoginTask != null) {
+            mLoginTask.cancel();
+            mLoginTask = null;
+        }
         App.ADserver = false;
     }
 
@@ -128,7 +137,7 @@ public class AdService extends Service {
 //                                    Toast.makeText(AdService.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-4")) {
                                     loginFailed();
-//                                    Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
                                     loginFailed();
 //                                    Toast.makeText(AdService.this, "服务器有错误", Toast.LENGTH_SHORT).show();
@@ -210,7 +219,13 @@ public class AdService extends Service {
                 if (result == null) {
                     result = response.body();
                     date = mDateFormat.format(new Date(App.newtime * 1000));
-                    showAD(mPushMSG);
+                    try {
+                        showAD(mPushMSG);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     if (!result.equals(response.body())) {//字符串比较返回数据是否变化
                         result = response.body();

@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
     }
 
     @Override
@@ -110,6 +111,7 @@ public class LoginActivity extends BaseActivity {
 
     private Login data;
     private String ip;
+
     //登录
     private void login() {
 //        Toast.makeText(LoginActivity.this, "正在登录", Toast.LENGTH_SHORT).show();
@@ -132,7 +134,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
-                        try{
+                        try {
                             data = JSON.parseObject(response.body(), Login.class);
                             if (data != null && data.getCode() != null) {
                                 if (data.getCode().equals("0")) {
@@ -168,7 +170,7 @@ public class LoginActivity extends BaseActivity {
                                 Log.d("ServerSettingActivity", "服务器返回数据异常");
                                 Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                             }
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                             loginFailed();
                             Toast.makeText(LoginActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();

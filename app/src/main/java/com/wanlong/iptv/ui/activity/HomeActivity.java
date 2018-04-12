@@ -119,7 +119,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mMarqueeTextView.setLayoutParams(layoutParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
-        mMarqueeTextView.setText("我是字幕");
+        mMarqueeTextView.setText("");
         wm.addView(mMarqueeTextView, layoutParams);
         wm.updateViewLayout(mMarqueeTextView, layoutParams);
     }
@@ -133,6 +133,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         initImgAd();
         mTvWelcomeGuest.setText("");
 //        mTvMessage.setText("You have a new message. Please check it.");
+//        testBug();
+    }
+
+    private List<String> mStrings;
+
+    private void testBug() {
+        mStrings = new ArrayList<>();
+        Log.d("bug",mStrings.get(0));
     }
 
     //加载图片
@@ -323,7 +331,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                                     e.printStackTrace();
                                     App.newtime = System.currentTimeMillis() / 1000;
                                 }
-
                             } else {
                                 App.newtime = System.currentTimeMillis() / 1000;
                             }

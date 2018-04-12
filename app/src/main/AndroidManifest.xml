@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!-- 开机启动 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--apk运行状态-->
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!--应用程序设计为电视机用户的体验方式。	本特性的“television”定义为典型的客厅电视用户体验方式： -->
     <!--大屏幕显示，用户可坐得更远，主要的输入方式是方向键之类，一般不使用触摸屏或鼠标（指点设备）。-->

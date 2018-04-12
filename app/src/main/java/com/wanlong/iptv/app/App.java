@@ -1,6 +1,7 @@
 package com.wanlong.iptv.app;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -20,6 +21,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.squareup.leakcanary.LeakCanary;
+import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.CrashHandler;
 import com.wanlong.iptv.utils.DeviceUuidFactory;
@@ -173,6 +175,8 @@ public class App extends Application {
 
     //退出应用
     public void exit() {
+        stopService(new Intent(this, AdService.class));
+        ADserver = false;
         ActivityCollector.finishAll();
         System.exit(0);
     }

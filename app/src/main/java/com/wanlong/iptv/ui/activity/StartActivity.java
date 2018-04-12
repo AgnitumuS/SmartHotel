@@ -61,8 +61,8 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        Logger.d("mac:"+ App.mac);
-        Logger.d("model:"+ Build.MODEL);
+        Logger.d("mac:" + App.mac);
+        Logger.d("model:" + Build.MODEL);
         createSP();
     }
 

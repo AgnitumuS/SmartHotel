@@ -42,15 +42,16 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
 
     private Intent intent;
     private String url;
+    private String name;
 
     @Override
     protected void initView() {
         intent = getIntent();
         url = intent.getStringExtra("url");
-
+        name = intent.getStringExtra("vod_name");
 //        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
 //        mTextMovieCountDetail.setAlpha();
-        mTextMovieNameDetail.setText(intent.getStringExtra("vod_name"));
+        mTextMovieNameDetail.setText(name);
         mTextMovieTimeDetail.setText("(" + intent.getStringExtra("vod_release_time") + ")");
         mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
         mTextMovieTypeDetail.setText("类型："+intent.getStringExtra("vod_category"));
@@ -69,6 +70,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     public void onViewClicked() {
         Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
         intent.putExtra("url", url);
+        intent.putExtra("name",name);
         startActivity(intent);
     }
 

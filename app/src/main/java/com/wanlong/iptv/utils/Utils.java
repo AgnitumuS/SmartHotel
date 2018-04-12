@@ -15,6 +15,7 @@
 package com.wanlong.iptv.utils;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
@@ -34,6 +35,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * A collection of utility methods, all static.
@@ -44,6 +46,24 @@ public class Utils {
      * Making sure public utility methods remain static
      */
     private Utils() {
+    }
+
+    //判断app是否在后台
+    public static boolean isBackground(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.processName.equals(context.getPackageName())) {
+                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+//                    Log.i("后台", appProcess.processName);
+                    return true;
+                }else{
+//                    Log.i("前台", appProcess.processName);
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /**
