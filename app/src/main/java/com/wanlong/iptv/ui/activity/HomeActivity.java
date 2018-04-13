@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -131,6 +130,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initView() {
+        if (App.PRISON) {
+            autoLogin();
+        }
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
@@ -230,7 +232,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Apis.HEADER = ip;
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
                 .tag(this)
-//                .params("mac", Utils.getMac(this))
+                .cacheMode(CacheMode.NO_CACHE)
                 .params("mac", Utils.getMac(this))
                 .params("uuid", App.sUUID.toString())
                 .params("ip", Utils.getIpAddressString())
@@ -242,42 +244,42 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                             data = JSON.parseObject(response.body(), Login.class);
                             if (data != null && data.getCode() != null) {
                                 if (data.getCode().equals("0")) {
-                                    Toast.makeText(HomeActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
-                                    Toast.makeText(HomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-2")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-3")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-6")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-7")) {
                                     loginFailed();
-                                    Toast.makeText(HomeActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(HomeActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 loginFailed();
-                                Log.d("ServerSettingActivity", "服务器返回数据异常");
-                                Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                                Logger.d("HomeActivity:" + "服务器返回数据异常");
+//                                Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             loginFailed();
-                            Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -300,25 +302,27 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
-        if (firstOpen) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("firstOpen", false);
-            editor.commit();
-        }
-        if (App.PRISON) {
-            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-            finish();
-        } else {
-            startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-            finish();
-        }
+//        if (App.ADserver) {
+//            stopService(new Intent(HomeActivity.this, AdService.class));
+//            startService(new Intent(HomeActivity.this, AdService.class));
+//            App.ADserver = true;
+//        }
+//        getTime();
+//        mTimer.cancel();
+//        mTimer.schedule(mTimerTask, 0, 1000);
+//        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+//        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+//        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+//        if (firstOpen) {
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putBoolean("firstOpen", false);
+//            editor.commit();
+//        }
     }
 
     private void loginFailed() {
         Logger.d("登录失败");
-        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     private HomeTypeData mHomeTypeData;
@@ -413,7 +417,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .load(R.drawable.sence)
                     .transform(new RoundedCorners(12))
                     .into(mImgAd);
-
         }
     }
 

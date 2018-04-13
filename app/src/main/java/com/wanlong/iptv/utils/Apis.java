@@ -7,7 +7,7 @@ package com.wanlong.iptv.utils;
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
     public static String HEADER = "http://192.168.1.166:80/";
-
+    public static final String HEADER_ORIGIN = "http://192.168.1.166:80/";
     //登录
     public static final String APP_LOGIN = "api";
     //广告
@@ -41,7 +41,7 @@ public class Apis {
     //首页广告
     public static final String USER_HOME_AD = "user/fun/ad_play.php?ad_json=?";
     //用户登录状态
-    public static final String USER_LOGIN_STATUS ="user/user_login_status.php";
+    public static final String USER_LOGIN_STATUS = "user/user_login_status.php";
     //Apk崩溃日志上传
     public static final String USER_CRASHLOG_UPLOAD = "user/fun/user_report.php";
     //用户观看点播信息上传

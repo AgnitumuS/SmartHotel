@@ -126,7 +126,7 @@ public class LoginSettingActivity extends BaseActivity {
             case R.id.btn_submit_room:
                 break;
             case R.id.btn_recovery:
-                mEditIp.setText(Apis.HEADER);
+                mEditIp.setText(Apis.HEADER_ORIGIN);
                 break;
         }
     }
@@ -264,7 +264,7 @@ public class LoginSettingActivity extends BaseActivity {
         }
         if (App.PRISON) {
             Intent intent = new Intent(LoginSettingActivity.this, HomeActivity.class);
-            intent.putExtra("from","LoginSettingActivity");
+            intent.putExtra("from", "LoginSettingActivity");
             startActivity(intent);
             finish();
         } else {

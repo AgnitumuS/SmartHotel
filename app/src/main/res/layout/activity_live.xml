@@ -119,18 +119,18 @@
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:padding="10px"
-                    android:text="@string/cctv_news"
                     android:textColor="@color/white"
-                    android:textSize="40px" />
+                    android:textSize="40px"
+                    tools:text="@string/cctv_news" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="false"
                     android:padding="10px"
-                    android:text="@string/animal_world"
                     android:textColor="@color/white"
-                    android:textSize="40px" />
+                    android:textSize="40px"
+                    tools:text="@string/animal_world" />
             </LinearLayout>
 
         </RelativeLayout>
