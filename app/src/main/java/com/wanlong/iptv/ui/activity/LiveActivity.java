@@ -3,7 +3,6 @@ package com.wanlong.iptv.ui.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.AppCompatTextView;
@@ -30,7 +29,6 @@ import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
@@ -85,28 +83,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 editor.commit();
             }
         });
-//        mRecyclerLiveList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-//                //判断是当前layoutManager是否为LinearLayoutManager
-//                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-//                if (layoutManager instanceof LinearLayoutManager) {
-//                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-//                    //获取最后一个可见view的位置
-//                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
-//                    //获取第一个可见view的位置
-//                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-//                    layoutManager.getChildAt(firstItemPosition).requestFocus();
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//            }
-//        });
     }
 
     private SharedPreferences sharedPreferences;
@@ -148,8 +124,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
-//        mLiveVideoPlayer.setUp(urls[0], false, "");
-//        mLiveVideoPlayer.startPlayLogic();
         mLiveVideoPlayer.setIsTouchWigetFull(true);
         mLiveVideoPlayer.setVideoAllCallBack(new SimpleVideoCallBack() {
             @Override
@@ -359,6 +333,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     }
 
     private Live mLive;
+    private boolean exception;
 
     @Override
     public void loadListSuccess(Live liveListDatas) {
@@ -370,27 +345,30 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
                     mLiveVideoPlayer.startPlayLogic();
                     mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
+                    exception = false;
                 } catch (NullPointerException e) {
                     e.printStackTrace();
+                    exception = true;
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                    exception = true;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    exception = true;
+                }finally {
+                    if(exception){
+                        mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
+                        mLiveVideoPlayer.startPlayLogic();
+                        mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
+                    }
                 }
             }
         }
-
-
     }
 
     @Override
     public void loadFailed(int data) {
 //        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }
