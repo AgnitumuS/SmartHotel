@@ -59,7 +59,7 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getVod_name());
 //        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
-        viewHolder.mTextRecycleviewMovieScore.setText("8.5");
+        viewHolder.mTextRecycleviewMovieScore.setText(mVodListDatas.get(position).getVod_scores());
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

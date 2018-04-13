@@ -182,6 +182,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+    }
+
     //    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
 //            R.id.tv_cuisines, R.id.tv_scnenries, R.id.tv_expense, R.id.tv_setting})
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_setting})

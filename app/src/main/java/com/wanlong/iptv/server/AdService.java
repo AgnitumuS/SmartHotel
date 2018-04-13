@@ -234,6 +234,7 @@ public class AdService extends Service {
                         }
                         try {
                             mAdListener.dismissAllText();
+                            mAdListener.dismissVideo();
                             showAD(mPushMSG);
                         } catch (NullPointerException e) {
                             e.printStackTrace();
