@@ -1,6 +1,9 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.AppCompatTextView;
@@ -27,6 +30,7 @@ import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
@@ -47,6 +51,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     ImageView mImgLeft;
     @BindView(R.id.img_right)
     ImageView mImgRight;
+    @BindView(R.id.tv_live_name)
+    AppCompatTextView mTvLiveName;
 
     @Override
     protected int getContentResId() {
@@ -72,7 +78,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
+                mLiveVideoPlayer.startPlayLogic();
+                mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
+                editor.putInt("liveLastPlayPosition", position);
+                editor.commit();
             }
         });
 //        mRecyclerLiveList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -99,8 +109,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //        });
     }
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private int liveLastPlayPosition;
+
     @Override
     protected void initData() {
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        liveLastPlayPosition = sharedPreferences.getInt("liveLastPlayPosition", 0);
+        editor = sharedPreferences.edit();
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
@@ -341,13 +358,23 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + liveTypeData.getChannelType().get(0));
     }
 
+    private Live mLive;
+
     @Override
     public void loadListSuccess(Live liveListDatas) {
         if (liveListDatas != null) {
+            mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist());
-                mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
-                mLiveVideoPlayer.startPlayLogic();
+                try {
+                    mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
+                    mLiveVideoPlayer.startPlayLogic();
+                    mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -360,4 +387,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         Logger.d("请求直播数据失败");
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
