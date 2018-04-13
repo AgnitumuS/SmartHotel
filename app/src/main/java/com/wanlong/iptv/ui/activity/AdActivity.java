@@ -49,8 +49,11 @@ public class AdActivity extends BaseActivity {
             case "S905W":
             case "Prevail CATV":
             case "p230":
-            case "0008":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                break;
+            case "0008":
+                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKEXOPLAYER2);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:

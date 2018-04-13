@@ -6,8 +6,6 @@ import android.content.Intent;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.cookie.CookieJarImpl;
-import com.lzy.okgo.cookie.store.MemoryCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
@@ -105,7 +103,7 @@ public class App extends Application {
         builder.connectTimeout(2000, TimeUnit.MILLISECONDS);
 
         //使用内存保持cookie，app退出后，cookie消失
-        builder.cookieJar(new CookieJarImpl(new MemoryCookieStore()));
+//        builder.cookieJar(new CookieJarImpl(new MemoryCookieStore()));
 
         //方法一：信任所有证书,不安全有风险
         HttpsUtils.SSLParams sslParams1 = HttpsUtils.getSslSocketFactory();

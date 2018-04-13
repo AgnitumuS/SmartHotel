@@ -72,12 +72,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         initListener();
     }
 
+    private int currentPlayPosition;
+
     private void initListener() {
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
                 mLiveVideoPlayer.startPlayLogic();
+                currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
                 editor.putInt("liveLastPlayPosition", position);
                 editor.commit();
@@ -214,6 +217,41 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
     }
 
+    public static final int KEYCODE_UP = 0;
+    public static final int KEYCODE_DOWN = 1;
+
+    //上下键切换节目
+    private void switchChannel(int oritation) {
+        //2个及以上节目才可切换
+        if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 1) {
+            if (currentPlayPosition == 0) {
+                if (oritation == KEYCODE_UP) {
+                    currentPlayPosition += 1;
+                } else if (oritation == KEYCODE_DOWN) {
+                    currentPlayPosition = mLive.getPlaylist().size() - 1;
+                }
+            } else if (currentPlayPosition == mLive.getPlaylist().size() - 1) {
+                if (oritation == KEYCODE_UP) {
+                    currentPlayPosition = 0;
+                } else if (oritation == KEYCODE_DOWN) {
+                    currentPlayPosition -= 1;
+                }
+            } else {
+                if (oritation == KEYCODE_UP) {
+                    currentPlayPosition += 1;
+                } else if (oritation == KEYCODE_DOWN) {
+                    currentPlayPosition -= 1;
+                }
+            }
+            mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
+            mLiveVideoPlayer.startPlayLogic();
+            mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+            showInfo();
+            editor.putInt("liveLastPlayPosition", currentPlayPosition);
+            editor.commit();
+        }
+    }
+
     /**
      * 2s内点击退出
      */
@@ -223,12 +261,18 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP://上一个节目
-                showList();
-                showInfo();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_UP);
+                }
+//                showList();
+//                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
-                showList();
-                showInfo();
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_DOWN);
+                }
+//                showList();
+//                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 if (mChannelList.getVisibility() == View.GONE) {
@@ -344,6 +388,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 try {
                     mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
                     mLiveVideoPlayer.startPlayLogic();
+                    currentPlayPosition = liveLastPlayPosition;
                     mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
                     exception = false;
                 } catch (NullPointerException e) {
@@ -355,10 +400,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 } catch (Exception e) {
                     e.printStackTrace();
                     exception = true;
-                }finally {
-                    if(exception){
+                } finally {
+                    if (exception) {
                         mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
                         mLiveVideoPlayer.startPlayLogic();
+                        currentPlayPosition = 0;
                         mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
                     }
                 }
