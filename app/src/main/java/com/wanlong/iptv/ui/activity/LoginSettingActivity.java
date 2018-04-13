@@ -186,7 +186,7 @@ public class LoginSettingActivity extends BaseActivity {
         Apis.HEADER = ip;
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
                 .tag(this)
-//                .params("mac", Utils.getMac(this))
+                .cacheMode(CacheMode.NO_CACHE)
                 .params("mac", Utils.getMac(this))
                 .params("uuid", App.sUUID.toString())
                 .params("ip", Utils.getIpAddressString())
@@ -263,7 +263,9 @@ public class LoginSettingActivity extends BaseActivity {
             editor.commit();
         }
         if (App.PRISON) {
-            startActivity(new Intent(LoginSettingActivity.this, HomeActivity.class));
+            Intent intent = new Intent(LoginSettingActivity.this, HomeActivity.class);
+            intent.putExtra("from","LoginSettingActivity");
+            startActivity(intent);
             finish();
         } else {
 //            startActivity(new Intent(LoginSettingActivity.this, LanguageActivity.class));

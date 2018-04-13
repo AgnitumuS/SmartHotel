@@ -102,6 +102,7 @@ public class StartActivity extends BaseActivity {
                     break;
                 case OPEN:
                     Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                    intent2.putExtra("from","StartActivity");
                     startActivity(intent2);
                     finish();
                     break;

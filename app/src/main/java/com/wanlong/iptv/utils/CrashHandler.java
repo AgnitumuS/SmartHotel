@@ -99,6 +99,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 App.ADserver = false;
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("from","CrashHandler");
                 mContext.startActivity(intent);
             } catch (Exception e) {
                 Log.e(TAG, "error : ", e);
