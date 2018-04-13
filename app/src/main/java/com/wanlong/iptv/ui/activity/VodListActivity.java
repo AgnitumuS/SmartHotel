@@ -61,8 +61,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodListActivity.this, VodDetailActivity.class);
-                intent.putExtra("url", "http://192.168.1.231/earth1.mp4");
-                intent.putExtra("vod_pic_dir", mPlaylistBeans.get(position).getVod_pic_dir());
+                intent.putExtra("url", mPlaylistBeans.get(position).getVod_movie_player_src());
+                intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getPic_url());
                 intent.putExtra("vod_name", mPlaylistBeans.get(position).getVod_name());
                 intent.putExtra("vod_release_time",mPlaylistBeans.get(position).getVod_release_time());
                 intent.putExtra("vod_scores",mPlaylistBeans.get(position).getVod_scores());

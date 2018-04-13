@@ -57,7 +57,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         mTextMovieTypeDetail.setText("类型："+intent.getStringExtra("vod_category"));
         mTextMoviePeopleDetail.setText("主演："+intent.getStringExtra("vod_actor"));
         mTextMovieDescriptionDetail.setText("简介："+intent.getStringExtra("vod_detail"));
-        Glide.with(this).load(intent.getStringExtra("vod_pic_dir")).into(mImgMovieDetail);
+        Glide.with(this).load(intent.getStringExtra("vod_pic_url")).into(mImgMovieDetail);
     }
 
     @Override
