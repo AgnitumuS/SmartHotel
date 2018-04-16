@@ -56,8 +56,8 @@ public class UpdateActivity extends BaseActivity {
 //        } else {
 //            url = Apis.HEADER + Apis.APP_UPDATE_BETA;
 //        }
-        update();
-//        newupdate();
+//        update();
+        newupdate();
     }
 
     private Update mUpdate;

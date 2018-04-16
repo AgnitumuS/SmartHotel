@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -257,10 +256,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
      * 2s内点击退出
      */
     private long exitTime;
+    private String number;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("keycode_number", "keyCode=" + keyCode);
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP://上一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
@@ -309,39 +308,44 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 }
                 return true;
             case KeyEvent.KEYCODE_0:
-
+                inputNumber(0);
                 break;
             case KeyEvent.KEYCODE_1:
-
+                inputNumber(1);
                 break;
             case KeyEvent.KEYCODE_2:
-
+                inputNumber(2);
                 break;
             case KeyEvent.KEYCODE_3:
-
+                inputNumber(3);
                 break;
             case KeyEvent.KEYCODE_4:
-
+                inputNumber(4);
                 break;
             case KeyEvent.KEYCODE_5:
-
+                inputNumber(5);
                 break;
             case KeyEvent.KEYCODE_6:
-
+                inputNumber(6);
                 break;
             case KeyEvent.KEYCODE_7:
-
+                inputNumber(7);
                 break;
             case KeyEvent.KEYCODE_8:
-
+                inputNumber(8);
                 break;
             case KeyEvent.KEYCODE_9:
-
+                inputNumber(9);
                 break;
             default:
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //遥控器按键输入数字
+    private void inputNumber(int number){
+
     }
 
     //显示左边节目列表
