@@ -120,9 +120,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mMarqueeTextView = new MarqueeTextView(this);
         mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        mMarqueeTextView.setFocusable(false);
         mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
         mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mParams.setMargins(0,16,0,16);
+        mParams.setMargins(0, 16, 0, 16);
         mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
         mMarqueeTextView.setTextSize(32f);
@@ -365,6 +366,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mAdTextBeans = new ArrayList<>();
             if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
                 mAdVideoBeans.addAll(homeAD.getAd_video());
+            } else {
+                loadFailed(3);
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());

@@ -86,6 +86,30 @@
                 android:focusable="false" />
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/re_key_num"
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="60px"
+            android:layout_marginTop="60px"
+            android:background="@color/color_55ffffff"
+            android:focusable="false"
+            android:visibility="gone">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:focusable="false"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="40px"
+                tools:text="12" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/channel_info"

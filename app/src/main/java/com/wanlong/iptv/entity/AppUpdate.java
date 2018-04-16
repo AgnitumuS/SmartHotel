@@ -6,18 +6,29 @@ package com.wanlong.iptv.entity;
 
 public class AppUpdate {
 
-
     /**
-     * apkVersion : 00-fdgfdA3
-     * versionCode : 32432f
-     * apkUrl : 192.168.1.109:8021/files/20180326133256/adsfsfv.mp3
+     * apkName : iptv.apk
+     * apkVersion :  136
+     * versionCode : 1007
+     * apkUrl : http://192.168.1.109:9080/apk/software/iptv.apk
+     * description : Prevail IPTV DMM
      * apkUsage : beta
      */
 
+    private String apkName;
     private String apkVersion;
     private String versionCode;
     private String apkUrl;
+    private String description;
     private String apkUsage;
+
+    public String getApkName() {
+        return apkName;
+    }
+
+    public void setApkName(String apkName) {
+        this.apkName = apkName;
+    }
 
     public String getApkVersion() {
         return apkVersion;
@@ -41,6 +52,14 @@ public class AppUpdate {
 
     public void setApkUrl(String apkUrl) {
         this.apkUrl = apkUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getApkUsage() {

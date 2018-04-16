@@ -49,4 +49,5 @@ public class Apis {
     public static final String USER_VOD_PLAYBACK_INFO_UPLOAD = "user/fun/user_vod_report.php";
     //应用更新接口
     public static final String USER_APP_UPDATE = "apk/software/apk_update.json";
+    public static final String USER_APP_UPDATE_BETA = "apk/software/beta/apk_update.json";
 }

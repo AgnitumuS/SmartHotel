@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -259,6 +260,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("keycode_number", "keyCode=" + keyCode);
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP://上一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
@@ -306,6 +308,36 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     exitTime = System.currentTimeMillis();
                 }
                 return true;
+            case KeyEvent.KEYCODE_0:
+
+                break;
+            case KeyEvent.KEYCODE_1:
+
+                break;
+            case KeyEvent.KEYCODE_2:
+
+                break;
+            case KeyEvent.KEYCODE_3:
+
+                break;
+            case KeyEvent.KEYCODE_4:
+
+                break;
+            case KeyEvent.KEYCODE_5:
+
+                break;
+            case KeyEvent.KEYCODE_6:
+
+                break;
+            case KeyEvent.KEYCODE_7:
+
+                break;
+            case KeyEvent.KEYCODE_8:
+
+                break;
+            case KeyEvent.KEYCODE_9:
+
+                break;
             default:
                 break;
         }
