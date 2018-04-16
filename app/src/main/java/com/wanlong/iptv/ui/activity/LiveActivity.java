@@ -343,7 +343,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         return super.onKeyDown(keyCode, event);
     }
 
-    //遥控器按键输入数字
+
     private void inputNumber(int number){
 
     }
