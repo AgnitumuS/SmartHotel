@@ -164,10 +164,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                .load(R.drawable.hotel_room)
 //                .transform(new RoundedCorners(12))
 //                .into(mImgShow);
-        GlideApp.with(this)
-                .load(R.drawable.weather)
-                .transform(new RoundedCorners(12))
-                .into(mImgWeather);
+//        GlideApp.with(this)
+//                .load(R.drawable.weather)
+//                .transform(new RoundedCorners(12))
+//                .into(mImgWeather);
 //        GlideApp.with(this)
 //                .load(R.drawable.sence)
 //                .transform(new RoundedCorners(12))
