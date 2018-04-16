@@ -1,12 +1,15 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 
@@ -85,6 +88,27 @@ public class AdActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (App.PRISON) {
+                new AlertDialog.Builder(AdActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                        .setTitle(getString(R.string.exitdialog_hint))
+                        .setMessage(getString(R.string.exitdialog_out_hint))
+                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {//响应事件
+
+                            }
+                        }).show();
+                return true;
+
+            } else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

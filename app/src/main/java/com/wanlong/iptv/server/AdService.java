@@ -265,7 +265,8 @@ public class AdService extends Service {
                             if (differ.getCategoryid().equals("text")) {
                                 try {
                                     mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                                            differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                                            differ.getFont_size(), differ.getBack_color(),
+                                            differ.getFont_color(),differ.getLucency_size());
                                 } catch (NullPointerException e) {
                                     e.printStackTrace();
                                 } catch (Exception e) {
@@ -405,7 +406,7 @@ public class AdService extends Service {
             ediffer = (etime - ctime) / INTERVAL_TIME;
             differ = new Differ(sdiffer, ediffer, myCutInBean.getType(), myCutInBean.getCategoryid(),
                     myCutInBean.getPlay_path(), myCutInBean.getPlace(), myCutInBean.getFont_size(),
-                    myCutInBean.getBack_color(), myCutInBean.getFont_color());
+                    myCutInBean.getBack_color(), myCutInBean.getFont_color(),mCutInBean.getLucency_size());
             if (ctime < stime) { //当前时间小于开始时间
                 differs.add(differ);
             } else if (ctime >= stime && ctime < etime) {//当前时间在开始时间和结束时间之间
@@ -414,7 +415,8 @@ public class AdService extends Service {
                 if (differ.getCategoryid().equals("text")) {
                     try {
                         mAdListener.showText(differ.getPlaypath(), differ.getPlace(),
-                                differ.getFont_size(), differ.getBack_color(), differ.getFont_color());
+                                differ.getFont_size(), differ.getBack_color(),
+                                differ.getFont_color(),differ.getLucency_size());
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     } catch (Exception e) {
@@ -443,7 +445,8 @@ public class AdService extends Service {
     }
 
     public interface AdListener {
-        void showText(String text, String place, String font_size, String back_color, String font_color);
+        void showText(String text, String place, String font_size,
+                      String back_color, String font_color,String lucency_size);
 
         void showVideo(String url);
 
@@ -471,9 +474,11 @@ public class AdService extends Service {
         private String font_size;
         private String back_color;
         private String font_color;
+        private String lucency_size;
 
-        public Differ(long sdiffer, long ediffer, String type, String categoryid, String playpath,
-                      String place, String font_size, String back_color, String font_color) {
+        public Differ(long sdiffer, long ediffer, String type, String categoryid,
+                      String playpath, String place, String font_size,
+                      String back_color, String font_color,String lucency_size) {
             setSdiffer(sdiffer);
             setEdiffer(ediffer);
             setType(type);
@@ -483,6 +488,15 @@ public class AdService extends Service {
             setFont_size(font_size);
             setBack_color(back_color);
             setFont_color(font_color);
+            setLucency_size(lucency_size);
+        }
+
+        public String getLucency_size() {
+            return lucency_size;
+        }
+
+        public void setLucency_size(String lucency_size) {
+            this.lucency_size = lucency_size;
         }
 
         public long getSdiffer() {
@@ -582,8 +596,9 @@ public class AdService extends Service {
             setPlace(cutInBean.getPlace());
             setLucency_size(cutInBean.getLucency_size());
             setFont_size(cutInBean.getFont_size());
-            setFont_color("ff" + cutInBean.getFont_color());
-            setBack_color("ff" + cutInBean.getBack_color());
+            setFont_color(cutInBean.getFont_color());
+            setBack_color(cutInBean.getBack_color());
+            setLucency_size(cutInBean.getLucency_size());
         }
 
         //排序
