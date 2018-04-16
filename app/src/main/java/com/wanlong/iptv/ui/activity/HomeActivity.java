@@ -77,7 +77,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @BindView(R.id.tv_room)
     AppCompatTextView mTvRoom;
     @BindView(R.id.tv_message)
-    MarqueeTextView mTvMessage;
+    AppCompatTextView mTvMessage;
 
 
     @Override
@@ -128,8 +128,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         wm.updateViewLayout(mMarqueeTextView, layoutParams);
     }
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         if (App.PRISON) {
             autoLogin();
         }
@@ -138,7 +143,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         getTime();
         initImgAd();
-        mTvWelcomeGuest.setText("");
+        mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
 //        testBug();
     }
@@ -157,10 +164,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                .load(R.drawable.hotel_room)
 //                .transform(new RoundedCorners(12))
 //                .into(mImgShow);
-        GlideApp.with(this)
-                .load(R.drawable.weather)
-                .transform(new RoundedCorners(12))
-                .into(mImgWeather);
+//        GlideApp.with(this)
+//                .load(R.drawable.weather)
+//                .transform(new RoundedCorners(12))
+//                .into(mImgWeather);
 //        GlideApp.with(this)
 //                .load(R.drawable.sence)
 //                .transform(new RoundedCorners(12))
@@ -227,10 +234,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private String ip;
 
     private void autoLogin() {
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("ip", Apis.HEADER);
             editor.commit();
             ip = sharedPreferences.getString("ip", "");
@@ -303,7 +308,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 });
     }
 
-    private SharedPreferences sharedPreferences;
     private boolean firstOpen;
 
     private void loginSuccess() {
@@ -361,24 +365,38 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
+                showTextAD();
             }
         } else {
             loadFailed(3);
         }
     }
 
+    //显示文字广告
+    private void showTextAD() {
+        if (mAdTextBeans.size() > 0) {
+            mTvMessage.setText(mAdTextBeans.get(0).getAd_detail());
+        }
+    }
+
     private List<String> imgUrls1;
     private List<String> imgUrls2;
+    private List<String> imgUrls3;
 
+    //显示图片广告
     private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
         imgUrls1 = new ArrayList<>();
         imgUrls2 = new ArrayList<>();
+        imgUrls3 = new ArrayList<>();
         for (int i = 0; i < mAdImageBeans.size(); i++) {
             if (mAdImageBeans.get(i).getAd_display_location().indexOf("1") != -1) {
                 imgUrls1.add(mAdImageBeans.get(i).getAd_src());
             }
             if (mAdImageBeans.get(i).getAd_display_location().indexOf("2") != -1) {
                 imgUrls2.add(mAdImageBeans.get(i).getAd_src());
+            }
+            if (mAdImageBeans.get(i).getAd_display_location().indexOf("3") != -1) {
+                imgUrls3.add(mAdImageBeans.get(i).getAd_src());
             }
         }
         if (imgUrls1.size() > 0) {
@@ -396,6 +414,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             GlideApp.with(this)
                     .load(imgUrls2.get(0))
                     .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
+        } else {
+            GlideApp.with(this)
+                    .load(R.drawable.weather)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
+        }
+        if (imgUrls3.size() > 0) {
+            GlideApp.with(this)
+                    .load(imgUrls3.get(0))
+                    .transform(new RoundedCorners(12))
                     .into(mImgAd);
         } else {
             GlideApp.with(this)
@@ -403,12 +432,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .transform(new RoundedCorners(12))
                     .into(mImgAd);
         }
-
 //        GlideApp.with(this)
 //                .load(R.drawable.weather)
 //                .transform(new RoundedCorners(12))
 //                .into(mImgWeather);
-
     }
 
     @Override
