@@ -40,7 +40,7 @@ public class App extends Application {
 
     private static App application;
     public static UUID sUUID;
-    public static final boolean RELEASE_VERSION = false;
+    public static final boolean RELEASE_VERSION = true;
     public static final boolean PRISON = true;
     public static long newtime;
     public static String mac = "";
