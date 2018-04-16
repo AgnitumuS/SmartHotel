@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -100,6 +101,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private MarqueeTextView mMarqueeTextView;
     private WindowManager wm;
     private WindowManager.LayoutParams layoutParams;
+    private LinearLayout.LayoutParams mParams;
 
     private void setText() {
         wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
@@ -116,11 +118,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         //创建自定义的TextView
         mMarqueeTextView = new MarqueeTextView(this);
-        mMarqueeTextView.setTextSize(16f);
-        mMarqueeTextView.setPadding(0, 0, 0, 32);
+        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
+        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        mParams.setMargins(0,16,0,16);
+        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        mMarqueeTextView.setIncludeFontPadding(false);
+        mMarqueeTextView.setTextSize(32f);
+        mMarqueeTextView.setPadding(0, 0, 0, 0);
 //        mMarqueeTextView.setWidth(Utils.getDisplaySize(this).y);
 //        mMarqueeTextView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        mMarqueeTextView.setLayoutParams(layoutParams);
+        mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
         mMarqueeTextView.setText("");
@@ -577,7 +586,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
-    public void showText(String text, String place, String font_size, String back_color, String font_color) {
+    public void showText(String text, String place, String font_size,
+                         String back_color, String font_color, String lucency_size) {
         if (App.adText.equals("")) {
             App.adText = text;
         } else {
@@ -587,6 +597,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Log.d("adtext", App.adText);
         if (mMarqueeTextView != null) {
             mMarqueeTextView.setText(App.adText);
+            try {
+                mMarqueeTextView.setTextSize(Integer.parseInt(font_size));
+                mMarqueeTextView.setTextColor(Color.parseColor("#" + lucency_size + font_color));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
