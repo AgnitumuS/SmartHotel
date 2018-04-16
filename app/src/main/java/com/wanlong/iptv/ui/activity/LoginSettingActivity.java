@@ -81,6 +81,7 @@ public class LoginSettingActivity extends BaseActivity {
     private String newIP = "";
     private boolean changeIP;
 
+    //监听输入
     private void initListener() {
         mEditIp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -163,7 +164,7 @@ public class LoginSettingActivity extends BaseActivity {
         }
     }
 
-
+    //保存IP地址
     private void saveIP() {
         Apis.HEADER = newIP;
         editor.putString("ip", newIP);
