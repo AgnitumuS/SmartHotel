@@ -296,10 +296,13 @@ public class AdsService extends Service {
             } else if (type == AD_TYPE_VIDEO) {
                 if (videoResult == null) {
                     videoResult = response.body();
-                    showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
-                    Log.d("AdsService", "showAD-first");
+                    if (mPushMSG != null && mPushMSG.getCut_in().size() > 0) {
+                        showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
+                        Log.d("AdsService", "showAD-first");
+                    }
                 } else {
                     if (!videoResult.equals(response.body())) {
+                        Log.d("AdsService", "showAD-");
                         try {
                             if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
                                 ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
@@ -307,8 +310,8 @@ public class AdsService extends Service {
 //                            mAdListener.dismissVideo();
                             Log.d("AdsService", "dismissVideo");
                             if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
-                                showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
                                 Log.d("AdsService", "showAD");
+                                showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
 //                            showAD(type, mPushMSG);
                             }
                         } catch (NullPointerException e) {
