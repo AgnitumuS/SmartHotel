@@ -3,7 +3,6 @@ package com.wanlong.iptv.ui.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -19,7 +18,6 @@ import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.AppUpdate;
-import com.wanlong.iptv.entity.Update;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkUtils;
 
@@ -44,87 +42,25 @@ public class UpdateActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mVersion.setText("Version :" + getResources().getString(R.string.versionName));
+        mVersion.setText("版本 :" + getString(R.string.versionName));
     }
 
-//    private String url = "";
+    private String url = "";
 
     @Override
     protected void initData() {
-//        if (App.RELEASE_VERSION) {
-//            url = Apis.HEADER + Apis.APP_UPDATE_RELEASE;
-//        } else {
-//            url = Apis.HEADER + Apis.APP_UPDATE_BETA;
-//        }
-//        update();
-        newupdate();
-    }
-
-    private Update mUpdate;
-
-    private void update() {
-        OkGo.<String>get(Apis.HEADER + Apis.USER_APP_UPDATE)
-                .tag(this)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Logger.json(response.body());
-                        try {
-                            mUpdate = JSON.parseObject(response.body(), Update.class);
-                            dawnload();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                    }
-                });
-    }
-
-    private void dawnload() {
-        int verCode = mUpdate.getVerCode();
-        if (verCode > Integer.parseInt(getResources().getString(R.string.versionCode))) {
-            String version = String.valueOf(verCode);
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < version.length(); i++) {
-                sb.append(version.charAt(i) + ".");
-            }
-            sb.deleteCharAt(sb.length() - 1);
-            new AlertDialog.Builder(UpdateActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
-                    .setTitle("find new version")
-                    .setMessage(getResources().getString(R.string.current_version) +
-                            getResources().getString(R.string.versionName) + "，" +
-                            getResources().getString(R.string.new_version) + sb)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            downloadApk(mUpdate.getApk_url());
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    .show();
-        } else {
-            mCheckversion.setText(R.string.latast_version);
-        }
-    }
-
-    private String url;
-    private AppUpdate appUpdate;
-
-    private void newupdate() {
         if (App.RELEASE_VERSION) {
             url = Apis.HEADER + Apis.USER_APP_UPDATE;
         } else {
             url = Apis.HEADER + Apis.USER_APP_UPDATE_BETA;
         }
+        update(url);
+    }
+
+    private AppUpdate appUpdate;
+
+    //请求更新
+    private void update(String url) {
         OkGo.<String>get(url)
                 .tag(this)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -155,35 +91,52 @@ public class UpdateActivity extends BaseActivity {
 
     private int apkVersion;
     private int currentVersion;
-    private int verCode;
-    private int currentVerCode;
+    private int versionCode;
+    private int currentVersionCode;
     private String version;
-    private StringBuffer sb;
     private boolean update;
 
     //比较版本
     private void compareVersion() {
         try {
-            apkVersion = Integer.parseInt(appUpdate.getApkVersion()
+            //解析服务器版本名称
+            String server_apkVersion = appUpdate.getApkVersion()
+                    .replaceAll(" ", "");
+            StringBuffer sb_apkVersion = new StringBuffer();
+            for (int i = 0; i < server_apkVersion.length(); i++) {
+                if (!String.valueOf(server_apkVersion.charAt(i)).equals(".")) {
+                    sb_apkVersion.append(server_apkVersion.charAt(i));
+                }
+            }
+            apkVersion = Integer.parseInt(sb_apkVersion.toString());
+            //解析本地版本名称
+            String verName = getString(R.string.versionName)
+                    .replaceAll(" ", "");
+            StringBuffer sb_verName = new StringBuffer();
+            for (int i = 0; i < verName.length(); i++) {
+                if (!String.valueOf(verName.charAt(i)).equals(".")) {
+                    sb_verName.append(verName.charAt(i));
+                }
+            }
+            currentVersion = Integer.parseInt(sb_verName.toString());
+            //解析服务器版本号
+            versionCode = Integer.parseInt(appUpdate.getVersionCode()
                     .replaceAll(" ", ""));
-            currentVersion = Integer.parseInt(getString(R.string.versionName)
-                    .replaceAll(".", ""));
-            verCode = Integer.parseInt(appUpdate.getVersionCode()
-                    .replaceAll(" ", ""));
-            currentVerCode = Integer.parseInt(getString(R.string.versionCode));
+            //解析本地版本号
+            currentVersionCode = Integer.parseInt(getString(R.string.versionCode));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (apkVersion > currentVersion) {
             update = true;
         } else if (apkVersion == currentVersion) {
-            Log.d("compareVersion", "11111111111111111111");
             if (App.RELEASE_VERSION) {
                 update = false;
             } else {
-                if (verCode > currentVerCode) {
+                if (versionCode > currentVersionCode) {
                     update = true;
-                    Log.d("compareVersion", "2222222222222222222");
                 } else {
                     update = false;
                 }
@@ -192,8 +145,8 @@ public class UpdateActivity extends BaseActivity {
             update = false;
         }
         if (update) {
-            version = String.valueOf(verCode);
-            sb = new StringBuffer();
+            version = String.valueOf(versionCode);
+            StringBuffer sb = new StringBuffer();
             for (int i = 0; i < version.length(); i++) {
                 sb.append(version.charAt(i) + ".");
             }
@@ -207,6 +160,7 @@ public class UpdateActivity extends BaseActivity {
     private AlertDialog.Builder mAlertDialog;
     private String mMessage;
 
+    //提示更新
     private void showDialog() {
         if (App.RELEASE_VERSION) {
             mMessage = getString(R.string.current_version) +
@@ -267,7 +221,7 @@ public class UpdateActivity extends BaseActivity {
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                         progressDialog.setCancelable(true);
                         progressDialog.setCanceledOnTouchOutside(false);
-                        progressDialog.setTitle("Downloading...");
+                        progressDialog.setTitle("正在下载...");
                         progressDialog.setIndeterminate(false);
                         progressDialog.show();
                     }

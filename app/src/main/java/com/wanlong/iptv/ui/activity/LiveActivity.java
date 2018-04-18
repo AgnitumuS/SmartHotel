@@ -163,6 +163,18 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     protected void onResume() {
         super.onResume();
         mLiveVideoPlayer.onVideoResume();
+        if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
+            try {
+                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
+                mLiveVideoPlayer.startPlayLogic();
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -344,7 +356,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     }
 
 
-    private void inputNumber(int number){
+    private void inputNumber(int number) {
 
     }
 
