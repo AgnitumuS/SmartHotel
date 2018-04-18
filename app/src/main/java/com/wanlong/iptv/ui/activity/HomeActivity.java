@@ -614,12 +614,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
-    public void showVideo(String url) {
+    public void showVideo(String type, String url) {
         Intent intent = new Intent(getApplicationContext(), AdActivity.class);
         intent.putExtra("url", url);
         ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
                 .startActivity(intent);
     }
+
+//    @Override
+//    public void showVideo(String url) {
+//        Intent intent = new Intent(getApplicationContext(), AdActivity.class);
+//        intent.putExtra("url", url);
+//        ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
+//                .startActivity(intent);
+//    }
 
     @Override
     public void dismissAllText() {
@@ -649,6 +657,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void dismissVideo() {
         if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
+            Log.d("dismissVideo", "HomeActivity-dismissVideo");
         }
     }
 }

@@ -17,7 +17,7 @@ import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
-import com.wanlong.iptv.server.AdService;
+import com.wanlong.iptv.server.AdServiceold;
 import com.wanlong.iptv.ui.activity.HomeActivity;
 import com.wanlong.iptv.ui.activity.LoginActivity;
 
@@ -95,7 +95,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         } else {//自己处理
             try {//延迟3秒杀进程
                 Thread.sleep(1000); // 1秒后重启，可有可无，仅凭个人喜好
-                mContext.stopService(new Intent(mContext, AdService.class));
+                mContext.stopService(new Intent(mContext, AdServiceold.class));
                 App.ADserver = false;
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

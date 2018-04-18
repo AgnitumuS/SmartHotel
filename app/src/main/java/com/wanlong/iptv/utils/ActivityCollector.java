@@ -18,6 +18,7 @@ public class ActivityCollector {
 
     public static void finishActivity(int position) {
         activities.get(position).finish();
+        removeActivity(activities.get(position));
     }
 
     public static void removeActivity(Activity activity) {

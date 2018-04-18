@@ -150,6 +150,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
 
+        <service android:name=".server.AdServiceold"></service>
         <service android:name=".server.AdService"></service>
 
         <provider
