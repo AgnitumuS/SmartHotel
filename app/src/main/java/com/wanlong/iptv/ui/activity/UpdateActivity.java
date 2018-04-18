@@ -214,11 +214,23 @@ public class UpdateActivity extends BaseActivity {
                     getString(R.string.new_version) +
                     appUpdate.getApkVersion();
         } else {
+            String version = String.valueOf(appUpdate.getApkVersion()
+                    .replaceAll(" ", ""));
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < version.length(); i++) {
+                sb.append(version.charAt(i) + ".");
+            }
+            if (sb.toString().startsWith(".")) {
+                sb = sb.deleteCharAt(0);
+            }
+            if (sb.toString().endsWith(".")) {
+                sb = sb.deleteCharAt(sb.length() - 1);
+            }
             mMessage = getString(R.string.current_version) +
                     getString(R.string.versionName) +
                     "(" + getString(R.string.versionCode) + ")，" +
                     getString(R.string.new_version) +
-                    appUpdate.getApkVersion() +
+                    sb +
                     "(" + appUpdate.getVersionCode() + ")";
         }
         new AlertDialog.Builder(UpdateActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
