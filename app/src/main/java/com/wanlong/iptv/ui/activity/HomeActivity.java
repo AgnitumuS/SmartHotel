@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -64,20 +65,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvLive;
     @BindView(R.id.tv_vod)
     TextView mTvVod;
-    //    @BindView(R.id.tv_services)
-//    TextView mTvServices;
-//    @BindView(R.id.tv_cuisines)
-//    TextView mTvCuisines;
-//    @BindView(R.id.tv_scnenries)
-//    TextView mTvScnenries;
-//    @BindView(R.id.tv_expense)
-//    TextView mTvExpense;
     @BindView(R.id.tv_setting)
     TextView mTvSetting;
     @BindView(R.id.tv_room)
     AppCompatTextView mTvRoom;
     @BindView(R.id.tv_message)
-    MarqueeTextView mTvMessage;
+    AppCompatTextView mTvMessage;
 
 
     @Override
@@ -100,6 +93,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private MarqueeTextView mMarqueeTextView;
     private WindowManager wm;
     private WindowManager.LayoutParams layoutParams;
+    private LinearLayout.LayoutParams mParams;
 
     private void setText() {
         wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
@@ -116,11 +110,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         //创建自定义的TextView
         mMarqueeTextView = new MarqueeTextView(this);
-        mMarqueeTextView.setTextSize(16f);
-        mMarqueeTextView.setPadding(0, 0, 0, 32);
-//        mMarqueeTextView.setWidth(Utils.getDisplaySize(this).y);
-//        mMarqueeTextView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        mMarqueeTextView.setLayoutParams(layoutParams);
+        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        mMarqueeTextView.setFocusable(false);
+        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
+        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        mParams.setMargins(0, 16, 0, 16);
+        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+        mMarqueeTextView.setIncludeFontPadding(false);
+        mMarqueeTextView.setTextSize(32f);
+        mMarqueeTextView.setPadding(0, 0, 0, 0);
+        mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
         mMarqueeTextView.setText("");
@@ -128,8 +128,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         wm.updateViewLayout(mMarqueeTextView, layoutParams);
     }
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void initView() {
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         if (App.PRISON) {
             autoLogin();
         }
@@ -138,33 +143,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         getTime();
         initImgAd();
-        mTvWelcomeGuest.setText("");
+        mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
-//        testBug();
-    }
-
-    private List<String> mStrings;
-
-    private void testBug() {
-        mStrings = new ArrayList<>();
-        Log.d("bug", mStrings.get(0));
     }
 
     //加载图片
     private void initImgAd() {
-//        mImgShow.setOnClickListener(event -> Log.d("HomeActivity", "onclick"));//Lambda 表达式
-//        GlideApp.with(this)
-//                .load(R.drawable.hotel_room)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgShow);
-        GlideApp.with(this)
-                .load(R.drawable.weather)
-                .transform(new RoundedCorners(12))
-                .into(mImgWeather);
-//        GlideApp.with(this)
-//                .load(R.drawable.sence)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgAd);
+//        mImgShow.setOnClickListener(event -> {
+//            Log.d("HomeActivity", "event.getId():" + event.getId());
+//            Log.d("HomeActivity", "onclick");
+//        });//Lambda 表达式
     }
 
     @Override
@@ -178,8 +168,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         adCallback();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
-//        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
-//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
     @Override
@@ -188,8 +176,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    //    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
-//            R.id.tv_cuisines, R.id.tv_scnenries, R.id.tv_expense, R.id.tv_setting})
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -205,18 +191,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
-//            case R.id.tv_services:
-//                startActivity(new Intent(HomeActivity.this, ServicesActivity.class));
-//                break;
-//            case R.id.tv_cuisines:
-//                startActivity(new Intent(HomeActivity.this, CuisinesActivity.class));
-//                break;
-//            case R.id.tv_scnenries:
-//                startActivity(new Intent(HomeActivity.this, SceneriesActivity.class));
-//                break;
-//            case R.id.tv_expense:
-//                startActivity(new Intent(HomeActivity.this, ExpenseActivity.class));
-//                break;
             case R.id.tv_setting:
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
@@ -227,10 +201,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private String ip;
 
     private void autoLogin() {
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("ip", Apis.HEADER);
             editor.commit();
             ip = sharedPreferences.getString("ip", "");
@@ -303,7 +275,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 });
     }
 
-    private SharedPreferences sharedPreferences;
     private boolean firstOpen;
 
     private void loginSuccess() {
@@ -352,6 +323,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mAdTextBeans = new ArrayList<>();
             if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
                 mAdVideoBeans.addAll(homeAD.getAd_video());
+            } else {
+                loadFailed(3);
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());
@@ -361,24 +334,38 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
+                showTextAD();
             }
         } else {
             loadFailed(3);
         }
     }
 
+    //显示文字广告
+    private void showTextAD() {
+        if (mAdTextBeans.size() > 0) {
+            mTvMessage.setText(mAdTextBeans.get(0).getAd_detail());
+        }
+    }
+
     private List<String> imgUrls1;
     private List<String> imgUrls2;
+    private List<String> imgUrls3;
 
+    //显示图片广告
     private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
         imgUrls1 = new ArrayList<>();
         imgUrls2 = new ArrayList<>();
+        imgUrls3 = new ArrayList<>();
         for (int i = 0; i < mAdImageBeans.size(); i++) {
             if (mAdImageBeans.get(i).getAd_display_location().indexOf("1") != -1) {
                 imgUrls1.add(mAdImageBeans.get(i).getAd_src());
             }
             if (mAdImageBeans.get(i).getAd_display_location().indexOf("2") != -1) {
                 imgUrls2.add(mAdImageBeans.get(i).getAd_src());
+            }
+            if (mAdImageBeans.get(i).getAd_display_location().indexOf("3") != -1) {
+                imgUrls3.add(mAdImageBeans.get(i).getAd_src());
             }
         }
         if (imgUrls1.size() > 0) {
@@ -396,6 +383,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             GlideApp.with(this)
                     .load(imgUrls2.get(0))
                     .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
+        } else {
+            GlideApp.with(this)
+                    .load(R.drawable.weather)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
+        }
+        if (imgUrls3.size() > 0) {
+            GlideApp.with(this)
+                    .load(imgUrls3.get(0))
+                    .transform(new RoundedCorners(12))
                     .into(mImgAd);
         } else {
             GlideApp.with(this)
@@ -403,12 +401,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .transform(new RoundedCorners(12))
                     .into(mImgAd);
         }
-
-//        GlideApp.with(this)
-//                .load(R.drawable.weather)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgWeather);
-
     }
 
     @Override
@@ -419,6 +411,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .load(R.drawable.hotel_room)
                     .transform(new RoundedCorners(12))
                     .into(mImgShow);
+            GlideApp.with(this)
+                    .load(R.drawable.weather)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
             GlideApp.with(this)
                     .load(R.drawable.sence)
                     .transform(new RoundedCorners(12))
@@ -550,7 +546,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
-    public void showText(String text, String place, String font_size, String back_color, String font_color) {
+    public void showText(String text, String place, String font_size,
+                         String back_color, String font_color, String lucency_size) {
         if (App.adText.equals("")) {
             App.adText = text;
         } else {
@@ -560,11 +557,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         Log.d("adtext", App.adText);
         if (mMarqueeTextView != null) {
             mMarqueeTextView.setText(App.adText);
+            try {
+                mMarqueeTextView.setTextSize(Integer.parseInt(font_size));
+                mMarqueeTextView.setTextColor(Color.parseColor("#" + lucency_size + font_color));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
-    public void showVideo(String url) {
+    public void showVideo(String type, String url) {
         Intent intent = new Intent(getApplicationContext(), AdActivity.class);
         intent.putExtra("url", url);
         ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
@@ -599,6 +606,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void dismissVideo() {
         if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
+            Log.d("dismissVideo", "HomeActivity-dismissVideo");
         }
     }
 }

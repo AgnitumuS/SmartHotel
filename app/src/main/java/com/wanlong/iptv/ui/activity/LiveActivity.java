@@ -256,6 +256,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
      * 2s内点击退出
      */
     private long exitTime;
+    private String number;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -306,10 +307,45 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     exitTime = System.currentTimeMillis();
                 }
                 return true;
+            case KeyEvent.KEYCODE_0:
+                inputNumber(0);
+                break;
+            case KeyEvent.KEYCODE_1:
+                inputNumber(1);
+                break;
+            case KeyEvent.KEYCODE_2:
+                inputNumber(2);
+                break;
+            case KeyEvent.KEYCODE_3:
+                inputNumber(3);
+                break;
+            case KeyEvent.KEYCODE_4:
+                inputNumber(4);
+                break;
+            case KeyEvent.KEYCODE_5:
+                inputNumber(5);
+                break;
+            case KeyEvent.KEYCODE_6:
+                inputNumber(6);
+                break;
+            case KeyEvent.KEYCODE_7:
+                inputNumber(7);
+                break;
+            case KeyEvent.KEYCODE_8:
+                inputNumber(8);
+                break;
+            case KeyEvent.KEYCODE_9:
+                inputNumber(9);
+                break;
             default:
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    private void inputNumber(int number){
+
     }
 
     //显示左边节目列表

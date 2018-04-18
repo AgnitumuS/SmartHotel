@@ -65,7 +65,6 @@ public class LoginSettingActivity extends BaseActivity {
             mBtnSubmitIp.setText("登录");
         }
         mEditIp.setText(Apis.HEADER);
-        mEditRoom.setText("501");
         initListener();
     }
 
@@ -76,10 +75,13 @@ public class LoginSettingActivity extends BaseActivity {
     protected void initData() {
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        mEditRoom.setText(sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
     }
 
     private String newIP = "";
     private boolean changeIP;
+    private boolean changeRoom;
+    private String newRoom = "";
 
     //监听输入
     private void initListener() {
@@ -108,12 +110,13 @@ public class LoginSettingActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                changeRoom = true;
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                newRoom = s.toString();
+                Logger.d("newRoom:" + newRoom);
             }
         });
     }
@@ -125,11 +128,29 @@ public class LoginSettingActivity extends BaseActivity {
                 submitIP();
                 break;
             case R.id.btn_submit_room:
+                submitRoom();
                 break;
             case R.id.btn_recovery:
                 mEditIp.setText(Apis.HEADER_ORIGIN);
+                mEditRoom.setText(Apis.ROOM_ORIGIN);
                 break;
         }
+    }
+
+    //提交房间号
+    private void submitRoom() {
+        if (changeRoom) {
+            if (!newIP.equals(Apis.ROOM_ORIGIN)) {
+                saveRoom();
+            }
+        }
+    }
+
+    //保存房间号
+    private void saveRoom() {
+        editor.putString("room", newRoom);
+        editor.commit();
+        Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
     }
 
     //验证IP地址
