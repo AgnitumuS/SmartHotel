@@ -101,7 +101,7 @@ public class UpdateActivity extends BaseActivity {
     //比较版本
     private void compareVersion() {
         try {
-            Log.d("UpdateActivity", getResources().getString(R.string.versionName));
+            Log.d("UpdateActivity", getResources().getString(R.string.versionName).replaceAll(".", ""));
             apkVersion = Integer.parseInt(appUpdate.getApkVersion()
                     .replaceAll(" ", ""));
             currentVersion = Integer.valueOf(getResources().getString(R.string.versionName)

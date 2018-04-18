@@ -116,10 +116,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mMarqueeTextView.setClickable(false);
         mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
         mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mParams.setMargins(0, 16, 0, 16);
+        mParams.setMargins(0, 0, 0, 0);
         mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(32f);
+        mMarqueeTextView.setTextSize(128f);
         mMarqueeTextView.setPadding(0, 0, 0, 0);
         mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
@@ -560,6 +560,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mMarqueeTextView.setText(App.adText);
             try {
                 mMarqueeTextView.setTextSize(Integer.parseInt(font_size));
+                if (lucency_size.length() == 1) {
+                    lucency_size = "0" + lucency_size;
+                } else {
+
+                }
                 mMarqueeTextView.setTextColor(Color.parseColor("#" + lucency_size + font_color));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
