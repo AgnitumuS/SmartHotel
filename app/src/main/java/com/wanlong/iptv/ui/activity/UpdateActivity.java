@@ -3,7 +3,6 @@ package com.wanlong.iptv.ui.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -43,7 +42,7 @@ public class UpdateActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mVersion.setText("Version :" + getResources().getString(R.string.versionName));
+        mVersion.setText("版本 :" + getString(R.string.versionName));
     }
 
     private String url = "";
@@ -92,23 +91,41 @@ public class UpdateActivity extends BaseActivity {
 
     private int apkVersion;
     private int currentVersion;
-    private int verCode;
-    private int currentVerCode;
+    private int versionCode;
+    private int currentVersionCode;
     private String version;
-    private StringBuffer sb;
     private boolean update;
 
     //比较版本
     private void compareVersion() {
         try {
-            Log.d("UpdateActivity", getResources().getString(R.string.versionName).replaceAll(".", ""));
-            apkVersion = Integer.parseInt(appUpdate.getApkVersion()
+            //解析服务器版本名称
+            String server_apkVersion = appUpdate.getApkVersion()
+                    .replaceAll(" ", "");
+            StringBuffer sb_apkVersion = new StringBuffer();
+            for (int i = 0; i < server_apkVersion.length(); i++) {
+                if (!String.valueOf(server_apkVersion.charAt(i)).equals(".")) {
+                    sb_apkVersion.append(server_apkVersion.charAt(i));
+                }
+            }
+            apkVersion = Integer.parseInt(sb_apkVersion.toString());
+            //解析本地版本名称
+            String verName = getString(R.string.versionName)
+                    .replaceAll(" ", "");
+            StringBuffer sb_verName = new StringBuffer();
+            for (int i = 0; i < verName.length(); i++) {
+                if (!String.valueOf(verName.charAt(i)).equals(".")) {
+                    sb_verName.append(verName.charAt(i));
+                }
+            }
+            currentVersion = Integer.parseInt(sb_verName.toString());
+            //解析服务器版本号
+            versionCode = Integer.parseInt(appUpdate.getVersionCode()
                     .replaceAll(" ", ""));
-            currentVersion = Integer.valueOf(getResources().getString(R.string.versionName)
-                    .replaceAll(".", "")).intValue();
-            verCode = Integer.parseInt(appUpdate.getVersionCode()
-                    .replaceAll(" ", ""));
-            currentVerCode = Integer.parseInt(getString(R.string.versionCode));
+            //解析本地版本号
+            currentVersionCode = Integer.parseInt(getString(R.string.versionCode));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,7 +135,7 @@ public class UpdateActivity extends BaseActivity {
             if (App.RELEASE_VERSION) {
                 update = false;
             } else {
-                if (verCode > currentVerCode) {
+                if (versionCode > currentVersionCode) {
                     update = true;
                 } else {
                     update = false;
@@ -128,8 +145,8 @@ public class UpdateActivity extends BaseActivity {
             update = false;
         }
         if (update) {
-            version = String.valueOf(verCode);
-            sb = new StringBuffer();
+            version = String.valueOf(versionCode);
+            StringBuffer sb = new StringBuffer();
             for (int i = 0; i < version.length(); i++) {
                 sb.append(version.charAt(i) + ".");
             }
@@ -204,7 +221,7 @@ public class UpdateActivity extends BaseActivity {
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                         progressDialog.setCancelable(true);
                         progressDialog.setCanceledOnTouchOutside(false);
-                        progressDialog.setTitle("Downloading...");
+                        progressDialog.setTitle("正在下载...");
                         progressDialog.setIndeterminate(false);
                         progressDialog.show();
                     }
