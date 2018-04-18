@@ -65,14 +65,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvLive;
     @BindView(R.id.tv_vod)
     TextView mTvVod;
-    //    @BindView(R.id.tv_services)
-//    TextView mTvServices;
-//    @BindView(R.id.tv_cuisines)
-//    TextView mTvCuisines;
-//    @BindView(R.id.tv_scnenries)
-//    TextView mTvScnenries;
-//    @BindView(R.id.tv_expense)
-//    TextView mTvExpense;
     @BindView(R.id.tv_setting)
     TextView mTvSetting;
     @BindView(R.id.tv_room)
@@ -128,8 +120,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mMarqueeTextView.setIncludeFontPadding(false);
         mMarqueeTextView.setTextSize(32f);
         mMarqueeTextView.setPadding(0, 0, 0, 0);
-//        mMarqueeTextView.setWidth(Utils.getDisplaySize(this).y);
-//        mMarqueeTextView.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -157,31 +147,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
-//        testBug();
-    }
-
-    private List<String> mStrings;
-
-    private void testBug() {
-        mStrings = new ArrayList<>();
-        Log.d("bug", mStrings.get(0));
     }
 
     //加载图片
     private void initImgAd() {
-//        mImgShow.setOnClickListener(event -> Log.d("HomeActivity", "onclick"));//Lambda 表达式
-//        GlideApp.with(this)
-//                .load(R.drawable.hotel_room)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgShow);
-//        GlideApp.with(this)
-//                .load(R.drawable.weather)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgWeather);
-//        GlideApp.with(this)
-//                .load(R.drawable.sence)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgAd);
+//        mImgShow.setOnClickListener(event -> {
+//            Log.d("HomeActivity", "event.getId():" + event.getId());
+//            Log.d("HomeActivity", "onclick");
+//        });//Lambda 表达式
     }
 
     @Override
@@ -195,8 +168,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         adCallback();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
-//        getPresenter().loadTypeData(Apis.HEADER + Apis.HOME_AD);
-//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_MSG);
     }
 
     @Override
@@ -205,8 +176,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    //    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_services,
-//            R.id.tv_cuisines, R.id.tv_scnenries, R.id.tv_expense, R.id.tv_setting})
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -222,18 +191,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
-//            case R.id.tv_services:
-//                startActivity(new Intent(HomeActivity.this, ServicesActivity.class));
-//                break;
-//            case R.id.tv_cuisines:
-//                startActivity(new Intent(HomeActivity.this, CuisinesActivity.class));
-//                break;
-//            case R.id.tv_scnenries:
-//                startActivity(new Intent(HomeActivity.this, SceneriesActivity.class));
-//                break;
-//            case R.id.tv_expense:
-//                startActivity(new Intent(HomeActivity.this, ExpenseActivity.class));
-//                break;
             case R.id.tv_setting:
                 startActivity(new Intent(HomeActivity.this, SettingActivity.class));
                 break;
@@ -444,10 +401,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .transform(new RoundedCorners(12))
                     .into(mImgAd);
         }
-//        GlideApp.with(this)
-//                .load(R.drawable.weather)
-//                .transform(new RoundedCorners(12))
-//                .into(mImgWeather);
     }
 
     @Override
@@ -458,6 +411,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .load(R.drawable.hotel_room)
                     .transform(new RoundedCorners(12))
                     .into(mImgShow);
+            GlideApp.with(this)
+                    .load(R.drawable.weather)
+                    .transform(new RoundedCorners(12))
+                    .into(mImgWeather);
             GlideApp.with(this)
                     .load(R.drawable.sence)
                     .transform(new RoundedCorners(12))
@@ -620,14 +577,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
                 .startActivity(intent);
     }
-
-//    @Override
-//    public void showVideo(String url) {
-//        Intent intent = new Intent(getApplicationContext(), AdActivity.class);
-//        intent.putExtra("url", url);
-//        ActivityCollector.activities.get(ActivityCollector.activities.size() - 1)
-//                .startActivity(intent);
-//    }
 
     @Override
     public void dismissAllText() {
