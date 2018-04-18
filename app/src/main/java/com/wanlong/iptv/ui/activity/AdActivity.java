@@ -2,8 +2,10 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.DialogInterface;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
@@ -12,8 +14,10 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
+import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by lingchen on 2018/4/8.
@@ -23,6 +27,8 @@ public class AdActivity extends BaseActivity {
 
     @BindView(R.id.ad_player)
     LiveVideoPlayer mAdPlayer;
+    @BindView(R.id.tv_hint)
+    MarqueeTextView mTvHint;
 
     @Override
     protected int getContentResId() {
@@ -31,6 +37,8 @@ public class AdActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+//        mTvHint.setWidth(Utils.getDisplaySize(this).x);
+        mTvHint.setText("正在播放强制插播节目");
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
         initPlayer();
@@ -45,6 +53,7 @@ public class AdActivity extends BaseActivity {
 
     //初始化播放器
     private void initPlayer() {
+        Toast.makeText(this, "进入插播", Toast.LENGTH_SHORT).show();
         switch (Build.MODEL) {
             case "etv2021":
             case "jb_dmp":
@@ -131,5 +140,12 @@ public class AdActivity extends BaseActivity {
         super.onDestroy();
         mAdPlayer.release();
         mAdPlayer = null;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
