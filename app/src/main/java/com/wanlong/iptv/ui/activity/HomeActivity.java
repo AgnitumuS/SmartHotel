@@ -35,7 +35,6 @@ import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
-import com.wanlong.iptv.server.AdsService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
@@ -50,7 +49,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView, AdsService.AdListener {
+public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView, AdService.AdListener {
 
     @BindView(R.id.tv_welcome_guest)
     TextView mTvWelcomeGuest;
@@ -191,7 +190,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
         if (!App.ADserver) {
-            startService(new Intent(HomeActivity.this, AdsService.class));
+            startService(new Intent(HomeActivity.this, AdService.class));
             App.ADserver = true;
         }
         adCallback();
@@ -586,7 +585,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     private void adCallback() {
-        AdsService.setAdListener(this);
+        AdService.setAdListener(this);
     }
 
     @Override
@@ -658,7 +657,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void dismissVideo() {
         if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-            Log.d("dismissVideo","HomeActivity-dismissVideo");
+            Log.d("dismissVideo", "HomeActivity-dismissVideo");
         }
     }
 }
