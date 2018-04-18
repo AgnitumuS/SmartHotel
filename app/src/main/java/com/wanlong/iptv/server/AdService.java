@@ -318,57 +318,6 @@ public class AdService extends Service {
                     }
                 }
             }
-//            if (result == null) {
-//                result = response.body();
-//                date = mDateFormat.format(new Date(App.newtime * 1000));
-//                if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
-//                    if (type == AD_TYPE_TEXT) {
-//                        showAD(type, mPushMSG, mCutInBeens_text, newCutInBeens_text);
-//                    } else if (type == AD_TYPE_VIDEO) {
-//                        showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
-//                    }
-//                }
-//            } else {
-//                if (!result.equals(response.body())) {//字符串比较返回数据是否变化
-//                    result = response.body();
-//                    if (type == AD_TYPE_TEXT) {
-//                        try {
-//                            mAdListener.dismissAllText();
-//                        } catch (NullPointerException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
-//                            showAD(type, mPushMSG, mCutInBeens_text, newCutInBeens_text);
-//                        }
-//                    } else if (type == AD_TYPE_VIDEO) {
-//                        try {
-//                            if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
-//                                ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-//                            }
-//                            mAdListener.dismissVideo();
-//                        } catch (NullPointerException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
-//                            showAD(type, mPushMSG, mCutInBeens_video, newCutInBeens_video);
-////                            showAD(type, mPushMSG);
-//                        }
-//                    } else if (type == AD_TYPE_PIC) {
-//
-//                    }
-//                }
-            //时间是否变化，单位：天
-//                if (!date.equals(mDateFormat.format(new Date(App.newtime * 1000)))) {
-//                    date = mDateFormat.format(new Date(App.newtime * 1000));
-//                    if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
-//                        showAD(type, mPushMSG);
-//                    }
-//                }
-//            }
         }
     }
 

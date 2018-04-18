@@ -1,6 +1,7 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -49,6 +50,15 @@ public class AdActivity extends BaseActivity {
     @Override
     protected void initData() {
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mTvHint.setText("正在播放强制插播节目");
+        url = getIntent().getStringExtra("url");
+        Logger.d("url:" + url);
+        initPlayer();
     }
 
     //初始化播放器
