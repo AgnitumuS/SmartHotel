@@ -3,6 +3,7 @@ package com.wanlong.iptv.ui.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -100,10 +101,11 @@ public class UpdateActivity extends BaseActivity {
     //比较版本
     private void compareVersion() {
         try {
+            Log.d("UpdateActivity", getResources().getString(R.string.versionName));
             apkVersion = Integer.parseInt(appUpdate.getApkVersion()
                     .replaceAll(" ", ""));
-            currentVersion = Integer.parseInt(getString(R.string.versionName)
-                    .replaceAll(".", ""));
+            currentVersion = Integer.valueOf(getResources().getString(R.string.versionName)
+                    .replaceAll(".", "")).intValue();
             verCode = Integer.parseInt(appUpdate.getVersionCode()
                     .replaceAll(" ", ""));
             currentVerCode = Integer.parseInt(getString(R.string.versionCode));

@@ -38,7 +38,7 @@ public class VodPlayActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url").replaceAll(" ","%20");
         name = getIntent().getStringExtra("name");
         initPlayer();
     }
