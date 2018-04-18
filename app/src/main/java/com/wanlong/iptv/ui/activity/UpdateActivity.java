@@ -235,7 +235,7 @@ public class UpdateActivity extends BaseActivity {
         }
         new AlertDialog.Builder(UpdateActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
                 .setCancelable(true)
-                .setTitle("find new version")
+                .setTitle(getString(R.string.find_new_version))
                 .setMessage(mMessage)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
