@@ -143,7 +143,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mTvLive.requestFocus();
         }
         getTime();
-        initImgAd();
+//        initImgAd();
         mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
                 sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         mTvRoom.setText("Mac:" + Utils.getMac(this));
@@ -168,6 +168,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             App.ADserver = true;
         }
         adCallback();
+        getTime();
+        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 

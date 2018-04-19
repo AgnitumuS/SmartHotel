@@ -85,6 +85,7 @@
         <activity
             android:name=".ui.activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activity.LanguageActivity"
@@ -148,8 +149,8 @@
         <activity
             android:name=".ui.activity.AdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape" />
 
         <service android:name=".server.AdServiceold"></service>
         <service android:name=".server.AdService"></service>
