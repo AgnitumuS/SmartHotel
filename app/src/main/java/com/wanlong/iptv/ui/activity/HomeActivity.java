@@ -222,6 +222,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         try {
                             data = JSON.parseObject(response.body(), Login.class);
                             if (data != null && data.getCode() != null) {
+                                loginSuccess();
                                 if (data.getCode().equals("0")) {
 //                                    Toast.makeText(HomeActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("1")) {
@@ -280,6 +281,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void loginSuccess() {
         Logger.d("登录成功");
+        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        editor.putString("ip", Apis.HEADER);
+        editor.commit();
+        if (firstOpen) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstOpen", false);
+            editor.commit();
+        }
 //        if (App.ADserver) {
 //            stopService(new Intent(HomeActivity.this, AdService.class));
 //            startService(new Intent(HomeActivity.this, AdService.class));
