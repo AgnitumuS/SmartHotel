@@ -26,7 +26,8 @@
             android:layout_marginTop="30px"
             android:layout_weight="1"
             android:focusable="false"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            tools:src="@drawable/sence"/>
 
         <RelativeLayout
             android:id="@+id/relativelayout_movie_detail"
