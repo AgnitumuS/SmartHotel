@@ -378,31 +378,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mImgShow.setImages(imgUrls1)
                     .setImageLoader(new GlideImageLoader())
                     .start();
-        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.hotel_room)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgShow);
         }
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
                     .setImageLoader(new GlideImageLoader())
                     .start();
-        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.weather)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgWeather);
         }
         if (imgUrls3.size() > 0) {
             mImgAd.setImages(imgUrls3)
                     .setImageLoader(new GlideImageLoader())
                     .start();
-        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.sence)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgAd);
         }
 //        if (imgUrls1.size() > 0) {
 //            GlideApp.with(this)
@@ -443,18 +428,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
         if (error == 3) {
-//            GlideApp.with(this)
-//                    .load(R.drawable.hotel_room)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgShow);
-//            GlideApp.with(this)
-//                    .load(R.drawable.weather)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgWeather);
-//            GlideApp.with(this)
-//                    .load(R.drawable.sence)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgAd);
+
         }
     }
 
