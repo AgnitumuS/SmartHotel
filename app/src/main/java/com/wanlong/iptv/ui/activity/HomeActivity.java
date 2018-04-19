@@ -116,7 +116,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mMarqueeTextView.setClickable(false);
         mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
         mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mParams.setMargins(0, 0, 0, 0);
+        mParams.setMargins(0, 0, 0, 16);
         mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
         mMarqueeTextView.setTextSize(128f);
