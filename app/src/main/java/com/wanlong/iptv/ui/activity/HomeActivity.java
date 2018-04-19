@@ -14,13 +14,11 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
@@ -30,7 +28,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeAD;
 import com.wanlong.iptv.entity.Login;
-import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.imageloader.GlideImageLoader;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
@@ -38,6 +36,7 @@ import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
+import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +53,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @BindView(R.id.tv_time)
     TextView mTvTime;
     @BindView(R.id.img_show)
-    ImageView mImgShow;
+    Banner mImgShow;
     @BindView(R.id.img_weather)
-    ImageView mImgWeather;
+    Banner mImgWeather;
     @BindView(R.id.img_ad)
-    ImageView mImgAd;
+    Banner mImgAd;
     @BindView(R.id.tv_live)
     TextView mTvLive;
     @BindView(R.id.tv_vod)
@@ -376,56 +375,86 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             }
         }
         if (imgUrls1.size() > 0) {
-            GlideApp.with(this)
-                    .load(imgUrls1.get(0))
-                    .transform(new RoundedCorners(12))
-                    .into(mImgShow);
+            mImgShow.setImages(imgUrls1)
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
         } else {
-            GlideApp.with(this)
-                    .load(R.drawable.hotel_room)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgShow);
+//            GlideApp.with(this)
+//                    .load(R.drawable.hotel_room)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgShow);
         }
         if (imgUrls2.size() > 0) {
-            GlideApp.with(this)
-                    .load(imgUrls2.get(0))
-                    .transform(new RoundedCorners(12))
-                    .into(mImgWeather);
+            mImgWeather.setImages(imgUrls2)
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
         } else {
-            GlideApp.with(this)
-                    .load(R.drawable.weather)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgWeather);
+//            GlideApp.with(this)
+//                    .load(R.drawable.weather)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgWeather);
         }
         if (imgUrls3.size() > 0) {
-            GlideApp.with(this)
-                    .load(imgUrls3.get(0))
-                    .transform(new RoundedCorners(12))
-                    .into(mImgAd);
+            mImgAd.setImages(imgUrls3)
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
         } else {
-            GlideApp.with(this)
-                    .load(R.drawable.sence)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgAd);
+//            GlideApp.with(this)
+//                    .load(R.drawable.sence)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgAd);
         }
+//        if (imgUrls1.size() > 0) {
+//            GlideApp.with(this)
+//                    .load(imgUrls1.get(0))
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgShow);
+//        } else {
+//            GlideApp.with(this)
+//                    .load(R.drawable.hotel_room)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgShow);
+//        }
+//        if (imgUrls2.size() > 0) {
+//            GlideApp.with(this)
+//                    .load(imgUrls2.get(0))
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgWeather);
+//        } else {
+//            GlideApp.with(this)
+//                    .load(R.drawable.weather)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgWeather);
+//        }
+//        if (imgUrls3.size() > 0) {
+//            GlideApp.with(this)
+//                    .load(imgUrls3.get(0))
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgAd);
+//        } else {
+//            GlideApp.with(this)
+//                    .load(R.drawable.sence)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgAd);
+//        }
     }
 
     @Override
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
         if (error == 3) {
-            GlideApp.with(this)
-                    .load(R.drawable.hotel_room)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgShow);
-            GlideApp.with(this)
-                    .load(R.drawable.weather)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgWeather);
-            GlideApp.with(this)
-                    .load(R.drawable.sence)
-                    .transform(new RoundedCorners(12))
-                    .into(mImgAd);
+//            GlideApp.with(this)
+//                    .load(R.drawable.hotel_room)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgShow);
+//            GlideApp.with(this)
+//                    .load(R.drawable.weather)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgWeather);
+//            GlideApp.with(this)
+//                    .load(R.drawable.sence)
+//                    .transform(new RoundedCorners(12))
+//                    .into(mImgAd);
         }
     }
 
