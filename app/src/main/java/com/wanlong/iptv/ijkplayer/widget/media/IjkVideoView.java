@@ -1026,6 +1026,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     public IMediaPlayer createPlayer(int playerType) {
         IMediaPlayer mediaPlayer = null;
+        if(Build.MODEL.equals("0008")){
+            playerType = Settings.PV_PLAYER__AndroidMediaPlayer;
+        }
         switch (playerType) {
 //            case Settings.PV_PLAYER__IjkExoMediaPlayer: {
 //                IjkExoMediaPlayer IjkExoMediaPlayer = new IjkExoMediaPlayer(mAppContext);
@@ -1267,7 +1270,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         return language;
     }
 
-    public tv.danmaku.ijk.media.player.misc.ITrackInfo[] getTrackInfo() {
+    public ITrackInfo[] getTrackInfo() {
         if (mMediaPlayer == null)
             return null;
 

@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -362,7 +361,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     //显示文字广告
     private void showTextAD() {
         if (mAdTextBeans.size() > 0) {
-            mTvMessage.setText(mAdTextBeans.get(0).getAd_detail());
+//            mTvMessage.setText(mAdTextBeans.get(0).getAd_detail());
         }
     }
 
@@ -572,7 +571,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             App.adText = App.adText + "     " + text;
         }
         Logger.d(App.adText);
-        Log.d("adtext", App.adText);
         if (mMarqueeTextView != null) {
             mMarqueeTextView.setText(App.adText);
             try {
@@ -629,7 +627,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void dismissVideo() {
         if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-            Log.d("dismissVideo", "HomeActivity-dismissVideo");
         }
     }
 }
