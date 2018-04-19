@@ -120,24 +120,9 @@
             android:name=".ui.activity.VodPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.activity.CuisinesActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.activity.ServicesActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.activity.SceneriesActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
+
         <activity
             android:name=".ui.activity.SettingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.activity.ExpenseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
 
@@ -152,7 +137,6 @@
             android:launchMode="singleInstance"
             android:screenOrientation="landscape" />
 
-        <service android:name=".server.AdServiceold"></service>
         <service android:name=".server.AdService"></service>
 
         <provider
