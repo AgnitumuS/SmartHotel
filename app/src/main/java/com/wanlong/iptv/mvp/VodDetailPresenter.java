@@ -2,13 +2,11 @@ package com.wanlong.iptv.mvp;
 
 import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.entity.VodDetailData;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -29,8 +27,7 @@ public class VodDetailPresenter extends BasePresenter<VodDetailPresenter.VodDeta
                     public void onSuccess(Response<String> response) {
                         Log.d("HomePresenter", response.body());
                         try {
-                            VodDetailData vodDetailData = JSON.parseObject(response.body(), VodDetailData.class);
-                            getView().loadVodDetailSuccess(vodDetailData);
+
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -51,7 +48,6 @@ public class VodDetailPresenter extends BasePresenter<VodDetailPresenter.VodDeta
     }
 
     public interface VodDetailView extends BaseView{
-        void loadVodDetailSuccess(VodDetailData vodDetailData);
         void loadVodDetailFailed();
     }
 }

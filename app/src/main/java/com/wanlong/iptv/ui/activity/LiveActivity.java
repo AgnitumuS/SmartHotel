@@ -20,7 +20,6 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
-import com.wanlong.iptv.entity.LiveTypeData;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
@@ -192,42 +191,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         switch (view.getId()) {
             case R.id.img_left:
                 resetTime();
-//                switchType(LEFT);
                 break;
             case R.id.img_right:
                 resetTime();
-//                switchType(RIGHT);
                 break;
         }
     }
 
-    private int currentType = 0;//当前分类
-    private int typeCounts;//节目类型总数
     private static final int LEFT = 1;
     private static final int RIGHT = 2;
 
-    //切换节目分类
-    private void switchType(int orientation) {
-        if (typeCounts > 1) {
-            if (orientation == LEFT) {
-                if (currentType == 0) {
-                    currentType = typeCounts - 1;
-                } else {
-                    currentType -= 1;
-                }
-            }
-            if (orientation == RIGHT) {
-                if (currentType == typeCounts - 1) {
-                    currentType = 0;
-                } else {
-                    currentType += 1;
-                }
-            }
-            mTvLiveCategory.setText(mLiveTypeData.getChannelType().get(currentType));
-            getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" +
-                    mLiveTypeData.getChannelType().get(currentType));
-        }
-    }
 
     public static final int KEYCODE_UP = 0;
     public static final int KEYCODE_DOWN = 1;
@@ -413,16 +386,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             }
         }
     };
-
-    private LiveTypeData mLiveTypeData;
-
-    @Override
-    public void loadTypeSuccess(LiveTypeData liveTypeData) {
-        this.mLiveTypeData = liveTypeData;
-//        typeCounts = liveTypeData.getChannelType().size();
-//        mTvLiveCategory.setText(liveTypeData.getChannelType().get(0));
-        getPresenter().loadLiveListData(Apis.HEADER + Apis.LIVE_TYPE + "/" + liveTypeData.getChannelType().get(0));
-    }
 
     private Live mLive;
     private boolean exception;

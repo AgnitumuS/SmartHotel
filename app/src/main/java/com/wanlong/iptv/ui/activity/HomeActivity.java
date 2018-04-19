@@ -29,7 +29,6 @@ import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.HomeAD;
-import com.wanlong.iptv.entity.HomeTypeData;
 import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.HomePresenter;
@@ -317,15 +316,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private void loginFailed() {
         Logger.d("登录失败");
 //        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
-    }
-
-    private HomeTypeData mHomeTypeData;
-
-    @Override
-    public void loadDataSuccess(HomeTypeData homeTypeData) {
-        Logger.d("HomeActivity: load success");
-        this.mHomeTypeData = homeTypeData;
-//        getPresenter().loadMsgData(Apis.HEADER + Apis.HOME_AD + "/" + mHomeTypeData.getAdsType().get(0));
     }
 
     private List<HomeAD.AdVideoBean> mAdVideoBeans;

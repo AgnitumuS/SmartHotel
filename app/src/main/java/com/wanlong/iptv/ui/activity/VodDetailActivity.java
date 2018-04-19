@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.entity.VodDetailData;
+
 import com.wanlong.iptv.mvp.VodDetailPresenter;
 
 import butterknife.BindView;
@@ -72,11 +72,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         intent.putExtra("url", url);
         intent.putExtra("name",name);
         startActivity(intent);
-    }
-
-    @Override
-    public void loadVodDetailSuccess(VodDetailData vodDetailData) {
-
     }
 
     @Override
