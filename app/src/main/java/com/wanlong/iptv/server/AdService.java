@@ -43,8 +43,14 @@ public class AdService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mTimer != null && mTimerTask != null) {
-            mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
-            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 4 * 1000);
+            try {
+                mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
+                mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 4 * 1000);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return super.onStartCommand(intent, flags, startId);
     }

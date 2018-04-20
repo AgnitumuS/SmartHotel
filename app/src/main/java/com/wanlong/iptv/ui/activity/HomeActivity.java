@@ -433,6 +433,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        //结束轮播
+        mImgShow.stopAutoPlay();
+        mImgWeather.stopAutoPlay();
+        mImgAd.stopAutoPlay();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(HomeActivity.this, AdService.class));

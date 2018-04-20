@@ -2,13 +2,13 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +21,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
@@ -86,10 +87,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                playNewUrl(mLive.getPlaylist().get(position).getUrl(), position);
+                playNewUrl(mLive.getPlaylist().get(position).getUrl());
 //                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
 //                mLiveVideoPlayer.startPlayLogic();
-//                currentPlayPosition = position;
+                currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
                 editor.putInt("liveLastPlayPosition", position);
                 editor.commit();
@@ -110,7 +111,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-//        getPresenter().loadLiveTypeData(Apis.HEADER + Apis.LIVE_TYPE);
         getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE);
         resetTime();
     }
@@ -132,8 +132,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             case "0008":
+                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 initIjkVideoView();
-                return;
+                break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
@@ -166,8 +168,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     }
 
     private void initIjkVideoView() {
+        Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
         mIjkVideoView.setVisibility(View.VISIBLE);
+        mIjkVideoView.setFocusable(false);
         mLiveVideoPlayer.setVisibility(View.GONE);
+//        mLiveVideoPlayer = null;
         mIjkVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,25 +183,56 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(IMediaPlayer iMediaPlayer) {
-                iMediaPlayer.start();
+                try {
+                    iMediaPlayer.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+//        mIjkVideoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
+//            @Override
+//            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+//                return false;
+//            }
+//        });
+        mIjkVideoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+                Log.e("IJKMEDIA", "ERROR:" + i + "," + i1);
+                iMediaPlayer.stop();
+                iMediaPlayer.release();
+                return true;
             }
         });
     }
 
-    private void playNewUrl(String newurl, int position) {
+    private void playNewUrl(String newurl) {
+        if (newurl.startsWith("udp")) {
+            mIjkVideoView.setVisibility(View.GONE);
+            mIjkVideoView.stopPlayback();
+            mLiveVideoPlayer.setVisibility(View.VISIBLE);
+        } else {
+            mIjkVideoView.setVisibility(View.VISIBLE);
+            mLiveVideoPlayer.setVisibility(View.GONE);
+            mLiveVideoPlayer.release();
+        }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            mIjkVideoView.setVideoURI(Uri.parse(newurl));
-        } else if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            try {
+                mIjkVideoView.setVideoPath(newurl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.setUp(newurl, false, "");
             mLiveVideoPlayer.startPlayLogic();
         }
-        currentPlayPosition = position;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+        if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoPause();
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
@@ -207,7 +243,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void onResume() {
         super.onResume();
-        if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+        if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoResume();
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
@@ -215,7 +251,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
-                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl(), currentPlayPosition);
+                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
 //                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
 //                mLiveVideoPlayer.startPlayLogic();
             } catch (IndexOutOfBoundsException e) {
@@ -234,8 +270,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         urls = null;
         mHandler.removeMessages(MOBILE_QWER);
         mHandler = null;
-        mLiveVideoPlayer.release();
-        mLiveVideoPlayer = null;
+        if (mLiveVideoPlayer != null) {
+            mLiveVideoPlayer.release();
+            mLiveVideoPlayer = null;
+        }
         mIjkVideoView.release(true);
         mIjkVideoView = null;
     }
@@ -282,13 +320,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     currentPlayPosition -= 1;
                 }
             }
-            playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl(), currentPlayPosition);
+            if (currentPlayPosition >= 0 && currentPlayPosition < mLive.getPlaylist().size()) {
+                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
 //            mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
 //            mLiveVideoPlayer.startPlayLogic();
-            mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
-            showInfo();
-            editor.putInt("liveLastPlayPosition", currentPlayPosition);
-            editor.commit();
+                mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+                showInfo();
+                editor.putInt("liveLastPlayPosition", currentPlayPosition);
+                editor.commit();
+            }
         }
     }
 
@@ -452,10 +492,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist());
                 try {
-                    playNewUrl(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), liveLastPlayPosition);
+                    playNewUrl(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
 //                    mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
 //                    mLiveVideoPlayer.startPlayLogic();
-//                    currentPlayPosition = liveLastPlayPosition;
+                    currentPlayPosition = liveLastPlayPosition;
                     mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
                     exception = false;
                 } catch (NullPointerException e) {
@@ -469,10 +509,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     exception = true;
                 } finally {
                     if (exception) {
-                        playNewUrl(liveListDatas.getPlaylist().get(0).getUrl(), 0);
+                        playNewUrl(liveListDatas.getPlaylist().get(0).getUrl());
 //                        mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
 //                        mLiveVideoPlayer.startPlayLogic();
-//                        currentPlayPosition = 0;
+                        currentPlayPosition = 0;
                         mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
                     }
                 }
