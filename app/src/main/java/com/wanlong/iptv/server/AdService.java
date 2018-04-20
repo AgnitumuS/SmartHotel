@@ -14,6 +14,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.entity.PushMSG;
 import com.wanlong.iptv.entity.UserStatus;
 import com.wanlong.iptv.ui.activity.AdActivity;
@@ -43,7 +44,7 @@ public class AdService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (mTimer != null && mTimerTask != null) {
             mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
-            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 6 * 1000);
+            mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 4 * 1000);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -69,7 +70,7 @@ public class AdService extends Service {
         @Override
         public void run() {
             try {
-                autoLogin();
+                autoUploadLoginStatus();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -98,8 +99,8 @@ public class AdService extends Service {
 
     private UserStatus mUserStatus;
 
-    //自动登录
-    private void autoLogin() {
+    //自动上传登录状态
+    private void autoUploadLoginStatus() {
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN_STATUS)
                 .tag(this)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -114,36 +115,36 @@ public class AdService extends Service {
                             mUserStatus = JSON.parseObject(response.body(), UserStatus.class);
                             if (mUserStatus != null && mUserStatus.getCode() != null) {
                                 if (mUserStatus.getCode().equals("0")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("1")) {
                                     //存储
-                                    loginSuccess();
+                                    uploadSuccess();
 //                                    Toast.makeText(AdServiceold.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-1")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-2")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-3")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-4")) {
-                                    loginFailed();
+                                    uploadFailed();
                                     Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "服务器有错误", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-6")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-7")) {
-                                    loginFailed();
+                                    uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Logger.d("autoLogin:" + "服务器返回数据异常");
+                                Logger.d("autoUploadLoginStatus:" + "服务器返回数据异常");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -152,6 +153,74 @@ public class AdService extends Service {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        uploadFailed();
+                        autoLogin();
+                    }
+                });
+    }
+
+    private Login data;
+
+    //自动登录
+    private void autoLogin() {
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
+                .tag(this)
+                .cacheMode(CacheMode.NO_CACHE)
+                .retryCount(5)
+                .params("mac", Utils.getMac(this))
+                .params("uuid", App.sUUID.toString())
+                .params("ip", Utils.getIpAddressString())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            data = JSON.parseObject(response.body(), Login.class);
+                            if (data != null && data.getCode() != null) {
+                                if (data.getCode().equals("0")) {
+//                                    Toast.makeText(LoginSettingActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("1")) {
+                                    //存储
+                                    loginSuccess();
+//                                    Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-1")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-2")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-3")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-4")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-5")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-6")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+                                } else if (data.getCode().equals("-7")) {
+                                    loginFailed();
+//                                    Toast.makeText(LoginSettingActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                loginFailed();
+                                Logger.d("autoLogin:" + "服务器返回数据异常");
+//                                Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            loginFailed();
+//                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     @Override
@@ -168,6 +237,14 @@ public class AdService extends Service {
 
     private void loginFailed() {
         Logger.d("登录失败");
+    }
+
+    private void uploadSuccess() {
+        Logger.d("上传成功");
+    }
+
+    private void uploadFailed() {
+        Logger.d("上传失败");
 //        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
