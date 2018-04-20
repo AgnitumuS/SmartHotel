@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
+import com.shuyu.gsyvideoplayer.video.base.GSYVideoView;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
@@ -208,14 +209,21 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     }
 
     private void playNewUrl(String newurl) {
-        if (newurl.startsWith("udp")) {
-            mIjkVideoView.setVisibility(View.GONE);
-            mIjkVideoView.stopPlayback();
-            mLiveVideoPlayer.setVisibility(View.VISIBLE);
-        } else {
-            mIjkVideoView.setVisibility(View.VISIBLE);
-            mLiveVideoPlayer.setVisibility(View.GONE);
-            mLiveVideoPlayer.release();
+        if (Build.MODEL.equals("0008")) {
+            if (newurl.startsWith("udp")) {
+                mIjkVideoView.setVisibility(View.GONE);
+                if (mIjkVideoView.isPlaying()) {
+                    mIjkVideoView.stopPlayback();
+                }
+                mLiveVideoPlayer.setVisibility(View.VISIBLE);
+            } else {
+                mIjkVideoView.setVisibility(View.VISIBLE);
+                mLiveVideoPlayer.setVisibility(View.GONE);
+                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
+                    mLiveVideoPlayer.onVideoPause();
+                    mLiveVideoPlayer.release();
+                }
+            }
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             try {
