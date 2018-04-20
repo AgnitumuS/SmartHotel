@@ -34,7 +34,7 @@ public class Settings {
 
     public static int currentPlayer = 0;
 
-    public static void setPlayer(int player){
+    public static void setPlayer(int player) {
         currentPlayer = player;
     }
 

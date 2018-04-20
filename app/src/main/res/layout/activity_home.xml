@@ -48,7 +48,9 @@
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
         app:banner_default_image="@drawable/hotel_room"
+        app:delay_time="4000"
         app:image_scale_type="center_crop"
+        app:scroll_time="2000"
         tools:src="@drawable/hotel_room" />
 
     <com.youth.banner.Banner
@@ -62,7 +64,9 @@
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
         app:banner_default_image="@drawable/weather"
+        app:delay_time="4000"
         app:image_scale_type="center_crop"
+        app:scroll_time="2000"
         tools:src="@drawable/weather" />
 
     <com.youth.banner.Banner
@@ -78,7 +82,9 @@
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
         app:banner_default_image="@drawable/sence"
+        app:delay_time="4000"
         app:image_scale_type="center_crop"
+        app:scroll_time="2000"
         tools:src="@drawable/sence" />
 
 

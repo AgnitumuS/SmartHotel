@@ -25,7 +25,6 @@ import com.wanlong.iptv.R;
 
 import java.lang.ref.WeakReference;
 
-
 public final class MeasureHelper {
     private WeakReference<View> mWeakView;
 
@@ -76,7 +75,7 @@ public final class MeasureHelper {
         //        + MeasureSpec.toString(heightMeasureSpec) + ")");
         if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
             int tempSpec = widthMeasureSpec;
-            widthMeasureSpec  = heightMeasureSpec;
+            widthMeasureSpec = heightMeasureSpec;
             heightMeasureSpec = tempSpec;
         }
 

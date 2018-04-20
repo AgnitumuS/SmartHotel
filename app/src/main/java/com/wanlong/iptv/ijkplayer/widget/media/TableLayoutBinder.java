@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.wanlong.iptv.R;
 
-
 public class TableLayoutBinder {
     private Context mContext;
     public ViewGroup mTableView;

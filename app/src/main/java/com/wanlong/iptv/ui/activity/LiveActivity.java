@@ -2,6 +2,7 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -170,6 +171,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     private void initIjkVideoView() {
         Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
+        Settings.setMediaCodec(true);
         mIjkVideoView.setVisibility(View.VISIBLE);
         mIjkVideoView.setFocusable(false);
         mLiveVideoPlayer.setVisibility(View.GONE);
@@ -201,33 +203,52 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             @Override
             public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
                 Log.e("IJKMEDIA", "ERROR:" + i + "," + i1);
-                iMediaPlayer.stop();
-                iMediaPlayer.release();
-                return true;
+//                try {
+//                    iMediaPlayer.stop();
+//                    iMediaPlayer.release();
+//                    iMediaPlayer.setDataSource(currentPlayUrl);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                return false;
             }
         });
     }
 
+    private String currentPlayUrl;
+
     private void playNewUrl(String newurl) {
+        currentPlayUrl = newurl;
+        initIjkVideoView();
         if (Build.MODEL.equals("0008")) {
             if (newurl.startsWith("udp")) {
-                mIjkVideoView.setVisibility(View.GONE);
                 if (mIjkVideoView.isPlaying()) {
                     mIjkVideoView.stopPlayback();
                 }
+                mIjkVideoView.setVisibility(View.GONE);
                 mLiveVideoPlayer.setVisibility(View.VISIBLE);
             } else {
                 mIjkVideoView.setVisibility(View.VISIBLE);
-                mLiveVideoPlayer.setVisibility(View.GONE);
                 if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
                     mLiveVideoPlayer.onVideoPause();
                     mLiveVideoPlayer.release();
                 }
+                mLiveVideoPlayer.setVisibility(View.GONE);
             }
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             try {
-                mIjkVideoView.setVideoPath(newurl);
+                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
+                    mLiveVideoPlayer.onVideoPause();
+                    mLiveVideoPlayer.release();
+                }
+                mLiveVideoPlayer.setVisibility(View.GONE);
+//                if (mIjkVideoView.isPlaying()) {
+//                    mIjkVideoView.stopPlayback();
+//                }
+                mIjkVideoView.setVideoURI(Uri.parse(newurl));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -244,7 +265,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLiveVideoPlayer.onVideoPause();
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            mIjkVideoView.pause();
+            if (mIjkVideoView.isPlaying()) {
+                mIjkVideoView.stopBackgroundPlay();
+            }
         }
     }
 

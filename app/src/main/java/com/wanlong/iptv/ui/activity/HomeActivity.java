@@ -37,6 +37,8 @@ import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 import com.youth.banner.Banner;
+import com.youth.banner.transformer.BackgroundToForegroundTransformer;
+import com.youth.banner.transformer.ForegroundToBackgroundTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -376,11 +378,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         if (imgUrls1.size() > 0) {
             mImgShow.setImages(imgUrls1)
+                    .setPageTransformer(true, new BackgroundToForegroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
         }
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
+                    .setPageTransformer(true, new ForegroundToBackgroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
         }

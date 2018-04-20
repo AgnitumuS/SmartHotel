@@ -599,9 +599,9 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         @Override
         public void onSeekComplete(IMediaPlayer mp) {
             mSeekEndTime = System.currentTimeMillis();
-//            if(mHudViewHolder != null){
-//                mHudViewHolder.updateSeekCost(mSeekEndTime - mSeekStartTime);
-//            }
+            if (mHudViewHolder != null) {
+                mHudViewHolder.updateSeekCost(mSeekEndTime - mSeekStartTime);
+            }
         }
     };
 
@@ -1026,7 +1026,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
     public IMediaPlayer createPlayer(int playerType) {
         IMediaPlayer mediaPlayer = null;
-        if(Build.MODEL.equals("0008")){
+        if (Build.MODEL.equals("0008")) {
             playerType = Settings.PV_PLAYER__AndroidMediaPlayer;
         }
         switch (playerType) {

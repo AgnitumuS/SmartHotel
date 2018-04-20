@@ -18,11 +18,14 @@
 package com.wanlong.iptv.ijkplayer.widget.preference;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.preference.ListPreference;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+
+import com.wanlong.iptv.R;
 
 
 public class IjkListPreference extends ListPreference {
@@ -51,15 +54,15 @@ public class IjkListPreference extends ListPreference {
     }
 
     private void initPreference(Context context, AttributeSet attrs) {
-//        TypedArray a = context.obtainStyledAttributes(attrs,
-//                R.styleable.IjkListPreference, 0, 0);
-//        if (a == null)
-//            return;
-//
-//        mEntrySummaries = a
-//                .getTextArray(R.styleable.IjkListPreference_entrySummaries);
-//
-//        a.recycle();
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.IjkListPreference, 0, 0);
+        if (a == null)
+            return;
+
+        mEntrySummaries = a
+                .getTextArray(R.styleable.IjkListPreference_entrySummaries);
+
+        a.recycle();
     }
 
     @Override
