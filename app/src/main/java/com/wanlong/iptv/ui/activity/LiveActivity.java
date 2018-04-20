@@ -2,6 +2,7 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
@@ -29,6 +31,7 @@ import com.wanlong.iptv.utils.Apis;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
@@ -50,6 +53,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     ImageView mImgRight;
     @BindView(R.id.tv_live_name)
     AppCompatTextView mTvLiveName;
+    @BindView(R.id.ijkVideoView)
+    IjkVideoView mIjkVideoView;
+//    @BindView(R.id.tv_num)
+//    AppCompatTextView mTvNum;
+//    @BindView(R.id.re_key_num)
+//    RelativeLayout mReKeyNum;
 
     @Override
     protected int getContentResId() {
@@ -77,9 +86,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
-                mLiveVideoPlayer.startPlayLogic();
-                currentPlayPosition = position;
+                playNewUrl(mLive.getPlaylist().get(position).getUrl(), position);
+//                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
+//                mLiveVideoPlayer.startPlayLogic();
+//                currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
                 editor.putInt("liveLastPlayPosition", position);
                 editor.commit();
@@ -118,9 +128,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "S905W":
             case "Prevail CATV":
             case "p230":
-            case "0008":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                break;
+            case "0008":
+                initIjkVideoView();
+                return;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
@@ -152,20 +165,59 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         });
     }
 
+    private void initIjkVideoView() {
+        mIjkVideoView.setVisibility(View.VISIBLE);
+        mLiveVideoPlayer.setVisibility(View.GONE);
+        mIjkVideoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showList();
+                showInfo();
+            }
+        });
+        mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.start();
+            }
+        });
+    }
+
+    private void playNewUrl(String newurl, int position) {
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            mIjkVideoView.setVideoURI(Uri.parse(newurl));
+        } else if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            mLiveVideoPlayer.setUp(newurl, false, "");
+            mLiveVideoPlayer.startPlayLogic();
+        }
+        currentPlayPosition = position;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
-        mLiveVideoPlayer.onVideoPause();
+        if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            mLiveVideoPlayer.onVideoPause();
+        }
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            mIjkVideoView.pause();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLiveVideoPlayer.onVideoResume();
+        if (mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            mLiveVideoPlayer.onVideoResume();
+        }
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            mIjkVideoView.resume();
+        }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
-                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
-                mLiveVideoPlayer.startPlayLogic();
+                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl(), currentPlayPosition);
+//                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
+//                mLiveVideoPlayer.startPlayLogic();
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
@@ -184,6 +236,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mHandler = null;
         mLiveVideoPlayer.release();
         mLiveVideoPlayer = null;
+        mIjkVideoView.release(true);
+        mIjkVideoView = null;
     }
 
     @OnClick({R.id.img_left, R.id.img_right})
@@ -228,8 +282,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     currentPlayPosition -= 1;
                 }
             }
-            mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
-            mLiveVideoPlayer.startPlayLogic();
+            playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl(), currentPlayPosition);
+//            mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
+//            mLiveVideoPlayer.startPlayLogic();
             mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
             showInfo();
             editor.putInt("liveLastPlayPosition", currentPlayPosition);
@@ -397,9 +452,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist());
                 try {
-                    mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
-                    mLiveVideoPlayer.startPlayLogic();
-                    currentPlayPosition = liveLastPlayPosition;
+                    playNewUrl(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), liveLastPlayPosition);
+//                    mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
+//                    mLiveVideoPlayer.startPlayLogic();
+//                    currentPlayPosition = liveLastPlayPosition;
                     mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
                     exception = false;
                 } catch (NullPointerException e) {
@@ -413,9 +469,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     exception = true;
                 } finally {
                     if (exception) {
-                        mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
-                        mLiveVideoPlayer.startPlayLogic();
-                        currentPlayPosition = 0;
+                        playNewUrl(liveListDatas.getPlaylist().get(0).getUrl(), 0);
+//                        mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
+//                        mLiveVideoPlayer.startPlayLogic();
+//                        currentPlayPosition = 0;
                         mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
                     }
                 }
