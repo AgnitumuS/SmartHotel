@@ -3,6 +3,7 @@ package com.wanlong.iptv.imageloader;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.wanlong.iptv.ui.weigets.RoundImageView;
 import com.youth.banner.loader.ImageLoader;
 
 public class GlideImageLoader extends ImageLoader {
@@ -19,8 +20,18 @@ public class GlideImageLoader extends ImageLoader {
 //        imageView.setBackgroundColor(context.getResources().getColor(R.color.white));
 //        .transform(new RoundedCorners(25))1
 //        GlideApp.with(context).load(path).fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
-        GlideApp.with(context).load(path).fitCenter().into(imageView);
+        GlideApp.with(context)
+                .load(path)
+                .centerCrop()
+                .into(imageView);
+    }
 
+    //提供createImageView 方法，如果不用可以不重写这个方法，主要是方便自定义ImageView的创建
+    @Override
+    public ImageView createImageView(Context context) {
+        //使用fresco，需要创建它提供的ImageView，当然你也可以用自己自定义的具有图片加载功能的ImageView
+        RoundImageView roundImageView = new RoundImageView(context);
+        return roundImageView;
     }
 
 }
