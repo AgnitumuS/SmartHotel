@@ -2,7 +2,6 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoView;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
@@ -136,7 +134,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "0008":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
-                initIjkVideoView();
+                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
+//                GSYVideoType.enableMediaCodec();
+                mIjkVideoView.setVisibility(View.GONE);
+//                initIjkVideoView();
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
@@ -221,41 +222,38 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     private void playNewUrl(String newurl) {
         currentPlayUrl = newurl;
-        initIjkVideoView();
-        if (Build.MODEL.equals("0008")) {
-            if (newurl.startsWith("udp")) {
-                if (mIjkVideoView.isPlaying()) {
-                    mIjkVideoView.stopPlayback();
-                }
-                mIjkVideoView.setVisibility(View.GONE);
-                mLiveVideoPlayer.setVisibility(View.VISIBLE);
-            } else {
-                mIjkVideoView.setVisibility(View.VISIBLE);
-                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
-                    mLiveVideoPlayer.onVideoPause();
-                    mLiveVideoPlayer.release();
-                }
-                mLiveVideoPlayer.setVisibility(View.GONE);
-            }
-        }
-        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            try {
-                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
-                    mLiveVideoPlayer.onVideoPause();
-                    mLiveVideoPlayer.release();
-                }
-                mLiveVideoPlayer.setVisibility(View.GONE);
+//        initIjkVideoView();
+//        if (Build.MODEL.equals("0008")) {
+//            if (newurl.startsWith("udp")) {
 //                if (mIjkVideoView.isPlaying()) {
 //                    mIjkVideoView.stopPlayback();
 //                }
-                mIjkVideoView.setVideoURI(Uri.parse(newurl));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-            mLiveVideoPlayer.setUp(newurl, false, "");
-            mLiveVideoPlayer.startPlayLogic();
-        }
+//                mIjkVideoView.setVisibility(View.GONE);
+//                mLiveVideoPlayer.setVisibility(View.VISIBLE);
+//            } else {
+//                mIjkVideoView.setVisibility(View.VISIBLE);
+//                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
+//                    mLiveVideoPlayer.onVideoPause();
+//                    mLiveVideoPlayer.release();
+//                }
+//                mLiveVideoPlayer.setVisibility(View.GONE);
+//            }
+//        }
+//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+//            try {
+//                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
+//                    mLiveVideoPlayer.onVideoPause();
+//                    mLiveVideoPlayer.release();
+//                }
+//                mLiveVideoPlayer.setVisibility(View.GONE);
+//                mIjkVideoView.setVideoURI(Uri.parse(newurl));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+        mLiveVideoPlayer.setUp(newurl, false, "");
+        mLiveVideoPlayer.startPlayLogic();
+//        }
     }
 
     @Override
@@ -264,11 +262,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoPause();
         }
-        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            if (mIjkVideoView.isPlaying()) {
-                mIjkVideoView.stopBackgroundPlay();
-            }
-        }
+//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+//            if (mIjkVideoView.isPlaying()) {
+//                mIjkVideoView.stopBackgroundPlay();
+//            }
+//        }
     }
 
     @Override
@@ -277,9 +275,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoResume();
         }
-        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            mIjkVideoView.resume();
-        }
+//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+//            mIjkVideoView.resume();
+//        }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
                 playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
@@ -305,8 +303,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLiveVideoPlayer.release();
             mLiveVideoPlayer = null;
         }
-        mIjkVideoView.release(true);
-        mIjkVideoView = null;
+//        mIjkVideoView.release(true);
+//        mIjkVideoView = null;
     }
 
     @OnClick({R.id.img_left, R.id.img_right})
