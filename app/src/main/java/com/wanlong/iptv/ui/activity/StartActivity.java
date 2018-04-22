@@ -79,14 +79,11 @@ public class StartActivity extends BaseActivity {
             ip = sharedPreferences.getString("ip", "");
         }
         Apis.HEADER = ip;
-        if (firstOpen) {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putBoolean("first", false);
-//            editor.commit();
-            mHandler.sendEmptyMessageDelayed(LOGIN, 1000);
-        } else {
+//        if (firstOpen) {
+//            mHandler.sendEmptyMessageDelayed(LOGIN, 1000);
+//        } else {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
-        }
+//        }
     }
 
     private Handler mHandler = new Handler() {

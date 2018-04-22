@@ -261,11 +261,6 @@ public class LoginSettingActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                    }
-
-                    @Override
                     public void onError(Response<String> response) {
                         loginFailed();
                         super.onError(response);

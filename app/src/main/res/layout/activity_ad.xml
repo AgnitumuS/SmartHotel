@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView
+        android:id="@+id/ijkVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_181818"
+        android:visibility="gone"/>
+
     <com.wanlong.iptv.ui.weigets.MarqueeTextView
         android:id="@+id/tv_hint"
         android:layout_width="match_parent"
