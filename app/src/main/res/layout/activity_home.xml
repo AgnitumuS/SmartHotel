@@ -147,6 +147,20 @@
             android:textSize="36px" />
 
         <TextView
+            android:id="@+id/tv_self_management"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px"
+            android:layout_weight="1"
+            android:background="@drawable/btn_background1"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="自办"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <TextView
             android:id="@+id/tv_vod"
             android:layout_width="0dp"
             android:layout_height="match_parent"

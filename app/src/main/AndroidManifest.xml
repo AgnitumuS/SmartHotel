@@ -137,6 +137,11 @@
             android:launchMode="singleInstance"
             android:screenOrientation="landscape" />
 
+        <activity
+            android:name=".ui.activity.SelfManagementActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+
         <service android:name=".server.AdService"></service>
 
         <provider
