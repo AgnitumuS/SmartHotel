@@ -53,8 +53,14 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         name = intent.getStringExtra("vod_name");
 //        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
 //        mTextMovieCountDetail.setAlpha();
-        mTextMovieNameDetail.setText(name);
-        mTextMovieTimeDetail.setText("(" + intent.getStringExtra("vod_release_time") + ")");
+        String total_sets = intent.getStringExtra("total_sets");
+        String current_sets = intent.getStringExtra("current_sets");
+        if (total_sets.equals("1")) {
+            mTextMovieNameDetail.setText(name);
+        } else {
+            mTextMovieNameDetail.setText(name + "(已更新" + current_sets + "集/共" + total_sets + "集)");
+        }
+        mTextMovieTimeDetail.setText("时间：" + intent.getStringExtra("vod_release_time"));
         mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
         mTextMovieTypeDetail.setText("类型：" + intent.getStringExtra("vod_category"));
         mTextMoviePeopleDetail.setText("主演：" + intent.getStringExtra("vod_actor"));

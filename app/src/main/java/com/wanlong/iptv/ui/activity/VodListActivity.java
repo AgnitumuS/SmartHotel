@@ -69,6 +69,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
                 intent.putExtra("urls", urls);
                 intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getVod_pic_dir() +
                         mPlaylistBeans.get(position).getPic_url().get(0));
+                intent.putExtra("total_sets", mPlaylistBeans.get(position).getTotal_sets());
+                intent.putExtra("current_sets", mPlaylistBeans.get(position).getCurrent_sets());
                 intent.putExtra("vod_name", mPlaylistBeans.get(position).getVod_name());
                 intent.putExtra("vod_release_time", mPlaylistBeans.get(position).getVod_release_time());
                 intent.putExtra("vod_scores", mPlaylistBeans.get(position).getVod_scores());
