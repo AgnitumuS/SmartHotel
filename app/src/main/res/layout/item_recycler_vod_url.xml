@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativelayout_movie_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:focusable="false">
+
+    <Button
+        android:id="@+id/btn_movie_url"
+        android:layout_width="160px"
+        android:layout_height="wrap_content"
+        android:layout_margin="8px"
+        android:focusable="true"
+        android:textColor="@color/white"
+        android:textSize="36px"
+        tools:text="1" />
+</com.zhy.autolayout.AutoRelativeLayout>

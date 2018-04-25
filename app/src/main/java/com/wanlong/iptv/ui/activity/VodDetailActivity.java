@@ -1,15 +1,19 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-
 import com.wanlong.iptv.mvp.VodDetailPresenter;
+import com.wanlong.iptv.ui.adapter.VodUrlAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,6 +38,12 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     TextView mTextMovieDetailPlay;
     @BindView(R.id.relativelayout_movie_detail)
     RelativeLayout mRelativelayoutMovieDetail;
+    @BindView(R.id.ll_movie_detail)
+    LinearLayout mLlMovieDetail;
+    @BindView(R.id.recycler_movie_urls)
+    RecyclerView mRecyclerMovieUrls;
+    @BindView(R.id.ll_movie_urls)
+    LinearLayout mLlMovieUrls;
 
     @Override
     protected int getContentResId() {
@@ -68,10 +78,31 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         Glide.with(this).load(intent.getStringExtra("vod_pic_url")).into(mImgMovieDetail);
     }
 
+    private VodUrlAdapter mVodUrlAdapter;
+
     @Override
     protected void initData() {
 //        setPresenter(new VodDetailPresenter(this));
 //        getPresenter().loadVodDetailData("");
+        //点播节目列表
+        GridLayoutManager autoGridLayoutManager = new GridLayoutManager(this, 10);
+        mRecyclerMovieUrls.setLayoutManager(autoGridLayoutManager);
+        mVodUrlAdapter = new VodUrlAdapter(this);
+        mRecyclerMovieUrls.setAdapter(mVodUrlAdapter);
+        mVodUrlAdapter.setData(urls);
+        listener();
+    }
+
+    private void listener() {
+        mVodUrlAdapter.setOnItemClickListener(new VodUrlAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
+                intent.putExtra("url", url + urls[position]);
+                intent.putExtra("name", name);
+                startActivity(intent);
+            }
+        });
     }
 
     @OnClick(R.id.text_movie_detail_play)
@@ -87,5 +118,4 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
 //        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
-
 }
