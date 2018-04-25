@@ -60,6 +60,11 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         intent = getIntent();
         url = intent.getStringExtra("url_header");
         urls = intent.getStringArrayExtra("urls");
+        if (urls.length > 1) {
+            mLlMovieUrls.setVisibility(View.VISIBLE);
+        } else {
+            mLlMovieUrls.setVisibility(View.GONE);
+        }
         name = intent.getStringExtra("vod_name");
 //        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
 //        mTextMovieCountDetail.setAlpha();
