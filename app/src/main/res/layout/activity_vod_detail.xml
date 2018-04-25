@@ -10,6 +10,7 @@
     tools:context=".ui.activity.VodDetailActivity">
 
     <LinearLayout
+        android:id="@+id/ll_movie_detail"
         android:layout_width="match_parent"
         android:layout_height="600px"
         android:focusable="false"
@@ -27,7 +28,7 @@
             android:layout_weight="1"
             android:focusable="false"
             android:scaleType="centerCrop"
-            tools:src="@drawable/sence"/>
+            tools:src="@drawable/sence" />
 
         <RelativeLayout
             android:id="@+id/relativelayout_movie_detail"
@@ -119,12 +120,24 @@
                 android:drawablePadding="16px"
                 android:drawableTop="@drawable/small_full_screen_icon"
                 android:focusable="true"
+                android:gravity="center"
                 android:padding="10px"
                 android:text="全屏播放"
                 android:textColor="@color/white"
                 android:textSize="40px" />
         </RelativeLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_movie_detail"
+        android:layout_marginLeft="30px"
+        android:layout_marginRight="20px"
+        android:layout_marginTop="30px"
+        android:text="选集"
+        android:textColor="@color/white"
+        android:visibility="visible" />
 
     <!--<android.support.v7.widget.RecyclerView-->
     <!--android:id="@+id/movie_recommend"-->

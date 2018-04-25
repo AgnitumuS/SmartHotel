@@ -61,14 +61,20 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodListActivity.this, VodDetailActivity.class);
-                intent.putExtra("url", mPlaylistBeans.get(position).getVod_movie_player_src());
-                intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getPic_url());
+                intent.putExtra("url_header", mPlaylistBeans.get(position).getVod_movie_player_src());
+                String[] urls = new String[mPlaylistBeans.get(position).getVod_movie().size()];
+                for (int i = 0; i < urls.length; i++) {
+                    urls[i] = mPlaylistBeans.get(position).getVod_movie().get(i);
+                }
+                intent.putExtra("urls", urls);
+                intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getVod_pic_dir() +
+                        mPlaylistBeans.get(position).getPic_url().get(0));
                 intent.putExtra("vod_name", mPlaylistBeans.get(position).getVod_name());
-                intent.putExtra("vod_release_time",mPlaylistBeans.get(position).getVod_release_time());
-                intent.putExtra("vod_scores",mPlaylistBeans.get(position).getVod_scores());
-                intent.putExtra("vod_category",mPlaylistBeans.get(position).getVod_category());
-                intent.putExtra("vod_actor",mPlaylistBeans.get(position).getVod_actor());
-                intent.putExtra("vod_detail",mPlaylistBeans.get(position).getVod_detail());
+                intent.putExtra("vod_release_time", mPlaylistBeans.get(position).getVod_release_time());
+                intent.putExtra("vod_scores", mPlaylistBeans.get(position).getVod_scores());
+                intent.putExtra("vod_category", mPlaylistBeans.get(position).getVod_category());
+                intent.putExtra("vod_actor", mPlaylistBeans.get(position).getVod_actor());
+                intent.putExtra("vod_detail", mPlaylistBeans.get(position).getVod_detail());
                 startActivity(intent);
             }
         });

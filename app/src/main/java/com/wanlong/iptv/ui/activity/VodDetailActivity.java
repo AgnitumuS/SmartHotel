@@ -43,20 +43,22 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     private Intent intent;
     private String url;
     private String name;
+    private String[] urls;
 
     @Override
     protected void initView() {
         intent = getIntent();
-        url = intent.getStringExtra("url");
+        url = intent.getStringExtra("url_header");
+        urls = intent.getStringArrayExtra("urls");
         name = intent.getStringExtra("vod_name");
 //        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
 //        mTextMovieCountDetail.setAlpha();
         mTextMovieNameDetail.setText(name);
         mTextMovieTimeDetail.setText("(" + intent.getStringExtra("vod_release_time") + ")");
         mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
-        mTextMovieTypeDetail.setText("类型："+intent.getStringExtra("vod_category"));
-        mTextMoviePeopleDetail.setText("主演："+intent.getStringExtra("vod_actor"));
-        mTextMovieDescriptionDetail.setText("简介："+intent.getStringExtra("vod_detail"));
+        mTextMovieTypeDetail.setText("类型：" + intent.getStringExtra("vod_category"));
+        mTextMoviePeopleDetail.setText("主演：" + intent.getStringExtra("vod_actor"));
+        mTextMovieDescriptionDetail.setText("简介：" + intent.getStringExtra("vod_detail"));
         Glide.with(this).load(intent.getStringExtra("vod_pic_url")).into(mImgMovieDetail);
     }
 
@@ -69,8 +71,8 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     @OnClick(R.id.text_movie_detail_play)
     public void onViewClicked() {
         Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("name",name);
+        intent.putExtra("url", url + urls[0]);
+        intent.putExtra("name", name);
         startActivity(intent);
     }
 

@@ -12,7 +12,7 @@ public class VodList implements Serializable {
     /**
      * code : 0
      * category : Action movie
-     * playlist : [{"vod_name":"test","director":"some body","vod_actor":"some body","vod_language":"english","vod_release_area":"area","vod_release_time":"2017-04-01","vod_category":"Action movie,sci-fi movie","vod_time_time":"res","vod_duration_time":"120","vod_watch_level":"res","vod_detail":"nothing hehe!","vod_scores":"5.0","vod_price":"0","vod_movie_player_src":"http://192.168.1.166:80/stream/vod/fun.ts","pic_url":"http://192.168.1.166:80/stream/vod/sence.jpg","vod_pic_dir":"http://192.168.1.166:80/stream/vod/sence.jpg"}]
+     * playlist : [{"vod_name":"hall","director":"x","vod_actor":"xx","vod_language":"xxxx","vod_release_area":"xxx","vod_release_time":"2000-01-01","vod_category":"Action movie","vod_time_time":"res","vod_duration_time":"120","vod_watch_level":"normal","vod_detail":"test","vod_scores":"5.0","vod_price":"0","total_sets":"1","vod_movie_player_src":"http://192.168.1.166:80/stream/vod/fun/","vod_pic_dir":"http://192.168.1.166:80/stream/vod/fun/","pic_url":["01.jpg","02.jpg"],"vod_movie":["fun01.ts","fun02.ts","fun03.ts","fun04.ts"],"current_sets":"4"}]
      */
 
     private String code;
@@ -45,22 +45,25 @@ public class VodList implements Serializable {
 
     public static class PlaylistBean {
         /**
-         * vod_name : test
-         * director : some body
-         * vod_actor : some body
-         * vod_language : english
-         * vod_release_area : area
-         * vod_release_time : 2017-04-01
-         * vod_category : Action movie,sci-fi movie
+         * vod_name : hall
+         * director : x
+         * vod_actor : xx
+         * vod_language : xxxx
+         * vod_release_area : xxx
+         * vod_release_time : 2000-01-01
+         * vod_category : Action movie
          * vod_time_time : res
          * vod_duration_time : 120
-         * vod_watch_level : res
-         * vod_detail : nothing hehe!
+         * vod_watch_level : normal
+         * vod_detail : test
          * vod_scores : 5.0
          * vod_price : 0
-         * vod_movie_player_src : http://192.168.1.166:80/stream/vod/fun.ts
-         * pic_url : http://192.168.1.166:80/stream/vod/sence.jpg
-         * vod_pic_dir : http://192.168.1.166:80/stream/vod/sence.jpg
+         * total_sets : 1
+         * vod_movie_player_src : http://192.168.1.166:80/stream/vod/fun/
+         * vod_pic_dir : http://192.168.1.166:80/stream/vod/fun/
+         * pic_url : ["01.jpg","02.jpg"]
+         * vod_movie : ["fun01.ts","fun02.ts","fun03.ts","fun04.ts"]
+         * current_sets : 4
          */
 
         private String vod_name;
@@ -76,9 +79,12 @@ public class VodList implements Serializable {
         private String vod_detail;
         private String vod_scores;
         private String vod_price;
+        private String total_sets;
         private String vod_movie_player_src;
-        private String pic_url;
         private String vod_pic_dir;
+        private String current_sets;
+        private List<String> pic_url;
+        private List<String> vod_movie;
 
         public String getVod_name() {
             return vod_name;
@@ -184,6 +190,14 @@ public class VodList implements Serializable {
             this.vod_price = vod_price;
         }
 
+        public String getTotal_sets() {
+            return total_sets;
+        }
+
+        public void setTotal_sets(String total_sets) {
+            this.total_sets = total_sets;
+        }
+
         public String getVod_movie_player_src() {
             return vod_movie_player_src;
         }
@@ -192,20 +206,36 @@ public class VodList implements Serializable {
             this.vod_movie_player_src = vod_movie_player_src;
         }
 
-        public String getPic_url() {
-            return pic_url;
-        }
-
-        public void setPic_url(String pic_url) {
-            this.pic_url = pic_url;
-        }
-
         public String getVod_pic_dir() {
             return vod_pic_dir;
         }
 
         public void setVod_pic_dir(String vod_pic_dir) {
             this.vod_pic_dir = vod_pic_dir;
+        }
+
+        public String getCurrent_sets() {
+            return current_sets;
+        }
+
+        public void setCurrent_sets(String current_sets) {
+            this.current_sets = current_sets;
+        }
+
+        public List<String> getPic_url() {
+            return pic_url;
+        }
+
+        public void setPic_url(List<String> pic_url) {
+            this.pic_url = pic_url;
+        }
+
+        public List<String> getVod_movie() {
+            return vod_movie;
+        }
+
+        public void setVod_movie(List<String> vod_movie) {
+            this.vod_movie = vod_movie;
         }
     }
 }
