@@ -136,7 +136,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
 //                GSYVideoType.enableMediaCodec();
-                mIjkVideoView.setVisibility(View.GONE);
+//                mIjkVideoView.setVisibility(View.GONE);
 //                initIjkVideoView();
                 break;
             default:
