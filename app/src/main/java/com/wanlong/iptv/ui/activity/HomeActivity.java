@@ -47,8 +47,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView, AdService.AdListener, View.OnClickListener {
+public class HomeActivity extends BaseActivity<HomePresenter> implements HomePresenter.HomeView, AdService.AdListener {
 
     @BindView(R.id.tv_welcome_guest)
     TextView mTvWelcomeGuest;
@@ -120,7 +121,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mParams.setMargins(0, 0, 0, 16);
         mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(128f);
+        mMarqueeTextView.setTextSize(32f);
         mMarqueeTextView.setPadding(0, 0, 0, 0);
         mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
@@ -135,7 +136,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initView() {
-        addClickListener();
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         if (App.PRISON) {
@@ -150,13 +150,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
-    }
-
-    private void addClickListener() {
-        mTvLive.setOnClickListener(this);
-        mTvSelfManagement.setOnClickListener(this);
-        mTvVod.setOnClickListener(this);
-        mTvSetting.setOnClickListener(this);
     }
 
     //加载图片
@@ -193,30 +186,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-//    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
-//            R.id.tv_self_management, R.id.tv_vod, R.id.tv_setting})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.img_show:
-//                break;
-//            case R.id.img_weather:
-//                break;
-//            case R.id.img_ad:
-//                break;
-//            case R.id.tv_live:
-//                startActivity(new Intent(HomeActivity.this, LiveActivity.class));
-//                break;
-//            case R.id.tv_self_management:
-//                startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
-//                break;
-//            case R.id.tv_vod:
-//                startActivity(new Intent(HomeActivity.this, VodListActivity.class));
-//                break;
-//            case R.id.tv_setting:
-//                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-//                break;
-//        }
-//    }
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
+            R.id.tv_self_management, R.id.tv_vod, R.id.tv_setting})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.img_show:
+                break;
+            case R.id.img_weather:
+                break;
+            case R.id.img_ad:
+                break;
+            case R.id.tv_live:
+                startActivity(new Intent(HomeActivity.this, LiveActivity.class));
+                break;
+            case R.id.tv_self_management:
+                startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
+                break;
+            case R.id.tv_vod:
+                startActivity(new Intent(HomeActivity.this, VodListActivity.class));
+                break;
+            case R.id.tv_setting:
+                startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
+                break;
+        }
+    }
 
     private Login data;
     private String ip;
@@ -674,27 +667,4 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_show:
-                break;
-            case R.id.img_weather:
-                break;
-            case R.id.img_ad:
-                break;
-            case R.id.tv_live:
-                startActivity(new Intent(HomeActivity.this, LiveActivity.class));
-                break;
-            case R.id.tv_self_management:
-                startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
-                break;
-            case R.id.tv_vod:
-                startActivity(new Intent(HomeActivity.this, VodListActivity.class));
-                break;
-            case R.id.tv_setting:
-                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-                break;
-        }
-    }
 }

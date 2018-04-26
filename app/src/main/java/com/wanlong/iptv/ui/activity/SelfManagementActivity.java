@@ -2,6 +2,7 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -133,12 +134,12 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             case "0008":
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
-                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
+//                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+//                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+//                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
 //                GSYVideoType.enableMediaCodec();
-                mIjkVideoView.setVisibility(View.GONE);
-//                initIjkVideoView();
+//                mIjkVideoView.setVisibility(View.GONE);
+                initIjkVideoView();
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
@@ -173,7 +174,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 
     private void initIjkVideoView() {
         Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
-        Settings.setMediaCodec(true);
+//        Settings.setMediaCodec(true);
         mIjkVideoView.setVisibility(View.VISIBLE);
         mIjkVideoView.setFocusable(false);
         mLiveVideoPlayer.setVisibility(View.GONE);
@@ -240,21 +241,17 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 //                mLiveVideoPlayer.setVisibility(View.GONE);
 //            }
 //        }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//            try {
-//                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
-//                    mLiveVideoPlayer.onVideoPause();
-//                    mLiveVideoPlayer.release();
-//                }
-//                mLiveVideoPlayer.setVisibility(View.GONE);
-//                mIjkVideoView.setVideoURI(Uri.parse(newurl));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-        mLiveVideoPlayer.setUp(newurl, false, "");
-        mLiveVideoPlayer.startPlayLogic();
-//        }
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            try {
+                mLiveVideoPlayer.setVisibility(View.GONE);
+                mIjkVideoView.setVideoURI(Uri.parse(newurl));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            mLiveVideoPlayer.setUp(newurl, false, "");
+            mLiveVideoPlayer.startPlayLogic();
+        }
     }
 
     @Override
