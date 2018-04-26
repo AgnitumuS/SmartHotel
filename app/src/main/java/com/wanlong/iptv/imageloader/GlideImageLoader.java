@@ -19,6 +19,7 @@ public class GlideImageLoader extends ImageLoader {
 //        imageView.setBackgroundColor(context.getResources().getColor(R.color.white));
 //        .transform(new RoundedCorners(25))1
 //        GlideApp.with(context).load(path).fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(imageView);
+        imageView.setFocusable(false);
         GlideApp.with(context)
                 .load(path)
                 .centerCrop()

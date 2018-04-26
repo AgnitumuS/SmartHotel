@@ -68,7 +68,7 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mBtnSubmitIp.requestFocus();
+        mEditPassword.requestFocus();
         from = getIntent().getStringExtra("from");
         if (from.equals("StartActivity")) {
             mBtnSubmitIp.setText("登录");
@@ -113,6 +113,7 @@ public class LoginSettingActivity extends BaseActivity {
                     if (password.equals(Apis.SETTING_PASSWORD)) {
                         mRePasswordCheckUp.setVisibility(View.GONE);
                         mReLoginSetting.setVisibility(View.VISIBLE);
+                        mEditIp.requestFocus();
                     }
                 }
             }
@@ -160,6 +161,7 @@ public class LoginSettingActivity extends BaseActivity {
                 if (password.equals(Apis.SETTING_PASSWORD)) {
                     mRePasswordCheckUp.setVisibility(View.GONE);
                     mReLoginSetting.setVisibility(View.VISIBLE);
+                    mEditIp.requestFocus();
                 } else {
                     Toast.makeText(this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
                 }
