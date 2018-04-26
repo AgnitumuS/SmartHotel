@@ -241,6 +241,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(HomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
@@ -252,6 +253,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                                     loginFailed();
 //                                    Toast.makeText(HomeActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
+                                    App.look_permission = false;
                                     loginFailed();
 //                                    Toast.makeText(HomeActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {

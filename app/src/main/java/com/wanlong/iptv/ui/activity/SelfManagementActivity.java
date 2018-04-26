@@ -21,6 +21,7 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
@@ -241,16 +242,20 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 //                mLiveVideoPlayer.setVisibility(View.GONE);
 //            }
 //        }
-        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            try {
-                mLiveVideoPlayer.setVisibility(View.GONE);
-                mIjkVideoView.setVideoURI(Uri.parse(newurl));
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (App.look_permission) {
+            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+                try {
+                    mLiveVideoPlayer.setVisibility(View.GONE);
+                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+                mLiveVideoPlayer.setUp(newurl, false, "");
+                mLiveVideoPlayer.startPlayLogic();
             }
-        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-            mLiveVideoPlayer.setUp(newurl, false, "");
-            mLiveVideoPlayer.startPlayLogic();
+        } else {
+            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
         }
     }
 

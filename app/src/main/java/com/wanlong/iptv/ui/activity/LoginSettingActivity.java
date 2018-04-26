@@ -226,6 +226,7 @@ public class LoginSettingActivity extends BaseActivity {
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
+                                    App.look_permission = true;
                                     Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
@@ -237,6 +238,7 @@ public class LoginSettingActivity extends BaseActivity {
                                     loginFailed();
                                     Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
+                                    App.look_permission = false;
                                     loginFailed();
                                     Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {

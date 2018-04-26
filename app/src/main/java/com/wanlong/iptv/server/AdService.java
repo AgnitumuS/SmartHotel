@@ -126,6 +126,7 @@ public class AdService extends Service {
                                 } else if (mUserStatus.getCode().equals("1")) {
                                     //存储
                                     uploadSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(AdServiceold.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-1")) {
                                     uploadFailed();
@@ -137,6 +138,7 @@ public class AdService extends Service {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-4")) {
+                                    App.look_permission = false;
                                     uploadFailed();
                                     Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
@@ -193,6 +195,7 @@ public class AdService extends Service {
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
@@ -205,6 +208,7 @@ public class AdService extends Service {
 //                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
                                     loginFailed();
+                                    App.look_permission = false;
 //                                    Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
                                     loginFailed();
