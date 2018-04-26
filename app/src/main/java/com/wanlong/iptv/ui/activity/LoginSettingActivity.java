@@ -109,6 +109,12 @@ public class LoginSettingActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 password = s.toString();
+                if (password.length() == 6) {
+                    if (password.equals(Apis.SETTING_PASSWORD)) {
+                        mRePasswordCheckUp.setVisibility(View.GONE);
+                        mReLoginSetting.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
         mEditIp.addTextChangedListener(new TextWatcher() {
