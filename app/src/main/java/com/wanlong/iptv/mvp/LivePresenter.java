@@ -13,30 +13,32 @@ import com.wanlong.iptv.entity.Live;
  * Created by lingchen on 2018/1/30. 14:51
  * mail:lingchen52@foxmail.com
  */
-public class LivePresenter extends BasePresenter<LivePresenter.LiveView>{
+public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
 
     public LivePresenter(LiveView liveView) {
         super(liveView);
     }
 
-    public void loadLiveListData(String url){
-        Logger.d("LivePresenter:"+url);
+    //获取节目类型：直播、自办
+    public void loadLiveTypeData(String url) {
+        Logger.d("LivePresenter:" + url);
         OkGo.<String>post(url)
                 .tag(this)
                 .params("mac", App.mac)
+                .params("category", "?")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
                         try {
                             Live liveListDatas = JSON.parseObject(response.body(), Live.class);
-                            if(liveListDatas.getCode().equals("0")){
+                            if (liveListDatas.getCode().equals("0")) {
                                 getView().loadListSuccess(liveListDatas);
-                            }else {
+                            } else {
                                 getView().loadFailed(1);
                             }
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -55,8 +57,47 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView>{
                 });
     }
 
-    public interface LiveView extends BaseView{
+    //获取节目列表 type:直播、自办
+    public void loadLiveListData(String url, String type) {
+        Logger.d("LivePresenter:" + url);
+        OkGo.<String>post(url)
+                .tag(this)
+                .params("mac", App.mac)
+                .params("category", type)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
+                        try {
+                            Live liveListDatas = JSON.parseObject(response.body(), Live.class);
+                            if (liveListDatas.getCode().equals("0")) {
+                                getView().loadListSuccess(liveListDatas);
+                            } else {
+                                getView().loadFailed(1);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        getView().loadFailed(2);
+                    }
+                });
+    }
+
+    public interface LiveView extends BaseView {
         void loadListSuccess(Live liveListDatas);
+
         void loadFailed(int data);
 
     }

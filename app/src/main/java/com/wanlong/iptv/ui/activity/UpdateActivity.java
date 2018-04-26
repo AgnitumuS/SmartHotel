@@ -42,7 +42,13 @@ public class UpdateActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mVersion.setText("版本 :" + getString(R.string.versionName));
+        String version;
+        if (App.RELEASE_VERSION) {
+            version = getString(R.string.versionName);
+        } else {
+            version = getString(R.string.versionName) + "(" + getString(R.string.versionCode) + ")";
+        }
+        mVersion.setText("版本 :" + version);
     }
 
     private String url = "";

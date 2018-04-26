@@ -9,6 +9,7 @@ public class Apis {
     public static String HEADER = "http://192.168.1.166:80/";
     public static final String HEADER_ORIGIN = "http://192.168.1.166:80/";
     public static String ROOM_ORIGIN = "501";
+    public static final String SETTING_PASSWORD = "000000";
     //登录
     public static final String APP_LOGIN = "api";
     //广告

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
@@ -70,6 +71,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     AppCompatTextView mTvRoom;
     @BindView(R.id.tv_message)
     AppCompatTextView mTvMessage;
+    @BindView(R.id.tv_self_management)
+    TextView mTvSelfManagement;
 
 
     @Override
@@ -81,7 +84,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     protected void initWindowManager() {
         super.initWindowManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (android.provider.Settings.canDrawOverlays(this)) {
+            if (Settings.canDrawOverlays(this)) {
                 setText();
             }
         } else {
@@ -183,7 +186,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_vod, R.id.tv_setting})
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
+            R.id.tv_self_management, R.id.tv_vod, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_show:
@@ -194,6 +198,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 break;
             case R.id.tv_live:
                 startActivity(new Intent(HomeActivity.this, LiveActivity.class));
+                break;
+            case R.id.tv_self_management:
+                startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
                 break;
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
