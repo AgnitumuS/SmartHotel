@@ -92,9 +92,11 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
 
     @Override
     public void loadVodTypeSuccess(VodType vodType) {
-        mVodType = vodType;
-        mVodTypeAdapter.setData(vodType.getCategory());
-        getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
+        if (vodType != null && vodType.getCategory() != null && vodType.getCategory().size() > 0) {
+            mVodType = vodType;
+            mVodTypeAdapter.setData(vodType.getCategory());
+            getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
+        }
     }
 
     private List<VodList.PlaylistBean> mPlaylistBeans;
@@ -103,8 +105,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     public void loadVodListSuccess(VodList vodListDatas) {
         if (vodListDatas.getPlaylist() != null && vodListDatas.getPlaylist().size() > 0) {
             mPlaylistBeans = vodListDatas.getPlaylist();
+            mVodListAdapter.setData(vodListDatas.getPlaylist());
         }
-        mVodListAdapter.setData(vodListDatas.getPlaylist());
     }
 
     @Override
