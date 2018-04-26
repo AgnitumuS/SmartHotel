@@ -52,24 +52,32 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        if(mVodListDatas.get(position).getPic_url().equals("")){
+        if (mVodListDatas.get(position).getPic_url().get(0).equals("")) {
             Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
-        }else {
-            Glide.with(mContext).load(mVodListDatas.get(position).getPic_url()).into(viewHolder.mImgRecycleviewMovie);
+        } else {
+            Glide.with(mContext)
+                    .load(mVodListDatas.get(position).getVod_pic_dir() +
+                            mVodListDatas.get(position).getPic_url().get(0))
+                    .into(viewHolder.mImgRecycleviewMovie);
         }
         viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getVod_name());
 //        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
-        viewHolder.mTextRecycleviewMovieScore.setText(mVodListDatas.get(position).getVod_scores());
+        if (mVodListDatas.get(position).getTotal_sets().equals("1")) {
+            viewHolder.mTextRecycleviewMovieScore.setText(mVodListDatas.get(position).getVod_scores());
+        } else {
+            viewHolder.mTextRecycleviewMovieScore.setText("更新" + mVodListDatas.get(position).getCurrent_sets() +
+                    "集/共" + mVodListDatas.get(position).getTotal_sets() + "集");
+        }
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mImgRecycleviewMovie,position);
+                mOnItemClickListener.onItemClick(viewHolder.mImgRecycleviewMovie, position);
             }
         });
     }
 
-    private String[] movies = {"Planet Earth1","Planet Earth2","Planet Earth3","Planet Earth4","Planet Earth5","Planet Earth6","Planet Earth7","Planet Earth8","Planet Earth9","Planet Earth10",};
+    private String[] movies = {"Planet Earth1", "Planet Earth2", "Planet Earth3", "Planet Earth4", "Planet Earth5", "Planet Earth6", "Planet Earth7", "Planet Earth8", "Planet Earth9", "Planet Earth10",};
 
     @Override
     public int getItemCount() {

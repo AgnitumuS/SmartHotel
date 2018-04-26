@@ -10,8 +10,9 @@
     tools:context=".ui.activity.VodDetailActivity">
 
     <LinearLayout
+        android:id="@+id/ll_movie_detail"
         android:layout_width="match_parent"
-        android:layout_height="600px"
+        android:layout_height="560px"
         android:focusable="false"
         android:orientation="horizontal">
 
@@ -23,17 +24,16 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="30px"
             android:layout_marginRight="20px"
-            android:layout_marginTop="30px"
             android:layout_weight="1"
             android:focusable="false"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            tools:src="@drawable/sence" />
 
         <RelativeLayout
             android:id="@+id/relativelayout_movie_detail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
-            android:layout_marginTop="30px"
             android:layout_weight="1"
             android:clipChildren="false"
             android:focusable="false">
@@ -53,11 +53,12 @@
                 android:id="@+id/text_movie_time_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/text_movie_name_detail"
+                android:layout_below="@+id/text_movie_name_detail"
+                android:layout_marginTop="16px"
                 android:focusable="false"
                 android:textColor="@color/white"
                 android:textSize="36px"
-                tools:text="(2016)" />
+                tools:text="时间：2016" />
 
             <TextView
                 android:id="@+id/text_movie_count_detail"
@@ -75,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/text_movie_name_detail"
-                android:layout_marginTop="5dp"
+                android:layout_below="@+id/text_movie_time_detail"
+                android:layout_marginTop="16px"
                 android:focusable="false"
                 android:textColor="@color/white"
                 android:textSize="36px"
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/text_movie_type_detail"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="16px"
                 android:focusable="false"
                 android:textColor="@color/white"
                 android:textSize="36px"
@@ -100,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/text_movie_people_detail"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="16px"
                 android:focusable="false"
                 android:textColor="@color/white"
                 android:textSize="36px"
@@ -118,6 +119,7 @@
                 android:drawablePadding="16px"
                 android:drawableTop="@drawable/small_full_screen_icon"
                 android:focusable="true"
+                android:gravity="center"
                 android:padding="10px"
                 android:text="全屏播放"
                 android:textColor="@color/white"
@@ -125,12 +127,33 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/movie_recommend"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_marginLeft="30px"-->
-    <!--android:layout_marginTop="10dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:focusable="false"/>-->
+    <LinearLayout
+        android:id="@+id/ll_movie_urls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_movie_detail"
+        android:focusable="false"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="20px"
+            android:layout_marginTop="30px"
+            android:focusable="false"
+            android:text="选集"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_movie_urls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="16px"
+            android:layout_weight="1"
+            android:focusable="false" />
+    </LinearLayout>
 </RelativeLayout>

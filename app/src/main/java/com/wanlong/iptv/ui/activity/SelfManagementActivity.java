@@ -34,7 +34,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
-public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
+public class SelfManagementActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
     @BindView(R.id.live_video_player)
     LiveVideoPlayer mLiveVideoPlayer;
@@ -93,7 +93,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //                mLiveVideoPlayer.startPlayLogic();
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
-                editor.putInt("live_LastPlayPosition", position);
+                editor.putInt("selfManager_LastPlayPosition", position);
                 editor.commit();
             }
         });
@@ -106,13 +106,13 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void initData() {
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-        liveLastPlayPosition = sharedPreferences.getInt("live_LastPlayPosition", 0);
+        liveLastPlayPosition = sharedPreferences.getInt("selfManager_LastPlayPosition", 0);
         editor = sharedPreferences.edit();
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE, "直播");
+        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE, "自办");
         resetTime();
     }
 
@@ -137,7 +137,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
 //                GSYVideoType.enableMediaCodec();
-//                mIjkVideoView.setVisibility(View.GONE);
+                mIjkVideoView.setVisibility(View.GONE);
 //                initIjkVideoView();
                 break;
             default:
@@ -356,7 +356,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //            mLiveVideoPlayer.startPlayLogic();
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
                 showInfo();
-                editor.putInt("live_LastPlayPosition", currentPlayPosition);
+                editor.putInt("selfManager_LastPlayPosition", currentPlayPosition);
                 editor.commit();
             }
         }

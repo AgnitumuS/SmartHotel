@@ -11,8 +11,8 @@ public class Live implements Serializable {
 
     /**
      * code : 0
-     * category : live,live1
-     * playlist : [{"channel_number":"t9MXW4ccqp","service_name":"xxx","url":"http://127.0.0.1:8080/live/t9MXW4ccqp.m3u8","icon":"","category":" live","live_package":" ","type":"live"}]
+     * category : 直播,自办
+     * playlist : [{"category":"直播","channel_number":"DFRKk1LSdz","service_name":"cctv1","url":"udp://224.0.3.120:10119","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,test,3#,4#","type":"live","program_num":"1"},{"category":"直播","channel_number":"KE4KZJtuEM","service_name":"cctv2","url":"udp://224.0.3.121:10120","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,3#,4#","type":"live","program_num":"2"},{"category":"直播","channel_number":"L9UXAoQY7I","service_name":"cctv3","url":"http://192.168.1.231/earth1.mp4","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,4#","type":"live","program_num":"3"}]
      */
 
     private String code;
@@ -45,22 +45,32 @@ public class Live implements Serializable {
 
     public static class PlaylistBean {
         /**
-         * channel_number : t9MXW4ccqp
-         * service_name : xxx
-         * url : http://127.0.0.1:8080/live/t9MXW4ccqp.m3u8
-         * icon :
-         * category :  live
-         * live_package :
+         * category : 直播
+         * channel_number : DFRKk1LSdz
+         * service_name : cctv1
+         * url : udp://224.0.3.120:10119
+         * icon : http://192.168.1.166:80/stream/live/CCTV1.png
+         * live_package :  1#,2#,test,3#,4#
          * type : live
+         * program_num : 1
          */
 
+        private String category;
         private String channel_number;
         private String service_name;
         private String url;
         private String icon;
-        private String category;
         private String live_package;
         private String type;
+        private String program_num;
+
+        public String getCategory() {
+            return category;
+        }
+
+        public void setCategory(String category) {
+            this.category = category;
+        }
 
         public String getChannel_number() {
             return channel_number;
@@ -94,14 +104,6 @@ public class Live implements Serializable {
             this.icon = icon;
         }
 
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
         public String getLive_package() {
             return live_package;
         }
@@ -116,6 +118,14 @@ public class Live implements Serializable {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getProgram_num() {
+            return program_num;
+        }
+
+        public void setProgram_num(String program_num) {
+            this.program_num = program_num;
         }
     }
 }

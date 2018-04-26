@@ -2,10 +2,11 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -13,12 +14,13 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * Created by lingchen on 2018/4/8.
@@ -30,6 +32,8 @@ public class AdActivity extends BaseActivity {
     LiveVideoPlayer mAdPlayer;
     @BindView(R.id.tv_hint)
     MarqueeTextView mTvHint;
+    @BindView(R.id.ijkVideoView)
+    IjkVideoView mIjkVideoView;
 
     @Override
     protected int getContentResId() {
@@ -75,8 +79,9 @@ public class AdActivity extends BaseActivity {
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             case "0008":
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKEXOPLAYER2);
-                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                initijkVideoView();
+//                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKEXOPLAYER2);
+//                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
@@ -100,6 +105,24 @@ public class AdActivity extends BaseActivity {
             @Override
             public void onPlayError(String url, Object... objects) {
                 super.onPlayError(url, objects);
+            }
+        });
+    }
+
+    private void initijkVideoView() {
+        mAdPlayer.setVisibility(View.GONE);
+        mIjkVideoView.setVisibility(View.VISIBLE);
+        mIjkVideoView.setVideoURI(Uri.parse(url));
+        mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.start();
+            }
+        });
+        mIjkVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.stop();
             }
         });
     }
@@ -137,6 +160,7 @@ public class AdActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         mAdPlayer.onVideoPause();
+        mIjkVideoView.stopPlayback();
     }
 
     @Override
@@ -152,10 +176,4 @@ public class AdActivity extends BaseActivity {
         mAdPlayer = null;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

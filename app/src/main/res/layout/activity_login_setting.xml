@@ -8,139 +8,204 @@
     android:focusable="false"
     tools:context=".ui.activity.LoginSettingActivity">
 
-    <TextView
-        android:id="@+id/tv_server_address"
-        android:layout_width="300px"
-        android:layout_height="120px"
-        android:layout_marginLeft="250px"
-        android:layout_marginTop="60px"
-        android:background="@drawable/btn_radius_bg_shape1"
+    <RelativeLayout
+        android:id="@+id/re_password_check_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
         android:focusable="false"
-        android:gravity="center"
-        android:text="@string/server_address"
-        android:textColor="@color/white"
-        android:textSize="36px" />
+        android:visibility="visible">
 
-    <EditText
-        android:id="@+id/edit_ip"
-        android:layout_width="800px"
-        android:layout_height="120px"
-        android:layout_marginLeft="40px"
-        android:layout_marginTop="60px"
-        android:layout_toRightOf="@id/tv_server_address"
-        android:background="@drawable/btn_radius_bg_shape1"
-        android:focusable="true"
-        android:nextFocusRight="@+id/btn_submit_ip"
-        android:paddingLeft="16px"
-        android:text="http://192.168.1.109:9080/api/"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <Button
-        android:id="@+id/btn_submit_ip"
-        android:layout_width="240px"
-        android:layout_height="120px"
-        android:layout_alignBottom="@+id/edit_ip"
-        android:layout_marginLeft="40px"
-        android:layout_marginTop="60px"
-        android:layout_toRightOf="@id/edit_ip"
-        android:background="@drawable/btn_radius_bg_selector"
-        android:focusable="true"
-        android:text="@string/submit"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <TextView
-        android:id="@+id/tv_room_number"
-        android:layout_width="300px"
-        android:layout_height="120px"
-        android:layout_below="@id/tv_server_address"
-        android:layout_marginLeft="250px"
-        android:layout_marginTop="28px"
-        android:background="@drawable/btn_radius_bg_shape1"
-        android:focusable="false"
-        android:gravity="center"
-        android:text="@string/room_number"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <EditText
-        android:id="@+id/edit_room"
-        android:layout_width="800px"
-        android:layout_height="120px"
-        android:layout_below="@id/edit_ip"
-        android:layout_marginLeft="40px"
-        android:layout_marginTop="28px"
-        android:layout_toRightOf="@id/tv_room_number"
-        android:background="@drawable/btn_radius_bg_shape1"
-        android:focusable="true"
-        android:nextFocusDown="@+id/btn_recovery"
-        android:nextFocusRight="@+id/btn_submit_room"
-        android:paddingLeft="16px"
-        android:text="501"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <Button
-        android:id="@+id/btn_submit_room"
-        android:layout_width="240px"
-        android:layout_height="120px"
-        android:layout_alignBottom="@+id/edit_room"
-        android:layout_below="@id/btn_submit_ip"
-        android:layout_marginLeft="40px"
-        android:layout_marginTop="28px"
-        android:layout_toRightOf="@id/edit_room"
-        android:background="@drawable/btn_radius_bg_selector"
-        android:focusable="true"
-        android:text="@string/submit"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <Button
-        android:id="@+id/btn_recovery"
-        android:layout_width="1200px"
-        android:layout_height="120px"
-        android:layout_below="@id/btn_submit_room"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32px"
-        android:background="@drawable/btn_radius_bg_selector"
-        android:focusable="true"
-        android:text="@string/recovery_address"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="36px" />
-
-    <LinearLayout
-        android:layout_width="1200px"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_recovery"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="32px"
-        android:background="@drawable/btn_radius_bg_shape1"
-        android:focusable="false"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16px">
-
-        <ImageView
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_marginTop="24px"
+        <LinearLayout
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="32px"
+            android:background="@color/transparent"
             android:focusable="false"
-            android:src="@drawable/ic_alert" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:text="管理员密码"
+                android:textSize="48px" />
+
+            <EditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="120px"
+                android:layout_marginBottom="32px"
+                android:layout_marginTop="32px"
+                android:focusable="true"
+                android:hint="请输入6位数密码"
+                android:maxLength="6"
+                android:paddingLeft="16px"
+                android:textColor="@color/white"
+                android:textSize="48px" />
+
+            <Button
+                android:id="@+id/btn_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16px"
+                android:background="@drawable/btn_radius_bg_selector"
+                android:focusable="true"
+                android:paddingLeft="16px"
+                android:paddingRight="16px"
+                android:text="确认"
+                android:textColor="@color/white"
+                android:textSize="48px" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/re_login_setting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:focusable="false"
+        android:visibility="gone">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16px"
+            android:id="@+id/tv_server_address"
+            android:layout_width="300px"
+            android:layout_height="120px"
+            android:layout_marginLeft="250px"
+            android:layout_marginTop="60px"
+            android:background="@drawable/btn_radius_bg_shape1"
             android:focusable="false"
-            android:paddingLeft="16px"
-            android:paddingRight="16px"
-            android:text="@string/label_setting_host_tips"
+            android:gravity="center"
+            android:text="@string/server_address"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="36px" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/edit_ip"
+            android:layout_width="800px"
+            android:layout_height="120px"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="60px"
+            android:layout_toRightOf="@id/tv_server_address"
+            android:background="@drawable/btn_radius_bg_shape1"
+            android:focusable="true"
+            android:nextFocusRight="@+id/btn_submit_ip"
+            android:paddingLeft="16px"
+            android:text="http://192.168.1.109:9080/api/"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <Button
+            android:id="@+id/btn_submit_ip"
+            android:layout_width="240px"
+            android:layout_height="120px"
+            android:layout_alignBottom="@+id/edit_ip"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="60px"
+            android:layout_toRightOf="@id/edit_ip"
+            android:background="@drawable/btn_radius_bg_selector"
+            android:focusable="true"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/tv_room_number"
+            android:layout_width="300px"
+            android:layout_height="120px"
+            android:layout_below="@id/tv_server_address"
+            android:layout_marginLeft="250px"
+            android:layout_marginTop="28px"
+            android:background="@drawable/btn_radius_bg_shape1"
+            android:focusable="false"
+            android:gravity="center"
+            android:text="@string/room_number"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <EditText
+            android:id="@+id/edit_room"
+            android:layout_width="800px"
+            android:layout_height="120px"
+            android:layout_below="@id/edit_ip"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="28px"
+            android:layout_toRightOf="@id/tv_room_number"
+            android:background="@drawable/btn_radius_bg_shape1"
+            android:focusable="true"
+            android:nextFocusDown="@+id/btn_recovery"
+            android:nextFocusRight="@+id/btn_submit_room"
+            android:paddingLeft="16px"
+            android:text="501"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <Button
+            android:id="@+id/btn_submit_room"
+            android:layout_width="240px"
+            android:layout_height="120px"
+            android:layout_alignBottom="@+id/edit_room"
+            android:layout_below="@id/btn_submit_ip"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="28px"
+            android:layout_toRightOf="@id/edit_room"
+            android:background="@drawable/btn_radius_bg_selector"
+            android:focusable="true"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <Button
+            android:id="@+id/btn_recovery"
+            android:layout_width="1200px"
+            android:layout_height="120px"
+            android:layout_below="@id/btn_submit_room"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32px"
+            android:background="@drawable/btn_radius_bg_selector"
+            android:focusable="true"
+            android:text="@string/recovery_address"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <LinearLayout
+            android:layout_width="1200px"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_recovery"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32px"
+            android:background="@drawable/btn_radius_bg_shape1"
+            android:focusable="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16px">
+
+            <ImageView
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:layout_marginTop="24px"
+                android:focusable="false"
+                android:src="@drawable/ic_alert" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16px"
+                android:focusable="false"
+                android:paddingLeft="16px"
+                android:paddingRight="16px"
+                android:text="@string/label_setting_host_tips"
+                android:textColor="@color/white"
+                android:textSize="40px" />
+
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -13,11 +13,11 @@
         android:layout_width="120px"
         android:layout_height="64px"
         android:layout_alignParentLeft="true"
-        android:focusable="false"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="8px"
         android:layout_marginLeft="16px"
         android:layout_marginTop="8px"
-        android:layout_marginBottom="8px"
+        android:focusable="false"
         android:scaleType="centerCrop" />
 
     <android.support.v7.widget.AppCompatTextView
@@ -28,10 +28,10 @@
         android:clickable="true"
         android:ellipsize="marquee"
         android:focusable="true"
-        android:gravity="center"
+        android:gravity="left"
         android:marqueeRepeatLimit="marquee_forever"
         android:paddingBottom="12px"
-        android:paddingLeft="20px"
+        android:paddingLeft="140px"
         android:paddingTop="12px"
         android:singleLine="true"
         android:textColor="@color/white"

@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 /**
  * Created by lingchen on 2018/1/24. 13:19
@@ -77,8 +78,8 @@ public class App extends Application {
         GSYVideoType.enableMediaCodecTexture();//使能硬解码渲染优化
         GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
         Debuger.enable();
-//        IjkMediaPlayer.loadLibrariesOnce(null);
-//        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        IjkMediaPlayer.loadLibrariesOnce(null);
+        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
     }
 
     //初始化OkGo

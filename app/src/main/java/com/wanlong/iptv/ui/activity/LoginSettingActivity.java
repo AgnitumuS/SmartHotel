@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,14 @@ public class LoginSettingActivity extends BaseActivity {
     Button mBtnSubmitRoom;
     @BindView(R.id.btn_recovery)
     Button mBtnRecovery;
+    @BindView(R.id.edit_password)
+    EditText mEditPassword;
+    @BindView(R.id.btn_password)
+    Button mBtnPassword;
+    @BindView(R.id.re_password_check_up)
+    RelativeLayout mRePasswordCheckUp;
+    @BindView(R.id.re_login_setting)
+    RelativeLayout mReLoginSetting;
 
     @Override
     protected int getContentResId() {
@@ -82,9 +91,32 @@ public class LoginSettingActivity extends BaseActivity {
     private boolean changeIP;
     private boolean changeRoom;
     private String newRoom = "";
+    private String password = "";
 
     //监听输入
     private void initListener() {
+        mEditPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                password = s.toString();
+                if (password.length() == 6) {
+                    if (password.equals(Apis.SETTING_PASSWORD)) {
+                        mRePasswordCheckUp.setVisibility(View.GONE);
+                        mReLoginSetting.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
         mEditIp.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -121,9 +153,17 @@ public class LoginSettingActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_submit_ip, R.id.btn_submit_room, R.id.btn_recovery})
+    @OnClick({R.id.btn_password, R.id.btn_submit_ip, R.id.btn_submit_room, R.id.btn_recovery})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_password:
+                if (password.equals(Apis.SETTING_PASSWORD)) {
+                    mRePasswordCheckUp.setVisibility(View.GONE);
+                    mReLoginSetting.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.btn_submit_ip:
                 submitIP();
                 break;
@@ -258,11 +298,6 @@ public class LoginSettingActivity extends BaseActivity {
                             Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-
-                    @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
                     }
 
                     @Override
