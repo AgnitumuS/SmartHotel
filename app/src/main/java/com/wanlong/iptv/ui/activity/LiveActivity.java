@@ -265,11 +265,11 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoPause();
         }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//            if (mIjkVideoView.isPlaying()) {
-//                mIjkVideoView.stopBackgroundPlay();
-//            }
-//        }
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            if (mIjkVideoView.isPlaying()) {
+                mIjkVideoView.stopBackgroundPlay();
+            }
+        }
     }
 
     @Override
@@ -278,9 +278,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoResume();
         }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//            mIjkVideoView.resume();
-//        }
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            mIjkVideoView.resume();
+        }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
                 playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
@@ -306,8 +306,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLiveVideoPlayer.release();
             mLiveVideoPlayer = null;
         }
-//        mIjkVideoView.release(true);
-//        mIjkVideoView = null;
+        mIjkVideoView.release(true);
+        mIjkVideoView = null;
     }
 
     @OnClick({R.id.img_left, R.id.img_right})

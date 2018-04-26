@@ -53,7 +53,9 @@ public class PasswordActivity extends BaseActivity {
                 password = s.toString();
                 if (password.length() == 6) {
                     if (password.equals(Apis.SETTING_PASSWORD)) {
+                        mEditPassword.setText("");
                         startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
+                        finish();
                     }
                 }
             }
@@ -64,7 +66,9 @@ public class PasswordActivity extends BaseActivity {
     public void onViewClicked() {
         if (password.length() == 6) {
             if (password.equals(Apis.SETTING_PASSWORD)) {
+                mEditPassword.setText("");
                 startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
+                finish();
             } else {
                 Toast.makeText(this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
             }
