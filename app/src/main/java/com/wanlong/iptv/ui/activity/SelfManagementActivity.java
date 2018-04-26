@@ -93,7 +93,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 //                mLiveVideoPlayer.startPlayLogic();
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
-                editor.putInt("liveLastPlayPosition", position);
+                editor.putInt("selfManager_LastPlayPosition", position);
                 editor.commit();
             }
         });
@@ -106,13 +106,13 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
     @Override
     protected void initData() {
         sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-        liveLastPlayPosition = sharedPreferences.getInt("liveLastPlayPosition", 0);
+        liveLastPlayPosition = sharedPreferences.getInt("selfManager_LastPlayPosition", 0);
         editor = sharedPreferences.edit();
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE);
+        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE, "自办");
         resetTime();
     }
 
@@ -356,7 +356,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 //            mLiveVideoPlayer.startPlayLogic();
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
                 showInfo();
-                editor.putInt("liveLastPlayPosition", currentPlayPosition);
+                editor.putInt("selfManager_LastPlayPosition", currentPlayPosition);
                 editor.commit();
             }
         }
