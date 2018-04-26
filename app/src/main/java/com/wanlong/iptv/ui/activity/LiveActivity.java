@@ -87,6 +87,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                resetTime();
                 playNewUrl(mLive.getPlaylist().get(position).getUrl());
 //                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
 //                mLiveVideoPlayer.startPlayLogic();
