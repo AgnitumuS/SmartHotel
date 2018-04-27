@@ -267,7 +267,8 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             if (mIjkVideoView.isPlaying()) {
-                mIjkVideoView.stopBackgroundPlay();
+                mIjkVideoView.pause();
+//                mIjkVideoView.stopBackgroundPlay();
             }
         }
     }

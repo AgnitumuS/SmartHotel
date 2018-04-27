@@ -52,12 +52,15 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        if (mVodListDatas.get(position).getPic_url().get(0).equals("")) {
-            Glide.with(mContext).load(R.drawable.sence).into(viewHolder.mImgRecycleviewMovie);
-        } else {
+        if (mVodListDatas.get(position).getPic_url() != null &&
+                mVodListDatas.get(position).getPic_url().size() > 0) {
             Glide.with(mContext)
                     .load(mVodListDatas.get(position).getVod_pic_dir() +
                             mVodListDatas.get(position).getPic_url().get(0))
+                    .into(viewHolder.mImgRecycleviewMovie);
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.sence)
                     .into(viewHolder.mImgRecycleviewMovie);
         }
         viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getVod_name());

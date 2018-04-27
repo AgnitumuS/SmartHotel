@@ -247,6 +247,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 try {
                     mLiveVideoPlayer.setVisibility(View.GONE);
                     mIjkVideoView.setVideoURI(Uri.parse(newurl));
+                    mIjkVideoView.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -267,7 +268,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             if (mIjkVideoView.isPlaying()) {
-                mIjkVideoView.stopBackgroundPlay();
+                mIjkVideoView.pause();
+//                mIjkVideoView.stopBackgroundPlay();
             }
         }
     }
