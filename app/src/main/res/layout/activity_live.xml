@@ -86,8 +86,8 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_live_list"
-                android:layout_width="400px"
-                android:layout_height="640px"
+                android:layout_width="500px"
+                android:layout_height="720px"
                 android:background="@color/color_55ffffff"
                 android:focusable="false" />
         </LinearLayout>

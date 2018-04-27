@@ -2,6 +2,7 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -20,6 +21,7 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
@@ -133,12 +135,12 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             case "0008":
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
-                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
+//                GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+//                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+//                GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
 //                GSYVideoType.enableMediaCodec();
-                mIjkVideoView.setVisibility(View.GONE);
-//                initIjkVideoView();
+//                mIjkVideoView.setVisibility(View.GONE);
+                initIjkVideoView();
                 break;
             default:
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
@@ -173,7 +175,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 
     private void initIjkVideoView() {
         Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
-        Settings.setMediaCodec(true);
+//        Settings.setMediaCodec(true);
         mIjkVideoView.setVisibility(View.VISIBLE);
         mIjkVideoView.setFocusable(false);
         mLiveVideoPlayer.setVisibility(View.GONE);
@@ -240,21 +242,21 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 //                mLiveVideoPlayer.setVisibility(View.GONE);
 //            }
 //        }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//            try {
-//                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
-//                    mLiveVideoPlayer.onVideoPause();
-//                    mLiveVideoPlayer.release();
-//                }
-//                mLiveVideoPlayer.setVisibility(View.GONE);
-//                mIjkVideoView.setVideoURI(Uri.parse(newurl));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-        mLiveVideoPlayer.setUp(newurl, false, "");
-        mLiveVideoPlayer.startPlayLogic();
-//        }
+        if (App.look_permission) {
+            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+                try {
+                    mLiveVideoPlayer.setVisibility(View.GONE);
+                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+                mLiveVideoPlayer.setUp(newurl, false, "");
+                mLiveVideoPlayer.startPlayLogic();
+            }
+        } else {
+            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -263,11 +265,12 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoPause();
         }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//            if (mIjkVideoView.isPlaying()) {
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            if (mIjkVideoView.isPlaying()) {
+                mIjkVideoView.stopPlayback();
 //                mIjkVideoView.stopBackgroundPlay();
-//            }
-//        }
+            }
+        }
     }
 
     @Override
@@ -276,9 +279,12 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
             mLiveVideoPlayer.onVideoResume();
         }
-//        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
 //            mIjkVideoView.resume();
-//        }
+//            if (!mIjkVideoView.isPlaying()) {
+//                mIjkVideoView.start();
+//            }
+        }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
                 playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
@@ -304,8 +310,8 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             mLiveVideoPlayer.release();
             mLiveVideoPlayer = null;
         }
-//        mIjkVideoView.release(true);
-//        mIjkVideoView = null;
+        mIjkVideoView.release(true);
+        mIjkVideoView = null;
     }
 
     @OnClick({R.id.img_left, R.id.img_right})

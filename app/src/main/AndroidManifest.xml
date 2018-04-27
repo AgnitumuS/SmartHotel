@@ -13,34 +13,34 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!-- 开机启动 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--apk运行状态-->
+    <!-- apk运行状态 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!--应用程序设计为电视机用户的体验方式。	本特性的“television”定义为典型的客厅电视用户体验方式： -->
-    <!--大屏幕显示，用户可坐得更远，主要的输入方式是方向键之类，一般不使用触摸屏或鼠标（指点设备）。-->
+    <!-- 应用程序设计为电视机用户的体验方式。	本特性的“television”定义为典型的客厅电视用户体验方式： -->
+    <!-- 大屏幕显示，用户可坐得更远，主要的输入方式是方向键之类，一般不使用触摸屏或鼠标（指点设备）。 -->
     <uses-feature
         android:name="android.hardware.type.television"
         android:required="true" />
 
     <!-- 声明不支持触摸 -->
-    <!--应用程序用到比基本触摸事件更加复杂的手势触摸功能，比如滑动。 这是基本 faketouch 特性的超集。-->
-    <!--默认情况下，应用程序是必须使用本特性的。 这样，应用程序默认就不适用于那些仅能仿真触摸接口（fake touch）的设备。 -->
-    <!--如果应用程序需要能够适用于提供仿真触摸接口的设备（甚至是仅提供方向键的设备），-->
-    <!--则必须用带有 android:required="false" 的 android.hardware.touchscreen 将触摸屏显式声明为非必需的。 -->
-    <!--即便应用程序是用到了但不是必需真正的触摸屏接口，也应该进行这种声明。-->
-    <!--如果应用程序确实需要触摸屏接口（为了处理滑动之类的触摸手势），就不必进行任何声明，因为默认这就是必需的。 -->
-    <!--不过，最好还是对所有要用到的特性都进行显式声明，因此必要的话还是应该声明本特性。-->
-    <!--如果需要用到更复杂的触摸操作，比如多个手指的手势，则应该声明后续的更为高级的触摸屏-->
-    <!--<uses-feature-->
-    <!--android:name="android.hardware.touchscreen"-->
-    <!--android:required="false" />-->
+    <!-- 应用程序用到比基本触摸事件更加复杂的手势触摸功能，比如滑动。 这是基本 faketouch 特性的超集。 -->
+    <!-- 默认情况下，应用程序是必须使用本特性的。 这样，应用程序默认就不适用于那些仅能仿真触摸接口（fake touch）的设备。 -->
+    <!-- 如果应用程序需要能够适用于提供仿真触摸接口的设备（甚至是仅提供方向键的设备）， -->
+    <!-- 则必须用带有 android:required="false" 的 android.hardware.touchscreen 将触摸屏显式声明为非必需的。 -->
+    <!-- 即便应用程序是用到了但不是必需真正的触摸屏接口，也应该进行这种声明。 -->
+    <!-- 如果应用程序确实需要触摸屏接口（为了处理滑动之类的触摸手势），就不必进行任何声明，因为默认这就是必需的。 -->
+    <!-- 不过，最好还是对所有要用到的特性都进行显式声明，因此必要的话还是应该声明本特性。 -->
+    <!-- 如果需要用到更复杂的触摸操作，比如多个手指的手势，则应该声明后续的更为高级的触摸屏 -->
+    <!-- <uses-feature -->
+    <!-- android:name="android.hardware.touchscreen" -->
+    <!-- android:required="false" /> -->
     <!-- 如果你的应用要同时运行在手机、平板、以及电视设备上，需要将required属性设置为false -->
 
-    <!--横屏显示-->
+
+    <!-- 横屏显示 -->
     <uses-feature
         android:name="android.hardware.screen.landscape"
         android:required="true" />
-
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />
@@ -76,7 +76,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <!-- 让app显示在手机上 -->
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!--启动器-->
+                <!-- 启动器 -->
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.MONKEY" />
@@ -120,40 +120,45 @@
             android:name=".ui.activity.VodPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".ui.activity.SettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="landscape" />
-
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.activity.UpdateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".ui.activity.AdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".ui.activity.SelfManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
 
-        <service android:name=".server.AdService"></service>
+        <activity
+            android:name=".ui.activity.PasswordActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateHidden" />
+
+        <service android:name=".server.AdService" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.wanlong.iptv.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <!--元数据-->
+
+            <!-- 元数据 -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>

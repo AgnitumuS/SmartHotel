@@ -2,11 +2,25 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="500px"
     android:layout_height="wrap_content"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:focusable="false">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_item_recycler_live_number"
+        android:layout_width="60px"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16px"
+        android:focusable="false"
+        android:gravity="center"
+        android:paddingBottom="12px"
+        android:paddingTop="12px"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="54px" />
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"
@@ -15,7 +29,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="8px"
-        android:layout_marginLeft="16px"
+        android:layout_marginLeft="76px"
         android:layout_marginTop="8px"
         android:focusable="false"
         android:scaleType="centerCrop" />
@@ -31,10 +45,10 @@
         android:gravity="left"
         android:marqueeRepeatLimit="marquee_forever"
         android:paddingBottom="12px"
-        android:paddingLeft="140px"
+        android:paddingLeft="200px"
         android:paddingTop="12px"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="40px" />
+        android:textSize="54px" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

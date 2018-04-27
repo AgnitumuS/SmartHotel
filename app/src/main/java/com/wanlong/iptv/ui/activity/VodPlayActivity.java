@@ -64,7 +64,7 @@ public class VodPlayActivity extends BaseActivity {
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             case "0008":
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKEXOPLAYER2);
+                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
@@ -73,7 +73,11 @@ public class VodPlayActivity extends BaseActivity {
                 break;
         }
 //        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
-        mVodPlayer.setUp(url, false, name);
+        if (App.look_permission) {
+            mVodPlayer.setUp(url, false, name);
+        } else {
+            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+        }
         mVodPlayer.setBackgroundColor(getResources().getColor(R.color.color_181818));
         mVodPlayer.startPlayLogic();
         mVodPlayer.setIsTouchWigetFull(true);
