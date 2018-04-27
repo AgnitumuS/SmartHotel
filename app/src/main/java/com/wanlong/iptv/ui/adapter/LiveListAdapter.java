@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
@@ -29,6 +28,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private List<Live.PlaylistBean> mLiveListDatas;
     private LayoutInflater mInflater;
+    private int mlastPosition;
 
     public LiveListAdapter(Context context) {
         mContext = context;
@@ -36,7 +36,12 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mLiveListDatas = new ArrayList<>();
     }
 
-    public void setData(List<Live.PlaylistBean> liveListDatas) {
+    public void setData(List<Live.PlaylistBean> liveListDatas, int lastPosition) {
+        if (liveListDatas.size() >= lastPosition) {
+            mlastPosition = lastPosition;
+        } else {
+            mlastPosition = 0;
+        }
         this.mLiveListDatas.clear();
         this.mLiveListDatas.addAll(liveListDatas);
         notifyDataSetChanged();
@@ -52,6 +57,9 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
+        if (position == mlastPosition) {
+            viewHolder.mTvItemLiveList.requestFocus();
+        }
         if (!mLiveListDatas.get(position).getIcon().equals("")) {
             Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
         }
@@ -92,7 +100,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.img_item_recycler_live_icon)
         ImageView mImgItemLiveIcon;
         @BindView(R.id.tv_item_recycler_live_list)
-        TextView mTvItemLiveList;
+        AppCompatTextView mTvItemLiveList;
 
         ViewHolder(View view) {
             super(view);
