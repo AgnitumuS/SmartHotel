@@ -247,7 +247,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 try {
                     mLiveVideoPlayer.setVisibility(View.GONE);
                     mIjkVideoView.setVideoURI(Uri.parse(newurl));
-                    mIjkVideoView.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -268,7 +267,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             if (mIjkVideoView.isPlaying()) {
-                mIjkVideoView.pause();
+                mIjkVideoView.stopPlayback();
 //                mIjkVideoView.stopBackgroundPlay();
             }
         }
@@ -281,7 +280,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLiveVideoPlayer.onVideoResume();
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            mIjkVideoView.resume();
+//            mIjkVideoView.resume();
+//            if (!mIjkVideoView.isPlaying()) {
+//                mIjkVideoView.start();
+//            }
         }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {

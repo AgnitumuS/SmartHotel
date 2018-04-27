@@ -267,7 +267,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             if (mIjkVideoView.isPlaying()) {
-                mIjkVideoView.pause();
+                mIjkVideoView.stopPlayback();
 //                mIjkVideoView.stopBackgroundPlay();
             }
         }
@@ -280,7 +280,10 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             mLiveVideoPlayer.onVideoResume();
         }
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-            mIjkVideoView.resume();
+//            mIjkVideoView.resume();
+//            if (!mIjkVideoView.isPlaying()) {
+//                mIjkVideoView.start();
+//            }
         }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
