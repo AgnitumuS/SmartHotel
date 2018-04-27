@@ -43,21 +43,27 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        initBorder();
+    }
+
+    private void initBorder() {
         if (!Utils.isPhone(this)) {
             BorderView borderView = new BorderView(this);
             BorderEffect.mScale = 1.05f;
             borderView.setBackgroundResource(R.drawable.border_touming);
             borderView.attachTo(mLl1);
             borderView.attachTo(mLl2);
+            mSystemSetting.requestFocus();
+            mSystemSetting.requestFocus();
         }
     }
 
     @Override
     protected void initData() {
-
     }
 
-    @OnClick({R.id.system_setting, R.id.login_setting, R.id.play_setting, R.id.report_setting, R.id.update_setting, R.id.about_setting})
+    @OnClick({R.id.system_setting, R.id.login_setting, R.id.play_setting,
+            R.id.report_setting, R.id.update_setting, R.id.about_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.system_setting:

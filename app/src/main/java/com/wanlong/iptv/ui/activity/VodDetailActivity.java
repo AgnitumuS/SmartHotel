@@ -54,6 +54,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     private String url;
     private String name;
     private String[] urls;
+    private String vod_pic_url;
 
     @Override
     protected void initView() {
@@ -80,7 +81,18 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         mTextMovieTypeDetail.setText("类型：" + intent.getStringExtra("vod_category"));
         mTextMoviePeopleDetail.setText("主演：" + intent.getStringExtra("vod_actor"));
         mTextMovieDescriptionDetail.setText("简介：" + intent.getStringExtra("vod_detail"));
-        Glide.with(this).load(intent.getStringExtra("vod_pic_url")).into(mImgMovieDetail);
+        vod_pic_url = intent.getStringExtra("vod_pic_url");
+        if (vod_pic_url.equals("")) {
+            Glide.with(this)
+                    .load(getResources()
+                            .getDrawable(R.drawable.sence))
+                    .into(mImgMovieDetail);
+        } else {
+            Glide.with(this)
+                    .load(vod_pic_url)
+                    .into(mImgMovieDetail);
+        }
+//        Glide.with(this).load(vod_pic_url).into(mImgMovieDetail);
     }
 
     private VodUrlAdapter mVodUrlAdapter;
@@ -103,7 +115,12 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-                intent.putExtra("url", url + urls[position]);
+                if (urls.length > 0) {
+                    intent.putExtra("url", url + urls[position]);
+                } else {
+                    intent.putExtra("url", url);
+                }
+//                intent.putExtra("url", url + urls[position]);
                 intent.putExtra("name", name);
                 startActivity(intent);
             }

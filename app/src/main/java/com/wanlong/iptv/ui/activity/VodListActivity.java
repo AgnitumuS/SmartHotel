@@ -62,13 +62,30 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodListActivity.this, VodDetailActivity.class);
                 intent.putExtra("url_header", mPlaylistBeans.get(position).getVod_movie_player_src());
-                String[] urls = new String[mPlaylistBeans.get(position).getVod_movie().size()];
-                for (int i = 0; i < urls.length; i++) {
-                    urls[i] = mPlaylistBeans.get(position).getVod_movie().get(i);
+                String[] urls = null;
+                if (mPlaylistBeans.get(position).getVod_movie() != null &&
+                        mPlaylistBeans.get(position).getVod_movie().size() > 0) {
+                    urls = new String[mPlaylistBeans.get(position).getVod_movie().size()];
+                    for (int i = 0; i < urls.length; i++) {
+                        urls[i] = mPlaylistBeans.get(position).getVod_movie().get(i);
+                    }
+                } else {
+                    urls = new String[0];
                 }
+//                String[] urls = new String[mPlaylistBeans.get(position).getVod_movie().size()];
+//                for (int i = 0; i < urls.length; i++) {
+//                    urls[i] = mPlaylistBeans.get(position).getVod_movie().get(i);
+//                }
                 intent.putExtra("urls", urls);
-                intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getVod_pic_dir() +
-                        mPlaylistBeans.get(position).getPic_url().get(0));
+                if (mPlaylistBeans.get(position).getPic_url() != null &&
+                        mPlaylistBeans.get(position).getPic_url().size() > 0) {
+                    intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getVod_pic_dir() +
+                            mPlaylistBeans.get(position).getPic_url().get(0));
+                } else {
+                    intent.putExtra("vod_pic_url", "");
+                }
+//                intent.putExtra("vod_pic_url", mPlaylistBeans.get(position).getVod_pic_dir() +
+//                        mPlaylistBeans.get(position).getPic_url().get(0));
                 intent.putExtra("total_sets", mPlaylistBeans.get(position).getTotal_sets());
                 intent.putExtra("current_sets", mPlaylistBeans.get(position).getCurrent_sets());
                 intent.putExtra("vod_name", mPlaylistBeans.get(position).getVod_name());
@@ -92,9 +109,11 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
 
     @Override
     public void loadVodTypeSuccess(VodType vodType) {
-        mVodType = vodType;
-        mVodTypeAdapter.setData(vodType.getCategory());
-        getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
+        if (vodType != null && vodType.getCategory() != null && vodType.getCategory().size() > 0) {
+            mVodType = vodType;
+            mVodTypeAdapter.setData(vodType.getCategory());
+            getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
+        }
     }
 
     private List<VodList.PlaylistBean> mPlaylistBeans;
@@ -103,8 +122,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     public void loadVodListSuccess(VodList vodListDatas) {
         if (vodListDatas.getPlaylist() != null && vodListDatas.getPlaylist().size() > 0) {
             mPlaylistBeans = vodListDatas.getPlaylist();
+            mVodListAdapter.setData(vodListDatas.getPlaylist());
         }
-        mVodListAdapter.setData(vodListDatas.getPlaylist());
     }
 
     @Override

@@ -126,6 +126,7 @@ public class AdService extends Service {
                                 } else if (mUserStatus.getCode().equals("1")) {
                                     //存储
                                     uploadSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(AdServiceold.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-1")) {
                                     uploadFailed();
@@ -137,8 +138,10 @@ public class AdService extends Service {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-4")) {
+                                    App.look_permission = false;
                                     uploadFailed();
-                                    Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                    autoLogin();
+                                    Toast.makeText(AdService.this, "用户未注册", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "服务器有错误", Toast.LENGTH_SHORT).show();
@@ -193,6 +196,7 @@ public class AdService extends Service {
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
@@ -205,6 +209,7 @@ public class AdService extends Service {
 //                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
                                     loginFailed();
+                                    App.look_permission = false;
 //                                    Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
                                     loginFailed();
@@ -319,7 +324,7 @@ public class AdService extends Service {
                 });
     }
 
-    private String textResult, videoResult, picResult;//返回字符串result
+    public static String textResult, videoResult, picResult;//返回字符串result
 
     //处理返回数据
     private void executeData(int type, PushMSG mPushMSG, Response<String> response) {

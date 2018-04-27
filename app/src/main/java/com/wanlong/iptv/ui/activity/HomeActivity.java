@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         mParams.setMargins(0, 0, 0, 16);
         mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(128f);
+        mMarqueeTextView.setTextSize(32f);
         mMarqueeTextView.setPadding(0, 0, 0, 0);
         mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
@@ -206,7 +206,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
             case R.id.tv_setting:
-                startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
                 break;
         }
     }
@@ -241,6 +241,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
+                                    App.look_permission = true;
 //                                    Toast.makeText(HomeActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
@@ -252,6 +253,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                                     loginFailed();
 //                                    Toast.makeText(HomeActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
+                                    App.look_permission = false;
                                     loginFailed();
 //                                    Toast.makeText(HomeActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
@@ -339,20 +341,22 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
                 mAdVideoBeans.addAll(homeAD.getAd_video());
             } else {
-                loadFailed(3);
+                loadFailed(1);
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());
                 showImgAD(mAdImageBeans);
             } else {
-                loadFailed(3);
+                loadFailed(2);
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
                 showTextAD();
+            } else {
+                loadFailed(3);
             }
         } else {
-            loadFailed(3);
+            loadFailed(0);
         }
     }
 
@@ -363,9 +367,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
     }
 
-    private List<String> imgUrls1;
-    private List<String> imgUrls2;
-    private List<String> imgUrls3;
+    private List<Object> imgUrls1;
+    private List<Object> imgUrls2;
+    private List<Object> imgUrls3;
 
     //显示图片广告
     private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
@@ -388,17 +392,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .setPageTransformer(true, new BackgroundToForegroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        } else {
+            loadFailed(2);
         }
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
                     .setPageTransformer(true, new ForegroundToBackgroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        } else {
+            loadFailed(2);
         }
         if (imgUrls3.size() > 0) {
             mImgAd.setImages(imgUrls3)
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        } else {
+            loadFailed(2);
         }
 //        if (imgUrls1.size() > 0) {
 //            GlideApp.with(this)
@@ -438,8 +448,24 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
-        if (error == 3) {
-
+        if (error == 0 || error == 2) {
+            imgUrls1 = new ArrayList<>();
+            imgUrls1.add(getResources().getDrawable(R.drawable.hotel_room));
+            mImgShow.setImages(imgUrls1)
+                    .setPageTransformer(true, new BackgroundToForegroundTransformer())
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
+            imgUrls2 = new ArrayList<>();
+            imgUrls2.add(getResources().getDrawable(R.drawable.weather));
+            mImgWeather.setImages(imgUrls2)
+                    .setPageTransformer(true, new ForegroundToBackgroundTransformer())
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
+            imgUrls3 = new ArrayList<>();
+            imgUrls3.add(getResources().getDrawable(R.drawable.sence));
+            mImgAd.setImages(imgUrls3)
+                    .setImageLoader(new GlideImageLoader())
+                    .start();
         }
     }
 
@@ -642,4 +668,5 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
         }
     }
+
 }

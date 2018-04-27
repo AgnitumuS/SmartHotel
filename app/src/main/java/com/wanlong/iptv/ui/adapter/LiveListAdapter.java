@@ -1,6 +1,7 @@
 package com.wanlong.iptv.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,10 +52,11 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        if(!mLiveListDatas.get(position).getIcon().equals("")){
+        if (!mLiveListDatas.get(position).getIcon().equals("")) {
             Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
         }
         viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
+        viewHolder.mTvItemRecyclerLiveNumber.setText(mLiveListDatas.get(position).getProgram_num());
 //        if (viewHolder.getLayoutPosition() == 0) {
 //            viewHolder.mTvItemRecyclerLiveList.requestFocus();
 //        }
@@ -85,6 +87,8 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_item_recycler_live_number)
+        AppCompatTextView mTvItemRecyclerLiveNumber;
         @BindView(R.id.img_item_recycler_live_icon)
         ImageView mImgItemLiveIcon;
         @BindView(R.id.tv_item_recycler_live_list)

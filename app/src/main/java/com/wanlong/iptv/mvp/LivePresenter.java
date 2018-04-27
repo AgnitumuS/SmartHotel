@@ -40,6 +40,8 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
 
@@ -77,6 +79,8 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                             }
 
                         } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

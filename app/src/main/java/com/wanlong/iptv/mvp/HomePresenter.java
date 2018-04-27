@@ -47,7 +47,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed(3);
+                        getView().loadFailed(0);
                     }
                 });
     }

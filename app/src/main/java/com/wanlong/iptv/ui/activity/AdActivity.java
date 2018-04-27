@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
+import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 
 import butterknife.BindView;
@@ -137,6 +140,12 @@ public class AdActivity extends BaseActivity {
                         .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+//                                Toast toast = new Toast(AdActivity.this);
+//                                toast.setDuration(10 * 1000);
+//                                toast.setText("10秒后将再次进入插播");
+//                                toast.show();
+                                Toast.makeText(AdActivity.this, "稍后将再次进入插播", Toast.LENGTH_LONG).show();
+                                mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 5 * 1000);
                                 finish();
                             }
                         })
@@ -147,7 +156,6 @@ public class AdActivity extends BaseActivity {
                             }
                         }).show();
                 return true;
-
             } else {
                 finish();
             }
@@ -175,5 +183,19 @@ public class AdActivity extends BaseActivity {
         mAdPlayer.release();
         mAdPlayer = null;
     }
+
+    public static final int AUTO_INTO_ADACTIVITY = 0;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case AUTO_INTO_ADACTIVITY:
+                    AdService.videoResult = "";
+                    break;
+            }
+
+        }
+    };
 
 }
