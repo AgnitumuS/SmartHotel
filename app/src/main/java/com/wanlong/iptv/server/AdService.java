@@ -323,7 +323,7 @@ public class AdService extends Service {
                 });
     }
 
-    private String textResult, videoResult, picResult;//返回字符串result
+    public static String textResult, videoResult, picResult;//返回字符串result
 
     //处理返回数据
     private void executeData(int type, PushMSG mPushMSG, Response<String> response) {
