@@ -140,8 +140,12 @@ public class AdActivity extends BaseActivity {
                         .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                Toast.makeText(AdActivity.this, "稍后将再次进入插播", Toast.LENGTH_SHORT).show();
-                                mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 10 * 1000);
+//                                Toast toast = new Toast(AdActivity.this);
+//                                toast.setDuration(10 * 1000);
+//                                toast.setText("10秒后将再次进入插播");
+//                                toast.show();
+                                Toast.makeText(AdActivity.this, "稍后将再次进入插播", Toast.LENGTH_LONG).show();
+                                mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 5 * 1000);
                                 finish();
                             }
                         })

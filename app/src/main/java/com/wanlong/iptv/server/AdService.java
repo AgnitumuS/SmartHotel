@@ -140,7 +140,8 @@ public class AdService extends Service {
                                 } else if (mUserStatus.getCode().equals("-4")) {
                                     App.look_permission = false;
                                     uploadFailed();
-                                    Toast.makeText(AdService.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                    autoLogin();
+                                    Toast.makeText(AdService.this, "用户未注册", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "服务器有错误", Toast.LENGTH_SHORT).show();
