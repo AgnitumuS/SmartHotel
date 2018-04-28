@@ -47,7 +47,7 @@ public class App extends Application {
     public static String mac = "";
     public static String adText = "";
     public static boolean ADserver = false;
-    public static boolean look_permission = false;
+    public static boolean look_permission = true;
 
     public static App getApplication() {
         return application;
