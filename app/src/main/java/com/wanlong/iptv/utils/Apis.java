@@ -6,8 +6,8 @@ package com.wanlong.iptv.utils;
 
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
-    public static String HEADER = "http://192.168.1.166:80/";
-    public static final String HEADER_ORIGIN = "http://192.168.1.166:80/";
+    public static String HEADER = "http://192.168.1.241:9080/";
+    public static final String HEADER_ORIGIN = "http://192.168.1.241:9080/";
     public static String ROOM_ORIGIN = "501";
     public static final String SETTING_PASSWORD = "000000";
     //登录
