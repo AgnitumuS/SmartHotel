@@ -127,6 +127,7 @@ public class AdService extends Service {
                                     //存储
                                     uploadSuccess();
                                     App.look_permission = true;
+                                    autoLogin();
 //                                    Toast.makeText(AdServiceold.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("-1")) {
                                     uploadFailed();
