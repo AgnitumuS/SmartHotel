@@ -539,7 +539,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 case UPDATE_TIME:
                     App.newtime += 1;
                     String date = TimeUtils.stampToDate(App.newtime * 1000);
-                    String str_dayofWeek = getResources().getStringArray(R.array.day_of_week)[TimeUtils.getDay() - 1];
+                    String str_dayofWeek = getResources()
+                            .getStringArray(R.array.day_of_week)[TimeUtils.getDay(App.newtime * 1000) - 1];
                     mTvTime.setText(date + "  " + str_dayofWeek);
                     break;
                 default:
