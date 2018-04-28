@@ -380,6 +380,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case KeyEvent.KEYCODE_DPAD_UP://上一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_UP);
+                } else {
+                    resetTime();
                 }
 //                showList();
 //                showInfo();
@@ -387,6 +389,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_DOWN);
+                } else {
+                    resetTime();
                 }
 //                showList();
 //                showInfo();
