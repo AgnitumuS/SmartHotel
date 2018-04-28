@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -472,7 +471,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
             try {
                 RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
-                ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_list)).requestFocus();
+                ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (Exception e) {

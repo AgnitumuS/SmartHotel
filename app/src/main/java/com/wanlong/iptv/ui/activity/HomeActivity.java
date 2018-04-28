@@ -146,8 +146,13 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         getTime();
 //        initImgAd();
-        mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-                sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
     }
@@ -183,6 +188,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onResume() {
         super.onResume();
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 

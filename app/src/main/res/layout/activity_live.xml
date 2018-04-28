@@ -28,10 +28,9 @@
 
         <LinearLayout
             android:id="@+id/channel_list"
-            android:layout_width="400px"
+            android:layout_width="450px"
             android:layout_height="match_parent"
-            android:layout_marginBottom="250px"
-            android:layout_marginLeft="100px"
+            android:layout_marginLeft="80px"
             android:layout_marginTop="60px"
             android:background="@color/transparent"
             android:focusable="false"
@@ -39,7 +38,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100px"
+                android:layout_height="80px"
                 android:background="@color/color_55ffffff"
                 android:focusable="false">
 
@@ -86,9 +85,11 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_live_list"
-                android:layout_width="500px"
+                android:layout_width="450px"
                 android:layout_height="720px"
                 android:background="@color/color_55ffffff"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 android:focusable="false" />
         </LinearLayout>
 
@@ -120,7 +121,7 @@
         <RelativeLayout
             android:id="@+id/channel_info"
             android:layout_width="match_parent"
-            android:layout_height="200px"
+            android:layout_height="160px"
             android:layout_alignParentBottom="true"
             android:background="@color/color_55ffffff"
             android:focusable="false">

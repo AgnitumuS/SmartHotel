@@ -51,7 +51,7 @@ public class PasswordActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 password = s.toString();
-                if (password.length() == 6) {
+                if (password.length() == 8) {
                     if (password.equals(Apis.SETTING_PASSWORD)) {
                         mEditPassword.setText("");
                         startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
@@ -64,7 +64,7 @@ public class PasswordActivity extends BaseActivity {
 
     @OnClick(R.id.btn_password)
     public void onViewClicked() {
-        if (password.length() == 6) {
+        if (password.length() == 8) {
             if (password.equals(Apis.SETTING_PASSWORD)) {
                 mEditPassword.setText("");
                 startActivity(new Intent(PasswordActivity.this, SettingActivity.class));

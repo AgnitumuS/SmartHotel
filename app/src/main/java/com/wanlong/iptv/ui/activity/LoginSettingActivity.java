@@ -68,6 +68,9 @@ public class LoginSettingActivity extends BaseActivity {
         }
         mEditIp.setText(Apis.HEADER);
         initListener();
+        if (App.PRISON) {
+            mTvRoomNumber.setText("上海市宝山监狱");
+        }
     }
 
     private SharedPreferences sharedPreferences;
