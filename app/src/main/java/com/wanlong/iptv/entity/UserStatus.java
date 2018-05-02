@@ -9,14 +9,18 @@ import java.io.Serializable;
 public class UserStatus implements Serializable {
 
     /**
-     * code : -4
-     * expired_time : 2000-01-01
-     * vod_expired_time : 2000-01-01
+     * code : 1
+     * expired_time : 2099-12-31
+     * vod_expired_time : 2099-12-31
+     * group : test
+     * stb_name :
      */
 
     private String code;
     private String expired_time;
     private String vod_expired_time;
+    private String group;
+    private String stb_name;
 
     public String getCode() {
         return code;
@@ -40,5 +44,21 @@ public class UserStatus implements Serializable {
 
     public void setVod_expired_time(String vod_expired_time) {
         this.vod_expired_time = vod_expired_time;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getStb_name() {
+        return stb_name;
+    }
+
+    public void setStb_name(String stb_name) {
+        this.stb_name = stb_name;
     }
 }

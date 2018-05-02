@@ -148,7 +148,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //        initImgAd();
         if (App.PRISON) {
             mTvWelcomeGuest.setText("上海市宝山监狱:" +
-                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
         } else {
             mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
@@ -182,6 +183,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
@@ -190,7 +200,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         super.onResume();
         if (App.PRISON) {
             mTvWelcomeGuest.setText("上海市宝山监狱:" +
-                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
         } else {
             mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
@@ -309,8 +320,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (App.PRISON) {
+            try {
+                editor.putString("group", data.getGroup());
+                editor.putString("stb_name", data.getStb_name());
+                editor.commit();
+                mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                        sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                        sharedPreferences.getString("stb_name", ""));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         editor.putString("ip", Apis.HEADER);
         editor.commit();
         if (firstOpen) {
