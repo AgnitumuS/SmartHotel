@@ -112,18 +112,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         //创建自定义的TextView
         mMarqueeTextView = new MarqueeTextView(this);
-        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+//        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT);
         mMarqueeTextView.setFocusable(false);
         mMarqueeTextView.setClickable(false);
-        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
-        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mParams.setMargins(0, 0, 0, 16);
-        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+//        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
+//        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        mParams.setMargins(0, 0, 0, 0);
+//        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(32f);
-        mMarqueeTextView.setPadding(0, 0, 0, 0);
-        mMarqueeTextView.setLayoutParams(mParams);
+        mMarqueeTextView.setTextSize(36f);
+        mMarqueeTextView.setPadding(0, 0, 0, 16);
+//        mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
         mMarqueeTextView.setText("");
@@ -146,8 +146,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         getTime();
 //        initImgAd();
-        mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-                sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
 //        mTvMessage.setText("You have a new message. Please check it.");
     }
@@ -177,12 +183,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (App.PRISON) {
+            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
+        } else {
+            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        }
+        mTvRoom.setText("Mac:" + Utils.getMac(this));
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
@@ -296,8 +320,21 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (App.PRISON) {
+            try {
+                editor.putString("group", data.getGroup());
+                editor.putString("stb_name", data.getStb_name());
+                editor.commit();
+                mTvWelcomeGuest.setText("上海市宝山监狱:" +
+                        sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                        sharedPreferences.getString("stb_name", ""));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         editor.putString("ip", Apis.HEADER);
         editor.commit();
         if (firstOpen) {
@@ -539,7 +576,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 case UPDATE_TIME:
                     App.newtime += 1;
                     String date = TimeUtils.stampToDate(App.newtime * 1000);
-                    String str_dayofWeek = getResources().getStringArray(R.array.day_of_week)[TimeUtils.getDay() - 1];
+                    String str_dayofWeek = getResources()
+                            .getStringArray(R.array.day_of_week)[TimeUtils.getDay(App.newtime * 1000) - 1];
                     mTvTime.setText(date + "  " + str_dayofWeek);
                     break;
                 default:

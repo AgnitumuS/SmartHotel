@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
@@ -148,6 +149,59 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
                 // Already hold the SYSTEM_ALERT_WINDOW permission, do addview or something.
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_PROG_RED:
+                if (this instanceof LiveActivity) {
+
+                } else {
+                    startActivity(new Intent(this, LiveActivity.class));
+                    if (this instanceof HomeActivity) {
+
+                    } else {
+                        finish();
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_PROG_YELLOW:
+                if (this instanceof VodListActivity) {
+
+                } else {
+                    startActivity(new Intent(this, VodListActivity.class));
+                    if (this instanceof HomeActivity) {
+
+                    } else {
+                        finish();
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_SETTINGS:
+                if (this instanceof PasswordActivity) {
+
+                } else {
+                    startActivity(new Intent(this, PasswordActivity.class));
+                    if (this instanceof HomeActivity) {
+
+                    } else {
+                        finish();
+                    }
+                }
+                break;
+            case KeyEvent.KEYCODE_HOME:
+                if (this instanceof HomeActivity) {
+
+                } else {
+                    Intent intent2 = new Intent(this, HomeActivity.class);
+                    intent2.putExtra("from", "StartActivity");
+                    startActivity(intent2);
+                    finish();
+                }
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
