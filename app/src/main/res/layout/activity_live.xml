@@ -112,9 +112,11 @@
                 android:layout_centerInParent="true"
                 android:focusable="false"
                 android:gravity="center"
+                android:lines="1"
+                android:maxLength="4"
                 android:textColor="@color/white"
-                android:textSize="40px"
-                tools:text="12" />
+                android:textSize="60px"
+                tools:text="1234" />
 
         </RelativeLayout>
 
