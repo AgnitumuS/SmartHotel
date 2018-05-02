@@ -1,7 +1,9 @@
 package com.wanlong.iptv.server;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -243,8 +245,24 @@ public class AdService extends Service {
                 });
     }
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     private void loginSuccess() {
         Logger.d("登录成功");
+        if (App.PRISON) {
+            sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            try {
+                editor.putString("group", data.getGroup());
+                editor.putString("stb_name", data.getStb_name());
+                editor.commit();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void loginFailed() {

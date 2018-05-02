@@ -10,7 +10,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
@@ -58,10 +60,14 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         if (position == mlastPosition) {
-            viewHolder.mTvItemLiveList.requestFocus();
+            viewHolder.mReLiveChannel.requestFocus();
         }
-        if (!mLiveListDatas.get(position).getIcon().equals("")) {
-            Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
+        if (App.PRISON) {
+            viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
+        } else {
+            if (!mLiveListDatas.get(position).getIcon().equals("")) {
+                Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
+            }
         }
         viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
         viewHolder.mTvItemRecyclerLiveNumber.setText(mLiveListDatas.get(position).getProgram_num());
@@ -77,7 +83,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //                }
 //            }
 //        });
-        viewHolder.mTvItemLiveList.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mReLiveChannel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
@@ -95,6 +101,8 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.re_live_channel)
+        AutoLinearLayout mReLiveChannel;
         @BindView(R.id.tv_item_recycler_live_number)
         AppCompatTextView mTvItemRecyclerLiveNumber;
         @BindView(R.id.img_item_recycler_live_icon)

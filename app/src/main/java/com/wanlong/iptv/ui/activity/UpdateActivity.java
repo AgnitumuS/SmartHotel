@@ -139,7 +139,12 @@ public class UpdateActivity extends BaseActivity {
             update = true;
         } else if (apkVersion == currentVersion) {
             if (App.RELEASE_VERSION) {
-                update = false;
+                if (versionCode > currentVersionCode) {
+                    update = true;
+                } else {
+                    update = false;
+                }
+//                update = false;
             } else {
                 if (versionCode > currentVersionCode) {
                     update = true;
