@@ -164,6 +164,7 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                 int state = getCurrentState();
                 switch (state) {
                     case GSYVideoPlayer.CURRENT_STATE_PLAYING:

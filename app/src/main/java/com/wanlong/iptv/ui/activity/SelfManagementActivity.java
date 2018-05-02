@@ -436,6 +436,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                     exitTime = System.currentTimeMillis();
                 }
                 return true;
+            //数字键
             case KeyEvent.KEYCODE_0:
                 inputNumber(0);
                 break;
@@ -465,6 +466,21 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 break;
             case KeyEvent.KEYCODE_9:
                 inputNumber(9);
+                break;
+            //频道加减键
+            case KeyEvent.KEYCODE_CHANNEL_UP:
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_UP);
+                } else {
+                    resetTime(MOBILE_QWER);
+                }
+                break;
+            case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_DOWN);
+                } else {
+                    resetTime(MOBILE_QWER);
+                }
                 break;
             default:
                 break;

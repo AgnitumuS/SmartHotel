@@ -392,8 +392,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 } else {
                     resetTime(MOBILE_QWER);
                 }
-//                showList();
-//                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
@@ -401,8 +399,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 } else {
                     resetTime(MOBILE_QWER);
                 }
-//                showList();
-//                showInfo();
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
                 if (mChannelList.getVisibility() == View.GONE) {
@@ -436,6 +432,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     exitTime = System.currentTimeMillis();
                 }
                 return true;
+            //数字键
             case KeyEvent.KEYCODE_0:
                 inputNumber(0);
                 break;
@@ -465,6 +462,21 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
             case KeyEvent.KEYCODE_9:
                 inputNumber(9);
+                break;
+            //频道加减键
+            case KeyEvent.KEYCODE_CHANNEL_UP:
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_UP);
+                } else {
+                    resetTime(MOBILE_QWER);
+                }
+                break;
+            case KeyEvent.KEYCODE_CHANNEL_DOWN:
+                if (mChannelList.getVisibility() == View.GONE) {
+                    switchChannel(KEYCODE_DOWN);
+                } else {
+                    resetTime(MOBILE_QWER);
+                }
                 break;
             default:
                 break;
