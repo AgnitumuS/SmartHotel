@@ -112,18 +112,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         //创建自定义的TextView
         mMarqueeTextView = new MarqueeTextView(this);
-        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+//        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                LinearLayout.LayoutParams.WRAP_CONTENT);
         mMarqueeTextView.setFocusable(false);
         mMarqueeTextView.setClickable(false);
-        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
-        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        mParams.setMargins(0, 0, 0, 16);
-        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
+//        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
+//        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        mParams.setMargins(0, 0, 0, 0);
+//        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
         mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(32f);
-        mMarqueeTextView.setPadding(0, 0, 0, 0);
-        mMarqueeTextView.setLayoutParams(mParams);
+        mMarqueeTextView.setTextSize(36f);
+        mMarqueeTextView.setPadding(0, 0, 0, 16);
+//        mMarqueeTextView.setLayoutParams(mParams);
         mMarqueeTextView.setTextColor(Color.WHITE);
         mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
         mMarqueeTextView.setText("");
