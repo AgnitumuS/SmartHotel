@@ -89,13 +89,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                resetTime(MOBILE_QWER);
+                resetTime(DISMISS_LIST);
+                resetTime(DISMISS_INFO);
                 playNewUrl(mLive.getPlaylist().get(position).getUrl());
 //                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
 //                mLiveVideoPlayer.startPlayLogic();
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
-                editor.putInt("live_LastPlayPosition", position);
+                editor.putInt(sp_lastPlayPosition, position);
                 editor.commit();
             }
         });
@@ -124,7 +125,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
         getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE, type);
-        resetTime(MOBILE_QWER);
+        resetTime(DISMISS_LIST);
+        resetTime(DISMISS_INFO);
     }
 
     private String[] urls = {"http://192.168.1.231/vod/file-list.m3u8",
@@ -313,7 +315,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     protected void onDestroy() {
         super.onDestroy();
         urls = null;
-        mHandler.removeMessages(MOBILE_QWER);
+        mHandler.removeMessages(DISMISS_LIST);
+        mHandler.removeMessages(DISMISS_INFO);
         mHandler = null;
         if (mLiveVideoPlayer != null) {
             mLiveVideoPlayer.release();
@@ -327,10 +330,12 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_left:
-                resetTime(1);
+                resetTime(DISMISS_LIST);
+                resetTime(DISMISS_INFO);
                 break;
             case R.id.img_right:
-                resetTime(1);
+                resetTime(DISMISS_LIST);
+                resetTime(DISMISS_INFO);
                 break;
         }
     }
@@ -381,7 +386,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
      * 2s内点击退出
      */
     private long exitTime;
-    private String number;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -390,14 +394,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_UP);
                 } else {
-                    resetTime(MOBILE_QWER);
+                    resetTime(DISMISS_LIST);
+                    resetTime(DISMISS_INFO);
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN://下一个节目
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_DOWN);
                 } else {
-                    resetTime(MOBILE_QWER);
+                    resetTime(DISMISS_LIST);
+                    resetTime(DISMISS_INFO);
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -468,14 +474,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_UP);
                 } else {
-                    resetTime(MOBILE_QWER);
+                    resetTime(DISMISS_LIST);
+                    resetTime(DISMISS_INFO);
                 }
                 break;
             case KeyEvent.KEYCODE_CHANNEL_DOWN:
                 if (mChannelList.getVisibility() == View.GONE) {
                     switchChannel(KEYCODE_DOWN);
                 } else {
-                    resetTime(MOBILE_QWER);
+                    resetTime(DISMISS_LIST);
+                    resetTime(DISMISS_INFO);
                 }
                 break;
             default:
@@ -499,9 +507,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private void showNumber() {
         if (mReKeyNum.getVisibility() == View.GONE) {
             mReKeyNum.setVisibility(View.VISIBLE);
-            mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 2000);
+            mHandler.sendEmptyMessageDelayed(DISMISS_NUMBER, 2000);
         } else {
-            resetTime(INPUT_NUMBER);
+            resetTime(DISMISS_NUMBER);
         }
         mTvNum.setText(sb.toString());
     }
@@ -510,7 +518,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private void showList() {
         if (mChannelList.getVisibility() == View.GONE) {
             mChannelList.setVisibility(View.VISIBLE);
-            mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+            mHandler.sendEmptyMessageDelayed(DISMISS_LIST, 5000);
             try {
                 RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
                 ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
@@ -520,7 +528,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 e.printStackTrace();
             }
         } else {
-            resetTime(MOBILE_QWER);
+            resetTime(DISMISS_LIST);
         }
     }
 
@@ -528,9 +536,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private void showInfo() {
         if (mChannelInfo.getVisibility() == View.GONE) {
             mChannelInfo.setVisibility(View.VISIBLE);
-            mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+            mHandler.sendEmptyMessageDelayed(DISMISS_INFO, 5000);
         } else {
-            resetTime(MOBILE_QWER);
+            resetTime(DISMISS_INFO);
         }
     }
 
@@ -557,26 +565,31 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     //重置UI消失时间
     public void resetTime(int keycode) {
-        if (keycode == MOBILE_QWER) {
-            if (mChannelList.getVisibility() == View.VISIBLE
-                    || mChannelInfo.getVisibility() == View.VISIBLE) {
-                mHandler.removeMessages(MOBILE_QWER);
-                mHandler.sendEmptyMessageDelayed(MOBILE_QWER, 5000);
+        if (keycode == DISMISS_LIST) {
+            if (mChannelList.getVisibility() == View.VISIBLE) {
+                mHandler.removeMessages(DISMISS_LIST);
+                mHandler.sendEmptyMessageDelayed(DISMISS_LIST, 5000);
             }
         }
-        if (keycode == INPUT_NUMBER) {
+        if (keycode == DISMISS_INFO) {
+            if (mChannelInfo.getVisibility() == View.VISIBLE) {
+                mHandler.removeMessages(DISMISS_INFO);
+                mHandler.sendEmptyMessageDelayed(DISMISS_INFO, 5000);
+            }
+        }
+        if (keycode == DISMISS_NUMBER) {
             if (mReKeyNum.getVisibility() == View.VISIBLE) {
-                mHandler.removeMessages(INPUT_NUMBER);
-                mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 2000);
+                mHandler.removeMessages(DISMISS_NUMBER);
+                mHandler.sendEmptyMessageDelayed(DISMISS_NUMBER, 2000);
             }
         }
-
     }
 
     //定义变量
     private static final int STOPPLAY = 0;
-    private static final int MOBILE_QWER = 1;
-    private static final int INPUT_NUMBER = 2;
+    private static final int DISMISS_LIST = 1;
+    private static final int DISMISS_INFO = 2;
+    private static final int DISMISS_NUMBER = 3;
 
     //程序启动时，初始化并发送消息
     private Handler mHandler = new Handler() {
@@ -586,36 +599,29 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 case STOPPLAY:
                     mLiveVideoPlayer.onVideoPause();
                     break;
-                case MOBILE_QWER:
-                    //当3秒到达后，作相应的操作。
+                case DISMISS_LIST:
                     dismissList();
-                    dismissInfo();
-//                    if (mChannelList.getVisibility() == View.VISIBLE) {
-//                        mChannelList.setVisibility(View.GONE);
-//                    }
-//                    if (mChannelInfo.getVisibility() == View.VISIBLE) {
-//                        mChannelInfo.setVisibility(View.GONE);
-//                    }
                     break;
-                case INPUT_NUMBER:
-                    if (mReKeyNum.getVisibility() == View.VISIBLE) {
-                        mReKeyNum.setVisibility(View.GONE);
-                        if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
-                            for (int i = 0; i < mLive.getPlaylist().size(); i++) {
-                                if (mLive.getPlaylist().get(i).getProgram_num().equals(Integer.parseInt(sb.toString()) + "")) {
-                                    playNewUrl(mLive.getPlaylist().get(i).getUrl());
-                                    currentPlayPosition = i;
-                                    mTvLiveName.setText(mLive.getPlaylist().get(i).getService_name());
-                                    editor.putInt(sp_lastPlayPosition, i);
-                                    editor.commit();
-                                    sb = new StringBuffer("");
-                                    return;
-                                }
+                case DISMISS_INFO:
+                    dismissInfo();
+                    break;
+                case DISMISS_NUMBER:
+                    dismissNumber();
+                    if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
+                        for (int i = 0; i < mLive.getPlaylist().size(); i++) {
+                            if (mLive.getPlaylist().get(i).getProgram_num().equals(Integer.parseInt(sb.toString()) + "")) {
+                                playNewUrl(mLive.getPlaylist().get(i).getUrl());
+                                currentPlayPosition = i;
+                                mTvLiveName.setText(mLive.getPlaylist().get(i).getService_name());
+                                editor.putInt(sp_lastPlayPosition, i);
+                                editor.commit();
+                                sb = new StringBuffer("");
+                                return;
                             }
                         }
-                        Toast.makeText(LiveActivity.this, "节目" + sb.toString() + "不存在", Toast.LENGTH_SHORT).show();
-                        sb = new StringBuffer("");
                     }
+                    Toast.makeText(LiveActivity.this, "节目" + sb.toString() + "不存在", Toast.LENGTH_SHORT).show();
+                    sb = new StringBuffer("");
                     break;
             }
         }
@@ -661,7 +667,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadFailed(int data) {
-//        Toast.makeText(this, "请求数据失败", Toast.LENGTH_SHORT).show();
         Logger.d("请求直播数据失败");
     }
 }
