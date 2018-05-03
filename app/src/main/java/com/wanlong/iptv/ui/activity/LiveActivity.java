@@ -499,7 +499,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private void showNumber() {
         if (mReKeyNum.getVisibility() == View.GONE) {
             mReKeyNum.setVisibility(View.VISIBLE);
-            mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 3000);
+            mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 2000);
         } else {
             resetTime(INPUT_NUMBER);
         }
@@ -534,6 +534,27 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         }
     }
 
+    //隐藏左边节目列表
+    private void dismissList() {
+        if (mChannelList.getVisibility() == View.VISIBLE) {
+            mChannelList.setVisibility(View.GONE);
+        }
+    }
+
+    //隐藏下方节目信息
+    private void dismissInfo() {
+        if (mChannelInfo.getVisibility() == View.VISIBLE) {
+            mChannelInfo.setVisibility(View.GONE);
+        }
+    }
+
+    //隐藏右上角节目号
+    private void dismissNumber() {
+        if (mReKeyNum.getVisibility() == View.VISIBLE) {
+            mReKeyNum.setVisibility(View.GONE);
+        }
+    }
+
     //重置UI消失时间
     public void resetTime(int keycode) {
         if (keycode == MOBILE_QWER) {
@@ -546,7 +567,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (keycode == INPUT_NUMBER) {
             if (mReKeyNum.getVisibility() == View.VISIBLE) {
                 mHandler.removeMessages(INPUT_NUMBER);
-                mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 3000);
+                mHandler.sendEmptyMessageDelayed(INPUT_NUMBER, 2000);
             }
         }
 
@@ -567,12 +588,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                     break;
                 case MOBILE_QWER:
                     //当3秒到达后，作相应的操作。
-                    if (mChannelList.getVisibility() == View.VISIBLE) {
-                        mChannelList.setVisibility(View.GONE);
-                    }
-                    if (mChannelInfo.getVisibility() == View.VISIBLE) {
-                        mChannelInfo.setVisibility(View.GONE);
-                    }
+                    dismissList();
+                    dismissInfo();
+//                    if (mChannelList.getVisibility() == View.VISIBLE) {
+//                        mChannelList.setVisibility(View.GONE);
+//                    }
+//                    if (mChannelInfo.getVisibility() == View.VISIBLE) {
+//                        mChannelInfo.setVisibility(View.GONE);
+//                    }
                     break;
                 case INPUT_NUMBER:
                     if (mReKeyNum.getVisibility() == View.VISIBLE) {
