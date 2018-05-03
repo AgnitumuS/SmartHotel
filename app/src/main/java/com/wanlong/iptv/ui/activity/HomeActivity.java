@@ -318,19 +318,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
                 mAdVideoBeans.addAll(homeAD.getAd_video());
             } else {
-                loadFailed(1);
+
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());
                 showImgAD(mAdImageBeans);
             } else {
-                loadFailed(2);
+                loadFailed(0);
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
                 showTextAD();
             } else {
-                loadFailed(3);
+
             }
         } else {
             loadFailed(0);
