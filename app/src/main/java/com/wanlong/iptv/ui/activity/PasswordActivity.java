@@ -143,6 +143,7 @@ public class PasswordActivity extends BaseActivity {
 
     private void inputNumber(int number) {
         sb.append("" + number);
-        mEditPassword.setText(sb.toString());
+        mEditPassword.setText(sb.toString());//设置EditText控件的内容
+        mEditPassword.setSelection(sb.length());//将光标移至文字末尾
     }
 }
