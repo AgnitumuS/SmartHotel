@@ -47,7 +47,7 @@
                 android:paddingLeft="16px"
                 android:text="http://192.168.1.109:9080/api/"
                 android:textColor="@color/white"
-                android:textSize="36px" />
+                android:textSize="44px" />
 
             <Button
                 android:id="@+id/btn_submit_ip"
