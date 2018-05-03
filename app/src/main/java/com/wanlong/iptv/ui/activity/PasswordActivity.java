@@ -80,6 +80,7 @@ public class PasswordActivity extends BaseActivity {
         });
     }
 
+    //检查密码
     private void checkPassword() {
         if (password.length() == 8) {
             if (password.equals(Apis.SETTING_PASSWORD)) {
@@ -87,11 +88,13 @@ public class PasswordActivity extends BaseActivity {
                 startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
                 finish();
             } else {
-                sb = new StringBuffer("");
                 password = "";
-                mEditPassword.setText("");
+                sb = new StringBuffer(password);
+                mEditPassword.setText(password);
                 Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
             }
+        } else if (password.length() < 8) {
+            sb = new StringBuffer(password);
         }
     }
 

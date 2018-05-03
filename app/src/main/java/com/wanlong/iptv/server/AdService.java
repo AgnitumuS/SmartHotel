@@ -275,7 +275,6 @@ public class AdService extends Service {
 
     private void uploadFailed() {
         Logger.d("上传失败");
-//        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     public static final int AD_TYPE_TEXT = 0;
@@ -351,7 +350,6 @@ public class AdService extends Service {
             if (type == AD_TYPE_TEXT) {
                 if (textResult == null) {
                     textResult = response.body();
-//                    date = mDateFormat.format(new Date(App.newtime * 1000));
                     if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
                         showAD(type, mPushMSG);
                     }
@@ -383,7 +381,6 @@ public class AdService extends Service {
                             if ((ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity)) {
                                 ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
                             }
-//                            mAdListener.dismissVideo();
                             if (mPushMSG.getCut_in() != null && mPushMSG.getCut_in().size() > 0) {
                                 showAD(type, mPushMSG);
                             }
@@ -476,10 +473,6 @@ public class AdService extends Service {
         void showVideo(String type, String url);
 
         void dismissAllText();
-
-        void dismissText(String text);
-
-        void dismissVideo();
     }
 
     @Nullable
