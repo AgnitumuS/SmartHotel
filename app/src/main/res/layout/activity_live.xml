@@ -39,7 +39,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="80px"
-                android:background="@color/color_55ffffff"
+                android:background="@color/color_cc2b2b2b"
                 android:focusable="false">
 
                 <ImageView
@@ -87,7 +87,7 @@
                 android:id="@+id/recycler_live_list"
                 android:layout_width="450px"
                 android:layout_height="720px"
-                android:background="@color/color_55ffffff"
+                android:background="@color/color_cc2b2b2b"
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:focusable="false" />
@@ -101,7 +101,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="60px"
             android:layout_marginTop="60px"
-            android:background="@color/color_55ffffff"
+            android:background="@color/color_cc2b2b2b"
             android:focusable="false"
             android:visibility="gone">
 
@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="160px"
             android:layout_alignParentBottom="true"
-            android:background="@color/color_55ffffff"
+            android:background="@color/color_cc2b2b2b"
             android:focusable="false">
 
             <android.support.v7.widget.AppCompatTextView
