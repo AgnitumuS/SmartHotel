@@ -350,6 +350,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     //显示图片广告
     private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
+        Logger.e("HomeActivity:load success");
         imgUrls1 = new ArrayList<>();
         imgUrls2 = new ArrayList<>();
         imgUrls3 = new ArrayList<>();
@@ -370,7 +371,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .setImageLoader(new GlideImageLoader())
                     .start();
         } else {
-            loadFailed(2);
+            loadFailed(1);
         }
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
@@ -385,26 +386,50 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .setImageLoader(new GlideImageLoader())
                     .start();
         } else {
-            loadFailed(2);
+            loadFailed(3);
         }
     }
 
     @Override
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
-        if (error == 0 || error == 2) {
+        switch (error) {
+            case 0:
+                loadDefaultImg(1);
+                loadDefaultImg(2);
+                loadDefaultImg(3);
+                break;
+            case 1:
+                loadDefaultImg(1);
+                break;
+            case 2:
+                loadDefaultImg(2);
+                break;
+            case 3:
+                loadDefaultImg(3);
+                break;
+        }
+    }
+
+    //加载默认图片
+    private void loadDefaultImg(int error) {
+        if (error == 1) {
             imgUrls1 = new ArrayList<>();
             imgUrls1.add(getResources().getDrawable(R.drawable.hotel_room));
             mImgShow.setImages(imgUrls1)
                     .setPageTransformer(true, new BackgroundToForegroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        }
+        if (error == 2) {
             imgUrls2 = new ArrayList<>();
             imgUrls2.add(getResources().getDrawable(R.drawable.weather));
             mImgWeather.setImages(imgUrls2)
                     .setPageTransformer(true, new ForegroundToBackgroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        }
+        if (error == 3) {
             imgUrls3 = new ArrayList<>();
             imgUrls3.add(getResources().getDrawable(R.drawable.sence));
             mImgAd.setImages(imgUrls3)

@@ -8,6 +8,11 @@
     android:focusable="false"
     tools:context=".ui.activity.LoginSettingActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/re_login_setting"
         android:layout_width="match_parent"
