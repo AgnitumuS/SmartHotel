@@ -127,10 +127,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         resetTime(DISMISS_INFO);
     }
 
-    private String[] urls = {"http://192.168.1.231/vod/file-list.m3u8",
-            "http://192.168.1.231/earth1.mp4",
-            "http://192.168.1.109:9080/stream/vod/行星地球二01.mp4"};
-
     //初始化播放器
     private void initPlayer() {
         switch (Build.MODEL) {
@@ -291,7 +287,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        urls = null;
         mHandler.removeMessages(DISMISS_LIST);
         mHandler.removeMessages(DISMISS_INFO);
         mHandler = null;

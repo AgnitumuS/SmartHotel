@@ -11,11 +11,8 @@ import android.os.Message;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -32,11 +29,11 @@ import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideImageLoader;
 import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
-import com.wanlong.iptv.ui.weigets.MarqueeTextView;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
+import com.wanlong.iptv.utils.WindowUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.transformer.BackgroundToForegroundTransformer;
 import com.youth.banner.transformer.ForegroundToBackgroundTransformer;
@@ -85,50 +82,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         super.initWindowManager();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (Settings.canDrawOverlays(this)) {
-                setText();
+                WindowUtils.initWindow(getApplicationContext());
             }
         } else {
-            setText();
+            WindowUtils.initWindow(getApplicationContext());
         }
-    }
-
-    private MarqueeTextView mMarqueeTextView;
-    private WindowManager wm;
-    private WindowManager.LayoutParams layoutParams;
-    private LinearLayout.LayoutParams mParams;
-
-    private void setText() {
-        wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        //设置TextView的属性
-        layoutParams = new WindowManager.LayoutParams();
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        //这里是关键，使控件始终在最上方
-        layoutParams.alpha = 1f;
-        layoutParams.format = 1;
-        layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT | WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;// 设置窗口类型为系统级
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        //这个Gravity也不能少，不然的话，下面"移动歌词"的时候就会出问题了～ 可以试试[官网文档有说明]
-        layoutParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
-        //创建自定义的TextView
-        mMarqueeTextView = new MarqueeTextView(this);
-//        mParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                LinearLayout.LayoutParams.WRAP_CONTENT);
-        mMarqueeTextView.setFocusable(false);
-        mMarqueeTextView.setClickable(false);
-//        mParams.weight = WindowManager.LayoutParams.MATCH_PARENT;
-//        mParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//        mParams.setMargins(0, 0, 0, 0);
-//        mParams.gravity = Gravity.CENTER | Gravity.BOTTOM;
-        mMarqueeTextView.setIncludeFontPadding(false);
-        mMarqueeTextView.setTextSize(36f);
-        mMarqueeTextView.setPadding(0, 0, 0, 16);
-//        mMarqueeTextView.setLayoutParams(mParams);
-        mMarqueeTextView.setTextColor(Color.WHITE);
-        mMarqueeTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
-        mMarqueeTextView.setText("");
-        wm.addView(mMarqueeTextView, layoutParams);
-        wm.updateViewLayout(mMarqueeTextView, layoutParams);
     }
 
     private SharedPreferences sharedPreferences;
@@ -300,7 +258,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                             loginFailed();
 //                            Toast.makeText(HomeActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
@@ -342,27 +299,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             editor.putBoolean("firstOpen", false);
             editor.commit();
         }
-//        if (App.ADserver) {
-//            stopService(new Intent(HomeActivity.this, AdService.class));
-//            startService(new Intent(HomeActivity.this, AdService.class));
-//            App.ADserver = true;
-//        }
-//        getTime();
-//        mTimer.cancel();
-//        mTimer.schedule(mTimerTask, 0, 1000);
-//        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
-//        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-//        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
-//        if (firstOpen) {
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putBoolean("firstOpen", false);
-//            editor.commit();
-//        }
     }
 
     private void loginFailed() {
         Logger.d("登录失败");
-//        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
     }
 
     private List<HomeAD.AdVideoBean> mAdVideoBeans;
@@ -447,39 +387,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         } else {
             loadFailed(2);
         }
-//        if (imgUrls1.size() > 0) {
-//            GlideApp.with(this)
-//                    .load(imgUrls1.get(0))
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgShow);
-//        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.hotel_room)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgShow);
-//        }
-//        if (imgUrls2.size() > 0) {
-//            GlideApp.with(this)
-//                    .load(imgUrls2.get(0))
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgWeather);
-//        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.weather)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgWeather);
-//        }
-//        if (imgUrls3.size() > 0) {
-//            GlideApp.with(this)
-//                    .load(imgUrls3.get(0))
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgAd);
-//        } else {
-//            GlideApp.with(this)
-//                    .load(R.drawable.sence)
-//                    .transform(new RoundedCorners(12))
-//                    .into(mImgAd);
-//        }
     }
 
     @Override
@@ -603,7 +510,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                finish();
 //            }
             if (App.PRISON) {
-                if (Build.MODEL.equals("0008")) {
+                if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
                     return true;
                 } else {
                     new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
@@ -648,16 +555,18 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             App.adText = App.adText + "     " + text;
         }
         Logger.d(App.adText);
-        if (mMarqueeTextView != null) {
-            mMarqueeTextView.setText(App.adText);
+        if (WindowUtils.getText(getApplicationContext()) != null) {
+            WindowUtils.getText(getApplicationContext()).setText(App.adText);
             try {
-                mMarqueeTextView.setTextSize(Integer.parseInt(font_size));
+                WindowUtils.getText(getApplicationContext()).setTextSize(Integer.parseInt(font_size));
                 if (lucency_size.length() == 1) {
                     lucency_size = "0" + lucency_size;
                 } else {
 
                 }
-                mMarqueeTextView.setTextColor(Color.parseColor("#" + lucency_size + font_color));
+                WindowUtils.getText(getApplicationContext())
+                        .setTextColor(Color.parseColor("#" + lucency_size + font_color));
+                WindowUtils.addText();
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (IllegalArgumentException e) {
@@ -683,28 +592,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         } else {
             App.adText = "";
         }
-        if (mMarqueeTextView != null) {
-            mMarqueeTextView.setText(App.adText);
+        if (WindowUtils.getText(getApplicationContext()) != null) {
+            WindowUtils.getText(getApplicationContext()).setText(App.adText);
         }
     }
-
-    @Override
-    public void dismissText(String text) {
-        if (App.adText.equals("")) {
-
-        } else {
-            App.adText = App.adText.replace(text, "");
-        }
-        if (mMarqueeTextView != null) {
-            mMarqueeTextView.setText(App.adText);
-        }
-    }
-
-    @Override
-    public void dismissVideo() {
-        if (ActivityCollector.activities.get(ActivityCollector.activities.size() - 1) instanceof AdActivity) {
-            ActivityCollector.finishActivity(ActivityCollector.activities.size() - 1);
-        }
-    }
-
 }
