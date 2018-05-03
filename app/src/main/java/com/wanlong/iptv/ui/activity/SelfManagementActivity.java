@@ -91,9 +91,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             public void onItemClick(View view, int position) {
                 resetTime(DISMISS_LIST);
                 resetTime(DISMISS_INFO);
-                playNewUrl(mLive.getPlaylist().get(position).getUrl());
-//                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(position).getUrl(), false, "");
-//                mLiveVideoPlayer.startPlayLogic();
+                playNewUrl(position, mLive.getPlaylist().get(position).getUrl());
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
                 editor.putInt(sp_lastPlayPosition, position);
@@ -186,11 +184,9 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 
     private void initIjkVideoView() {
         Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
-//        Settings.setMediaCodec(true);
         mIjkVideoView.setVisibility(View.VISIBLE);
         mIjkVideoView.setFocusable(false);
         mLiveVideoPlayer.setVisibility(View.GONE);
-//        mLiveVideoPlayer = null;
         mIjkVideoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,25 +204,16 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 }
             }
         });
-//        mIjkVideoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
-//            @Override
-//            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-//                return false;
-//            }
-//        });
+        mIjkVideoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+        });
         mIjkVideoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
                 Log.e("IJKMEDIA", "ERROR:" + i + "," + i1);
-//                try {
-//                    iMediaPlayer.stop();
-//                    iMediaPlayer.release();
-//                    iMediaPlayer.setDataSource(currentPlayUrl);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
                 return false;
             }
         });
@@ -234,25 +221,18 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
 
     private String currentPlayUrl;
 
-    private void playNewUrl(String newurl) {
+    private void playNewUrl(int position, String newurl) {
+        try {
+            if (mChannelList.getVisibility() == View.VISIBLE) {
+                RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(position);
+                ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         currentPlayUrl = newurl;
-//        initIjkVideoView();
-//        if (Build.MODEL.equals("0008")) {
-//            if (newurl.startsWith("udp")) {
-//                if (mIjkVideoView.isPlaying()) {
-//                    mIjkVideoView.stopPlayback();
-//                }
-//                mIjkVideoView.setVisibility(View.GONE);
-//                mLiveVideoPlayer.setVisibility(View.VISIBLE);
-//            } else {
-//                mIjkVideoView.setVisibility(View.VISIBLE);
-//                if (mLiveVideoPlayer.getCurrentState() == GSYVideoView.CURRENT_STATE_PLAYING) {
-//                    mLiveVideoPlayer.onVideoPause();
-//                    mLiveVideoPlayer.release();
-//                }
-//                mLiveVideoPlayer.setVisibility(View.GONE);
-//            }
-//        }
         if (App.look_permission) {
             if (mIjkVideoView.getVisibility() == View.VISIBLE) {
                 try {
@@ -279,7 +259,6 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         if (mIjkVideoView.getVisibility() == View.VISIBLE) {
             if (mIjkVideoView.isPlaying()) {
                 mIjkVideoView.stopPlayback();
-//                mIjkVideoView.stopBackgroundPlay();
             }
         }
     }
@@ -298,9 +277,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         }
         if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
             try {
-                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
-//                mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
-//                mLiveVideoPlayer.startPlayLogic();
+                playNewUrl(currentPlayPosition, mLive.getPlaylist().get(currentPlayPosition).getUrl());
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             } catch (NullPointerException e) {
@@ -371,9 +348,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 }
             }
             if (currentPlayPosition >= 0 && currentPlayPosition < mLive.getPlaylist().size()) {
-                playNewUrl(mLive.getPlaylist().get(currentPlayPosition).getUrl());
-//            mLiveVideoPlayer.setUp(mLive.getPlaylist().get(currentPlayPosition).getUrl(), false, "");
-//            mLiveVideoPlayer.startPlayLogic();
+                playNewUrl(currentPlayPosition, mLive.getPlaylist().get(currentPlayPosition).getUrl());
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
                 showInfo();
                 editor.putInt(sp_lastPlayPosition, currentPlayPosition);
@@ -429,9 +404,6 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 break;
             case KeyEvent.KEYCODE_BACK:
                 if ((System.currentTimeMillis() - exitTime) < 2000) {
-//                    if (App.PRISON) {
-//                        startActivity(new Intent(LiveActivity.this, HomeActivity.class));
-//                    }
                     finish();
                 } else {
                     Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
@@ -610,7 +582,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                     if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
                         for (int i = 0; i < mLive.getPlaylist().size(); i++) {
                             if (mLive.getPlaylist().get(i).getProgram_num().equals(Integer.parseInt(sb.toString()) + "")) {
-                                playNewUrl(mLive.getPlaylist().get(i).getUrl());
+                                playNewUrl(i, mLive.getPlaylist().get(i).getUrl());
                                 currentPlayPosition = i;
                                 mTvLiveName.setText(mLive.getPlaylist().get(i).getService_name());
                                 editor.putInt(sp_lastPlayPosition, i);
@@ -637,9 +609,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
                 try {
-                    playNewUrl(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
-//                    mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl(), false, "");
-//                    mLiveVideoPlayer.startPlayLogic();
+                    playNewUrl(liveLastPlayPosition, liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
                     currentPlayPosition = liveLastPlayPosition;
                     mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
                     exception = false;
@@ -654,9 +624,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                     exception = true;
                 } finally {
                     if (exception) {
-                        playNewUrl(liveListDatas.getPlaylist().get(0).getUrl());
-//                        mLiveVideoPlayer.setUp(liveListDatas.getPlaylist().get(0).getUrl(), false, "");
-//                        mLiveVideoPlayer.startPlayLogic();
+                        playNewUrl(0, liveListDatas.getPlaylist().get(0).getUrl());
                         currentPlayPosition = 0;
                         mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
                     }
