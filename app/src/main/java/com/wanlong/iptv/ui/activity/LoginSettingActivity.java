@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +49,6 @@ public class LoginSettingActivity extends BaseActivity {
     Button mBtnSubmitRoom;
     @BindView(R.id.btn_recovery)
     Button mBtnRecovery;
-    @BindView(R.id.re_login_setting)
-    RelativeLayout mReLoginSetting;
 
     @Override
     protected int getContentResId() {
@@ -67,6 +64,7 @@ public class LoginSettingActivity extends BaseActivity {
             mBtnSubmitIp.setText("登录");
         }
         mEditIp.setText(Apis.HEADER);
+        mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
         initListener();
         if (App.PRISON) {
             mTvRoomNumber.setText("上海市宝山监狱");
@@ -137,6 +135,7 @@ public class LoginSettingActivity extends BaseActivity {
                 break;
             case R.id.btn_recovery:
                 mEditIp.setText(Apis.HEADER_ORIGIN);
+                mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
                 mEditRoom.setText(Apis.ROOM_ORIGIN);
                 break;
         }
