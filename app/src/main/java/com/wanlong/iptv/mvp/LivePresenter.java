@@ -1,13 +1,15 @@
 package com.wanlong.iptv.mvp;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.utils.Utils;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -20,11 +22,12 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
     }
 
     //获取节目类型：直播、自办
-    public void loadLiveTypeData(String url) {
+    public void loadLiveTypeData(Context context, String url) {
         Logger.d("LivePresenter:" + url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac", App.mac)
+                .cacheKey(url + "?")
+                .params("mac", Utils.getMac(context))
                 .params("category", "?")
                 .execute(new StringCallback() {
                     @Override
@@ -60,11 +63,12 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
     }
 
     //获取节目列表 type:直播、自办
-    public void loadLiveListData(String url, String type) {
+    public void loadLiveListData(Context context, String url, String type) {
         Logger.d("LivePresenter:" + url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac", App.mac)
+                .cacheKey(url + type)
+                .params("mac", Utils.getMac(context))
                 .params("category", type)
                 .execute(new StringCallback() {
                     @Override

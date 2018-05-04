@@ -102,8 +102,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
-        getTime();
-//        initImgAd();
+    }
+
+    @Override
+    protected void initData() {
         if (App.PRISON) {
             mTvWelcomeGuest.setText("上海市宝山监狱:" +
                     sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
@@ -113,19 +115,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
-//        mTvMessage.setText("You have a new message. Please check it.");
-    }
-
-    //加载图片
-    private void initImgAd() {
-//        mImgShow.setOnClickListener(event -> {
-//            Log.d("HomeActivity", "event.getId():" + event.getId());
-//            Log.d("HomeActivity", "onclick");
-//        });//Lambda 表达式
-    }
-
-    @Override
-    protected void initData() {
         Logger.d("mac:" + Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
@@ -135,7 +124,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         adCallback();
         getTime();
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @Override
@@ -150,7 +139,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getTime();
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @Override
@@ -165,7 +155,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getTime();
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
@@ -318,19 +309,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
                 mAdVideoBeans.addAll(homeAD.getAd_video());
             } else {
-                loadFailed(1);
+
             }
             if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
                 mAdImageBeans.addAll(homeAD.getAd_image());
                 showImgAD(mAdImageBeans);
             } else {
-                loadFailed(2);
+                loadFailed(0);
             }
             if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
                 mAdTextBeans.addAll(homeAD.getAd_text());
                 showTextAD();
             } else {
-                loadFailed(3);
+
             }
         } else {
             loadFailed(0);
@@ -350,6 +341,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     //显示图片广告
     private void showImgAD(List<HomeAD.AdImageBean> mAdImageBeans) {
+        Logger.e("HomeActivity:load success");
         imgUrls1 = new ArrayList<>();
         imgUrls2 = new ArrayList<>();
         imgUrls3 = new ArrayList<>();
@@ -370,7 +362,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .setImageLoader(new GlideImageLoader())
                     .start();
         } else {
-            loadFailed(2);
+            loadFailed(1);
         }
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
@@ -385,26 +377,50 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     .setImageLoader(new GlideImageLoader())
                     .start();
         } else {
-            loadFailed(2);
+            loadFailed(3);
         }
     }
 
     @Override
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
-        if (error == 0 || error == 2) {
+        switch (error) {
+            case 0:
+                loadDefaultImg(1);
+                loadDefaultImg(2);
+                loadDefaultImg(3);
+                break;
+            case 1:
+                loadDefaultImg(1);
+                break;
+            case 2:
+                loadDefaultImg(2);
+                break;
+            case 3:
+                loadDefaultImg(3);
+                break;
+        }
+    }
+
+    //加载默认图片
+    private void loadDefaultImg(int error) {
+        if (error == 1) {
             imgUrls1 = new ArrayList<>();
             imgUrls1.add(getResources().getDrawable(R.drawable.hotel_room));
             mImgShow.setImages(imgUrls1)
                     .setPageTransformer(true, new BackgroundToForegroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        }
+        if (error == 2) {
             imgUrls2 = new ArrayList<>();
             imgUrls2.add(getResources().getDrawable(R.drawable.weather));
             mImgWeather.setImages(imgUrls2)
                     .setPageTransformer(true, new ForegroundToBackgroundTransformer())
                     .setImageLoader(new GlideImageLoader())
                     .start();
+        }
+        if (error == 3) {
             imgUrls3 = new ArrayList<>();
             imgUrls3.add(getResources().getDrawable(R.drawable.sence));
             mImgAd.setImages(imgUrls3)
