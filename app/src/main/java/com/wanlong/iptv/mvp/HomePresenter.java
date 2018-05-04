@@ -41,13 +41,21 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onCacheSuccess(Response<String> response) {
                         super.onCacheSuccess(response);
-                        onSuccess(response);
+                        Logger.json(response.body());
+                        try {
+                            HomeAD homeAD = JSON.parseObject(response.body(), HomeAD.class);
+                            getView().loadHomeADSuccess(homeAD);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed(-1);
+                        getView().loadFailed(0);
                     }
                 });
     }
