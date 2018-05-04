@@ -99,7 +99,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 App.ADserver = false;
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("from","CrashHandler");
+                intent.putExtra("from", "CrashHandler");
                 mContext.startActivity(intent);
             } catch (Exception e) {
                 Log.e(TAG, "error : ", e);
@@ -164,10 +164,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 上传文件到服务器
      */
     private void uploadFile(String filename) {
-        Log.d("hotel-crash",filename);
-        Log.d("hotel-crash",Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD);
+        Log.d("hotel-crash", filename);
+        Log.d("hotel-crash", Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD);
         final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
-        Log.d("hotel-crash",file);
+        Log.d("hotel-crash", file);
         List<File> files = new ArrayList<>();
         files.add(new File(filename));
         OkGo.<String>post(Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD)
@@ -181,8 +181,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("hotel-crash",response.body().toString());
-                        Log.d("hotel-crash","upload error log success");
+                        Log.d("hotel-crash", response.body().toString());
+                        Log.d("hotel-crash", "upload error log success");
                     }
 
                     @Override
@@ -193,23 +193,23 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                             dir.delete();
                         }
                         filehasUpload = true;
-                        Log.d("hotel-crash","upload error log finish");
+                        Log.d("hotel-crash", "upload error log finish");
                     }
 
                     @Override
                     public void uploadProgress(Progress progress) {
                         super.uploadProgress(progress);
-                        Log.d("hotel-crash","progress:"+progress.currentSize);
+                        Log.d("hotel-crash", "progress:" + progress.currentSize);
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         filehasUpload = false;
-                        Log.d("hotel-crash","upload error log failed");
+                        Log.d("hotel-crash", "upload error log failed");
                     }
                 });
-        Log.d("hotel-crash","OkGo");
+        Log.d("hotel-crash", "OkGo");
     }
 
     /**
@@ -278,8 +278,13 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         sb.append(result);
         try {
-            long timestamp = System.currentTimeMillis();
-            String time = format.format(new Date());
+            long timestamp;
+            if (App.newtime != 0) {
+                timestamp = App.newtime * 1000;
+            } else {
+                timestamp = System.currentTimeMillis();
+            }
+            String time = format.format(new Date(timestamp));
             String fileName = "crash-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";

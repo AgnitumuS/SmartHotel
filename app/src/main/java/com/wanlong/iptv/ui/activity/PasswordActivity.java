@@ -1,8 +1,11 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +47,8 @@ public class PasswordActivity extends BaseActivity {
     Button mBtnNumber8;
     @BindView(R.id.btn_number_9)
     Button mBtnNumber9;
+    @BindView(R.id.btn_keycode_del)
+    Button mBtnKeycodeDel;
     @BindView(R.id.ll_keyboard_number)
     LinearLayout mLlKeyboardNumber;
 
@@ -80,6 +85,7 @@ public class PasswordActivity extends BaseActivity {
         });
     }
 
+    //检查密码
     private void checkPassword() {
         if (password.length() == 8) {
             if (password.equals(Apis.SETTING_PASSWORD)) {
@@ -87,9 +93,8 @@ public class PasswordActivity extends BaseActivity {
                 startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
                 finish();
             } else {
-                sb = new StringBuffer("");
                 password = "";
-                mEditPassword.setText("");
+                mEditPassword.setText(password);
                 Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
             }
         }
@@ -97,49 +102,60 @@ public class PasswordActivity extends BaseActivity {
 
     @OnClick({R.id.btn_password, R.id.btn_number_0, R.id.btn_number_1, R.id.btn_number_2,
             R.id.btn_number_3, R.id.btn_number_4, R.id.btn_number_5, R.id.btn_number_6,
-            R.id.btn_number_7, R.id.btn_number_8, R.id.btn_number_9})
+            R.id.btn_number_7, R.id.btn_number_8, R.id.btn_number_9, R.id.btn_keycode_del})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_password:
                 checkPassword();
                 break;
             case R.id.btn_number_0:
-                inputNumber(0);
+                inputNumber(KeyEvent.KEYCODE_0);
                 break;
             case R.id.btn_number_1:
-                inputNumber(1);
+                inputNumber(KeyEvent.KEYCODE_1);
                 break;
             case R.id.btn_number_2:
-                inputNumber(2);
+                inputNumber(KeyEvent.KEYCODE_2);
                 break;
             case R.id.btn_number_3:
-                inputNumber(3);
+                inputNumber(KeyEvent.KEYCODE_3);
                 break;
             case R.id.btn_number_4:
-                inputNumber(4);
+                inputNumber(KeyEvent.KEYCODE_4);
                 break;
             case R.id.btn_number_5:
-                inputNumber(5);
+                inputNumber(KeyEvent.KEYCODE_5);
                 break;
             case R.id.btn_number_6:
-                inputNumber(6);
+                inputNumber(KeyEvent.KEYCODE_6);
                 break;
             case R.id.btn_number_7:
-                inputNumber(7);
+                inputNumber(KeyEvent.KEYCODE_7);
                 break;
             case R.id.btn_number_8:
-                inputNumber(8);
+                inputNumber(KeyEvent.KEYCODE_8);
                 break;
             case R.id.btn_number_9:
-                inputNumber(9);
+                inputNumber(KeyEvent.KEYCODE_9);
+                break;
+            case R.id.btn_keycode_del:
+                inputNumber(KeyEvent.KEYCODE_DEL);
                 break;
         }
     }
 
-    private StringBuffer sb = new StringBuffer("");
-
-    private void inputNumber(int number) {
-        sb.append("" + number);
-        mEditPassword.setText(sb.toString());
+    //输入模拟按键
+    private void inputNumber(int keycode) {
+        mEditPassword.requestFocus();
+        new Thread() {
+            public void run() {
+                try {
+                    Instrumentation inst = new Instrumentation();
+                    inst.sendKeyDownUpSync(keycode);
+                } catch (Exception e) {
+                    Log.e("sendPointerSync", e.toString());
+                }
+            }
+        }.start();
     }
 }

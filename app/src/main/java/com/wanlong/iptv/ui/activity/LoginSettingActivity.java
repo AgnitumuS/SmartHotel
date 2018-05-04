@@ -1,5 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +50,28 @@ public class LoginSettingActivity extends BaseActivity {
     Button mBtnSubmitRoom;
     @BindView(R.id.btn_recovery)
     Button mBtnRecovery;
-    @BindView(R.id.re_login_setting)
-    RelativeLayout mReLoginSetting;
+    @BindView(R.id.btn_number_0)
+    Button mBtnNumber0;
+    @BindView(R.id.btn_number_1)
+    Button mBtnNumber1;
+    @BindView(R.id.btn_number_2)
+    Button mBtnNumber2;
+    @BindView(R.id.btn_number_3)
+    Button mBtnNumber3;
+    @BindView(R.id.btn_number_4)
+    Button mBtnNumber4;
+    @BindView(R.id.btn_number_5)
+    Button mBtnNumber5;
+    @BindView(R.id.btn_number_6)
+    Button mBtnNumber6;
+    @BindView(R.id.btn_number_7)
+    Button mBtnNumber7;
+    @BindView(R.id.btn_number_8)
+    Button mBtnNumber8;
+    @BindView(R.id.btn_number_9)
+    Button mBtnNumber9;
+    @BindView(R.id.btn_keycode_del)
+    Button mBtnKeycodeDel;
 
     @Override
     protected int getContentResId() {
@@ -67,6 +87,7 @@ public class LoginSettingActivity extends BaseActivity {
             mBtnSubmitIp.setText("登录");
         }
         mEditIp.setText(Apis.HEADER);
+        mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
         initListener();
         if (App.PRISON) {
             mTvRoomNumber.setText("上海市宝山监狱");
@@ -126,9 +147,45 @@ public class LoginSettingActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btn_submit_ip, R.id.btn_submit_room, R.id.btn_recovery})
+    @OnClick({R.id.btn_number_0, R.id.btn_number_1, R.id.btn_number_2, R.id.btn_number_3,
+            R.id.btn_number_4, R.id.btn_number_5, R.id.btn_number_6, R.id.btn_number_7,
+            R.id.btn_number_8, R.id.btn_number_9, R.id.btn_keycode_del, R.id.btn_submit_ip,
+            R.id.btn_submit_room, R.id.btn_recovery})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.btn_number_0:
+                inputNumber(KeyEvent.KEYCODE_0);
+                break;
+            case R.id.btn_number_1:
+                inputNumber(KeyEvent.KEYCODE_1);
+                break;
+            case R.id.btn_number_2:
+                inputNumber(KeyEvent.KEYCODE_2);
+                break;
+            case R.id.btn_number_3:
+                inputNumber(KeyEvent.KEYCODE_3);
+                break;
+            case R.id.btn_number_4:
+                inputNumber(KeyEvent.KEYCODE_4);
+                break;
+            case R.id.btn_number_5:
+                inputNumber(KeyEvent.KEYCODE_5);
+                break;
+            case R.id.btn_number_6:
+                inputNumber(KeyEvent.KEYCODE_6);
+                break;
+            case R.id.btn_number_7:
+                inputNumber(KeyEvent.KEYCODE_7);
+                break;
+            case R.id.btn_number_8:
+                inputNumber(KeyEvent.KEYCODE_8);
+                break;
+            case R.id.btn_number_9:
+                inputNumber(KeyEvent.KEYCODE_9);
+                break;
+            case R.id.btn_keycode_del:
+                inputNumber(KeyEvent.KEYCODE_DEL);
+                break;
             case R.id.btn_submit_ip:
                 submitIP();
                 break;
@@ -137,9 +194,25 @@ public class LoginSettingActivity extends BaseActivity {
                 break;
             case R.id.btn_recovery:
                 mEditIp.setText(Apis.HEADER_ORIGIN);
+                mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
                 mEditRoom.setText(Apis.ROOM_ORIGIN);
                 break;
         }
+    }
+
+    //输入模拟按键
+    private void inputNumber(int keycode) {
+        mEditIp.requestFocus();
+        new Thread() {
+            public void run() {
+                try {
+                    Instrumentation inst = new Instrumentation();
+                    inst.sendKeyDownUpSync(keycode);
+                } catch (Exception e) {
+                    Log.e("sendPointerSync", e.toString());
+                }
+            }
+        }.start();
     }
 
     //提交房间号
@@ -225,7 +298,7 @@ public class LoginSettingActivity extends BaseActivity {
                             data = JSON.parseObject(response.body(), Login.class);
                             if (data != null && data.getCode() != null) {
                                 if (data.getCode().equals("0")) {
-                                    Toast.makeText(LoginSettingActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("1")) {
                                     //存储
                                     loginSuccess();
@@ -233,36 +306,36 @@ public class LoginSettingActivity extends BaseActivity {
                                     Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-2")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-3")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "达到最大连接数", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-4")) {
                                     App.look_permission = false;
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "用户已过期", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginSettingActivity.this, "用户未注册", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-6")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入为空", Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-7")) {
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginSettingActivity.this, "登陆过期", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 loginFailed();
-                                Log.d("ServerSettingActivity", "服务器返回数据异常");
-                                Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+//                                Log.d("ServerSettingActivity", "服务器返回数据异常");
+//                                Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             loginFailed();
-                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
 
                     }

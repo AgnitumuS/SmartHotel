@@ -54,7 +54,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         mVodTypeAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
+                getPresenter().loadVodListData(VodListActivity.this,
+                        Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
             }
         });
         mVodListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
@@ -102,7 +103,7 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     @Override
     protected void initData() {
         setPresenter(new VodListPresenter(this));
-        getPresenter().loadVodTypeData(Apis.HEADER + Apis.USER_VOD_TYPE);
+        getPresenter().loadVodTypeData(VodListActivity.this, Apis.HEADER + Apis.USER_VOD_TYPE);
     }
 
     private VodType mVodType;
@@ -112,7 +113,8 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
         if (vodType != null && vodType.getCategory() != null && vodType.getCategory().size() > 0) {
             mVodType = vodType;
             mVodTypeAdapter.setData(vodType.getCategory());
-            getPresenter().loadVodListData(Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
+            getPresenter().loadVodListData(VodListActivity.this,
+                    Apis.HEADER + Apis.USER_VOD_TYPE, vodType.getCategory().get(0));
         }
     }
 
