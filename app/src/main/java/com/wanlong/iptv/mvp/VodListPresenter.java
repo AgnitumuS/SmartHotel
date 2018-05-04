@@ -1,14 +1,16 @@
 package com.wanlong.iptv.mvp;
 
+import android.content.Context;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.VodList;
 import com.wanlong.iptv.entity.VodType;
+import com.wanlong.iptv.utils.Utils;
 
 /**
  * Created by lingchen on 2018/1/30. 14:51
@@ -20,11 +22,12 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
         super(vodListView);
     }
 
-    public void loadVodTypeData(String url) {
+    public void loadVodTypeData(Context context, String url) {
         Logger.d("VodListPresenter:" + url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac", App.mac)
+                .cacheKey(url)
+                .params("mac", Utils.getMac(context))
                 .params("category", "?")
                 .execute(new StringCallback() {
                     @Override
@@ -54,11 +57,12 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                 });
     }
 
-    public void loadVodListData(String url, String type) {
+    public void loadVodListData(Context context, String url, String type) {
         Logger.d("VodListPresenter", url);
         OkGo.<String>post(url)
                 .tag(this)
-                .params("mac", App.mac)
+                .cacheKey(url + type)
+                .params("mac", Utils.getMac(context))
                 .params("category", type)
                 .execute(new StringCallback() {
                     @Override

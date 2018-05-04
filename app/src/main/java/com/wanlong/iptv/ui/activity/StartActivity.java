@@ -55,6 +55,7 @@ public class StartActivity extends BaseActivity {
     private static final int LOGIN = 0;
     private static final int OPEN = 1;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private boolean firstOpen;
     private String ip;
 
@@ -72,7 +73,7 @@ public class StartActivity extends BaseActivity {
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor = sharedPreferences.edit();
             editor.putString("ip", Apis.HEADER);
             editor.commit();
             ip = sharedPreferences.getString("ip", "");

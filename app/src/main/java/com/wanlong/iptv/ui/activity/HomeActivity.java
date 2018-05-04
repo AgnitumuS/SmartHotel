@@ -124,7 +124,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         adCallback();
         getTime();
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
         getTime();
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
         getTime();
-        getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
+        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,

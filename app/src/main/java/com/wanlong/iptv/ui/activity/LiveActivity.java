@@ -122,7 +122,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        getPresenter().loadLiveListData(Apis.HEADER + Apis.USER_LIVE, type);
+        getPresenter().loadLiveListData(this,Apis.HEADER + Apis.USER_LIVE, type);
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
     }
