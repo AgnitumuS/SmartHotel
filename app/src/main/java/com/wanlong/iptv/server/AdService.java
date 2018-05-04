@@ -312,7 +312,7 @@ public class AdService extends Service {
         OkGo.<String>post(Apis.HEADER + Apis.USER_IN_STREAM)
                 .tag(this)
                 .cacheMode(CacheMode.NO_CACHE)
-                .params("mac", App.mac)
+                .params("mac", Utils.getMac(this))
                 .params("type", category)
                 .execute(new StringCallback() {
                     @Override
