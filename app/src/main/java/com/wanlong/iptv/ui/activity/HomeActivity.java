@@ -102,8 +102,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
-        getTime();
-//        initImgAd();
+    }
+
+    @Override
+    protected void initData() {
         if (App.PRISON) {
             mTvWelcomeGuest.setText("上海市宝山监狱:" +
                     sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
@@ -113,19 +115,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
-//        mTvMessage.setText("You have a new message. Please check it.");
-    }
-
-    //加载图片
-    private void initImgAd() {
-//        mImgShow.setOnClickListener(event -> {
-//            Log.d("HomeActivity", "event.getId():" + event.getId());
-//            Log.d("HomeActivity", "onclick");
-//        });//Lambda 表达式
-    }
-
-    @Override
-    protected void initData() {
         Logger.d("mac:" + Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
         setPresenter(new HomePresenter(this));
@@ -150,6 +139,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
+        getTime();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 
@@ -165,6 +155,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
         mTvRoom.setText("Mac:" + Utils.getMac(this));
+        getTime();
         getPresenter().loadHomeADData(Apis.HEADER + Apis.USER_HOME_AD);
     }
 

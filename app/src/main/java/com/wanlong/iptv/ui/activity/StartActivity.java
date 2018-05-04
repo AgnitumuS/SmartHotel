@@ -50,7 +50,6 @@ public class StartActivity extends BaseActivity {
 //
 //            }
 //        });
-
     }
 
     private static final int LOGIN = 0;
@@ -79,11 +78,7 @@ public class StartActivity extends BaseActivity {
             ip = sharedPreferences.getString("ip", "");
         }
         Apis.HEADER = ip;
-//        if (firstOpen) {
-//            mHandler.sendEmptyMessageDelayed(LOGIN, 1000);
-//        } else {
-            mHandler.sendEmptyMessageDelayed(OPEN, 1000);
-//        }
+        mHandler.sendEmptyMessageDelayed(OPEN, 1000);
     }
 
     private Handler mHandler = new Handler() {
@@ -92,14 +87,14 @@ public class StartActivity extends BaseActivity {
             switch (msg.what) {
                 case LOGIN:
                     Intent intent1 = new Intent(StartActivity.this, LoginSettingActivity.class);
-                    intent1.putExtra("from","StartActivity");
+                    intent1.putExtra("from", "StartActivity");
                     intent1.putExtra("firstOpen", firstOpen);
                     startActivity(intent1);
                     finish();
                     break;
                 case OPEN:
                     Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                    intent2.putExtra("from","StartActivity");
+                    intent2.putExtra("from", "StartActivity");
                     startActivity(intent2);
                     finish();
                     break;
