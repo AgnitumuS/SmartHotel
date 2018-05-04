@@ -394,6 +394,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     public void loadFailed(int error) {
         Logger.e("HomeActivity:load failed");
         switch (error) {
+            case -1:
+
+                break;
             case 0:
                 loadDefaultImg(1);
                 loadDefaultImg(2);

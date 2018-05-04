@@ -20,7 +20,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
     }
 
     public void loadHomeADData(String url) {
-        Logger.d("HomeView:"+ url);
+        Logger.d("HomeView:" + url);
         OkGo.<String>post(url)
                 .tag(this)
                 .params("mac", App.mac)
@@ -47,13 +47,14 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed(0);
+                        getView().loadFailed(-1);
                     }
                 });
     }
 
     public interface HomeView extends BaseView {
         void loadHomeADSuccess(HomeAD homeAD);
+
         void loadFailed(int error);
     }
 }

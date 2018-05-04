@@ -43,7 +43,7 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                     @Override
                     public void onCacheSuccess(Response<String> response) {
                         super.onCacheSuccess(response);
-//                        onSuccess(response);
+                        onSuccess(response);
                     }
 
                     @Override
