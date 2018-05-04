@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -13,6 +12,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 
@@ -69,7 +69,7 @@ public class StartActivity extends BaseActivity {
 
     //创建SharedPreferences
     private void createSP() {
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
@@ -88,14 +88,11 @@ public class StartActivity extends BaseActivity {
             switch (msg.what) {
                 case LOGIN:
                     Intent intent1 = new Intent(StartActivity.this, LoginSettingActivity.class);
-                    intent1.putExtra("from", "StartActivity");
-                    intent1.putExtra("firstOpen", firstOpen);
                     startActivity(intent1);
                     finish();
                     break;
                 case OPEN:
                     Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                    intent2.putExtra("from", "StartActivity");
                     startActivity(intent2);
                     finish();
                     break;

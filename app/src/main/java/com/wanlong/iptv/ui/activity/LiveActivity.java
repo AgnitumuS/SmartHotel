@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +30,7 @@ import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -115,14 +115,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             sp_lastPlayPosition = "selfManager_LastPlayPosition";
             type = "自办";
         }
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
-        liveLastPlayPosition = sharedPreferences.getInt(sp_lastPlayPosition, 0);
+        sharedPreferences = ApkVersion.getSP(this);
         editor = sharedPreferences.edit();
+        liveLastPlayPosition = sharedPreferences.getInt(sp_lastPlayPosition, 0);
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText("全部");
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        getPresenter().loadLiveListData(this,Apis.HEADER + Apis.USER_LIVE, type);
+        getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
     }

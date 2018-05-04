@@ -10,8 +10,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -62,7 +62,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (position == mlastPosition) {
             viewHolder.mReLiveChannel.requestFocus();
         }
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
         } else {
             if (!mLiveListDatas.get(position).getIcon().equals("")) {

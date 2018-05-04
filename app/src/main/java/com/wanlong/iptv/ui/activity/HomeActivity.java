@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,6 +30,7 @@ import com.wanlong.iptv.mvp.HomePresenter;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.TimeUtils;
 import com.wanlong.iptv.utils.Utils;
 import com.wanlong.iptv.utils.WindowUtils;
@@ -94,10 +94,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initView() {
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         editor = sharedPreferences.edit();
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             autoLogin();
+        } else {
+            mTvSelfManagement.setVisibility(View.GONE);
         }
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
@@ -106,47 +108,28 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initData() {
-        if (App.PRISON) {
-            mTvWelcomeGuest.setText("上海市宝山监狱:" +
-                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                    sharedPreferences.getString("stb_name", ""));
-        } else {
-            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
-        }
-        mTvRoom.setText("Mac:" + Utils.getMac(this));
-        Logger.d("mac:" + Utils.getMac(this));
         mTimer.schedule(mTimerTask, 0, 1000);
-        setPresenter(new HomePresenter(this));
-        if (!App.ADserver) {
-            startService(new Intent(HomeActivity.this, AdService.class));
-            App.ADserver = true;
-        }
         adCallback();
-        getTime();
-        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
+        setPresenter(new HomePresenter(this));
+        reflashData();
+        Logger.d("mac:" + Utils.getMac(this));
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (App.PRISON) {
-            mTvWelcomeGuest.setText("上海市宝山监狱:" +
-                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                    sharedPreferences.getString("stb_name", ""));
-        } else {
-            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
-        }
-        mTvRoom.setText("Mac:" + Utils.getMac(this));
-        getTime();
-        getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
+        reflashData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (App.PRISON) {
+        reflashData();
+    }
+
+    //刷新首页数据
+    private void reflashData() {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvWelcomeGuest.setText("上海市宝山监狱:" +
                     sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
                     sharedPreferences.getString("stb_name", ""));
@@ -269,7 +252,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private void loginSuccess() {
         Logger.d("登录成功");
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             try {
                 editor.putString("group", data.getGroup());
                 editor.putString("stb_name", data.getStb_name());
@@ -286,7 +269,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         editor.putString("ip", Apis.HEADER);
         editor.commit();
         if (firstOpen) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor = sharedPreferences.edit();
             editor.putBoolean("firstOpen", false);
             editor.commit();
         }
@@ -525,7 +508,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 //                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
 //                finish();
 //            }
-            if (App.PRISON) {
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
                     return true;
                 } else {

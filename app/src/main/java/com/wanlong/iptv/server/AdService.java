@@ -1,7 +1,6 @@
 package com.wanlong.iptv.server;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -22,6 +21,7 @@ import com.wanlong.iptv.entity.UserStatus;
 import com.wanlong.iptv.ui.activity.AdActivity;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.Utils;
 
 import java.util.List;
@@ -250,8 +250,8 @@ public class AdService extends Service {
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        if (App.PRISON) {
-            sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            sharedPreferences = ApkVersion.getSP(this);
             editor = sharedPreferences.edit();
             try {
                 editor.putString("group", data.getGroup());

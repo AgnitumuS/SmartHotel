@@ -21,6 +21,7 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.squareup.leakcanary.LeakCanary;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.utils.ActivityCollector;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.CrashHandler;
 import com.wanlong.iptv.utils.DeviceUuidFactory;
 import com.wanlong.iptv.utils.Utils;
@@ -41,8 +42,6 @@ public class App extends Application {
 
     private static App application;
     public static UUID sUUID;
-    public static final boolean RELEASE_VERSION = false;
-    public static final boolean PRISON = true;
     public static long newtime;
     public static String mac = "";
     public static String adText = "";
@@ -88,7 +87,7 @@ public class App extends Application {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("Hotel-OkGo");
         //log打印级别，决定了log显示的详细程度
-        if (RELEASE_VERSION) {
+        if (ApkVersion.RELEASE_VERSION) {
             loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BASIC);
         } else {
             loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
@@ -141,7 +140,7 @@ public class App extends Application {
             //项目上线前，可以实现以下方法，以保证上线后不输出日志。
             @Override
             public boolean isLoggable(int priority, String tag) {
-                if (RELEASE_VERSION) {
+                if (ApkVersion.RELEASE_VERSION) {
                     return false;//release版本不输出日志
                 } else {
                     return true;
@@ -159,17 +158,17 @@ public class App extends Application {
 
     //初始化Leakcanary
     public void initLeakcanary() {
-        if (!RELEASE_VERSION) {
+        if (!ApkVersion.RELEASE_VERSION) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This process is dedicated to LeakCanary for heap analysis.
                 // You should not init your app in this process.
                 return;
             }
-            if (PRISON) {
-
-            } else {
-                LeakCanary.install(this);
-            }
+//            if (PRISON) {
+//
+//            } else {
+//                LeakCanary.install(this);
+//            }
         }
     }
 
