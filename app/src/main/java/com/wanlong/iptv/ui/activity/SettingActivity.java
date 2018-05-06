@@ -73,8 +73,6 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.login_setting:
                 Intent intent2 = new Intent(SettingActivity.this, LoginSettingActivity.class);
-                intent2.putExtra("from", "SettingActivity");
-                intent2.putExtra("firstOpen", false);
                 startActivity(intent2);
                 break;
             case R.id.play_setting:

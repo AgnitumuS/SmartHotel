@@ -16,10 +16,10 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.AppUpdate;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkUtils;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import java.io.File;
 
@@ -43,7 +43,7 @@ public class UpdateActivity extends BaseActivity {
     @Override
     protected void initView() {
         String version;
-        if (App.RELEASE_VERSION) {
+        if (ApkVersion.RELEASE_VERSION) {
             version = getString(R.string.versionName);
         } else {
             version = getString(R.string.versionName) + "(" + getString(R.string.versionCode) + ")";
@@ -55,7 +55,7 @@ public class UpdateActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (App.RELEASE_VERSION) {
+        if (ApkVersion.RELEASE_VERSION) {
             url = Apis.HEADER + Apis.USER_APP_UPDATE;
         } else {
             url = Apis.HEADER + Apis.USER_APP_UPDATE_BETA;
@@ -76,9 +76,9 @@ public class UpdateActivity extends BaseActivity {
                         Logger.json(response.body());
                         try {
                             appUpdate = JSON.parseObject(response.body(), AppUpdate.class);
-                            if (!App.RELEASE_VERSION && appUpdate.getApkUsage().equals("beta")) {
+                            if (!ApkVersion.RELEASE_VERSION && appUpdate.getApkUsage().equals("beta")) {
                                 compareVersion();
-                            } else if (App.RELEASE_VERSION && appUpdate.getApkUsage().equals("master")) {
+                            } else if (ApkVersion.RELEASE_VERSION && appUpdate.getApkUsage().equals("master")) {
                                 compareVersion();
                             } else {
                                 mCheckversion.setText(R.string.latast_version);
@@ -138,7 +138,7 @@ public class UpdateActivity extends BaseActivity {
         if (apkVersion > currentVersion) {
             update = true;
         } else if (apkVersion == currentVersion) {
-            if (App.RELEASE_VERSION) {
+            if (ApkVersion.RELEASE_VERSION) {
                 if (versionCode > currentVersionCode) {
                     update = true;
                 } else {
@@ -173,7 +173,7 @@ public class UpdateActivity extends BaseActivity {
 
     //提示更新
     private void showDialog() {
-        if (App.RELEASE_VERSION) {
+        if (ApkVersion.RELEASE_VERSION) {
             mMessage = getString(R.string.current_version) +
                     getString(R.string.versionName) + "," +
                     getString(R.string.new_version) +

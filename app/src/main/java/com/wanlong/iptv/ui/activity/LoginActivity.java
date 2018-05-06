@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +25,7 @@ import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity {
         if (!Utils.isPhone(this)) {
             mBtnLogin.requestFocus();
         }
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvDeviceID.setText("MAC:" + Utils.getMac(this));
         } else {
             mTvDeviceID.setText(getString(R.string.device_id) + " " + App.sUUID.toString());
@@ -115,10 +115,10 @@ public class LoginActivity extends BaseActivity {
     //登录
     private void login() {
 //        Toast.makeText(LoginActivity.this, "正在登录", Toast.LENGTH_SHORT).show();
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor = sharedPreferences.edit();
             editor.putString("ip", Apis.HEADER);
             editor.commit();
             ip = sharedPreferences.getString("ip", "");
@@ -192,18 +192,19 @@ public class LoginActivity extends BaseActivity {
     }
 
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private boolean firstOpen;
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         if (firstOpen) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor = sharedPreferences.edit();
             editor.putBoolean("firstOpen", false);
             editor.commit();
         }
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         } else {
