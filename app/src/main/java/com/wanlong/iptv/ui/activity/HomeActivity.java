@@ -108,6 +108,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     protected void initData() {
+        if (!App.ADserver) {
+            startService(new Intent(getApplicationContext(), AdService.class));
+            App.ADserver = true;
+        }
         mTimer.schedule(mTimerTask, 0, 1000);
         adCallback();
         setPresenter(new HomePresenter(this));
@@ -554,26 +558,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             App.adText = App.adText + "     " + text;
         }
         Logger.d(App.adText);
-        if (WindowUtils.getText(getApplicationContext()) != null) {
-            WindowUtils.getText(getApplicationContext()).setText(App.adText);
-            try {
-                WindowUtils.getText(getApplicationContext()).setTextSize(Integer.parseInt(font_size));
-                if (lucency_size.length() == 1) {
-                    lucency_size = "0" + lucency_size;
-                } else {
+        WindowUtils.getText(getApplicationContext()).setText(App.adText);
+        try {
+            WindowUtils.getText(getApplicationContext()).setTextSize(Integer.parseInt(font_size));
+            if (lucency_size.length() == 1) {
+                lucency_size = "0" + lucency_size;
+            } else {
 
-                }
-                WindowUtils.getText(getApplicationContext())
-                        .setTextColor(Color.parseColor("#" + lucency_size + font_color));
-                WindowUtils.addText();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            WindowUtils.getText(getApplicationContext())
+                    .setTextColor(Color.parseColor("#" + lucency_size + font_color));
+            WindowUtils.addText();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
@@ -592,7 +595,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             App.adText = "";
         }
         if (WindowUtils.getText(getApplicationContext()) != null) {
-            WindowUtils.getText(getApplicationContext()).setText(App.adText);
+            WindowUtils.removeText();
         }
     }
 }
