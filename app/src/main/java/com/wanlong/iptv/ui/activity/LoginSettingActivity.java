@@ -1,10 +1,8 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.app.Instrumentation;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +24,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.Login;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
@@ -78,18 +77,12 @@ public class LoginSettingActivity extends BaseActivity {
         return R.layout.activity_login_setting;
     }
 
-    private String from = "";
-
     @Override
     protected void initView() {
-        from = getIntent().getStringExtra("from");
-        if (from.equals("StartActivity")) {
-            mBtnSubmitIp.setText("登录");
-        }
         mEditIp.setText(Apis.HEADER);
         mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
         initListener();
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvRoomNumber.setText("上海市宝山监狱");
         }
     }
@@ -99,7 +92,7 @@ public class LoginSettingActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         editor = sharedPreferences.edit();
         mEditRoom.setText(sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
     }
@@ -352,16 +345,15 @@ public class LoginSettingActivity extends BaseActivity {
 
     private void loginSuccess() {
         Logger.d("登录成功");
-        sharedPreferences = getSharedPreferences("PRISON-login", Context.MODE_PRIVATE);
+        sharedPreferences = ApkVersion.getSP(this);
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         if (firstOpen) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor = sharedPreferences.edit();
             editor.putBoolean("firstOpen", false);
             editor.commit();
         }
-        if (App.PRISON) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             Intent intent = new Intent(LoginSettingActivity.this, HomeActivity.class);
-            intent.putExtra("from", "LoginSettingActivity");
             startActivity(intent);
             finish();
         } else {
@@ -379,13 +371,6 @@ public class LoginSettingActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            startActivity(new Intent(LoginSettingActivity.this, LoginActivity.class));
-            if (App.PRISON) {
-                if (Build.MODEL.equals("0008")) {
-                    if (from.equals("StartActivity")) {
-                        return true;
-                    }
-                }
-            }
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -15,12 +15,12 @@ import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -45,7 +45,6 @@ public class AdActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-//        mTvHint.setWidth(Utils.getDisplaySize(this).x);
         mTvHint.setText("正在播放强制插播节目");
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
@@ -133,7 +132,7 @@ public class AdActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (App.PRISON) {
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 new AlertDialog.Builder(AdActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
                         .setTitle(getString(R.string.exitdialog_hint))
                         .setMessage(getString(R.string.exitdialog_out_hint))
@@ -192,7 +191,6 @@ public class AdActivity extends BaseActivity {
                     AdService.videoResult = "";
                     break;
             }
-
         }
     };
 

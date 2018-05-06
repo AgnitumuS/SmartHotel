@@ -190,16 +190,6 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
                     }
                 }
                 break;
-            case KeyEvent.KEYCODE_HOME:
-                if (this instanceof HomeActivity) {
-
-                } else {
-                    Intent intent2 = new Intent(this, HomeActivity.class);
-                    intent2.putExtra("from", "StartActivity");
-                    startActivity(intent2);
-                    finish();
-                }
-                break;
         }
         return super.onKeyDown(keyCode, event);
     }

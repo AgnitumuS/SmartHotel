@@ -21,6 +21,9 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
         super(homeView);
     }
 
+    private String result_homeAD;
+    private HomeAD homeAD;
+
     public void loadHomeADData(Context context, String url) {
         Logger.d("HomeView:" + url);
         OkGo.<String>post(url)
@@ -32,11 +35,22 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                     public void onSuccess(Response<String> response) {
                         Logger.json(response.body());
                         try {
-                            HomeAD homeAD = JSON.parseObject(response.body(), HomeAD.class);
-                            getView().loadHomeADSuccess(homeAD);
+                            if (result_homeAD == null) {
+                                homeAD = JSON.parseObject(response.body(), HomeAD.class);
+                                result_homeAD = response.body();
+                                getView().loadHomeADSuccess(homeAD);
+                            } else {
+                                if (!result_homeAD.equals(response.body())) {
+                                    homeAD = JSON.parseObject(response.body(), HomeAD.class);
+                                    result_homeAD = response.body();
+                                    getView().loadHomeADSuccess(homeAD);
+                                }
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
