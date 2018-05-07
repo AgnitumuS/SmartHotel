@@ -105,9 +105,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             editor.commit();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            mTvLanguage.setVisibility(View.GONE);
             autoLogin();
-        } else {
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             mTvSelfManagement.setVisibility(View.GONE);
+            autoLogin();
         }
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
@@ -130,11 +133,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        try {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            reflashData();
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             finish();
             startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
