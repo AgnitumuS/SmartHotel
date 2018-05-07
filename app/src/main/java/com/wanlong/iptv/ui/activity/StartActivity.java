@@ -13,6 +13,7 @@ import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
+import com.wanlong.iptv.utils.LanguageSwitchUtils;
 
 import butterknife.BindView;
 
@@ -98,6 +99,8 @@ public class StartActivity extends BaseActivity {
                             startActivity(intent2);
                             finish();
                         } else {
+                            LanguageSwitchUtils.languageSwitch(StartActivity.this,
+                                    sharedPreferences.getInt("language", 0));
                             Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
                             startActivity(intent2);
                             finish();

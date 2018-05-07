@@ -130,7 +130,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        reflashData();
+        try {
+            finish();
+            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
