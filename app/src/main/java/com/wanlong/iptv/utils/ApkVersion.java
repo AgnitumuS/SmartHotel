@@ -21,7 +21,7 @@ public class ApkVersion {
     public static final int SCHOOL_VERSION = 4;
 
     //当前版本
-    public static final int CURRENT_VERSION = PRISON_VERSION;
+    public static final int CURRENT_VERSION = STANDARD_VERSION;
 
     //是否是正式版    true-正式版   false-测试版
     public static final boolean RELEASE_VERSION = false;

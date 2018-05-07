@@ -6,8 +6,6 @@
     android:layout_width="450px"
     android:layout_height="80px"
     android:background="@drawable/vod_list_bg_selector"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:focusable="true"
     android:orientation="horizontal">
 
@@ -28,13 +26,11 @@
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"
-        android:layout_width="120px"
+        android:layout_width="180px"
         android:layout_height="80px"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="8px"
-        android:layout_marginLeft="136px"
-        android:layout_marginTop="8px"
+        android:layout_marginLeft="16px"
         android:focusable="false"
         android:scaleType="centerCrop" />
 

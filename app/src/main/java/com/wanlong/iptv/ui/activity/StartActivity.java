@@ -92,9 +92,22 @@ public class StartActivity extends BaseActivity {
                     finish();
                     break;
                 case OPEN:
-                    Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                    startActivity(intent2);
-                    finish();
+                    if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                        if (firstOpen) {
+                            Intent intent2 = new Intent(StartActivity.this, LanguageActivity.class);
+                            startActivity(intent2);
+                            finish();
+                        } else {
+                            Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                            startActivity(intent2);
+                            finish();
+                        }
+                    }
+                    if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                        Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                        startActivity(intent2);
+                        finish();
+                    }
                     break;
                 default:
                     break;

@@ -60,6 +60,7 @@
             Wish you a pleasant journey, business success, good luck in everything! \n
             Welcome to your visit again!</string>
     <string name="respected_customers">Respected customers</string>
+    <string name="tv_language">Language</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>

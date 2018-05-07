@@ -70,6 +70,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     AppCompatTextView mTvMessage;
     @BindView(R.id.tv_self_management)
     TextView mTvSelfManagement;
+    @BindView(R.id.tv_language)
+    TextView mTvLanguage;
 
 
     @Override
@@ -91,11 +93,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private boolean firstOpen;
 
     @Override
     protected void initView() {
         sharedPreferences = ApkVersion.getSP(this);
         editor = sharedPreferences.edit();
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        if (firstOpen) {
+            editor.putBoolean("firstOpen", false);
+            editor.commit();
+        }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             autoLogin();
         } else {
@@ -156,7 +164,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
-            R.id.tv_self_management, R.id.tv_vod, R.id.tv_setting})
+            R.id.tv_self_management, R.id.tv_vod, R.id.tv_language, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_show:
@@ -174,8 +182,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
+            case R.id.tv_language:
+                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+                break;
             case R.id.tv_setting:
-                startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
+                if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                    startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
+                }
+                if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+                }
                 break;
         }
     }
@@ -260,11 +276,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 });
     }
 
-    private boolean firstOpen;
-
+    //登录成功
     private void loginSuccess() {
         Logger.d("登录成功");
-        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             try {
                 editor.putString("group", data.getGroup());
@@ -281,11 +295,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         editor.putString("ip", Apis.HEADER);
         editor.commit();
-        if (firstOpen) {
-            editor = sharedPreferences.edit();
-            editor.putBoolean("firstOpen", false);
-            editor.commit();
-        }
     }
 
     private void loginFailed() {
@@ -525,25 +534,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
                     return true;
                 } else {
-                    new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
-                            .setTitle(getString(R.string.exitdialog_hint))
-                            .setMessage(getString(R.string.exitdialog_out_hint))
-                            .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
-                                    stopService(new Intent(HomeActivity.this, AdService.class));
-                                    App.getApplication().exit();
-                                }
-                            })
-                            .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {//响应事件
-                                }
-                            }).show();
+                    showExitHintDialog();
                 }
             } else {
-                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-                finish();
+                showExitHintDialog();
+//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
+//                finish();
             }
 //            } else {
 //                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
@@ -552,6 +548,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //显示退出提示dialog
+    private void showExitHintDialog() {
+        new AlertDialog.Builder(HomeActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                .setTitle(getString(R.string.exitdialog_hint))
+                .setMessage(getString(R.string.exitdialog_out_hint))
+                .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+                        stopService(new Intent(HomeActivity.this, AdService.class));
+                        App.getApplication().exit();
+                    }
+                })
+                .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {//响应事件
+                    }
+                }).show();
     }
 
     private void adCallback() {
