@@ -357,6 +357,9 @@ public class LoginSettingActivity extends BaseActivity {
             startActivity(intent);
             finish();
         } else {
+            Intent intent = new Intent(LoginSettingActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
 //            startActivity(new Intent(LoginSettingActivity.this, LanguageActivity.class));
 //            finish();
         }
