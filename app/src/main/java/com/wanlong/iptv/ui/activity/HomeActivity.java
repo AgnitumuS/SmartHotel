@@ -126,6 +126,15 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //开始轮播
+        mImgShow.startAutoPlay();
+        mImgWeather.startAutoPlay();
+        mImgAd.startAutoPlay();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         reflashData();

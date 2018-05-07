@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.HomeAD;
 import com.wanlong.iptv.utils.Utils;
 
@@ -25,7 +24,6 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
     private HomeAD homeAD;
 
     public void loadHomeADData(Context context, String url) {
-        Logger.d("HomeView:" + url);
         OkGo.<String>post(url)
                 .tag(this)
                 .cacheKey(url)
@@ -33,7 +31,7 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Logger.json(response.body());
+//                        Logger.json(response.body());
                         try {
                             if (result_homeAD == null) {
                                 homeAD = JSON.parseObject(response.body(), HomeAD.class);
