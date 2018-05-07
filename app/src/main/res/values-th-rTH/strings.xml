@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DMM</string>
+    <string name="app_name">RBS</string>
     <string name="tv_hotel_login">โรงแรมที่พักIPTVเข้าสู่ระบบ</string>
     <string name="btn_login">เข้าสู่ระบบ</string>
     <string name="tv_live">ถ่ายทอดสด</string>
