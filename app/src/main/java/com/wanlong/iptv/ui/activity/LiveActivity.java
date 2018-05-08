@@ -216,6 +216,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     }
 
     private String currentPlayUrl;
+    private String expired_time;
 
     private void playNewUrl(int position, String newurl) {
         try {
@@ -229,20 +230,60 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             e.printStackTrace();
         }
         currentPlayUrl = newurl;
+//        if (App.look_permission) {
+//            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+//                try {
+//                    mLiveVideoPlayer.setVisibility(View.GONE);
+//                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+//                mLiveVideoPlayer.setUp(newurl, false, "");
+//                mLiveVideoPlayer.startPlayLogic();
+//            }
+//        } else {
+//            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+//        }
+        expired_time = ApkVersion.getSP(this).getString("expired_time", "-1");
         if (App.look_permission) {
-            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-                try {
-                    mLiveVideoPlayer.setVisibility(View.GONE);
-                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                play(newurl);
+            }
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (expired_time.startsWith("-")) {
+                    Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+                } else if (expired_time.equals("0")) {
+                    play(newurl);
+//                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
+                } else {
+                    play(newurl);
+                    try {
+                        int time = Integer.parseInt(expired_time);
+                        if (time <= 3) {
+//                        Toast.makeText(this, "用户还有" + time + "天过期", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-                mLiveVideoPlayer.setUp(newurl, false, "");
-                mLiveVideoPlayer.startPlayLogic();
             }
         } else {
             Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void play(String newurl) {
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            try {
+                mLiveVideoPlayer.setVisibility(View.GONE);
+                mIjkVideoView.setVideoURI(Uri.parse(newurl));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            mLiveVideoPlayer.setUp(newurl, false, "");
+            mLiveVideoPlayer.startPlayLogic();
         }
     }
 

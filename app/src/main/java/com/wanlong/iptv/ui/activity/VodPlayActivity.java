@@ -16,6 +16,7 @@ import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.player.VodVideoPlayer;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.Utils;
 
 import java.text.SimpleDateFormat;
@@ -51,6 +52,7 @@ public class VodPlayActivity extends BaseActivity {
     private String starttime;
     private String playtime;
     private long start;//开始时间戳
+    private String vod_expired_time;
 
     private void initPlayer() {
         switch (Build.MODEL) {
@@ -72,9 +74,29 @@ public class VodPlayActivity extends BaseActivity {
                 GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
                 break;
         }
-//        mVodPlayer.setUp("http://192.168.1.231/earth1.mp4", false, "");
+        vod_expired_time = ApkVersion.getSP(this).getString("vod_expired_time", "-1");
         if (App.look_permission) {
-            mVodPlayer.setUp(url, false, name);
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                mVodPlayer.setUp(url, false, name);
+            }
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (vod_expired_time.startsWith("-")) {
+                    Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+                } else if (vod_expired_time.equals("0")) {
+                    mVodPlayer.setUp(url, false, name);
+                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
+                } else {
+                    mVodPlayer.setUp(url, false, name);
+                    try {
+                        int time = Integer.parseInt(vod_expired_time);
+                        if (time <= 3) {
+                            Toast.makeText(this, "用户还有" + time + "天过期", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         } else {
             Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
         }

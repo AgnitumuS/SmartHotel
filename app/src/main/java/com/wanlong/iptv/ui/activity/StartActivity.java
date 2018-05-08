@@ -9,11 +9,11 @@ import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
+import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
 
@@ -62,7 +62,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        Logger.d("mac:" + App.mac);
+        Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
 

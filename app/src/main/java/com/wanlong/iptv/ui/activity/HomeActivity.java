@@ -195,12 +195,12 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 break;
             case R.id.tv_setting:
-                if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-                    startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
-                }
-                if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-                }
+//                if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
+//                }
+//                if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+//                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
+//                }
                 break;
         }
     }
