@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
@@ -32,9 +33,13 @@ import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 public class LiveActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
@@ -282,6 +287,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 e.printStackTrace();
             }
         } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            List<VideoOptionModel> optionModelList = new ArrayList<>();
+//            optionModelList.add(new VideoOptionModel(
+//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
+//            optionModelList.add(new VideoOptionModel(
+//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
+            optionModelList.add(new VideoOptionModel(
+                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
+            GSYVideoManager.instance().setOptionModelList(optionModelList);
             mLiveVideoPlayer.setUp(newurl, false, "");
             mLiveVideoPlayer.startPlayLogic();
         }
