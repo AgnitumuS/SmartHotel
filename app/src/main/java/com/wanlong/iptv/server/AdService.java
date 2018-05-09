@@ -126,11 +126,14 @@ public class AdService extends Service {
                         try {
                             mUserStatus = JSON.parseObject(response.body(), UserStatus.class);
                             if (mUserStatus != null && mUserStatus.getCode() != null) {
+                                //存储
+                                editor.putString("expired_time", mUserStatus.getExpired_time());
+                                editor.putString("vod_expired_time", mUserStatus.getVod_expired_time());
+                                editor.commit();
                                 if (mUserStatus.getCode().equals("0")) {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("1")) {
-                                    //存储
                                     uploadSuccess();
                                     App.look_permission = true;
                                     autoLogin();
@@ -268,9 +271,6 @@ public class AdService extends Service {
 
     private void uploadSuccess() {
         Logger.d("上传成功");
-        editor.putString("expired_time", mUserStatus.getExpired_time());
-        editor.putString("vod_expired_time", mUserStatus.getVod_expired_time());
-        editor.commit();
     }
 
     private void uploadFailed() {
