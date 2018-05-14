@@ -1,6 +1,7 @@
 package com.wanlong.iptv.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
 
@@ -46,12 +48,18 @@ public class LanguageActivity extends BaseActivity {
         }
     }
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean firstOpen;
+
     @Override
     protected void initData() {
-
+        sharedPreferences = ApkVersion.getSP(this);
+        editor = sharedPreferences.edit();
+        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
     }
 
-    @OnClick({R.id.btn_chinese, R.id.btn_english,R.id.btn_thai})
+    @OnClick({R.id.btn_chinese, R.id.btn_english, R.id.btn_thai})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_chinese:
@@ -84,12 +92,15 @@ public class LanguageActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            if ((System.currentTimeMillis() - exitTime) < 2000) {
-            startActivity(new Intent(LanguageActivity.this, LoginActivity.class));
-            finish();
+            if (firstOpen) {
+                return true;
+            } else {
+//                startActivity(new Intent(LanguageActivity.this, HomeActivity.class));
+                finish();
+            }
 //            } else {
 //                exitTime = System.currentTimeMillis();
 //            }
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

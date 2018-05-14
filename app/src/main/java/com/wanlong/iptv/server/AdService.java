@@ -36,10 +36,14 @@ import java.util.TimerTask;
 public class AdService extends Service {
 
     public static final int INTERVAL_TIME = 5;//间隔时间
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sharedPreferences = ApkVersion.getSP(this);
+        editor = sharedPreferences.edit();
     }
 
     @Override
@@ -122,11 +126,14 @@ public class AdService extends Service {
                         try {
                             mUserStatus = JSON.parseObject(response.body(), UserStatus.class);
                             if (mUserStatus != null && mUserStatus.getCode() != null) {
+                                //存储
+                                editor.putString("expired_time", mUserStatus.getExpired_time());
+                                editor.putString("vod_expired_time", mUserStatus.getVod_expired_time());
+                                editor.commit();
                                 if (mUserStatus.getCode().equals("0")) {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "用户未登录/即将过期", Toast.LENGTH_SHORT).show();
                                 } else if (mUserStatus.getCode().equals("1")) {
-                                    //存储
                                     uploadSuccess();
                                     App.look_permission = true;
                                     autoLogin();
@@ -245,23 +252,16 @@ public class AdService extends Service {
                 });
     }
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
     private void loginSuccess() {
         Logger.d("登录成功");
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            sharedPreferences = ApkVersion.getSP(this);
-            editor = sharedPreferences.edit();
-            try {
-                editor.putString("group", data.getGroup());
-                editor.putString("stb_name", data.getStb_name());
-                editor.commit();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            editor.putString("group", data.getGroup());
+            editor.putString("stb_name", data.getStb_name());
+            editor.commit();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

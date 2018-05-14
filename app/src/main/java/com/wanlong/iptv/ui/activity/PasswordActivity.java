@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,14 +89,27 @@ public class PasswordActivity extends BaseActivity {
     //检查密码
     private void checkPassword() {
         if (password.length() == 8) {
-            if (password.equals(Apis.SETTING_PASSWORD)) {
-                mEditPassword.setText("");
-                startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
-                finish();
-            } else {
-                password = "";
-                mEditPassword.setText(password);
-                Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (password.equals("00000000")) {
+                    mEditPassword.setText("");
+                    startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
+                    finish();
+                } else {
+                    password = "";
+                    mEditPassword.setText(password);
+                    Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                }
+            }
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                if (password.equals(Apis.SETTING_PASSWORD)) {
+                    mEditPassword.setText("");
+                    startActivity(new Intent(PasswordActivity.this, SettingActivity.class));
+                    finish();
+                } else {
+                    password = "";
+                    mEditPassword.setText(password);
+                    Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
