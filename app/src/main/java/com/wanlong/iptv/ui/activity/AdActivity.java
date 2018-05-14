@@ -45,7 +45,7 @@ public class AdActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvHint.setText("正在播放强制插播节目");
+        mTvHint.setText(getString(R.string.a_mandatory_program_is_playing));
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
         initPlayer();
@@ -61,7 +61,7 @@ public class AdActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mTvHint.setText("正在播放强制插播节目");
+        mTvHint.setText(getString(R.string.a_mandatory_program_is_playing));
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
         initPlayer();
@@ -69,7 +69,7 @@ public class AdActivity extends BaseActivity {
 
     //初始化播放器
     private void initPlayer() {
-        Toast.makeText(this, "进入插播", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.enter_the_insert_program), Toast.LENGTH_SHORT).show();
         switch (Build.MODEL) {
             case "etv2021":
             case "jb_dmp":
@@ -141,7 +141,7 @@ public class AdActivity extends BaseActivity {
                             public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
 //                              Toast toast = Toast.makeText(AdActivity.this,"10秒后将再次进入插播",10*1000);
 //                              toast.show();
-                                Toast.makeText(AdActivity.this, "稍后将再次进入插播", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AdActivity.this, getString(R.string.it_will_be_broadcast_again_later), Toast.LENGTH_LONG).show();
                                 mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 5 * 1000);
                                 finish();
                             }

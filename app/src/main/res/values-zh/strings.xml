@@ -78,6 +78,9 @@
     <string name="please_enter_the_password">请输入8位数密码</string>
     <string name="password_error_please_retype">密码错误，请重新输入</string>
     <string name="downloading">正在下载......</string>
+    <string name="a_mandatory_program_is_playing">正在播放强制插播节目</string>
+    <string name="enter_the_insert_program">进入插播</string>
+    <string name="it_will_be_broadcast_again_later">稍后将再次进入插播</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>
