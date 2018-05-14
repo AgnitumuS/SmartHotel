@@ -64,12 +64,17 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
-        } else {
+            viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             if (!mLiveListDatas.get(position).getIcon().equals("")) {
                 Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
+                viewHolder.mTvItemLiveList.setText("");
+            } else {
+                viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
+                viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
             }
         }
-        viewHolder.mTvItemLiveList.setText(mLiveListDatas.get(position).getService_name());
         viewHolder.mTvItemRecyclerLiveNumber.setText(mLiveListDatas.get(position).getProgram_num());
 //        if (viewHolder.getLayoutPosition() == 0) {
 //            viewHolder.mTvItemRecyclerLiveList.requestFocus();

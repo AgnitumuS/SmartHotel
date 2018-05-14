@@ -24,7 +24,6 @@ import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.CrashHandler;
 import com.wanlong.iptv.utils.DeviceUuidFactory;
-import com.wanlong.iptv.utils.Utils;
 import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import java.util.UUID;
@@ -43,7 +42,6 @@ public class App extends Application {
     private static App application;
     public static UUID sUUID;
     public static long newtime;
-    public static String mac = "";
     public static String adText = "";
     public static boolean ADserver = false;
     public static boolean look_permission = true;
@@ -56,7 +54,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
-        mac = Utils.getMac(this);
         getUUID();
         initLeakcanary();
         initLogger();

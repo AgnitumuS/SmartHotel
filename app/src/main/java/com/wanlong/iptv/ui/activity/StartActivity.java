@@ -9,10 +9,11 @@ import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
+import com.wanlong.iptv.utils.LanguageSwitchUtils;
+import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
 
@@ -61,7 +62,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        Logger.d("mac:" + App.mac);
+        Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
 
@@ -92,9 +93,24 @@ public class StartActivity extends BaseActivity {
                     finish();
                     break;
                 case OPEN:
-                    Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                    startActivity(intent2);
-                    finish();
+                    if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                        if (firstOpen) {
+                            Intent intent2 = new Intent(StartActivity.this, LanguageActivity.class);
+                            startActivity(intent2);
+                            finish();
+                        } else {
+                            LanguageSwitchUtils.languageSwitch(StartActivity.this,
+                                    sharedPreferences.getInt("language", 0));
+                            Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                            startActivity(intent2);
+                            finish();
+                        }
+                    }
+                    if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                        Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
+                        startActivity(intent2);
+                        finish();
+                    }
                     break;
                 default:
                     break;

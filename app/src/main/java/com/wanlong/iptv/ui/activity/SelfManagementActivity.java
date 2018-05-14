@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
@@ -32,9 +33,13 @@ import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 public class SelfManagementActivity extends BaseActivity<LivePresenter> implements LivePresenter.LiveView {
 
@@ -216,6 +221,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
     }
 
     private String currentPlayUrl;
+    private String expired_time;
 
     private void playNewUrl(int position, String newurl) {
         try {
@@ -229,20 +235,68 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             e.printStackTrace();
         }
         currentPlayUrl = newurl;
+//        if (App.look_permission) {
+//            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+//                try {
+//                    mLiveVideoPlayer.setVisibility(View.GONE);
+//                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+//                mLiveVideoPlayer.setUp(newurl, false, "");
+//                mLiveVideoPlayer.startPlayLogic();
+//            }
+//        } else {
+//            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+//        }
+        expired_time = ApkVersion.getSP(this).getString("expired_time", "-1");
         if (App.look_permission) {
-            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-                try {
-                    mLiveVideoPlayer.setVisibility(View.GONE);
-                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                play(newurl);
+            }
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (expired_time.startsWith("-")) {
+                    Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+                } else if (expired_time.equals("0")) {
+                    play(newurl);
+//                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
+                } else {
+                    play(newurl);
+                    try {
+                        int time = Integer.parseInt(expired_time);
+                        if (time <= 3) {
+//                        Toast.makeText(this, "用户还有" + time + "天过期", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-                mLiveVideoPlayer.setUp(newurl, false, "");
-                mLiveVideoPlayer.startPlayLogic();
             }
         } else {
             Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void play(String newurl) {
+        if (mIjkVideoView.getVisibility() == View.VISIBLE) {
+            try {
+                mLiveVideoPlayer.setVisibility(View.GONE);
+                mIjkVideoView.setVideoURI(Uri.parse(newurl));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
+            List<VideoOptionModel> optionModelList = new ArrayList<>();
+//            optionModelList.add(new VideoOptionModel(
+//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
+//            optionModelList.add(new VideoOptionModel(
+//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
+            optionModelList.add(new VideoOptionModel(
+                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
+            GSYVideoManager.instance().setOptionModelList(optionModelList);
+            mLiveVideoPlayer.setUp(newurl, false, "");
+            mLiveVideoPlayer.startPlayLogic();
         }
     }
 
