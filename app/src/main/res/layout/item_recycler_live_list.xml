@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/re_live_channel"
     android:layout_width="450px"
-    android:layout_height="80px"
+    android:layout_height="90px"
     android:background="@drawable/vod_list_bg_selector"
     android:focusable="true"
     android:orientation="horizontal">
@@ -12,7 +12,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_live_number"
         android:layout_width="120px"
-        android:layout_height="80px"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16px"
         android:focusable="false"
@@ -26,10 +26,11 @@
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"
-        android:layout_width="180px"
-        android:layout_height="80px"
+        android:layout_width="132px"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:layout_gravity="center"
         android:layout_marginLeft="16px"
         android:focusable="false"
         android:scaleType="centerCrop" />
@@ -37,7 +38,7 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_live_list"
         android:layout_width="wrap_content"
-        android:layout_height="80px"
+        android:layout_height="match_parent"
         android:ellipsize="marquee"
         android:focusable="false"
         android:gravity="left"
