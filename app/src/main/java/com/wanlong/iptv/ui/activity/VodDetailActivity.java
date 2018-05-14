@@ -74,13 +74,14 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         if (total_sets.equals("1")) {
             mTextMovieNameDetail.setText(name);
         } else {
-            mTextMovieNameDetail.setText(name + "(已更新" + current_sets + "集/共" + total_sets + "集)");
+            mTextMovieNameDetail.setText(name + "(" + getString(R.string.updated)
+                    + " " + current_sets + "/" + getString(R.string.total) + " " + total_sets + ")");
         }
-        mTextMovieTimeDetail.setText("时间：" + intent.getStringExtra("vod_release_time"));
+        mTextMovieTimeDetail.setText(getString(R.string.time) + "：" + intent.getStringExtra("vod_release_time"));
         mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
-        mTextMovieTypeDetail.setText("类型：" + intent.getStringExtra("vod_category"));
-        mTextMoviePeopleDetail.setText("主演：" + intent.getStringExtra("vod_actor"));
-        mTextMovieDescriptionDetail.setText("简介：" + intent.getStringExtra("vod_detail"));
+        mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + intent.getStringExtra("vod_category"));
+        mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + intent.getStringExtra("vod_actor"));
+        mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + intent.getStringExtra("vod_detail"));
         vod_pic_url = intent.getStringExtra("vod_pic_url");
         if (vod_pic_url.equals("")) {
             Glide.with(this)

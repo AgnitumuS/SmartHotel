@@ -68,8 +68,10 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mVodListDatas.get(position).getTotal_sets().equals("1")) {
             viewHolder.mTextRecycleviewMovieScore.setText(mVodListDatas.get(position).getVod_scores());
         } else {
-            viewHolder.mTextRecycleviewMovieScore.setText("更新" + mVodListDatas.get(position).getCurrent_sets() +
-                    "集/共" + mVodListDatas.get(position).getTotal_sets() + "集");
+            viewHolder.mTextRecycleviewMovieScore.setText(mContext.getString(R.string.updated) + " " +
+                    mVodListDatas.get(position).getCurrent_sets() + "/" +
+                    mContext.getString(R.string.total) + " " +
+                    mVodListDatas.get(position).getTotal_sets());
         }
         viewHolder.mImgRecycleviewMovie.setOnClickListener(new View.OnClickListener() {
             @Override

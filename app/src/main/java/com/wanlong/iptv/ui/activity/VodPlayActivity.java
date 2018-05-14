@@ -81,16 +81,18 @@ public class VodPlayActivity extends BaseActivity {
             }
             if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
                 if (vod_expired_time.startsWith("-")) {
-                    Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
+                            Toast.LENGTH_SHORT).show();
                 } else if (vod_expired_time.equals("0")) {
                     mVodPlayer.setUp(url, false, name);
-                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.the_user_is_going_to_expire), Toast.LENGTH_SHORT).show();
                 } else {
                     mVodPlayer.setUp(url, false, name);
                     try {
                         int time = Integer.parseInt(vod_expired_time);
                         if (time <= 3) {
-                            Toast.makeText(this, "用户还有" + time + "天过期", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.the_user_is_going_to_expire), Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -98,7 +100,9 @@ public class VodPlayActivity extends BaseActivity {
                 }
             }
         } else {
-            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
+                    Toast.LENGTH_SHORT).show();
         }
         mVodPlayer.setBackgroundColor(getResources().getColor(R.color.color_181818));
         mVodPlayer.startPlayLogic();

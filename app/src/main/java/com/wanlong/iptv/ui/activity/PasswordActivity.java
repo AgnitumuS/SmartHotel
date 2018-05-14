@@ -97,7 +97,7 @@ public class PasswordActivity extends BaseActivity {
                 } else {
                     password = "";
                     mEditPassword.setText(password);
-                    Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordActivity.this, getString(R.string.password_error_please_retype), Toast.LENGTH_SHORT).show();
                 }
             }
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
@@ -108,7 +108,7 @@ public class PasswordActivity extends BaseActivity {
                 } else {
                     password = "";
                     mEditPassword.setText(password);
-                    Toast.makeText(PasswordActivity.this, "密码错误，请重新输入", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordActivity.this, getString(R.string.password_error_please_retype), Toast.LENGTH_SHORT).show();
                 }
             }
         }

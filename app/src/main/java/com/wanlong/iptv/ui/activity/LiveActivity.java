@@ -124,7 +124,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         editor = sharedPreferences.edit();
         liveLastPlayPosition = sharedPreferences.getInt(sp_lastPlayPosition, 0);
         setPresenter(new LivePresenter(this));
-        mTvLiveCategory.setText("全部");
+        mTvLiveCategory.setText(getString(R.string.all));
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
         getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
@@ -257,7 +257,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             }
             if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
                 if (expired_time.startsWith("-")) {
-                    Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
+                            Toast.LENGTH_SHORT).show();
                 } else if (expired_time.equals("0")) {
                     play(newurl);
 //                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
@@ -274,7 +276,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 }
             }
         } else {
-            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -641,7 +645,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                             }
                         }
                     }
-                    Toast.makeText(LiveActivity.this, "节目" + sb.toString() + "不存在", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LiveActivity.this, getString(R.string.the_program_you_entered_did_not_exist), Toast.LENGTH_SHORT).show();
                     sb = new StringBuffer("");
                     break;
             }
