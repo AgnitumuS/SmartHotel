@@ -57,6 +57,27 @@
         欢迎您再次光临！</string>
     <string name="respected_customers">尊敬的客户</string>
     <string name="tv_language">语言</string>
+    <string name="user_is_not_registered">用户未注册</string>
+    <string name="success">成功</string>
+    <string name="submit_failed">提交失败</string>
+    <string name="login_failed">登录失败</string>
+    <string name="please_enter_the_correct_address">请输入正确的IP地址</string>
+    <string name="all">全部</string>
+    <string name="the_user_has_expired_and_can_not_continue_to_watch">用户已过期,无法继续观看</string>
+    <string name="the_program_you_entered_did_not_exist">你输入的节目不存在</string>
+    <string name="time">时间</string>
+    <string name="category">类型</string>
+    <string name="actor">主演</string>
+    <string name="synopsis">简介</string>
+    <string name="full_screen_play">全屏播放</string>
+    <string name="updated">更新</string>
+    <string name="total">共</string>
+    <string name="selections">选集</string>
+    <string name="the_user_is_going_to_expire">用户即将过期</string>
+    <string name="administrator_password">管理员密码</string>
+    <string name="please_enter_the_password">请输入8位数密码</string>
+    <string name="password_error_please_retype">密码错误，请重新输入</string>
+    <string name="downloading">正在下载......</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>
