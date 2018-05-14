@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-//    buildToolsVersion '27.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.wanlong.iptv"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1076
+        versionCode 1082
         versionName "1.3.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -55,64 +55,41 @@ dependencies {
     //焦点处理 https://github.com/evilbinary/TvWidget
     implementation(name: 'TvWidget1.0.0', ext: 'aar')
     implementation 'com.android.support:recyclerview-v7:27+'
+
     //屏幕适配autolayout https://github.com/hongyangAndroid/AndroidAutoLayout
     implementation 'com.zhy:autolayout:1.4.5'
+
     //butterknife https://github.com/JakeWharton/butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
     //fastjson https://github.com/alibaba/fastjson
     implementation 'com.alibaba:fastjson:1.2.44'
+
     //图片加载框架glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
     implementation 'com.android.support:support-v4:27+'
+
     //log工具 https://github.com/orhanobut/logger
     implementation 'com.orhanobut:logger:2.1.1'
+
     //视频播放框架 https://github.com/CarGuo/GSYVideoPlayer
-    implementation 'com.shuyu:gsyVideoPlayer-java:4.1.2'
+    implementation 'com.shuyu:gsyVideoPlayer-java:4.1.3'
+
     //轮播图 https://github.com/youth5201314/banner
     implementation 'com.youth.banner:banner:1.4.10'
+
     //网络框架okgo https://github.com/jeasonlzy/okhttp-OkGo
     implementation 'com.lzy.net:okgo:3.0.4'
+
     //内存泄漏检测leakcanary  https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+
     //运行时权限RxPermissions  https://github.com/tbruyelle/RxPermissions
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+
     //RxJava2  https://github.com/ReactiveX/RxJava
     implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
-//    compile 'com.lzy.net:okrx2:2.0.2'
-//    compile 'com.lzy.net:okserver:2.0.5'
-    /////////////////////////////////////////////////////////////////////////
-
-    // Lifecycles, LiveTypeData and ViewModel
-//    compile "android.arch.lifecycle:runtime:$rootProject.lifecycleRuntime"
-//    compile "android.arch.lifecycle:extensions:$rootProject.lifecycle"
-//    annotationProcessor "android.arch.lifecycle:compiler:$rootProject.lifecycle"
-//
-//    // LiveTypeData adapter rxjava2
-//    compile "android.arch.lifecycle:reactivestreams:$rootProject.lifecycle"
-//
-//    // room
-//    compile "android.arch.persistence.room:runtime:$rootProject.room"
-//    annotationProcessor "android.arch.persistence.room:compiler:$rootProject.room"
-//
-//    // retrofit
-//    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-//    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-//
-//    // RxJava2
-//    compile 'io.reactivex.rxjava2:rxjava:2.1.5'
-//    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-//
-//    // retrofit-adapter
-//    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-//
-//    // dagger
-//    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger"
-//    compile "com.google.dagger:dagger-android:$rootProject.dagger"
-//    compile "com.google.dagger:dagger-android-support:$rootProject.dagger"
-//
-//    // if you use the support libraries
-//    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger"
 
 }

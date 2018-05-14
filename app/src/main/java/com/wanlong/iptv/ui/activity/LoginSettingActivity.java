@@ -80,7 +80,7 @@ public class LoginSettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         mEditIp.setText(Apis.HEADER);
-        mEditIp.setSelection(Apis.HEADER_ORIGIN.length());
+        mEditIp.setSelection(Apis.HEADER.length());
         initListener();
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvRoomNumber.setText("上海市宝山监狱");
