@@ -78,6 +78,9 @@
     <string name="please_enter_the_password">Please enter the 8 digit password</string>
     <string name="password_error_please_retype">Password error, please retype</string>
     <string name="downloading">Downloading......</string>
+    <string name="a_mandatory_program_is_playing">A mandatory program is playing</string>
+    <string name="enter_the_insert_program">Enter the insert program</string>
+    <string name="it_will_be_broadcast_again_later">It will be broadcast again later</string>
 
     <string-array name="day_of_week">
         <item>วันอาทิตย์</item>
