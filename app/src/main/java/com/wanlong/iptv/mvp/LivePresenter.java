@@ -103,6 +103,56 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                 });
     }
 
+    //获取EPG文件列表
+    public void loadEPGlist(Context context, String url, String channel_number) {
+        OkGo.<String>post(url)
+                .tag(this)
+                .cacheKey(url + channel_number)
+                .params("channel_number", channel_number)
+                .params("mac", Utils.getMac(context))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                    }
+                });
+    }
+
+    //获取EPG文件
+    public void loadEPGdetail(String url) {
+        OkGo.<String>get(url)
+                .tag(this)
+                .cacheKey(url)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                    }
+                });
+    }
+
     public interface LiveView extends BaseView {
         void loadListSuccess(Live liveListDatas);
 
