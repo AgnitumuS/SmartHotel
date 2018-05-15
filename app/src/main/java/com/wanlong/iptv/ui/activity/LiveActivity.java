@@ -544,6 +544,18 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mChannelList.getVisibility() == View.GONE) {
             mChannelList.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(DISMISS_LIST, 5000);
+//            int firstVisibleItemPosition = ((LinearLayoutManager) mRecyclerLiveList.getLayoutManager()).findFirstVisibleItemPosition();
+//            int lastVisibleItemPosition = ((LinearLayoutManager) mRecyclerLiveList.getLayoutManager()).findLastVisibleItemPosition();
+//            try {
+//                if (currentPlayPosition < firstVisibleItemPosition || currentPlayPosition > lastVisibleItemPosition) {
+//                    mRecyclerLiveList.smoothScrollToPosition(currentPlayPosition);
+//                    LinearLayoutManager mLayoutManager =
+//                            (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
+//                    mLayoutManager.scrollToPositionWithOffset(currentPlayPosition, 0);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             try {
                 RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
                 ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
@@ -661,6 +673,20 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
+                if (liveLastPlayPosition <= liveListDatas.getPlaylist().size()) {
+                    mRecyclerLiveList.smoothScrollToPosition(liveLastPlayPosition);
+                    LinearLayoutManager mLayoutManager =
+                            (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
+                    mLayoutManager.scrollToPositionWithOffset(liveLastPlayPosition, 0);
+                    try {
+                        RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(liveLastPlayPosition);
+                        ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 try {
                     playNewUrl(liveLastPlayPosition, liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
                     currentPlayPosition = liveLastPlayPosition;
