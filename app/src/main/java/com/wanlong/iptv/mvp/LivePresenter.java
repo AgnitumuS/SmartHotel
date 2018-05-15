@@ -108,7 +108,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
         OkGo.<String>post(url)
                 .tag(this)
                 .cacheKey(url + channel_number)
-                .params("channel_number", channel_number)
+                .params("program", channel_number)
                 .params("mac", Utils.getMac(context))
                 .execute(new StringCallback() {
                     @Override
