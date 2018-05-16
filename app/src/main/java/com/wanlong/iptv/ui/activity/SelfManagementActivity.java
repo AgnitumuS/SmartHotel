@@ -34,6 +34,7 @@ import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
+import com.wanlong.iptv.utils.EPGUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
     AppCompatTextView mTvNum;
     @BindView(R.id.re_key_num)
     RelativeLayout mReKeyNum;
+    @BindView(R.id.tv_epg_now)
+    AppCompatTextView mTvEpgNow;
+    @BindView(R.id.tv_epg_next)
+    AppCompatTextView mTvEpgNext;
 
     @Override
     protected int getContentResId() {
@@ -103,6 +108,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 playNewUrl(position, mLive.getPlaylist().get(position).getUrl());
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                 editor.putInt(sp_lastPlayPosition, position);
                 editor.commit();
             }
@@ -407,6 +413,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
             if (currentPlayPosition >= 0 && currentPlayPosition < mLive.getPlaylist().size()) {
                 playNewUrl(currentPlayPosition, mLive.getPlaylist().get(currentPlayPosition).getUrl());
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                 showInfo();
                 editor.putInt(sp_lastPlayPosition, currentPlayPosition);
                 editor.commit();
@@ -654,6 +661,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                                 playNewUrl(i, mLive.getPlaylist().get(i).getUrl());
                                 currentPlayPosition = i;
                                 mTvLiveName.setText(mLive.getPlaylist().get(i).getService_name());
+                                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                                 editor.putInt(sp_lastPlayPosition, i);
                                 editor.commit();
                                 sb = new StringBuffer("");
@@ -714,23 +722,28 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         for (int i = 0; i < detailBeans.size(); i++) {
             if (time.equals(detailBeans.get(i).getDate())) {
                 getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+                return;
             }
         }
     }
 
     @Override
     public void loadEPGlistFailed(int error) {
-
+        mTvEpgNow.setText("");
+        mTvEpgNext.setText("");
     }
 
     @Override
     public void loadEPGSuccess(EPG epg) {
-
+        EPGUtils.parseEPG(epg.getDetail());
+        mTvEpgNow.setText(EPGUtils.getCurrentPlay());
+        mTvEpgNext.setText(EPGUtils.getNextPlay());
     }
 
     @Override
     public void loadEPGFailed(int error) {
-
+        mTvEpgNow.setText("");
+        mTvEpgNext.setText("");
     }
 
     @Override
