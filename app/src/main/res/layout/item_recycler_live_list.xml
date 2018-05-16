@@ -33,7 +33,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="16px"
         android:focusable="false"
-        android:scaleType="fitXY" />
+        android:scaleType="centerInside" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_live_list"

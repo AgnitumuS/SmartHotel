@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.VodDetailPresenter;
 import com.wanlong.iptv.ui.adapter.VodUrlAdapter;
 
@@ -84,13 +84,15 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + intent.getStringExtra("vod_detail"));
         vod_pic_url = intent.getStringExtra("vod_pic_url");
         if (vod_pic_url.equals("")) {
-            Glide.with(this)
-                    .load(getResources()
-                            .getDrawable(R.drawable.sence))
+            GlideApp.with(this)
+                    .load(R.drawable.sence)
+                    .centerCrop()
                     .into(mImgMovieDetail);
         } else {
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(vod_pic_url)
+                    .placeholder(R.drawable.sence)
+                    .centerCrop()
                     .into(mImgMovieDetail);
         }
 //        Glide.with(this).load(vod_pic_url).into(mImgMovieDetail);

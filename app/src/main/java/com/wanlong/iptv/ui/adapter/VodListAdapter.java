@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.VodList;
+import com.wanlong.iptv.imageloader.GlideApp;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -54,12 +54,13 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.setIsRecyclable(false);
         if (mVodListDatas.get(position).getPic_url() != null &&
                 mVodListDatas.get(position).getPic_url().size() > 0) {
-            Glide.with(mContext)
+            GlideApp.with(mContext)
                     .load(mVodListDatas.get(position).getVod_pic_dir() +
                             mVodListDatas.get(position).getPic_url().get(0))
+                    .placeholder(R.drawable.sence)
                     .into(viewHolder.mImgRecycleviewMovie);
         } else {
-            Glide.with(mContext)
+            GlideApp.with(mContext)
                     .load(R.drawable.sence)
                     .into(viewHolder.mImgRecycleviewMovie);
         }

@@ -41,7 +41,10 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        GlideApp.with(this).load(R.drawable.hotel_logo).into(mImgStart);
+        GlideApp.with(this)
+                .load(R.drawable.hotel_logo)
+                .centerCrop()
+                .into(mImgStart);
 //        Animation loadAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image);
 //        mImgStart.setAnimation(loadAnimation);
 //        loadAnimation.setAnimationListener(new Animation.AnimationListener() {
