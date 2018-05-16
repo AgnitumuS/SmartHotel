@@ -142,8 +142,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="800px"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="700px"
                 android:focusable="false"
                 android:orientation="vertical">
 
@@ -152,9 +152,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:padding="10px"
+                    android:padding="0px"
                     android:textColor="@color/white"
-                    android:textSize="40px"
+                    android:textSize="48px"
                     tools:text="@string/cctv_news" />
 
                 <android.support.v7.widget.AppCompatTextView
@@ -162,9 +162,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:padding="10px"
+                    android:padding="0px"
                     android:textColor="@color/white"
-                    android:textSize="40px"
+                    android:textSize="48px"
                     tools:text="@string/animal_world" />
             </LinearLayout>
 
