@@ -152,7 +152,7 @@ public class AdService extends Service {
                                     App.look_permission = false;
                                     uploadFailed();
                                     autoLogin();
-                                    Toast.makeText(AdService.this, getString(R.string.user_is_not_registered), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AdService.this, getString(R.string.user_is_not_registered), Toast.LENGTH_LONG).show();
                                 } else if (mUserStatus.getCode().equals("-5")) {
                                     uploadFailed();
 //                                    Toast.makeText(AdServiceold.this, "服务器有错误", Toast.LENGTH_SHORT).show();
