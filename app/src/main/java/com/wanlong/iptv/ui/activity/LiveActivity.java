@@ -671,7 +671,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     };
 
     private Live mLive;
-    private boolean exception;
 
     @Override
     public void loadListSuccess(Live liveListDatas) {
@@ -693,27 +692,13 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                         e.printStackTrace();
                     }
                 }
-                try {
-                    playNewUrl(liveLastPlayPosition, liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
+                if (liveLastPlayPosition >= 0 && liveLastPlayPosition < liveListDatas.getPlaylist().size()) {
                     currentPlayPosition = liveLastPlayPosition;
-                    mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
-                    exception = false;
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    exception = true;
-                } catch (IndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                    exception = true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    exception = true;
-                } finally {
-                    if (exception) {
-                        playNewUrl(0, liveListDatas.getPlaylist().get(0).getUrl());
-                        currentPlayPosition = 0;
-                        mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
-                    }
+                } else {
+                    currentPlayPosition = 0;
                 }
+                playNewUrl(currentPlayPosition, liveListDatas.getPlaylist().get(currentPlayPosition).getUrl());
+                mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
             }
         }
     }
