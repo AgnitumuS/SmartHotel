@@ -22,6 +22,8 @@ import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.EPG;
+import com.wanlong.iptv.entity.EPGlist;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
@@ -710,6 +712,26 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 }
             }
         }
+    }
+
+    @Override
+    public void loadEPGlistSuccess(EPGlist epGlist) {
+
+    }
+
+    @Override
+    public void loadEPGlistFailed(int error) {
+
+    }
+
+    @Override
+    public void loadEPGSuccess(EPG epg) {
+
+    }
+
+    @Override
+    public void loadEPGFailed(int error) {
+
     }
 
     @Override
