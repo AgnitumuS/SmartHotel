@@ -35,7 +35,9 @@ import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -681,6 +683,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 }
                 playNewUrl(currentPlayPosition, liveListDatas.getPlaylist().get(currentPlayPosition).getUrl());
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                 try {
                     mRecyclerLiveList.smoothScrollToPosition(currentPlayPosition);
                     LinearLayoutManager mLayoutManager =
@@ -697,9 +700,22 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         }
     }
 
+    //获取EPG
+    private void loadEPG(String channel_number) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
+        }
+    }
+
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
-
+        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
+        List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
+        for (int i = 0; i < detailBeans.size(); i++) {
+            if (time.equals(detailBeans.get(i).getDate())) {
+                getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+            }
+        }
     }
 
     @Override
