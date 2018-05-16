@@ -260,7 +260,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //        } else {
 //            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
 //        }
-        expired_time = ApkVersion.getSP(this).getString("expired_time", "-1");
+        expired_time = ApkVersion.getSP(this).getString("expired_time", "0");
         if (App.look_permission) {
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 play(newurl);

@@ -22,9 +22,9 @@
         android:layout_marginLeft="60px"
         android:focusable="false"
         android:includeFontPadding="false"
-        android:text="Welcome Mr.Wang"
         android:textColor="@color/white"
-        android:textSize="40px" />
+        android:textSize="40px"
+        tools:text="Welcome Mr.Wang" />
 
     <TextView
         android:id="@+id/tv_time"
