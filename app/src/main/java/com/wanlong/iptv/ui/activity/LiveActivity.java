@@ -710,9 +710,9 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     //获取EPG
     private void loadEPG(String channel_number) {
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
-        }
+//        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+        getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
+//        }
     }
 
     @Override
