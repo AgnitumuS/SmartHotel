@@ -167,7 +167,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
                     sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
         }
-        mTvRoom.setText("Mac:" + Utils.getMac(this));
+        if (Utils.getMac(this).equals("02:00:00:00:00:00")) {
+            mTvRoom.setText(R.string.no_network_connection);
+        } else {
+            mTvRoom.setText("Mac:" + Utils.getMac(this));
+        }
         getTime();
         getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }

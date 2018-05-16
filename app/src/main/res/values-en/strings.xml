@@ -86,6 +86,7 @@
     <string name="enter_the_insert_program">Enter the insert program</string>
     <string name="it_will_be_broadcast_again_later">It will be broadcast again later</string>
     <string name="language_setting">Language Setting</string>
+    <string name="no_network_connection">No network connection</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>
