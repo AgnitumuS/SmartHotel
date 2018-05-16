@@ -51,4 +51,6 @@ public class Apis {
     //应用更新接口
     public static final String USER_APP_UPDATE = "apk/software/apk_update.json";
     public static final String USER_APP_UPDATE_BETA = "apk/software/beta/apk_update.json";
+    //EPG
+    public static final String USER_EPG = "user/fun/user_live_epg.php";
 }

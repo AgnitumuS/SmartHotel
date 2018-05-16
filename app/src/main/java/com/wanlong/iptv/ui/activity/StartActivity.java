@@ -2,13 +2,17 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.ijkplayer.services.Settings;
+import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
@@ -16,6 +20,7 @@ import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * Created by lingchen on 2018/1/24. 14:25
@@ -24,6 +29,10 @@ import butterknife.BindView;
 public class StartActivity extends BaseActivity {
     @BindView(R.id.img_start)
     ImageView mImgStart;
+    @BindView(R.id.videoview)
+    VideoView mVideoview;
+    @BindView(R.id.ijkVideoView)
+    IjkVideoView mIjkVideoView;
 
     @Override
     protected int getContentResId() {
@@ -65,7 +74,83 @@ public class StartActivity extends BaseActivity {
         Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            initPlayer();
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            mHandler.sendEmptyMessageDelayed(OPEN, 1000);
+        }
+    }
 
+    private void initPlayer() {
+        Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
+        mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.start();
+            }
+        });
+        mIjkVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
+                iMediaPlayer.stop();
+                mHandler.sendEmptyMessageDelayed(OPEN, 0);
+            }
+        });
+        mIjkVideoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
+                return false;
+            }
+        });
+//        mVideoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                mp.start();
+//            }
+//        });
+//        mVideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//                mp.stop();
+//                mHandler.sendEmptyMessageDelayed(OPEN, 0);
+//            }
+//        });
+//        mVideoview.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+//            @Override
+//            public boolean onError(MediaPlayer mp, int what, int extra) {
+//                mp.stop();
+//                return true;
+//            }
+//        });
+        try {
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.prevail);
+            mIjkVideoView.setVideoURI(uri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mVideoview.canPause()) {
+            mVideoview.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!mVideoview.isPlaying()) {
+            mVideoview.resume();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mVideoview.stopPlayback();
     }
 
     //创建SharedPreferences
@@ -80,7 +165,7 @@ public class StartActivity extends BaseActivity {
             ip = sharedPreferences.getString("ip", "");
         }
         Apis.HEADER = ip;
-        mHandler.sendEmptyMessageDelayed(OPEN, 1000);
+//        mHandler.sendEmptyMessageDelayed(OPEN, 1000);
     }
 
     private Handler mHandler = new Handler() {

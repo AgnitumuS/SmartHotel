@@ -22,6 +22,8 @@ import com.shuyu.gsyvideoplayer.model.VideoOptionModel;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
+import com.wanlong.iptv.entity.EPG;
+import com.wanlong.iptv.entity.EPGlist;
 import com.wanlong.iptv.entity.Live;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
@@ -32,8 +34,11 @@ import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
+import com.wanlong.iptv.utils.EPGUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,6 +72,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvNum;
     @BindView(R.id.re_key_num)
     RelativeLayout mReKeyNum;
+    @BindView(R.id.tv_epg_now)
+    AppCompatTextView mTvEpgNow;
+    @BindView(R.id.tv_epg_next)
+    AppCompatTextView mTvEpgNext;
 
     @Override
     protected int getContentResId() {
@@ -99,6 +108,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 playNewUrl(position, mLive.getPlaylist().get(position).getUrl());
                 currentPlayPosition = position;
                 mTvLiveName.setText(mLive.getPlaylist().get(position).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                 editor.putInt(sp_lastPlayPosition, position);
                 editor.commit();
             }
@@ -250,7 +260,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 //        } else {
 //            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
 //        }
-        expired_time = ApkVersion.getSP(this).getString("expired_time", "-1");
+        expired_time = ApkVersion.getSP(this).getString("expired_time", "0");
         if (App.look_permission) {
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 play(newurl);
@@ -403,6 +413,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             if (currentPlayPosition >= 0 && currentPlayPosition < mLive.getPlaylist().size()) {
                 playNewUrl(currentPlayPosition, mLive.getPlaylist().get(currentPlayPosition).getUrl());
                 mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                 showInfo();
                 editor.putInt(sp_lastPlayPosition, currentPlayPosition);
                 editor.commit();
@@ -544,6 +555,18 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (mChannelList.getVisibility() == View.GONE) {
             mChannelList.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(DISMISS_LIST, 5000);
+//            int firstVisibleItemPosition = ((LinearLayoutManager) mRecyclerLiveList.getLayoutManager()).findFirstVisibleItemPosition();
+//            int lastVisibleItemPosition = ((LinearLayoutManager) mRecyclerLiveList.getLayoutManager()).findLastVisibleItemPosition();
+//            try {
+//                if (currentPlayPosition < firstVisibleItemPosition || currentPlayPosition > lastVisibleItemPosition) {
+//                    mRecyclerLiveList.smoothScrollToPosition(currentPlayPosition);
+//                    LinearLayoutManager mLayoutManager =
+//                            (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
+//                    mLayoutManager.scrollToPositionWithOffset(currentPlayPosition, 0);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             try {
                 RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
                 ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
@@ -638,6 +661,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                                 playNewUrl(i, mLive.getPlaylist().get(i).getUrl());
                                 currentPlayPosition = i;
                                 mTvLiveName.setText(mLive.getPlaylist().get(i).getService_name());
+                                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
                                 editor.putInt(sp_lastPlayPosition, i);
                                 editor.commit();
                                 sb = new StringBuffer("");
@@ -653,7 +677,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     };
 
     private Live mLive;
-    private boolean exception;
 
     @Override
     public void loadListSuccess(Live liveListDatas) {
@@ -661,29 +684,66 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
-                try {
-                    playNewUrl(liveLastPlayPosition, liveListDatas.getPlaylist().get(liveLastPlayPosition).getUrl());
+                if (liveLastPlayPosition >= 0 && liveLastPlayPosition < liveListDatas.getPlaylist().size()) {
                     currentPlayPosition = liveLastPlayPosition;
-                    mTvLiveName.setText(mLive.getPlaylist().get(liveLastPlayPosition).getService_name());
-                    exception = false;
+                } else {
+                    currentPlayPosition = 0;
+                }
+                playNewUrl(currentPlayPosition, liveListDatas.getPlaylist().get(currentPlayPosition).getUrl());
+                mTvLiveName.setText(mLive.getPlaylist().get(currentPlayPosition).getService_name());
+                loadEPG(mLive.getPlaylist().get(currentPlayPosition).getChannel_number());
+                try {
+                    mRecyclerLiveList.smoothScrollToPosition(currentPlayPosition);
+                    LinearLayoutManager mLayoutManager =
+                            (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
+                    mLayoutManager.scrollToPositionWithOffset(currentPlayPosition, 0);
+                    RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
+                    ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    exception = true;
-                } catch (IndexOutOfBoundsException e) {
-                    e.printStackTrace();
-                    exception = true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    exception = true;
-                } finally {
-                    if (exception) {
-                        playNewUrl(0, liveListDatas.getPlaylist().get(0).getUrl());
-                        currentPlayPosition = 0;
-                        mTvLiveName.setText(mLive.getPlaylist().get(0).getService_name());
-                    }
                 }
             }
         }
+    }
+
+    //获取EPG
+    private void loadEPG(String channel_number) {
+//        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+        getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
+//        }
+    }
+
+    @Override
+    public void loadEPGlistSuccess(EPGlist epGlist) {
+        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
+        List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
+        for (int i = 0; i < detailBeans.size(); i++) {
+            if (time.equals(detailBeans.get(i).getDate())) {
+                getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void loadEPGlistFailed(int error) {
+        mTvEpgNow.setText("");
+        mTvEpgNext.setText("");
+    }
+
+    @Override
+    public void loadEPGSuccess(EPG epg) {
+        EPGUtils.parseEPG(epg.getDetail());
+        mTvEpgNow.setText(EPGUtils.getCurrentPlay());
+        mTvEpgNext.setText(EPGUtils.getNextPlay());
+    }
+
+    @Override
+    public void loadEPGFailed(int error) {
+        mTvEpgNow.setText("");
+        mTvEpgNext.setText("");
     }
 
     @Override

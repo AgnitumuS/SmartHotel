@@ -160,14 +160,30 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     //刷新首页数据
     private void reflashData() {
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+            mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "上海市宝山监狱") + " : " +
                     sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
                     sharedPreferences.getString("stb_name", ""));
-        } else {
-            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+        } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
+                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
+                        sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                        sharedPreferences.getString("stb_name", ""));
+            }
         }
-        mTvRoom.setText("Mac:" + Utils.getMac(this));
+//        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+//            mTvWelcomeGuest.setText("上海市宝山监狱:" +
+//                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+//                    sharedPreferences.getString("stb_name", ""));
+//        } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+//
+//            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
+//                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
+//        }
+        if (Utils.getMac(this).equals("02:00:00:00:00:00")) {
+            mTvRoom.setText(R.string.no_network_connection);
+        } else {
+            mTvRoom.setText("Mac:" + Utils.getMac(this));
+        }
         getTime();
         getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
@@ -288,22 +304,29 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     //登录成功
     private void loginSuccess() {
         Logger.d("登录成功");
+        try {
+            editor.putString("ip", Apis.HEADER);
+            editor.putString("group", data.getGroup());
+            editor.putString("stb_name", data.getStb_name());
+            editor.putString("Owner_Group", data.getOwner_Group());
+            editor.putString("Owner_Group_display", data.getOwner_Group_display());
+            editor.commit();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            try {
-                editor.putString("group", data.getGroup());
-                editor.putString("stb_name", data.getStb_name());
-                editor.commit();
-                mTvWelcomeGuest.setText("上海市宝山监狱:" +
+            mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "上海市宝山监狱") + " : " +
+                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
+                    sharedPreferences.getString("stb_name", ""));
+        } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
+                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
                         sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
                         sharedPreferences.getString("stb_name", ""));
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
-        editor.putString("ip", Apis.HEADER);
-        editor.commit();
     }
 
     private void loginFailed() {

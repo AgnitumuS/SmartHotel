@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DMM</string>
-    <string name="versionCode">1084</string>
+    <string name="versionCode">1090</string>
     <string name="versionName">1.3.7</string>
     <string name="english">English</string>
     <string name="chinese">中文</string>
@@ -297,6 +297,8 @@
     <string name="a_mandatory_program_is_playing">A mandatory program is playing</string>
     <string name="enter_the_insert_program">Enter the insert program</string>
     <string name="it_will_be_broadcast_again_later">It will be broadcast again later</string>
+    <string name="language_setting">Language Setting</string>
+    <string name="no_network_connection">No network connection</string>
 
     <!--ijkplayer-end                                                                               -->
 
