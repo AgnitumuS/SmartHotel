@@ -69,6 +69,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvNum;
     @BindView(R.id.re_key_num)
     RelativeLayout mReKeyNum;
+    @BindView(R.id.tv_epg_now)
+    AppCompatTextView mTvEpgNow;
+    @BindView(R.id.tv_epg_next)
+    AppCompatTextView mTvEpgNext;
 
     @Override
     protected int getContentResId() {
