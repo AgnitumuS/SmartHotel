@@ -165,7 +165,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("stb_name", ""));
         } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
-                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", Apis.ROOM_ORIGIN) + " : " +
+                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
                         sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
                         sharedPreferences.getString("stb_name", ""));
             }
@@ -322,7 +322,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     sharedPreferences.getString("stb_name", ""));
         } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
-                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "") + " : " +
+                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
                         sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
                         sharedPreferences.getString("stb_name", ""));
             }
