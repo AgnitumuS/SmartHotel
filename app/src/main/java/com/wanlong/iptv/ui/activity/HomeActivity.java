@@ -1,9 +1,13 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -128,6 +132,29 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         setPresenter(new HomePresenter(this));
         reflashData();
         Logger.d("mac:" + Utils.getMac(this));
+        initReceiver();
+    }
+
+    private NetworkChangeReceiver mNetworkChangeReceiver;
+    //注册网络状态监听广播
+    private void initReceiver() {
+        if (mNetworkChangeReceiver == null) {
+            mNetworkChangeReceiver = new NetworkChangeReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(mNetworkChangeReceiver, filter);
+    }
+
+    class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Utils.getMac(HomeActivity.this).equals("02:00:00:00:00:00")) {
+                mTvRoom.setText(R.string.no_network_connection);
+            } else {
+                mTvRoom.setText("Mac:" + Utils.getMac(HomeActivity.this));
+            }
+        }
     }
 
     @Override
@@ -478,6 +505,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(mNetworkChangeReceiver);
         stopService(new Intent(HomeActivity.this, AdService.class));
         App.ADserver = false;
         mTimer.cancel();
