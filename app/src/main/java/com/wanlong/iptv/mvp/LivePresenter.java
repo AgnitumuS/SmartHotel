@@ -42,7 +42,6 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                             } else {
                                 getView().loadFailed(1);
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (Exception e) {
