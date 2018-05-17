@@ -137,7 +137,12 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         mTvLiveCategory.setText(getString(R.string.all));
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+        }
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
     }
