@@ -137,12 +137,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mTvLiveCategory.setText(getString(R.string.all));
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
-        }
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
-        }
+        getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
     }
