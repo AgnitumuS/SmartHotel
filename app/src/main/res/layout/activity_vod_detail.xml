@@ -6,61 +6,62 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    android:padding="60px"
+    android:padding="50px"
     tools:context=".ui.activity.VodDetailActivity">
 
     <LinearLayout
         android:id="@+id/ll_movie_detail"
         android:layout_width="match_parent"
-        android:layout_height="560px"
+        android:layout_height="660px"
         android:focusable="false"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_movie_detail"
-            android:layout_width="0dp"
+            android:layout_width="400px"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="30px"
             android:layout_marginRight="20px"
-            android:layout_weight="1"
+            android:background="@color/transparent"
             android:focusable="false"
             android:scaleType="centerCrop"
             tools:src="@drawable/sence" />
 
         <RelativeLayout
             android:id="@+id/relativelayout_movie_detail"
-            android:layout_width="0dp"
+            android:layout_width="1200px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
-            android:layout_weight="1"
             android:clipChildren="false"
             android:focusable="false">
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_name_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:focusable="false"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="36px"
                 tools:text="湄公河行动" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_time_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_movie_name_detail"
                 android:layout_marginTop="16px"
                 android:focusable="false"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="36px"
                 tools:text="时间：2016" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_count_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
                 android:textSize="36px"
                 tools:text="8.7" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_type_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,35 +80,40 @@
                 android:layout_below="@+id/text_movie_time_detail"
                 android:layout_marginTop="16px"
                 android:focusable="false"
+                android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="36px"
                 tools:text="类型：动作/犯罪/院线" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_people_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/text_movie_type_detail"
                 android:layout_marginTop="16px"
+                android:ellipsize="end"
                 android:focusable="false"
+                android:maxLines="2"
                 android:textColor="@color/white"
                 android:textSize="36px"
                 tools:text="主演：张涵予 彭于晏 冯文娟 陈宝国 孙淳" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_description_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/text_movie_people_detail"
                 android:layout_marginTop="16px"
+                android:ellipsize="end"
                 android:focusable="false"
+                android:maxLines="5"
                 android:textColor="@color/white"
                 android:textSize="36px"
-                tools:text="电影《湄公河行动》改编自2011年发生在湄公河金三角流域的中国商船遇袭案，当时13名中国船员全部遇难..." />
+                tools:text="简介：电影《湄公河行动》改编自2011年发生在湄公河金三角流域的中国商船遇袭案，当时13名中国船员全部遇难..." />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/text_movie_detail_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +142,7 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
