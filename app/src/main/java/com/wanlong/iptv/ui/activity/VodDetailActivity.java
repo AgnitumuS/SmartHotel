@@ -133,7 +133,11 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     @OnClick(R.id.text_movie_detail_play)
     public void onViewClicked() {
         Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-        intent.putExtra("url", url + urls[0]);
+        if (urls.length > 0) {
+            intent.putExtra("url", url + urls[0]);
+        } else {
+            intent.putExtra("url", url);
+        }
         intent.putExtra("name", name);
         startActivity(intent);
     }
