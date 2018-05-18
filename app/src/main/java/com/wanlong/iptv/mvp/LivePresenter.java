@@ -23,7 +23,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
         super(liveView);
     }
 
-    //获取节目类型：直播、自办
+    //获取节目类型：直播、自办 获取所有节目
     public void loadLiveTypeData(Context context, String url) {
         Logger.d("LivePresenter:" + url);
         OkGo.<String>post(url)
