@@ -10,10 +10,12 @@ public class UserStatus implements Serializable {
 
     /**
      * code : 1
-     * expired_time : 2099-12-31
-     * vod_expired_time : 2099-12-31
-     * group : test
-     * stb_name :
+     * expired_time : 84
+     * vod_expired_time : 84
+     * group : test,vip
+     * stb_name : ljj
+     * Owner_Group : 上海市宝山监狱
+     * Owner_Group_display : on
      */
 
     private String code;
@@ -21,6 +23,8 @@ public class UserStatus implements Serializable {
     private String vod_expired_time;
     private String group;
     private String stb_name;
+    private String Owner_Group;
+    private String Owner_Group_display;
 
     public String getCode() {
         return code;
@@ -60,5 +64,21 @@ public class UserStatus implements Serializable {
 
     public void setStb_name(String stb_name) {
         this.stb_name = stb_name;
+    }
+
+    public String getOwner_Group() {
+        return Owner_Group;
+    }
+
+    public void setOwner_Group(String Owner_Group) {
+        this.Owner_Group = Owner_Group;
+    }
+
+    public String getOwner_Group_display() {
+        return Owner_Group_display;
+    }
+
+    public void setOwner_Group_display(String Owner_Group_display) {
+        this.Owner_Group_display = Owner_Group_display;
     }
 }

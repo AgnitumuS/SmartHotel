@@ -221,14 +221,14 @@ public class LoginSettingActivity extends BaseActivity {
     private void saveRoom() {
         editor.putString("room", newRoom);
         editor.commit();
-        Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.success), Toast.LENGTH_SHORT).show();
     }
 
     //验证IP地址
     private void submitIP() {
         if (changeIP) {
             if (newIP.equals("") && !newIP.startsWith("http://")) {
-                Toast.makeText(this, "请输入正确的IP地址", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.please_enter_the_correct_address), Toast.LENGTH_SHORT).show();
             } else {
                 OkGo.<String>get(newIP + Apis.TIME_UPDATE)
                         .tag(this)
@@ -240,14 +240,14 @@ public class LoginSettingActivity extends BaseActivity {
 //                                    Toast.makeText(LoginSettingActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
                                     saveIP();
                                 } else {
-                                    Toast.makeText(LoginSettingActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginSettingActivity.this, getString(R.string.submit_failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onError(Response<String> response) {
                                 super.onError(response);
-                                Toast.makeText(LoginSettingActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginSettingActivity.this, getString(R.string.submit_failed), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -296,7 +296,7 @@ public class LoginSettingActivity extends BaseActivity {
                                     //存储
                                     loginSuccess();
                                     App.look_permission = true;
-                                    Toast.makeText(LoginSettingActivity.this, "成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginSettingActivity.this, getString(R.string.success), Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-1")) {
                                     loginFailed();
 //                                    Toast.makeText(LoginSettingActivity.this, "用户名或者密码输入不符合规则", Toast.LENGTH_SHORT).show();
@@ -309,7 +309,7 @@ public class LoginSettingActivity extends BaseActivity {
                                 } else if (data.getCode().equals("-4")) {
                                     App.look_permission = false;
                                     loginFailed();
-                                    Toast.makeText(LoginSettingActivity.this, "用户未注册", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginSettingActivity.this, getString(R.string.user_is_not_registered), Toast.LENGTH_SHORT).show();
                                 } else if (data.getCode().equals("-5")) {
                                     loginFailed();
 //                                    Toast.makeText(LoginSettingActivity.this, "服务器有错误", Toast.LENGTH_SHORT).show();
@@ -367,7 +367,7 @@ public class LoginSettingActivity extends BaseActivity {
 
     private void loginFailed() {
         Logger.d("登录失败");
-        Toast.makeText(this, "login failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
     }
 
     @Override

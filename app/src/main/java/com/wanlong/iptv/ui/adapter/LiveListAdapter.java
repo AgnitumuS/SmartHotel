@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -68,7 +68,10 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             if (!mLiveListDatas.get(position).getIcon().equals("")) {
-                Glide.with(mContext).load(mLiveListDatas.get(position).getIcon()).into(viewHolder.mImgItemLiveIcon);
+                GlideApp.with(mContext)
+                        .load(mLiveListDatas.get(position).getIcon())
+                        .centerInside()
+                        .into(viewHolder.mImgItemLiveIcon);
                 viewHolder.mTvItemLiveList.setText("");
             } else {
                 viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);

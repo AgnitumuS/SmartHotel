@@ -6,7 +6,7 @@ package com.wanlong.iptv.utils;
 
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
-    public static String HEADER = "http://192.168.1.241:9080/";
+    public static String HEADER = "http://192.168.1.241:9080/";//杭州服务器http://60.191.94.91:9080/
     public static final String HEADER_ORIGIN = "http://192.168.1.241:9080/";
     public static String ROOM_ORIGIN = "501";
     public static final String SETTING_PASSWORD = "56013700";
@@ -51,4 +51,6 @@ public class Apis {
     //应用更新接口
     public static final String USER_APP_UPDATE = "apk/software/apk_update.json";
     public static final String USER_APP_UPDATE_BETA = "apk/software/beta/apk_update.json";
+    //EPG
+    public static final String USER_EPG = "user/fun/user_live_epg.php";
 }
