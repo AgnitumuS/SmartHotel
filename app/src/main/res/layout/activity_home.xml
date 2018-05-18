@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    android:paddingTop="40px"
+    android:paddingTop="36px"
     tools:context=".ui.activity.HomeActivity">
 
     <!--子控件跟随父控件状态改变-->
@@ -41,10 +41,10 @@
     <com.youth.banner.Banner
         android:id="@+id/img_show"
         android:layout_width="1152px"
-        android:layout_height="720px"
+        android:layout_height="750px"
         android:layout_below="@id/tv_welcome_guest"
         android:layout_marginLeft="60px"
-        android:layout_marginTop="12px"
+        android:layout_marginTop="8px"
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
         app:delay_time="4000"
@@ -55,7 +55,7 @@
     <com.youth.banner.Banner
         android:id="@+id/img_weather"
         android:layout_width="560px"
-        android:layout_height="280px"
+        android:layout_height="300px"
         android:layout_alignRight="@id/tv_time"
         android:layout_alignTop="@id/img_show"
         android:layout_marginLeft="24px"
@@ -126,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="100px"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100px"
+        android:layout_marginBottom="88px"
         android:focusable="false"
         android:orientation="horizontal">
 
@@ -257,7 +257,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100px"
+        android:layout_height="88px"
         android:layout_alignParentBottom="true"
         android:focusable="false">
 
