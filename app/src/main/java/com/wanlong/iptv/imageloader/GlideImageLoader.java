@@ -1,8 +1,10 @@
 package com.wanlong.iptv.imageloader;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import com.wanlong.iptv.R;
 import com.youth.banner.loader.ImageLoader;
 
 public class GlideImageLoader extends ImageLoader {
@@ -22,8 +24,26 @@ public class GlideImageLoader extends ImageLoader {
         imageView.setFocusable(false);
         GlideApp.with(context)
                 .load(path)
+                .placeholder(mDrawable != null ? mDrawable : context.getResources().getDrawable(R.drawable.wooden_house))
                 .centerCrop()
                 .into(imageView);
+    }
+
+    private Drawable mDrawable;
+
+    public GlideImageLoader(Context context, int position) {
+        if (position == 1) {
+            mDrawable = context.getResources().getDrawable(R.drawable.wooden_house);
+        }
+        if (position == 2) {
+            mDrawable = context.getResources().getDrawable(R.drawable.weather);
+        }
+        if (position == 3) {
+            mDrawable = context.getResources().getDrawable(R.drawable.sence);
+        }
+    }
+
+    public GlideImageLoader() {
     }
 
     //提供createImageView 方法，如果不用可以不重写这个方法，主要是方便自定义ImageView的创建

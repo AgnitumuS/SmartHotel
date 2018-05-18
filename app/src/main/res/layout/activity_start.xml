@@ -15,17 +15,12 @@
         android:layout_centerInParent="true"
         android:focusable="false"
         android:scaleType="centerCrop"
-        tools:src="@drawable/hotel_logo" />
-
-    <VideoView
-        android:id="@+id/videoview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        tools:src="@drawable/wooden_house" />
 
     <com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView
         android:id="@+id/ijkVideoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </RelativeLayout>

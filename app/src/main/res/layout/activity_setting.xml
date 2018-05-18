@@ -8,13 +8,13 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:focusable="false"
-    android:padding="160px"
     tools:context=".ui.activity.SettingActivity">
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="140px"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:focusable="false"
