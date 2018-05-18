@@ -141,7 +141,7 @@
             android:gravity="center"
             android:text="@string/tv_live"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="48px" />
 
         <TextView
             android:id="@+id/tv_self_management"
@@ -155,7 +155,7 @@
             android:gravity="center"
             android:text="自办"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="48px" />
 
         <TextView
             android:id="@+id/tv_vod"
@@ -169,7 +169,7 @@
             android:gravity="center"
             android:text="@string/tv_vod"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="48px" />
 
         <!--<TextView-->
         <!--android:id="@+id/tv_services"-->
@@ -238,7 +238,7 @@
             android:gravity="center"
             android:text="@string/tv_language"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="48px" />
 
         <TextView
             android:id="@+id/tv_setting"
@@ -251,7 +251,7 @@
             android:gravity="center"
             android:text="@string/tv_setting"
             android:textColor="@color/white"
-            android:textSize="40px" />
+            android:textSize="48px" />
 
     </LinearLayout>
 
