@@ -11,12 +11,12 @@ public class Live implements Serializable {
 
     /**
      * code : 0
-     * category : 直播,自办
-     * playlist : [{"category":"直播","channel_number":"DFRKk1LSdz","service_name":"cctv1","url":"udp://224.0.3.120:10119","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,test,3#,4#","type":"live","program_num":"1"},{"category":"直播","channel_number":"KE4KZJtuEM","service_name":"cctv2","url":"udp://224.0.3.121:10120","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,3#,4#","type":"live","program_num":"2"},{"category":"直播","channel_number":"L9UXAoQY7I","service_name":"cctv3","url":"http://192.168.1.231/earth1.mp4","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" 1#,2#,4#","type":"live","program_num":"3"}]
+     * category : ["央视","卫视"]
+     * playlist : [{"category":"央视","channel_number":"dSUSVPzffl","service_name":"cctv1","url":"udp://224.0.3.120:10119","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" test","type":"live","program_num":"1"},{"category":"卫视","channel_number":"2rGoKqb1Cm","service_name":"cctv2","url":"udp://224.0.3.121:10120","icon":"","live_package":" vip","type":"live","program_num":"2"},{"category":"央视","channel_number":"UzJbxk6Eh5","service_name":"cctv3","url":"http://192.168.1.231/earth1.mp4","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" test","type":"live","program_num":"3"},{"category":"卫视","channel_number":"uf5Bv7DxHt","service_name":"cctv10","url":"udp://224.0.3.121:10121","icon":"http://192.168.1.166:80/stream/live/CCTV1.png","live_package":" test","type":"live","program_num":"10"},{"category":"央视","channel_number":"DhgwhtILHI","service_name":"cctv11","url":"http://192.168.1.231/vod/file-list.m3u8","icon":"http://192.168.1.166:80/stream/live/QQ图片20160104133544.png","live_package":" test,vip","type":"live","program_num":"11"},{"category":"央视","channel_number":"tgDvUm8e7z","service_name":"四川1","url":"udp://224.0.1.6:1235","icon":"http://192.168.1.166:80/stream/live/QQ图片20151110105126.png","live_package":" test","type":"live","program_num":"15"},{"category":"卫视","channel_number":"fz6kgP2eoB","service_name":"cctv12","url":"https://abclive1-lh.akamaihd.net/i/abc_live02@423396/master.m3u8","icon":"","live_package":" vip","type":"live","program_num":"100"}]
      */
 
     private String code;
-    private String category;
+    private List<String> category;
     private List<PlaylistBean> playlist;
 
     public String getCode() {
@@ -27,11 +27,11 @@ public class Live implements Serializable {
         this.code = code;
     }
 
-    public String getCategory() {
+    public List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(List<String> category) {
         this.category = category;
     }
 
@@ -45,12 +45,12 @@ public class Live implements Serializable {
 
     public static class PlaylistBean {
         /**
-         * category : 直播
-         * channel_number : DFRKk1LSdz
+         * category : 央视
+         * channel_number : dSUSVPzffl
          * service_name : cctv1
          * url : udp://224.0.3.120:10119
          * icon : http://192.168.1.166:80/stream/live/CCTV1.png
-         * live_package :  1#,2#,test,3#,4#
+         * live_package :  test
          * type : live
          * program_num : 1
          */

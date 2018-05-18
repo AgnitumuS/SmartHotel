@@ -20,7 +20,6 @@ import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
-import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -45,7 +44,7 @@ public class AdActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mTvHint.setText("正在播放强制插播节目");
+        mTvHint.setText(getString(R.string.a_mandatory_program_is_playing));
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
         initPlayer();
@@ -61,7 +60,7 @@ public class AdActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mTvHint.setText("正在播放强制插播节目");
+        mTvHint.setText(getString(R.string.a_mandatory_program_is_playing));
         url = getIntent().getStringExtra("url");
         Logger.d("url:" + url);
         initPlayer();
@@ -69,7 +68,7 @@ public class AdActivity extends BaseActivity {
 
     //初始化播放器
     private void initPlayer() {
-        Toast.makeText(this, "进入插播", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.enter_the_insert_program), Toast.LENGTH_SHORT).show();
         switch (Build.MODEL) {
             case "etv2021":
             case "jb_dmp":
@@ -132,30 +131,30 @@ public class AdActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-                new AlertDialog.Builder(AdActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
-                        .setTitle(getString(R.string.exitdialog_hint))
-                        .setMessage(getString(R.string.exitdialog_out_hint))
-                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
+//            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            new AlertDialog.Builder(AdActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
+                    .setTitle(getString(R.string.exitdialog_hint))
+                    .setMessage(getString(R.string.exitdialog_out_hint))
+                    .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
 //                              Toast toast = Toast.makeText(AdActivity.this,"10秒后将再次进入插播",10*1000);
 //                              toast.show();
-                                Toast.makeText(AdActivity.this, "稍后将再次进入插播", Toast.LENGTH_LONG).show();
-                                mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 5 * 1000);
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {//响应事件
+                            Toast.makeText(AdActivity.this, getString(R.string.it_will_be_broadcast_again_later), Toast.LENGTH_LONG).show();
+                            mHandler.sendEmptyMessageDelayed(AUTO_INTO_ADACTIVITY, 5 * 1000);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {//响应事件
 
-                            }
-                        }).show();
-                return true;
-            } else {
-                finish();
-            }
+                        }
+                    }).show();
+//                return true;
+//            } else {
+//                finish();
+//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

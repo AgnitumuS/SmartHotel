@@ -48,7 +48,7 @@ public class UpdateActivity extends BaseActivity {
         } else {
             version = getString(R.string.versionName) + "(" + getString(R.string.versionCode) + ")";
         }
-        mVersion.setText("版本 :" + version);
+        mVersion.setText(getString(R.string.version) + version);
     }
 
     private String url = "";
@@ -232,7 +232,7 @@ public class UpdateActivity extends BaseActivity {
                         progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                         progressDialog.setCancelable(true);
                         progressDialog.setCanceledOnTouchOutside(false);
-                        progressDialog.setTitle("正在下载...");
+                        progressDialog.setTitle(getString(R.string.downloading));
                         progressDialog.setIndeterminate(false);
                         progressDialog.show();
                     }

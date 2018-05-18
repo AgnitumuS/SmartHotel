@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_181818"
     android:focusable="false"
-    android:paddingTop="50px"
+    android:paddingTop="40px"
     tools:context=".ui.activity.HomeActivity">
 
     <!--子控件跟随父控件状态改变-->
@@ -22,9 +22,9 @@
         android:layout_marginLeft="60px"
         android:focusable="false"
         android:includeFontPadding="false"
-        android:text="Welcome Mr.Wang"
         android:textColor="@color/white"
-        android:textSize="40px" />
+        android:textSize="40px"
+        tools:text="Welcome Mr.Wang" />
 
     <TextView
         android:id="@+id/tv_time"
@@ -35,7 +35,7 @@
         android:layout_marginRight="60px"
         android:focusable="false"
         android:textColor="@color/white"
-        android:textSize="36px"
+        android:textSize="40px"
         tools:text="2018/2/25 09:06 Sunday" />
 
     <com.youth.banner.Banner
@@ -58,7 +58,7 @@
         android:layout_height="280px"
         android:layout_alignRight="@id/tv_time"
         android:layout_alignTop="@id/img_show"
-        android:layout_marginLeft="30px"
+        android:layout_marginLeft="24px"
         android:layout_toRightOf="@id/img_show"
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
@@ -74,8 +74,8 @@
         android:layout_alignBottom="@id/img_show"
         android:layout_alignRight="@id/tv_time"
         android:layout_below="@id/img_weather"
-        android:layout_marginLeft="30px"
-        android:layout_marginTop="30px"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="24px"
         android:layout_toRightOf="@id/img_show"
         android:background="@drawable/vod_list_bg_selector"
         android:focusable="true"
@@ -141,7 +141,7 @@
             android:gravity="center"
             android:text="@string/tv_live"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_self_management"
@@ -155,7 +155,7 @@
             android:gravity="center"
             android:text="自办"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_vod"
@@ -169,7 +169,7 @@
             android:gravity="center"
             android:text="@string/tv_vod"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="40px" />
 
         <!--<TextView-->
         <!--android:id="@+id/tv_services"-->
@@ -183,7 +183,7 @@
         <!--android:gravity="center"-->
         <!--android:text="@string/tv_services"-->
         <!--android:textColor="@color/white"-->
-        <!--android:textSize="36px" />-->
+        <!--android:textSize="40px" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_cuisines"-->
@@ -197,7 +197,7 @@
         <!--android:gravity="center"-->
         <!--android:text="@string/tv_cuisines"-->
         <!--android:textColor="@color/white"-->
-        <!--android:textSize="36px" />-->
+        <!--android:textSize="40px" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_scnenries"-->
@@ -211,7 +211,7 @@
         <!--android:gravity="center"-->
         <!--android:text="@string/tv_scnenrise"-->
         <!--android:textColor="@color/white"-->
-        <!--android:textSize="36px" />-->
+        <!--android:textSize="40px" />-->
 
         <!--<TextView-->
         <!--android:id="@+id/tv_expense"-->
@@ -225,7 +225,7 @@
         <!--android:gravity="center"-->
         <!--android:text="@string/tv_expense"-->
         <!--android:textColor="@color/white"-->
-        <!--android:textSize="36px" />-->
+        <!--android:textSize="40px" />-->
 
         <TextView
             android:id="@+id/tv_language"
@@ -238,7 +238,7 @@
             android:gravity="center"
             android:text="@string/tv_language"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="40px" />
 
         <TextView
             android:id="@+id/tv_setting"
@@ -251,7 +251,7 @@
             android:gravity="center"
             android:text="@string/tv_setting"
             android:textColor="@color/white"
-            android:textSize="36px" />
+            android:textSize="40px" />
 
     </LinearLayout>
 
@@ -270,7 +270,7 @@
             android:focusable="false"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="36px"
+            android:textSize="40px"
             tools:text="Room：501" />
 
         <android.support.v7.widget.AppCompatTextView
@@ -283,7 +283,7 @@
             android:gravity="center"
             android:lines="1"
             android:textColor="@color/white"
-            android:textSize="36px"
+            android:textSize="40px"
             tools:text="You have a new message. Please check it." />
 
         <!--<com.wanlong.iptv.ui.weigets.MarqueeTextView-->
@@ -296,7 +296,7 @@
         <!--android:gravity="center"-->
         <!--android:lines="1"-->
         <!--android:textColor="@color/white"-->
-        <!--android:textSize="36px"-->
+        <!--android:textSize="40px"-->
         <!--tools:text="You have a new message. Please check it." />-->
 
     </RelativeLayout>
