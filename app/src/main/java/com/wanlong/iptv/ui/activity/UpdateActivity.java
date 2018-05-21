@@ -2,7 +2,15 @@ package com.wanlong.iptv.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.pm.IPackageDeleteObserver;
+import android.content.pm.IPackageInstallObserver;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.os.RemoteException;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -16,12 +24,16 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
+import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.entity.AppUpdate;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkController;
 import com.wanlong.iptv.utils.ApkUtils;
 import com.wanlong.iptv.utils.ApkVersion;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 
@@ -29,7 +41,7 @@ import butterknife.BindView;
  * Created by lingchen on 2018/3/20. 15:09
  * mail:lingchen52@foxmail.com
  */
-public class UpdateActivity extends BaseActivity {
+public class UpdateActivity extends BaseActivity implements OnPackagedObserver {
     @BindView(R.id.checkversion)
     TextView mCheckversion;
     @BindView(R.id.version)
@@ -52,6 +64,7 @@ public class UpdateActivity extends BaseActivity {
     }
 
     private String url = "";
+    public static String apkPath = "";
 
     @Override
     protected void initData() {
@@ -60,8 +73,95 @@ public class UpdateActivity extends BaseActivity {
         } else {
             url = Apis.HEADER + Apis.USER_APP_UPDATE_BETA;
         }
-        update(url);
+        Log.d("UpdateActivity", "hasRootPerssion:" + ApkController.hasRootPerssion());
+        apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + "Download" + File.separator + "app-debug.apk";
+        if (ApkController.hasRootPerssion()) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ApkController.clientInstall(apkPath);
+//                    ApkController.copy2SystemApp(apkPath);
+                    //ApkController.install(apkPath, App.getApplication());
+                }
+            }).start();
+        } else if (Build.MODEL.equals("0008")) {
+            try {
+                pm = this.getPackageManager();
+                Class<?>[] types = new Class[]{Uri.class, IPackageInstallObserver.class, int.class, String.class};
+                Class<?>[] uninstalltypes = new Class[]{String.class, IPackageDeleteObserver.class, int.class};
+                method = pm.getClass().getMethod("installPackage", types);
+                uninstallmethod = pm.getClass().getMethod("deletePackage", uninstalltypes);
+                method.setAccessible(true);
+                File apkFile = new File(apkPath);
+                Uri apkUri = Uri.fromFile(apkFile);
+                method.invoke(pm, new Object[]{apkUri, mPackageInstallObserver, Integer.valueOf(2), "com.wanlong.iptv"});
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } else {
+            update(url);
+        }
     }
+
+    private PackageManager pm;
+    private Method method, uninstallmethod;
+    private OnPackagedObserver onInstalledPackaged;
+    private PackageInstallObserver mPackageInstallObserver = new PackageInstallObserver();
+    private PackageDeleteObserver mPackageDeleteObserver = new PackageDeleteObserver();
+
+    @Override
+    public void packageInstalled(String packageName, int returnCode) {
+
+    }
+
+    @Override
+    public void packageDeleted(String packageName, int returnCode) {
+
+    }
+
+    class PackageInstallObserver extends IPackageInstallObserver.Stub {
+
+        public void packageInstalled(String packageName, int returnCode) throws RemoteException {
+            if (onInstalledPackaged != null) {
+                onInstalledPackaged.packageInstalled(packageName, returnCode);
+            }
+        }
+    }
+
+    class PackageDeleteObserver extends IPackageDeleteObserver.Stub {
+
+        public void packageDeleted(String packageName, int returnCode) throws RemoteException {
+            if (onInstalledPackaged != null) {
+                onInstalledPackaged.packageDeleted(packageName, returnCode);
+            }
+        }
+    }
+
+    public void uninstallPackage(String packagename) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        uninstallmethod.invoke(pm, new Object[]{packagename, mPackageDeleteObserver, 0});
+    }
+
+    public void installPackage(String apkFile) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        installPackage(new File(apkFile));
+    }
+
+    public void installPackage(File apkFile) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        if (!apkFile.exists()) throw new IllegalArgumentException();
+        Uri packageURI = Uri.fromFile(apkFile);
+        installPackage(packageURI);
+    }
+
+    public void installPackage(Uri apkFile) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        method.invoke(pm, new Object[]{apkFile, mPackageInstallObserver, 2, null});
+    }
+
 
     private AppUpdate appUpdate;
 
