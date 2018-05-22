@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONException;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.HomeAD;
 import com.wanlong.iptv.utils.Utils;
 
@@ -31,17 +32,13 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-//                        Logger.json(response.body());
+                        Logger.json(response.body());
                         try {
                             if (result_homeAD == null) {
-                                homeAD = JSON.parseObject(response.body(), HomeAD.class);
-                                result_homeAD = response.body();
-                                getView().loadHomeADSuccess(homeAD);
+                                checkData(response);
                             } else {
                                 if (!result_homeAD.equals(response.body())) {
-                                    homeAD = JSON.parseObject(response.body(), HomeAD.class);
-                                    result_homeAD = response.body();
-                                    getView().loadHomeADSuccess(homeAD);
+                                    checkData(response);
                                 }
                             }
                         } catch (JSONException e) {
@@ -67,6 +64,21 @@ public class HomePresenter extends BasePresenter<HomePresenter.HomeView> {
                 });
 
     }
+
+    private void checkData(Response<String> response) {
+        homeAD = JSON.parseObject(response.body(), HomeAD.class);
+        result_homeAD = response.body();
+        if (homeAD != null) {
+            if (homeAD.getCode().equals("0") || homeAD.getCode().equals("1")) {
+                getView().loadHomeADSuccess(homeAD);
+            } else {
+                getView().loadFailed(0);
+            }
+        } else {
+            getView().loadFailed(0);
+        }
+    }
+
 
     public interface HomeView extends BaseView {
         void loadHomeADSuccess(HomeAD homeAD);

@@ -127,7 +127,7 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
 
     @Override
     public void loadVodListSuccess(VodList vodListDatas) {
-        if (vodListDatas.getPlaylist() != null && vodListDatas.getPlaylist().size() > 0) {
+        if (vodListDatas != null && vodListDatas.getPlaylist() != null && vodListDatas.getPlaylist().size() > 0) {
             mPlaylistBeans = vodListDatas.getPlaylist();
             mVodListAdapter.setData(vodListDatas.getPlaylist());
         }
