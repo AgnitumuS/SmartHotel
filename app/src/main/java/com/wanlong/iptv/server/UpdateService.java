@@ -7,9 +7,11 @@ import android.content.pm.IPackageInstallObserver;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
@@ -71,16 +73,26 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
                 url = Apis.HEADER + Apis.USER_APP_UPDATE_BETA;
             }
             UpdateUtils.setDownloadListener(this);
-            UpdateUtils.checkUpdate(getApplicationContext(), url, false, null);
+            UpdateUtils.checkUpdate(this, url, false, null);
         }
     }
 
     @Override
     public void downloadSuccess(File apkFile) {
+        Log.d("UpdateService", apkFile.getAbsolutePath());
+        Log.d("UpdateService", apkFile.getName());
+        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + "Download" + File.separator + apkFile.getName();
+        Log.d("UpdateService", apkPath);
         if (ApkController.hasRootPerssion()) {
-            ApkController.clientInstall(apkFile.getAbsolutePath());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ApkController.clientInstall(apkPath);
+                }
+            }).start();
         } else if (Build.MODEL.equals("0008")) {
-            install(apkFile.getAbsolutePath());
+            install(apkPath);
         }
     }
 

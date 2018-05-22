@@ -93,7 +93,8 @@ public class ApkController {
             PrintWriter.println("export LD_LIBRARY_PATH=/vendor/lib:/system/lib");
             PrintWriter.println("pm install -r " + apkPath);
 //          PrintWriter.println("exit");
-            PrintWriter.println("sleep 1; am start -n " + "com.wanlong.iptv/.ui.activity.StartActivity");//安装完成后重启
+//            PrintWriter.println("sleep 1; am start -n " + "com.wanlong.iptv/.ui.activity.StartActivity");//安装完成后重启
+            PrintWriter.println("am start -n " + "com.wanlong.iptv/.ui.activity.StartActivity");//安装完成后重启
             PrintWriter.flush();
             PrintWriter.close();
             int value = process.waitFor();

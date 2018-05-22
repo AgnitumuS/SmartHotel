@@ -74,6 +74,9 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        if (ApkController.hasRootPerssion() || Build.MODEL.equals("0008")) {
+            startService(new Intent(getApplicationContext(), UpdateService.class));
+        }
         Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
@@ -82,9 +85,6 @@ public class StartActivity extends BaseActivity {
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
-        }
-        if (ApkController.hasRootPerssion() || Build.MODEL.equals("0008")) {
-            startService(new Intent(getApplicationContext(), UpdateService.class));
         }
     }
 

@@ -62,7 +62,7 @@ public class UpdateActivity extends BaseActivity implements UpdateUtils.Download
 //            }).start();
 //        }
         UpdateUtils.setDownloadListener(this);
-        UpdateUtils.checkUpdate(getApplicationContext(), url, true, mCheckversion);
+        UpdateUtils.checkUpdate(this, url, true, mCheckversion);
     }
 
     @Override

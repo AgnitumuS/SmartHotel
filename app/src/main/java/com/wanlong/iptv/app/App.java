@@ -20,6 +20,7 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.squareup.leakcanary.LeakCanary;
 import com.wanlong.iptv.server.AdService;
+import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.CrashHandler;
@@ -172,6 +173,7 @@ public class App extends Application {
     //退出应用
     public void exit() {
         stopService(new Intent(this, AdService.class));
+        stopService(new Intent(this, UpdateService.class));
         ADserver = false;
         ActivityCollector.finishAll();
         System.exit(0);
