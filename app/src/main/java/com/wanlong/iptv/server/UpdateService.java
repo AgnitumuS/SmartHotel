@@ -7,15 +7,12 @@ import android.content.pm.IPackageInstallObserver;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
-import com.wanlong.iptv.utils.ApkController;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.UpdateUtils;
 
@@ -66,7 +63,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     private String url = "";
 
     private void autoUpdate() {
-        if (ApkController.hasRootPerssion() || Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008")) {
             if (ApkVersion.RELEASE_VERSION) {
                 url = Apis.HEADER + Apis.USER_APP_UPDATE;
             } else {
@@ -79,20 +76,18 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
 
     @Override
     public void downloadSuccess(File apkFile) {
-        Log.d("UpdateService", apkFile.getAbsolutePath());
-        Log.d("UpdateService", apkFile.getName());
-        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                File.separator + "Download" + File.separator + apkFile.getName();
-        Log.d("UpdateService", apkPath);
-        if (ApkController.hasRootPerssion()) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    ApkController.clientInstall(apkPath);
-                }
-            }).start();
-        } else if (Build.MODEL.equals("0008")) {
-            install(apkPath);
+//        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+//                File.separator + "Download" + File.separator + apkFile.getName();
+//        if (ApkController.hasRootPerssion()) {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ApkController.clientInstall(apkFile.getAbsolutePath());
+//                }
+//            }).start();
+//        }
+        if (Build.MODEL.equals("0008")) {
+            install(apkFile.getAbsolutePath());
         }
     }
 

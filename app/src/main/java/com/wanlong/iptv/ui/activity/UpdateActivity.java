@@ -39,7 +39,6 @@ public class UpdateActivity extends BaseActivity implements UpdateUtils.Download
     }
 
     private String url = "";
-    public static String apkPath = "";
 
     @Override
     protected void initData() {
@@ -48,19 +47,6 @@ public class UpdateActivity extends BaseActivity implements UpdateUtils.Download
         } else {
             url = Apis.HEADER + Apis.USER_APP_UPDATE_BETA;
         }
-//        Log.d("UpdateActivity", "hasRootPerssion:" + ApkController.hasRootPerssion());
-//        apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-//                File.separator + "Download" + File.separator + "app-debug.apk";
-//        if (ApkController.hasRootPerssion()) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    ApkController.clientInstall(apkPath);
-////                    ApkController.copy2SystemApp(apkPath);
-//                    //ApkController.install(apkPath, App.getApplication());
-//                }
-//            }).start();
-//        }
         UpdateUtils.setDownloadListener(this);
         UpdateUtils.checkUpdate(this, url, true, mCheckversion);
     }

@@ -16,7 +16,6 @@ import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.Apis;
-import com.wanlong.iptv.utils.ApkController;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
@@ -74,7 +73,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (ApkController.hasRootPerssion() || Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008")) {
             startService(new Intent(getApplicationContext(), UpdateService.class));
         }
         Logger.d("mac:" + Utils.getMac(this));
