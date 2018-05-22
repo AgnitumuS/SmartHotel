@@ -136,6 +136,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     }
 
     private NetworkChangeReceiver mNetworkChangeReceiver;
+
     //注册网络状态监听广播
     private void initReceiver() {
         if (mNetworkChangeReceiver == null) {
@@ -423,7 +424,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (imgUrls1.size() > 0) {
             mImgShow.setImages(imgUrls1)
                     .setPageTransformer(true, new BackgroundToForegroundTransformer())
-                    .setImageLoader(new GlideImageLoader())
+                    .setImageLoader(new GlideImageLoader(this, 1))
                     .start();
         } else {
             loadFailed(1);
@@ -431,14 +432,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (imgUrls2.size() > 0) {
             mImgWeather.setImages(imgUrls2)
                     .setPageTransformer(true, new ForegroundToBackgroundTransformer())
-                    .setImageLoader(new GlideImageLoader())
+                    .setImageLoader(new GlideImageLoader(this, 2))
                     .start();
         } else {
             loadFailed(2);
         }
         if (imgUrls3.size() > 0) {
             mImgAd.setImages(imgUrls3)
-                    .setImageLoader(new GlideImageLoader())
+                    .setImageLoader(new GlideImageLoader(this, 3))
                     .start();
         } else {
             loadFailed(3);
@@ -470,7 +471,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private void loadDefaultImg(int error) {
         if (error == 1) {
             imgUrls1 = new ArrayList<>();
-            imgUrls1.add(getResources().getDrawable(R.drawable.hotel_room));
+            imgUrls1.add(getResources().getDrawable(R.drawable.wooden_house));
             mImgShow.setImages(imgUrls1)
                     .setPageTransformer(true, new BackgroundToForegroundTransformer())
                     .setImageLoader(new GlideImageLoader())
