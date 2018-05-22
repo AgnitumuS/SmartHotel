@@ -14,7 +14,9 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkController;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
@@ -80,6 +82,9 @@ public class StartActivity extends BaseActivity {
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
+        }
+        if (ApkController.hasRootPerssion() || Build.MODEL.equals("0008")) {
+            startService(new Intent(getApplicationContext(), UpdateService.class));
         }
     }
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wanlong.iptv">
-    <!--coreApp="true"-->
-    <!--android:sharedUserId="android.uid.system"-->
+
+    <!-- coreApp="true" -->
+    <!-- android:sharedUserId="android.uid.system" -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -17,9 +18,10 @@
     <!-- apk运行状态 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!--静默安装、卸载权限-->
-    <!--<uses-permission android:name="android.permission.DELETE_PACKAGES" />-->
-    <!--<uses-permission android:name="android.permission.INSTALL_PACKAGES" />-->
+    <!-- 静默安装、卸载权限 -->
+    <!-- <uses-permission android:name="android.permission.DELETE_PACKAGES" /> -->
+    <!-- <uses-permission android:name="android.permission.INSTALL_PACKAGES" /> -->
+
 
     <!-- 应用程序设计为电视机用户的体验方式。	本特性的“television”定义为典型的客厅电视用户体验方式： -->
     <!-- 大屏幕显示，用户可坐得更远，主要的输入方式是方向键之类，一般不使用触摸屏或鼠标（指点设备）。 -->
@@ -173,6 +175,8 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".server.UpdateService" />
     </application>
 
 </manifest>
