@@ -125,13 +125,13 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private VodTypeAdapter.OnItemClickListener mOnItemClickListener;//声明接口
+    private OnItemClickListener mOnItemClickListener;//声明接口
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public void setOnItemClickListener(VodTypeAdapter.OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 }

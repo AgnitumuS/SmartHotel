@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
@@ -87,6 +88,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
 //            }).start();
 //        }
         if (Build.MODEL.equals("0008")) {
+            Toast.makeText(this, "检测到新的版本，正在升级", Toast.LENGTH_LONG).show();
             install(apkFile.getAbsolutePath());
         }
     }
