@@ -84,6 +84,7 @@
     <string name="language_setting">语言设置</string>
     <string name="no_network_connection">无网络连接</string>
     <string name="the_user_does_not_have_permission_to_watch_the_program">用户无权限观看此节目</string>
+    <string name="unable_to_watch_unauthorized_programs">未授权节目，无法观看</string>
 
     <string-array name="day_of_week">
         <item>星期天</item>

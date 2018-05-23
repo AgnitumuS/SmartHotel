@@ -264,7 +264,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                         play(newurl);
                     } else {
                         Toast.makeText(this,
-                                (R.string.the_user_does_not_have_permission_to_watch_the_program),
+                                (R.string.unable_to_watch_unauthorized_programs),
                                 Toast.LENGTH_SHORT).show();
                     }
 //                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
@@ -273,7 +273,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                         play(newurl);
                     } else {
                         Toast.makeText(this,
-                                (R.string.the_user_does_not_have_permission_to_watch_the_program),
+                                (R.string.unable_to_watch_unauthorized_programs),
                                 Toast.LENGTH_SHORT).show();
                     }
                     try {
