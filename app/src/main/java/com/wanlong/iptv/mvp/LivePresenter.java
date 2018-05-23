@@ -24,6 +24,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
     }
 
     //获取节目类型：直播、自办
+    //获取所有节目
     public void loadLiveTypeData(Context context, String url) {
         Logger.d("LivePresenter:" + url);
         OkGo.<String>post(url)
@@ -37,7 +38,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         Logger.json(response.body());
                         try {
                             Live liveListDatas = JSON.parseObject(response.body(), Live.class);
-                            if (liveListDatas.getCode().equals("0")) {
+                            if (liveListDatas.getCode().equals("0") || liveListDatas.getCode().equals("1")) {
                                 getView().loadListSuccess(liveListDatas);
                             } else {
                                 getView().loadFailed(1);
@@ -77,7 +78,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         Logger.json(response.body());
                         try {
                             Live liveListDatas = JSON.parseObject(response.body(), Live.class);
-                            if (liveListDatas.getCode().equals("0")) {
+                            if (liveListDatas.getCode().equals("0") || liveListDatas.getCode().equals("1")) {
                                 getView().loadListSuccess(liveListDatas);
                             } else {
                                 getView().loadFailed(1);
@@ -116,7 +117,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         Logger.json(response.body());
                         try {
                             EPGlist epGlist = JSON.parseObject(response.body(), EPGlist.class);
-                            if (epGlist.getCode() == 0) {
+                            if (epGlist.getCode() == 0 || epGlist.getCode() == 1) {
                                 if (epGlist.getDetail() != null && epGlist.getDetail().size() > 0) {
                                     getView().loadEPGlistSuccess(epGlist);
                                 } else {
@@ -157,7 +158,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         Logger.json(response.body());
                         try {
                             EPG epg = JSON.parseObject(response.body(), EPG.class);
-                            if (epg.getCode() == 0) {
+                            if (epg.getCode() == 0 || epg.getCode() == 1) {
                                 if (epg.getDetail() != null && epg.getDetail().size() > 0) {
                                     getView().loadEPGSuccess(epg);
                                 } else {

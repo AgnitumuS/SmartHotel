@@ -45,17 +45,24 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new ViewHolder(view);
     }
 
+    private int lastPosition;
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         viewHolder.mTvItemRecyclerVodCategory.setText(types.get(position));
 //        viewHolder.mTvItemRecyclerVodCategory.setText(categorys[position]);
+        if (position == 0) {
+            viewHolder.mTvItemRecyclerVodCategory.setTextColor(mContext.getResources().getColor(R.color.white));
+        }
         viewHolder.mTvItemRecyclerVodCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerVodCategory, position);
+                ((TextView) v).setTextColor(mContext.getResources().getColor(R.color.white));
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemRecyclerVodCategory, position, lastPosition);
+                lastPosition = position;
             }
         });
 
@@ -84,7 +91,7 @@ public class VodTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private OnItemClickListener mOnItemClickListener;//声明接口
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position, int lastPosition);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

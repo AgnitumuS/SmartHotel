@@ -20,6 +20,7 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.squareup.leakcanary.LeakCanary;
 import com.wanlong.iptv.server.AdService;
+import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.CrashHandler;
@@ -94,11 +95,11 @@ public class App extends Application {
         builder.addInterceptor(loggingInterceptor);
 
         //全局的读取超时时间
-        builder.readTimeout(1500, TimeUnit.MILLISECONDS);
+        builder.readTimeout(2000, TimeUnit.MILLISECONDS);
         //全局的写入超时时间
-        builder.writeTimeout(1500, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(2000, TimeUnit.MILLISECONDS);
         //全局的连接超时时间
-        builder.connectTimeout(1500, TimeUnit.MILLISECONDS);
+        builder.connectTimeout(2000, TimeUnit.MILLISECONDS);
 
         //使用内存保持cookie，app退出后，cookie消失
 //        builder.cookieJar(new CookieJarImpl(new MemoryCookieStore()));
@@ -118,7 +119,7 @@ public class App extends Application {
                 .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置将使用默认的
                 .setCacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
-                .setRetryCount(1);                          //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
+                .setRetryCount(2);                          //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
         //.addCommonHeaders(headers)                      //全局公共头
         //.addCommonParams(params);
     }
@@ -172,6 +173,7 @@ public class App extends Application {
     //退出应用
     public void exit() {
         stopService(new Intent(this, AdService.class));
+        stopService(new Intent(this, UpdateService.class));
         ADserver = false;
         ActivityCollector.finishAll();
         System.exit(0);

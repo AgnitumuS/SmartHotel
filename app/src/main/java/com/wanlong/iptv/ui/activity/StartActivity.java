@@ -6,14 +6,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.VideoView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.ijkplayer.services.Settings;
 import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
 import com.wanlong.iptv.imageloader.GlideApp;
+import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
@@ -29,8 +30,6 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 public class StartActivity extends BaseActivity {
     @BindView(R.id.img_start)
     ImageView mImgStart;
-    @BindView(R.id.videoview)
-    VideoView mVideoview;
     @BindView(R.id.ijkVideoView)
     IjkVideoView mIjkVideoView;
 
@@ -42,7 +41,7 @@ public class StartActivity extends BaseActivity {
     @Override
     protected void initView() {
         GlideApp.with(this)
-                .load(R.drawable.hotel_logo)
+                .load(R.drawable.wooden_house)
                 .centerCrop()
                 .into(mImgStart);
 //        Animation loadAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image);
@@ -74,6 +73,9 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        if (Build.MODEL.equals("0008")) {
+            startService(new Intent(getApplicationContext(), UpdateService.class));
+        }
         Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
@@ -86,6 +88,7 @@ public class StartActivity extends BaseActivity {
     }
 
     private void initPlayer() {
+        mIjkVideoView.setVisibility(View.VISIBLE);
         Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
         mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
@@ -106,26 +109,6 @@ public class StartActivity extends BaseActivity {
                 return false;
             }
         });
-//        mVideoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//            @Override
-//            public void onPrepared(MediaPlayer mp) {
-//                mp.start();
-//            }
-//        });
-//        mVideoview.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                mp.stop();
-//                mHandler.sendEmptyMessageDelayed(OPEN, 0);
-//            }
-//        });
-//        mVideoview.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-//            @Override
-//            public boolean onError(MediaPlayer mp, int what, int extra) {
-//                mp.stop();
-//                return true;
-//            }
-//        });
         try {
             Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.prevail);
             mIjkVideoView.setVideoURI(uri);
@@ -137,23 +120,23 @@ public class StartActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mVideoview.canPause()) {
-            mVideoview.pause();
+        if (mIjkVideoView.canPause()) {
+            mIjkVideoView.pause();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mVideoview.isPlaying()) {
-            mVideoview.resume();
+        if (!mIjkVideoView.isPlaying()) {
+            mIjkVideoView.resume();
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mVideoview.stopPlayback();
+        mIjkVideoView.stopPlayback();
     }
 
     //创建SharedPreferences
@@ -168,7 +151,6 @@ public class StartActivity extends BaseActivity {
             ip = sharedPreferences.getString("ip", "");
         }
         Apis.HEADER = ip;
-//        mHandler.sendEmptyMessageDelayed(OPEN, 1000);
     }
 
     private Handler mHandler = new Handler() {
