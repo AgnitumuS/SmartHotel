@@ -64,10 +64,9 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
+                    getPresenter().loadVodListData(VodListActivity.this,
+                            Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
                 }
-                getPresenter().loadVodListData(VodListActivity.this,
-                        Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
-
             }
         });
         mVodListAdapter.setOnItemClickListener(new VodListAdapter.OnItemClickListener() {
