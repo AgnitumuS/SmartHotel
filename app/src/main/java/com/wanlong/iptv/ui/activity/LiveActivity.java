@@ -250,21 +250,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             e.printStackTrace();
         }
         currentPlayUrl = newurl;
-//        if (App.look_permission) {
-//            if (mIjkVideoView.getVisibility() == View.VISIBLE) {
-//                try {
-//                    mLiveVideoPlayer.setVisibility(View.GONE);
-//                    mIjkVideoView.setVideoURI(Uri.parse(newurl));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-//                mLiveVideoPlayer.setUp(newurl, false, "");
-//                mLiveVideoPlayer.startPlayLogic();
-//            }
-//        } else {
-//            Toast.makeText(this, "用户已过期,无法继续观看", Toast.LENGTH_SHORT).show();
-//        }
         expired_time = ApkVersion.getSP(this).getString("expired_time", "0");
         if (App.look_permission) {
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
@@ -276,10 +261,22 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                             getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
                             Toast.LENGTH_SHORT).show();
                 } else if (expired_time.equals("0")) {
-                    play(newurl);
+                    if (checkPackage(position)) {
+                        play(newurl);
+                    } else {
+                        Toast.makeText(this,
+                                (R.string.the_user_does_not_have_permission_to_watch_the_program),
+                                Toast.LENGTH_SHORT).show();
+                    }
 //                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
                 } else {
-                    play(newurl);
+                    if (checkPackage(position)) {
+                        play(newurl);
+                    } else {
+                        Toast.makeText(this,
+                                (R.string.the_user_does_not_have_permission_to_watch_the_program),
+                                Toast.LENGTH_SHORT).show();
+                    }
                     try {
                         int time = Integer.parseInt(expired_time);
                         if (time <= 3) {
@@ -294,6 +291,33 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             Toast.makeText(this,
                     getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String group;
+    private String live_package;
+
+    //检查节目包
+    private boolean checkPackage(int position) {
+        group = ApkVersion.getSP(this).getString("group", "");
+        if (group.equals(" ") || group.equals("")) {
+            return false;
+        }
+        if (mLive != null && mLive.getPlaylist() != null && mLive.getPlaylist().size() > 0) {
+            live_package = mLive.getPlaylist().get(position).getLive_package().replaceAll(" ", "");
+            if (live_package.equals(" ") || live_package.equals("")) {
+                return false;
+            } else {
+                String[] packages = live_package.split(",");
+                for (int i = 0; i < packages.length; i++) {
+                    if (group.indexOf(packages[i]) != -1) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 
