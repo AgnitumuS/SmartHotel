@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
@@ -53,12 +54,23 @@ public class VodListActivity extends BaseActivity<VodListPresenter> implements V
     private void listener() {
         mVodTypeAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, int lastPosition) {
+                if (position != lastPosition) {
+                    RecyclerView.ViewHolder holder = mRecyclerVodType.findViewHolderForAdapterPosition(lastPosition);
+                    try {
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_vod_category)).setVisibility(View.VISIBLE);
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_vod_category))
+                                .setTextColor(getResources().getColor(R.color.color_8d9295));
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                }
                 getPresenter().loadVodListData(VodListActivity.this,
                         Apis.HEADER + Apis.USER_VOD_TYPE, mVodType.getCategory().get(position));
+
             }
         });
-        mVodListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
+        mVodListAdapter.setOnItemClickListener(new VodListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodListActivity.this, VodDetailActivity.class);

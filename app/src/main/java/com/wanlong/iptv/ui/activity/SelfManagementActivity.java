@@ -31,7 +31,6 @@ import com.wanlong.iptv.mvp.LivePresenter;
 import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.ui.adapter.LiveListAdapter;
-import com.wanlong.iptv.ui.adapter.VodTypeAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
@@ -100,7 +99,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
     private int currentPlayPosition;
 
     private void initListener() {
-        mLiveListAdapter.setOnItemClickListener(new VodTypeAdapter.OnItemClickListener() {
+        mLiveListAdapter.setOnItemClickListener(new LiveListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 resetTime(DISMISS_LIST);
