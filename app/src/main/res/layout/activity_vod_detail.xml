@@ -35,7 +35,7 @@
 
         <RelativeLayout
             android:id="@+id/relativelayout_movie_detail"
-            android:layout_width="1260px"
+            android:layout_width="1250px"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
             android:clipChildren="false"
