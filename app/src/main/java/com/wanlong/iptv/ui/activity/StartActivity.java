@@ -73,7 +73,7 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        if (Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             startService(new Intent(getApplicationContext(), UpdateService.class));
         }
         Logger.d("mac:" + Utils.getMac(this));

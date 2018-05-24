@@ -67,7 +67,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     private String url = "";
 
     private void autoUpdate() {
-        if (Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             if (ApkVersion.RELEASE_VERSION) {
                 url = Apis.HEADER + Apis.USER_APP_UPDATE;
             } else {
