@@ -12,9 +12,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
@@ -91,19 +89,23 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
             if (formetFileSize(getFileSize(apkFile), SIZETYPE_MB) > 10) {
                 if (Build.MODEL.equals("0008")) {
                     mFile = apkFile;
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                    alertDialog.setMessage("检测到新版本，正在升级...");
-                    alertDialog.setCancelable(false);
-                    AlertDialog ad = alertDialog.create();
-                    ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                    ad.setCanceledOnTouchOutside(false);//点击外面区域不会让dialog消失
-                    ad.show();
+                    mUpdateListener.showDialog();
                     mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static UpdateListener mUpdateListener;
+
+    public static void setAdListener(UpdateListener updateListener) {
+        mUpdateListener = updateListener;
+    }
+
+    public interface UpdateListener {
+        void showDialog();
     }
 
     /**
