@@ -13,6 +13,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
@@ -21,8 +22,12 @@ import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.UpdateUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -82,17 +87,83 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
 
     @Override
     public void downloadSuccess(File apkFile) {
-        if (Build.MODEL.equals("0008")) {
-            mFile = apkFile;
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setMessage("检测到新版本，正在升级...");
-            alertDialog.setCancelable(false);
-            AlertDialog ad = alertDialog.create();
-            ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-            ad.setCanceledOnTouchOutside(false);//点击外面区域不会让dialog消失
-            ad.show();
-            mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
+        try {
+            if (formetFileSize(getFileSize(apkFile), SIZETYPE_MB) > 10) {
+                if (Build.MODEL.equals("0008")) {
+                    mFile = apkFile;
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                    alertDialog.setMessage("检测到新版本，正在升级...");
+                    alertDialog.setCancelable(false);
+                    AlertDialog ad = alertDialog.create();
+                    ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                    ad.setCanceledOnTouchOutside(false);//点击外面区域不会让dialog消失
+                    ad.show();
+                    mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取指定文件大小
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    private static long getFileSize(File file) {
+        long size = 0;
+        try {
+            if (file.exists()) {
+                FileInputStream fis = null;
+                fis = new FileInputStream(file);
+                size = fis.available();
+            } else {
+                file.createNewFile();
+                Log.e("UpdateService", "获取文件大小不存在!");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    public static final int SIZETYPE_B = 1;//获取文件大小单位为B的double值
+    public static final int SIZETYPE_KB = 2;//获取文件大小单位为KB的double值
+    public static final int SIZETYPE_MB = 3;//获取文件大小单位为MB的double值
+    public static final int SIZETYPE_GB = 4;//获取文件大小单位为GB的double值
+
+    /**
+     * 转换文件大小,指定转换的类型
+     *
+     * @param fileS
+     * @param sizeType
+     * @return
+     */
+    private static double formetFileSize(long fileS, int sizeType) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        double fileSizeLong = 0;
+        switch (sizeType) {
+            case SIZETYPE_B:
+                fileSizeLong = Double.valueOf(df.format((double) fileS));
+                break;
+            case SIZETYPE_KB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1024));
+                break;
+            case SIZETYPE_MB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1048576));
+                break;
+            case SIZETYPE_GB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1073741824));
+                break;
+            default:
+                break;
+        }
+        return fileSizeLong;
     }
 
     private Handler mHandler = new Handler() {
