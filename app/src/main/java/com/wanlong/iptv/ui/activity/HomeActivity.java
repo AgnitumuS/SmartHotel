@@ -198,15 +198,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                         sharedPreferences.getString("stb_name", ""));
             }
         }
-//        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-//            mTvWelcomeGuest.setText("上海市宝山监狱:" +
-//                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-//                    sharedPreferences.getString("stb_name", ""));
-//        } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-//
-//            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-//                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
-//        }
         if (Utils.getMac(this).equals("02:00:00:00:00:00")) {
             mTvRoom.setText(R.string.no_network_connection);
         } else {
@@ -239,12 +230,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 break;
             case R.id.tv_setting:
-//                if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
-//                }
-//                if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-//                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-//                }
                 break;
         }
     }
@@ -579,29 +565,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if ((System.currentTimeMillis() - exitTime) < 2000) {
-//            if (App.PRISON) {
-//                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-//                finish();
-//            } else {
-//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-//                finish();
-//            }
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
                     return true;
                 } else {
                     showExitHintDialog();
                 }
-            } else {
-                showExitHintDialog();
-//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-//                finish();
+            } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
+                    return true;
+                } else {
+                    showExitHintDialog();
+                }
             }
-//            } else {
-//                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
-//                exitTime = System.currentTimeMillis();
-//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
