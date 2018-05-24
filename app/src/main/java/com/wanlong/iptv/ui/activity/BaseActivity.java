@@ -211,6 +211,7 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
     public void showDialog() {
         new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
                 .setCancelable(false)
+                .setTitle("版本更新")
                 .setMessage("检测到新版本，正在升级...")
                 .show();
     }
