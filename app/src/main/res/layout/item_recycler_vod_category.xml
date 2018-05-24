@@ -18,7 +18,7 @@
         android:maxLines="1"
         android:paddingBottom="16px"
         android:paddingTop="16px"
-        android:textColor="@color/white"
+        android:textColor="@color/color_8d9295"
         android:textSize="40px" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

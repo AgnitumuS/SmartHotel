@@ -367,29 +367,25 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
 
     @Override
     public void loadHomeADSuccess(HomeAD homeAD) {
-        if (homeAD != null && homeAD.getCode().equals("0")) {
-            mAdVideoBeans = new ArrayList<>();
-            mAdImageBeans = new ArrayList<>();
-            mAdTextBeans = new ArrayList<>();
-            if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
-                mAdVideoBeans.addAll(homeAD.getAd_video());
-            } else {
+        mAdVideoBeans = new ArrayList<>();
+        mAdImageBeans = new ArrayList<>();
+        mAdTextBeans = new ArrayList<>();
+        if (homeAD.getAd_video() != null && homeAD.getAd_video().size() > 0) {
+            mAdVideoBeans.addAll(homeAD.getAd_video());
+        } else {
 
-            }
-            if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
-                mAdImageBeans.addAll(homeAD.getAd_image());
-                showImgAD(mAdImageBeans);
-            } else {
-                loadFailed(0);
-            }
-            if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
-                mAdTextBeans.addAll(homeAD.getAd_text());
-                showTextAD();
-            } else {
-
-            }
+        }
+        if (homeAD.getAd_image() != null && homeAD.getAd_image().size() > 0) {
+            mAdImageBeans.addAll(homeAD.getAd_image());
+            showImgAD(mAdImageBeans);
         } else {
             loadFailed(0);
+        }
+        if (homeAD.getAd_text() != null && homeAD.getAd_text().size() > 0) {
+            mAdTextBeans.addAll(homeAD.getAd_text());
+            showTextAD();
+        } else {
+
         }
     }
 

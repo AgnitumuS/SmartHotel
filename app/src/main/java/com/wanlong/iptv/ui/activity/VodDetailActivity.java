@@ -63,6 +63,9 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         urls = intent.getStringArrayExtra("urls");
         if (urls.length > 1) {
             mLlMovieUrls.setVisibility(View.VISIBLE);
+            mTextMovieDetailPlay.setVisibility(View.GONE);
+            mTextMoviePeopleDetail.setMaxLines(4);
+            mTextMovieDescriptionDetail.setMaxLines(6);
         } else {
             mLlMovieUrls.setVisibility(View.GONE);
         }

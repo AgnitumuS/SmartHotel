@@ -13,6 +13,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager.LayoutParams;
@@ -20,8 +21,10 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.wanlong.iptv.R;
 import com.wanlong.iptv.mvp.BasePresenter;
 import com.wanlong.iptv.mvp.BaseView;
+import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.ActivityCollector;
 import com.wanlong.iptv.utils.Utils;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -34,7 +37,7 @@ import io.reactivex.disposables.Disposable;
  * Created by lingchen on 2018/1/24. 13:34
  * mail:lingchen52@foxmail.com
  */
-public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> extends AutoLayoutActivity implements BaseView {
+public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> extends AutoLayoutActivity implements BaseView, UpdateService.UpdateListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
         }
         initView();
         initData();
+        UpdateService.setAdListener(this);
     }
 
     protected abstract int getContentResId();
@@ -201,5 +205,14 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
         }
         super.onDestroy();
         ActivityCollector.removeActivity(this);
+    }
+
+    @Override
+    public void showDialog() {
+        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
+                .setCancelable(false)
+                .setTitle("版本更新")
+                .setMessage("检测到新版本，正在升级...")
+                .show();
     }
 }

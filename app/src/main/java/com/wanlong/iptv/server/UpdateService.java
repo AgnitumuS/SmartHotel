@@ -7,9 +7,12 @@ import android.content.pm.IPackageInstallObserver;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
@@ -17,8 +20,12 @@ import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.UpdateUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,7 +70,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     private String url = "";
 
     private void autoUpdate() {
-        if (Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             if (ApkVersion.RELEASE_VERSION) {
                 url = Apis.HEADER + Apis.USER_APP_UPDATE;
             } else {
@@ -74,22 +81,104 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
         }
     }
 
+    private File mFile;
+
     @Override
     public void downloadSuccess(File apkFile) {
-//        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-//                File.separator + "Download" + File.separator + apkFile.getName();
-//        if (ApkController.hasRootPerssion()) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    ApkController.clientInstall(apkFile.getAbsolutePath());
-//                }
-//            }).start();
-//        }
-        if (Build.MODEL.equals("0008")) {
-            install(apkFile.getAbsolutePath());
+        try {
+            if (formetFileSize(getFileSize(apkFile), SIZETYPE_MB) > 10) {
+                if (Build.MODEL.equals("0008")) {
+                    mFile = apkFile;
+                    mUpdateListener.showDialog();
+                    mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    private static UpdateListener mUpdateListener;
+
+    public static void setAdListener(UpdateListener updateListener) {
+        mUpdateListener = updateListener;
+    }
+
+    public interface UpdateListener {
+        void showDialog();
+    }
+
+    /**
+     * 获取指定文件大小
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    private static long getFileSize(File file) {
+        long size = 0;
+        try {
+            if (file.exists()) {
+                FileInputStream fis = null;
+                fis = new FileInputStream(file);
+                size = fis.available();
+            } else {
+                file.createNewFile();
+                Log.e("UpdateService", "获取文件大小不存在!");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    public static final int SIZETYPE_B = 1;//获取文件大小单位为B的double值
+    public static final int SIZETYPE_KB = 2;//获取文件大小单位为KB的double值
+    public static final int SIZETYPE_MB = 3;//获取文件大小单位为MB的double值
+    public static final int SIZETYPE_GB = 4;//获取文件大小单位为GB的double值
+
+    /**
+     * 转换文件大小,指定转换的类型
+     *
+     * @param fileS
+     * @param sizeType
+     * @return
+     */
+    private static double formetFileSize(long fileS, int sizeType) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        double fileSizeLong = 0;
+        switch (sizeType) {
+            case SIZETYPE_B:
+                fileSizeLong = Double.valueOf(df.format((double) fileS));
+                break;
+            case SIZETYPE_KB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1024));
+                break;
+            case SIZETYPE_MB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1048576));
+                break;
+            case SIZETYPE_GB:
+                fileSizeLong = Double.valueOf(df.format((double) fileS / 1073741824));
+                break;
+            default:
+                break;
+        }
+        return fileSizeLong;
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    install(mFile.getAbsolutePath());
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public void downloadFailed() {

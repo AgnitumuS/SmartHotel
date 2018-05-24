@@ -7,7 +7,10 @@
     android:background="@color/color_181818"
     android:fitsSystemWindows="true"
     android:focusable="false"
-    android:padding="50px"
+    android:paddingBottom="40px"
+    android:paddingLeft="40px"
+    android:paddingRight="0px"
+    android:paddingTop="40px"
     tools:context=".ui.activity.VodDetailActivity">
 
     <LinearLayout
