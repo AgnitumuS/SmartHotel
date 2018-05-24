@@ -7,11 +7,14 @@ import android.content.pm.IPackageInstallObserver;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
+import android.support.v7.app.AlertDialog;
 
+import com.wanlong.iptv.R;
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
@@ -75,23 +78,31 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
         }
     }
 
+    private File mFile;
+
     @Override
     public void downloadSuccess(File apkFile) {
-//        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
-//                File.separator + "Download" + File.separator + apkFile.getName();
-//        if (ApkController.hasRootPerssion()) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    ApkController.clientInstall(apkFile.getAbsolutePath());
-//                }
-//            }).start();
-//        }
         if (Build.MODEL.equals("0008")) {
-            Toast.makeText(this, "检测到新的版本，正在升级", Toast.LENGTH_LONG).show();
-            install(apkFile.getAbsolutePath());
+            mFile = apkFile;
+            new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
+                    .setCancelable(false)
+                    .setMessage("检测到新版本，正在升级...")
+                    .show();
+            mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
         }
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    install(mFile.getAbsolutePath());
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     public void downloadFailed() {
