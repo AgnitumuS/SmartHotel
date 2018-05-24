@@ -13,8 +13,8 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.WindowManager;
 
-import com.wanlong.iptv.R;
 import com.wanlong.iptv.callback.OnPackagedObserver;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
@@ -67,7 +67,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     private String url = "";
 
     private void autoUpdate() {
-        if (Build.MODEL.equals("0008")) {
+        if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             if (ApkVersion.RELEASE_VERSION) {
                 url = Apis.HEADER + Apis.USER_APP_UPDATE;
             } else {
@@ -84,10 +84,13 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     public void downloadSuccess(File apkFile) {
         if (Build.MODEL.equals("0008")) {
             mFile = apkFile;
-            new AlertDialog.Builder(this, R.style.Theme_AppCompat_Dialog_Alert)
-                    .setCancelable(false)
-                    .setMessage("检测到新版本，正在升级...")
-                    .show();
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setMessage("检测到新版本，正在升级...");
+            alertDialog.setCancelable(false);
+            AlertDialog ad = alertDialog.create();
+            ad.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+            ad.setCanceledOnTouchOutside(false);//点击外面区域不会让dialog消失
+            ad.show();
             mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
         }
     }
