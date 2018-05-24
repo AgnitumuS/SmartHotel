@@ -56,6 +56,7 @@ public abstract class BaseActivity<T extends BasePresenter<? extends BaseView>> 
         }
         initView();
         initData();
+        UpdateService.setAdListener(this);
     }
 
     protected abstract int getContentResId();
