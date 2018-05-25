@@ -70,8 +70,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
             mLlMovieUrls.setVisibility(View.GONE);
         }
         name = intent.getStringExtra("vod_name");
-//        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
-//        mTextMovieCountDetail.setAlpha();
         String total_sets = intent.getStringExtra("total_sets");
         String current_sets = intent.getStringExtra("current_sets");
         if (total_sets.equals("1")) {
@@ -98,7 +96,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
                     .centerCrop()
                     .into(mImgMovieDetail);
         }
-//        Glide.with(this).load(vod_pic_url).into(mImgMovieDetail);
     }
 
     private VodUrlAdapter mVodUrlAdapter;
@@ -126,7 +123,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
                 } else {
                     intent.putExtra("url", url);
                 }
-//                intent.putExtra("url", url + urls[position]);
                 intent.putExtra("name", name);
                 startActivity(intent);
             }

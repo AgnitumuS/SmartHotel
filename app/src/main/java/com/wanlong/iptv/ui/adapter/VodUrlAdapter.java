@@ -51,7 +51,6 @@ public class VodUrlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
         viewHolder.mBtnMovieUrl.setText(position + 1 + "");
-//        viewHolder.mTvItemRecyclerVodCategory.setText(categorys[position]);
         viewHolder.mBtnMovieUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,13 +61,9 @@ public class VodUrlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
-    private String[] categorys = {"搜    索", "全    部", "筛    选", "猜你喜欢", "港片情怀",
-            "动画电影", "动作科幻", "欧美大片", "爆笑喜剧", "浪漫爱情", "高分佳片"};
-
     @Override
     public int getItemCount() {
         return types.size();
-//        return categorys.length;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
