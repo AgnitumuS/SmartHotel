@@ -180,8 +180,7 @@ public class StartActivity extends BaseActivity {
         Intent intent = null;
         if (activity == 1) {
             intent = new Intent(StartActivity.this, HomeActivity.class);
-        }
-        if (activity == 2) {
+        } else if (activity == 2) {
             intent = new Intent(StartActivity.this, LanguageActivity.class);
         }
         startActivity(intent);
