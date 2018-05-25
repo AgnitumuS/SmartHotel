@@ -50,7 +50,7 @@ public class VodUrlAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        viewHolder.mBtnMovieUrl.setText(position + "");
+        viewHolder.mBtnMovieUrl.setText(position + 1 + "");
 //        viewHolder.mTvItemRecyclerVodCategory.setText(categorys[position]);
         viewHolder.mBtnMovieUrl.setOnClickListener(new View.OnClickListener() {
             @Override
