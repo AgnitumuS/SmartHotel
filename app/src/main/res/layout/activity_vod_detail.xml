@@ -112,7 +112,7 @@
                 android:layout_marginTop="12px"
                 android:ellipsize="end"
                 android:focusable="false"
-                android:maxLines="5"
+                android:maxLines="6"
                 android:textColor="@color/white"
                 android:textSize="36px"
                 tools:text="简介：电影《湄公河行动》改编自2011年发生在湄公河金三角流域的中国商船遇袭案，当时13名中国船员全部遇难..." />
