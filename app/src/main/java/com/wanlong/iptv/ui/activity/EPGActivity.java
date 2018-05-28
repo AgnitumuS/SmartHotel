@@ -179,8 +179,8 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
 
     @Override
     public void loadEPGSuccess(EPG epg) {
-        EPGUtils.parseEPG(epg.getDetail());
-        mEPGDetailAdapter.setData(epg.getDetail());
+        EPGUtils.sortEPG(epg.getDetail());
+        mEPGDetailAdapter.setData(EPGUtils.mDetailBeans);
     }
 
     @Override
