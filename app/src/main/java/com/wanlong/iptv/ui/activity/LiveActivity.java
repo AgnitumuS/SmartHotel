@@ -141,6 +141,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mImgRight.setVisibility(View.GONE);
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+            mTvEpgMore.setVisibility(View.GONE);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
