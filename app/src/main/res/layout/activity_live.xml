@@ -166,8 +166,23 @@
                     android:textColor="@color/white"
                     android:textSize="48px"
                     tools:text="@string/animal_world" />
+
             </LinearLayout>
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_epg_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="60px"
+                android:background="@drawable/vod_list_bg_selector"
+                android:focusable="true"
+                android:padding="8px"
+                android:text="@string/more_infomation"
+                android:textColor="@color/white"
+                android:textSize="48px"
+                tools:text="更多信息" />
         </RelativeLayout>
 
     </RelativeLayout>

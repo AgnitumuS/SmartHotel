@@ -14,19 +14,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="60px"
-        android:layout_marginTop="30px"
+        android:layout_marginTop="0px"
         android:focusable="false"
         android:includeFontPadding="false"
         android:textColor="@color/white"
+        android:textSize="48px"
         tools:text="2018/05/28 周一 11:13" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60px"
+        android:layout_marginBottom="50px"
         android:layout_marginLeft="60px"
         android:layout_marginRight="60px"
-        android:layout_marginTop="80px"
+        android:layout_marginTop="50px"
         android:focusable="false"
         android:orientation="horizontal">
 
@@ -40,18 +41,18 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                android:background="@drawable/shape_view_background_line"
+                android:layout_height="80px"
                 android:focusable="false"
-                android:gravity="left"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="节目列表"
+                android:textColor="@color/color_a3a3a3"
+                android:textSize="48px"
                 tools:text="节目列表" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_live_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_view_background_line"
                 android:focusable="false" />
         </LinearLayout>
 
@@ -68,18 +69,17 @@
             <TextView
                 android:id="@+id/tv_current_program"
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                android:background="@drawable/shape_view_background_line"
+                android:layout_height="80px"
                 android:focusable="false"
-                android:gravity="left"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:textColor="@color/color_a3a3a3"
+                android:textSize="48px"
                 tools:text="CCTV1" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_epg_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_view_background_line"
                 android:focusable="false" />
         </LinearLayout>
 
@@ -93,18 +93,18 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                android:background="@drawable/shape_view_background_line"
+                android:layout_height="80px"
                 android:focusable="false"
-                android:gravity="left"
-                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="时间"
+                android:textColor="@color/color_a3a3a3"
+                android:textSize="48px"
                 tools:text="时间" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_time_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_view_background_line"
                 android:focusable="false" />
         </LinearLayout>
     </LinearLayout>

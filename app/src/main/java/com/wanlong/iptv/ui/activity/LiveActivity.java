@@ -1,5 +1,6 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -75,6 +76,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvEpgNow;
     @BindView(R.id.tv_epg_next)
     AppCompatTextView mTvEpgNext;
+    @BindView(R.id.tv_epg_more)
+    AppCompatTextView mTvEpgMore;
 
     @Override
     protected int getContentResId() {
@@ -777,5 +780,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     public void loadFailed(int data) {
         Logger.d("请求直播数据失败");
+    }
+
+    @OnClick(R.id.tv_epg_more)
+    public void onViewClicked() {
+        startActivity(new Intent(LiveActivity.this, EPGActivity.class));
     }
 }
