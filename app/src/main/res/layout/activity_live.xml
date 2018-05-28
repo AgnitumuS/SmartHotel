@@ -29,7 +29,7 @@
         <LinearLayout
             android:id="@+id/channel_list"
             android:layout_width="450px"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="80px"
             android:layout_marginTop="60px"
             android:background="@color/transparent"
