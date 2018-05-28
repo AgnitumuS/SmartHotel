@@ -22,7 +22,7 @@
         android:paddingBottom="12px"
         android:paddingTop="12px"
         android:textColor="@color/color_8d9295"
-        android:textSize="40px" />
+        android:textSize="48px" />
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"

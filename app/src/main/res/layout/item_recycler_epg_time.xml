@@ -15,7 +15,7 @@
         android:focusable="false"
         android:gravity="center_vertical"
         android:textColor="@color/color_8d9295"
-        android:textSize="40px" />
+        android:textSize="48px" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_epg_time_date"
@@ -25,6 +25,6 @@
         android:focusable="false"
         android:gravity="center_vertical"
         android:textColor="@color/color_8d9295"
-        android:textSize="40px" />
+        android:textSize="48px" />
 
 </com.zhy.autolayout.AutoLinearLayout>
