@@ -83,10 +83,12 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                 if (position != lastPosition) {
                     RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(lastPosition);
                     try {
-                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_number)).setVisibility(View.VISIBLE);
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_number))
+                                .setVisibility(View.VISIBLE);
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_number))
                                 .setTextColor(getResources().getColor(R.color.color_8d9295));
-                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_list)).setVisibility(View.VISIBLE);
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_list))
+                                .setVisibility(View.VISIBLE);
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_list))
                                 .setTextColor(getResources().getColor(R.color.color_8d9295));
                     } catch (NullPointerException e) {
@@ -110,16 +112,19 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                 if (position != lastPosition) {
                     RecyclerView.ViewHolder holder = mRecyclerTimeList.findViewHolderForAdapterPosition(lastPosition);
                     try {
-                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_week)).setVisibility(View.VISIBLE);
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_week))
+                                .setVisibility(View.VISIBLE);
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_week))
                                 .setTextColor(getResources().getColor(R.color.color_8d9295));
-                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_date)).setVisibility(View.VISIBLE);
+                        ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_date))
+                                .setVisibility(View.VISIBLE);
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_date))
                                 .setTextColor(getResources().getColor(R.color.color_8d9295));
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date((App.newtime - position * 24 * 3600) * 1000));
+                    String time = new SimpleDateFormat("yyyy/MM/dd")
+                            .format(new Date((App.newtime - position * 24 * 3600) * 1000));
                     for (int i = 0; i < detailBeans.size(); i++) {
                         if (time.equals(detailBeans.get(i).getDate())) {
                             getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
