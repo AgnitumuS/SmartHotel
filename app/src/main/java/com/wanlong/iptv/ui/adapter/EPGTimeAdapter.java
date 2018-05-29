@@ -27,9 +27,8 @@ import butterknife.ButterKnife;
 public class EPGTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<MyList> mList;
+    private List<String> mList;
     private LayoutInflater mInflater;
-    private int mlastPosition;
     public static final int SUNDAY = 0;
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
@@ -46,70 +45,69 @@ public class EPGTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setDate(int date) {
         mList.clear();
-        mList.add(new MyList(mContext.getResources().getString(R.string.today), date));
+        mList.add(mContext.getResources().getString(R.string.today));
         String[] day_of_week = mContext.getResources().getStringArray(R.array.day_of_week);
         switch (date) {
             case SUNDAY:
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
+                mList.add(day_of_week[SATURDAY]);
+                mList.add(day_of_week[FRIDAY]);
+                mList.add(day_of_week[THURSDAY]);
+                mList.add(day_of_week[WEDNESDAY]);
+                mList.add(day_of_week[TUESDAY]);
+                mList.add(day_of_week[MONDAY]);
                 break;
             case MONDAY:
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
+                mList.add(day_of_week[SUNDAY]);
+                mList.add(day_of_week[SATURDAY]);
+                mList.add(day_of_week[FRIDAY]);
+                mList.add(day_of_week[THURSDAY]);
+                mList.add(day_of_week[WEDNESDAY]);
+                mList.add(day_of_week[TUESDAY]);
                 break;
             case TUESDAY:
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
+                mList.add(day_of_week[MONDAY]);
+                mList.add(day_of_week[SUNDAY]);
+                mList.add(day_of_week[SATURDAY]);
+                mList.add(day_of_week[FRIDAY]);
+                mList.add(day_of_week[THURSDAY]);
+                mList.add(day_of_week[WEDNESDAY]);
                 break;
             case WEDNESDAY:
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
+                mList.add(day_of_week[TUESDAY]);
+                mList.add(day_of_week[MONDAY]);
+                mList.add(day_of_week[SUNDAY]);
+                mList.add(day_of_week[SATURDAY]);
+                mList.add(day_of_week[FRIDAY]);
+                mList.add(day_of_week[THURSDAY]);
 
                 break;
             case THURSDAY:
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
+                mList.add(day_of_week[WEDNESDAY]);
+                mList.add(day_of_week[TUESDAY]);
+                mList.add(day_of_week[MONDAY]);
+                mList.add(day_of_week[SUNDAY]);
+                mList.add(day_of_week[SATURDAY]);
+                mList.add(day_of_week[FRIDAY]);
                 break;
             case FRIDAY:
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
-                mList.add(new MyList(day_of_week[SATURDAY], SATURDAY));
+                mList.add(day_of_week[THURSDAY]);
+                mList.add(day_of_week[WEDNESDAY]);
+                mList.add(day_of_week[TUESDAY]);
+                mList.add(day_of_week[MONDAY]);
+                mList.add(day_of_week[SUNDAY]);
+                mList.add(day_of_week[SATURDAY]);
                 break;
             case SATURDAY:
-                mList.add(new MyList(day_of_week[FRIDAY], FRIDAY));
-                mList.add(new MyList(day_of_week[THURSDAY], THURSDAY));
-                mList.add(new MyList(day_of_week[WEDNESDAY], WEDNESDAY));
-                mList.add(new MyList(day_of_week[TUESDAY], TUESDAY));
-                mList.add(new MyList(day_of_week[MONDAY], MONDAY));
-                mList.add(new MyList(day_of_week[SUNDAY], SUNDAY));
+                mList.add(day_of_week[FRIDAY]);
+                mList.add(day_of_week[THURSDAY]);
+                mList.add(day_of_week[WEDNESDAY]);
+                mList.add(day_of_week[TUESDAY]);
+                mList.add(day_of_week[MONDAY]);
+                mList.add(day_of_week[SUNDAY]);
                 break;
             default:
                 break;
         }
-        mList.get(0).isSelected = true;
         notifyDataSetChanged();
     }
 
@@ -129,7 +127,7 @@ public class EPGTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.mTvItemRecyclerEpgTimeWeek.setTextColor(mContext.getResources().getColor(R.color.white));
             viewHolder.mTvItemRecyclerEpgTimeDate.setTextColor(mContext.getResources().getColor(R.color.white));
         }
-        viewHolder.mTvItemRecyclerEpgTimeWeek.setText(mList.get(position).date);
+        viewHolder.mTvItemRecyclerEpgTimeWeek.setText(mList.get(position));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
         String date = simpleDateFormat.format(new Date((App.newtime - position * 24 * 3600) * 1000));
         viewHolder.mTvItemRecyclerEpgTimeDate.setText(date);
@@ -173,16 +171,5 @@ public class EPGTimeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
-    }
-
-    public static class MyList {
-        private String date;
-        private boolean isSelected;
-        private int selectedDate;
-
-        public MyList(String category, int selectedDate) {
-            this.date = category;
-            this.selectedDate = selectedDate;
-        }
     }
 }
