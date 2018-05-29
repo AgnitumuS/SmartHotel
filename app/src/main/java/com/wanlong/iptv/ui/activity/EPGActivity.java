@@ -125,10 +125,12 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                     }
                     String time = new SimpleDateFormat("yyyy/MM/dd")
                             .format(new Date((App.newtime - position * 24 * 3600) * 1000));
-                    for (int i = 0; i < detailBeans.size(); i++) {
-                        if (time.equals(detailBeans.get(i).getDate())) {
-                            getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
-                            return;
+                    if (mDetailBeans != null) {
+                        for (int i = 0; i < mDetailBeans.size(); i++) {
+                            if (time.equals(mDetailBeans.get(i).getDate())) {
+                                getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
+                                return;
+                            }
                         }
                     }
                 }
@@ -167,15 +169,15 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
         getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
     }
 
-    List<EPGlist.DetailBean> detailBeans;
+    private List<EPGlist.DetailBean> mDetailBeans;
 
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
         String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
-        detailBeans = epGlist.getDetail();
-        for (int i = 0; i < detailBeans.size(); i++) {
-            if (time.equals(detailBeans.get(i).getDate())) {
-                getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+        mDetailBeans = epGlist.getDetail();
+        for (int i = 0; i < mDetailBeans.size(); i++) {
+            if (time.equals(mDetailBeans.get(i).getDate())) {
+                getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
                 return;
             }
         }
