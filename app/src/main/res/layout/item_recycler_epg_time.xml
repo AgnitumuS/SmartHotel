@@ -9,22 +9,26 @@
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_epg_time_week"
-        android:layout_width="wrap_content"
+        android:layout_width="240px"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16px"
+        android:includeFontPadding="false"
+        android:layout_marginLeft="8px"
         android:focusable="false"
         android:gravity="center_vertical"
+        android:maxLines="1"
         android:textColor="@color/color_8d9295"
-        android:textSize="48px" />
+        android:textSize="44px" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_item_recycler_epg_time_date"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="32px"
+        android:includeFontPadding="false"
+        android:layout_marginLeft="8px"
         android:focusable="false"
         android:gravity="center_vertical"
+        android:maxLines="1"
         android:textColor="@color/color_8d9295"
-        android:textSize="48px" />
+        android:textSize="44px" />
 
 </com.zhy.autolayout.AutoLinearLayout>
