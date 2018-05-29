@@ -74,7 +74,9 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
         addListener();
     }
 
+    //列表点击监听
     private void addListener() {
+        //节目列表
         mEPGListAdapter.setOnItemClickListener(new EPGListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
@@ -94,12 +96,14 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                 }
             }
         });
+        //EPG列表
         mEPGDetailAdapter.setOnItemClickListener(new EPGDetailAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
 
             }
         });
+        //日期列表
         mEPGTimeAdapter.setOnItemClickListener(new EPGTimeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
