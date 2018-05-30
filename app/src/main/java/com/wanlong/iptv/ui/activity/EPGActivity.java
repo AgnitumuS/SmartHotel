@@ -102,7 +102,10 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
         mEPGDetailAdapter.setOnItemClickListener(new EPGDetailAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
-
+//                Intent intent = new Intent(EPGActivity.this, ReviewActivity.class);
+//                intent.putExtra("url", "http://192.168.1.109:8081/live/T0PHrnKTJ3.m3u8");
+//                intent.putExtra("name", "节目名");
+//                startActivity(intent);
             }
         });
         //日期列表

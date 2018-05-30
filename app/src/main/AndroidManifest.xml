@@ -154,6 +154,10 @@
             android:name=".ui.activity.EPGActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activity.ReviewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
 
         <service android:name=".server.AdService" />
 
@@ -180,6 +184,7 @@
         </receiver>
 
         <service android:name=".server.UpdateService" />
+
     </application>
 
 </manifest>
