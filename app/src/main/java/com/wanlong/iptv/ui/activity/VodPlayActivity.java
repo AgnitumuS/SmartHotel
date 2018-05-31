@@ -70,8 +70,13 @@ public class VodPlayActivity extends BaseActivity {
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                if (!Utils.isPhone(this)) {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                } else {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                }
                 break;
         }
         vod_expired_time = ApkVersion.getSP(this).getString("vod_expired_time", "-1");

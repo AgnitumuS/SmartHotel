@@ -34,6 +34,7 @@ import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
+import com.wanlong.iptv.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -167,8 +168,13 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
                 initIjkVideoView();
                 break;
             default:
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                if (!Utils.isPhone(this)) {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                } else {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                }
                 break;
         }
         mLiveVideoPlayer.setIsTouchWigetFull(true);
