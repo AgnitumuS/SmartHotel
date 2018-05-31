@@ -320,6 +320,7 @@ public class AdService extends Service {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
                         if (response != null && response.body() != null) {
                             try {
                                 pushMSG = JSON.parseObject(response.body(), PushMSG.class);
@@ -349,7 +350,7 @@ public class AdService extends Service {
 
     //处理返回数据
     private void executeData(int type, PushMSG mPushMSG, Response<String> response) {
-        if (mPushMSG != null && mPushMSG.getCode().equals("0")) {
+        if (mPushMSG != null) {
             if (type == AD_TYPE_TEXT) {
                 if (textResult == null) {
                     textResult = response.body();
