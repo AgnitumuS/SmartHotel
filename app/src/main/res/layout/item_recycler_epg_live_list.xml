@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/re_live_channel"
+    android:layout_width="match_parent"
+    android:layout_height="90px"
+    android:background="@drawable/vod_list_bg_selector"
+    android:focusable="true"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_item_recycler_live_number"
+        android:layout_width="120px"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8px"
+        android:focusable="false"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:paddingBottom="12px"
+        android:paddingTop="12px"
+        android:textColor="@color/color_8d9295"
+        android:textSize="44px" />
+
+    <ImageView
+        android:id="@+id/img_item_recycler_live_icon"
+        android:layout_width="148px"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="8px"
+        android:focusable="false"
+        android:scaleType="centerInside" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_item_recycler_live_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8px"
+        android:ellipsize="marquee"
+        android:focusable="false"
+        android:gravity="left|center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textColor="@color/color_8d9295"
+        android:textSize="44px" />
+
+</com.zhy.autolayout.AutoLinearLayout>

@@ -64,7 +64,6 @@ public class StartActivity extends BaseActivity {
 //        });
     }
 
-    private static final int LOGIN = 0;
     private static final int OPEN = 1;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -157,29 +156,17 @@ public class StartActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case LOGIN:
-                    Intent intent1 = new Intent(StartActivity.this, LoginSettingActivity.class);
-                    startActivity(intent1);
-                    finish();
-                    break;
                 case OPEN:
                     if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
                         if (firstOpen) {
-                            Intent intent2 = new Intent(StartActivity.this, LanguageActivity.class);
-                            startActivity(intent2);
-                            finish();
+                            toActivity(2);
                         } else {
                             LanguageSwitchUtils.languageSwitch(StartActivity.this,
                                     sharedPreferences.getInt("language", 0));
-                            Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                            startActivity(intent2);
-                            finish();
+                            toActivity(1);
                         }
-                    }
-                    if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-                        Intent intent2 = new Intent(StartActivity.this, HomeActivity.class);
-                        startActivity(intent2);
-                        finish();
+                    } else if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                        toActivity(1);
                     }
                     break;
                 default:
@@ -188,4 +175,15 @@ public class StartActivity extends BaseActivity {
             super.handleMessage(msg);
         }
     };
+
+    private void toActivity(int activity) {
+        Intent intent = null;
+        if (activity == 1) {
+            intent = new Intent(StartActivity.this, HomeActivity.class);
+        } else if (activity == 2) {
+            intent = new Intent(StartActivity.this, LanguageActivity.class);
+        }
+        startActivity(intent);
+        finish();
+    }
 }

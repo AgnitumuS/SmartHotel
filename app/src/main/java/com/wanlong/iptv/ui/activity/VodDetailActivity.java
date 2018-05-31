@@ -70,8 +70,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
             mLlMovieUrls.setVisibility(View.GONE);
         }
         name = intent.getStringExtra("vod_name");
-//        mTextMovieCountDetail.setTextColor(Color.parseColor("#000000"));
-//        mTextMovieCountDetail.setAlpha();
         String total_sets = intent.getStringExtra("total_sets");
         String current_sets = intent.getStringExtra("current_sets");
         if (total_sets.equals("1")) {
@@ -88,17 +86,16 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         vod_pic_url = intent.getStringExtra("vod_pic_url");
         if (vod_pic_url.equals("")) {
             GlideApp.with(this)
-                    .load(R.drawable.sence)
+                    .load(R.drawable.img_bg_color)
                     .centerCrop()
                     .into(mImgMovieDetail);
         } else {
             GlideApp.with(this)
                     .load(vod_pic_url)
-                    .placeholder(R.drawable.sence)
+                    .error(R.drawable.img_bg_color)
                     .centerCrop()
                     .into(mImgMovieDetail);
         }
-//        Glide.with(this).load(vod_pic_url).into(mImgMovieDetail);
     }
 
     private VodUrlAdapter mVodUrlAdapter;
@@ -126,7 +123,6 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
                 } else {
                     intent.putExtra("url", url);
                 }
-//                intent.putExtra("url", url + urls[position]);
                 intent.putExtra("name", name);
                 startActivity(intent);
             }

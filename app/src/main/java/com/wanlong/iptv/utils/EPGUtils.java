@@ -1,10 +1,19 @@
 package com.wanlong.iptv.utils;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.EPG;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +25,7 @@ public class EPGUtils {
 
     public static String currentPlay = "";
     public static String nextPlay = "";
+    public static List<EPG.DetailBean> mDetailBeans;
 
     //解析EPG
     public static void parseEPG(List<EPG.DetailBean> detailBeans) {
@@ -86,5 +96,57 @@ public class EPGUtils {
     //获取下一条播放节目
     public static String getNextPlay() {
         return nextPlay;
+    }
+
+    public static void sortEPG(List<EPG.DetailBean> detailBeans) {
+        Collections.sort(detailBeans, new Comparator<EPG.DetailBean>() {
+            @Override
+            public int compare(EPG.DetailBean o1, EPG.DetailBean o2) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+                Date date = null;
+                long time1 = 0, time2 = 0;
+                try {
+                    date = simpleDateFormat.parse(o1.getTime().replaceAll(" ", ""));
+                    time1 = date.getTime();
+                    date = simpleDateFormat.parse(o2.getTime().replaceAll(" ", ""));
+                    time2 = date.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //按时间降序
+                if (time1 > time2) {
+                    return -1;
+                } else if (time1 < time2) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        mDetailBeans = new ArrayList<>();
+        mDetailBeans = detailBeans;
+    }
+
+    /**
+     * 得到apk内assets目录下json文件中的内容
+     * @param context
+     * @param fileName
+     * @return
+     */
+    public static String getJson(Context context, String fileName){
+        StringBuilder stringBuilder = new StringBuilder();
+        //获得assets资源管理器
+        AssetManager assetManager = context.getAssets();
+        //使用IO流读取json文件内容
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName),"utf-8"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 }

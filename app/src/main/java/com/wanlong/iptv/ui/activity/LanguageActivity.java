@@ -52,13 +52,11 @@ public class LanguageActivity extends BaseActivity {
     }
 
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private boolean firstOpen;
 
     @Override
     protected void initData() {
         sharedPreferences = ApkVersion.getSP(this);
-        editor = sharedPreferences.edit();
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
     }
 
