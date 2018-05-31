@@ -51,21 +51,19 @@ public class VodListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.setIsRecyclable(false);
         if (mVodListDatas.get(position).getPic_url() != null &&
                 mVodListDatas.get(position).getPic_url().size() > 0) {
             GlideApp.with(mContext)
                     .load(mVodListDatas.get(position).getVod_pic_dir() +
                             mVodListDatas.get(position).getPic_url().get(0))
-                    .placeholder(R.drawable.sence)
+                    .error(R.drawable.img_bg_color)
                     .into(viewHolder.mImgRecycleviewMovie);
         } else {
             GlideApp.with(mContext)
-                    .load(R.drawable.sence)
+                    .load(R.drawable.img_bg_color)
                     .into(viewHolder.mImgRecycleviewMovie);
         }
         viewHolder.mTextRecycleviewMovieName.setText(mVodListDatas.get(position).getVod_name());
-//        viewHolder.mTextRecycleviewMovieName.setText(movies[position]);
         if (mVodListDatas.get(position).getTotal_sets().equals("1")) {
             viewHolder.mTextRecycleviewMovieScore.setText(mVodListDatas.get(position).getVod_scores());
         } else {

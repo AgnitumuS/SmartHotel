@@ -86,13 +86,13 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         vod_pic_url = intent.getStringExtra("vod_pic_url");
         if (vod_pic_url.equals("")) {
             GlideApp.with(this)
-                    .load(R.drawable.sence)
+                    .load(R.drawable.img_bg_color)
                     .centerCrop()
                     .into(mImgMovieDetail);
         } else {
             GlideApp.with(this)
                     .load(vod_pic_url)
-                    .placeholder(R.drawable.sence)
+                    .error(R.drawable.img_bg_color)
                     .centerCrop()
                     .into(mImgMovieDetail);
         }
