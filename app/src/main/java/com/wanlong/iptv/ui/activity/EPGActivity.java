@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.EPG;
@@ -74,6 +75,8 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
         addListener();
     }
 
+    private int datePosition = 0;//右边时间列表日期位置
+
     //列表点击监听
     private void addListener() {
         //节目列表
@@ -81,6 +84,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
                 if (position != lastPosition) {
+                    loadEPG(mLive.getPlaylist().get(position).getChannel_number());
                     RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(lastPosition);
                     try {
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_number))
@@ -94,7 +98,6 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    loadEPG(mLive.getPlaylist().get(position).getChannel_number());
                 }
             }
         });
@@ -113,6 +116,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
                 if (position != lastPosition) {
+                    datePosition = position;
                     RecyclerView.ViewHolder holder = mRecyclerTimeList.findViewHolderForAdapterPosition(lastPosition);
                     try {
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_week))
@@ -132,9 +136,14 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                         for (int i = 0; i < mDetailBeans.size(); i++) {
                             if (time.equals(mDetailBeans.get(i).getDate())) {
                                 getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
+                                hasEPG = true;
                                 return;
                             }
+                            hasEPG = false;
                         }
+                    }
+                    if (!hasEPG) {
+                        loadLocalEPG();
                     }
                 }
             }
@@ -173,22 +182,30 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
     }
 
     private List<EPGlist.DetailBean> mDetailBeans;
+    private boolean hasEPG = false;//是否有EPG
 
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
-        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
+        String time = new SimpleDateFormat("yyyy/MM/dd")
+                .format(new Date((App.newtime - datePosition * 24 * 3600) * 1000));
         mDetailBeans = epGlist.getDetail();
         for (int i = 0; i < mDetailBeans.size(); i++) {
             if (time.equals(mDetailBeans.get(i).getDate())) {
                 getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
+                hasEPG = true;
                 return;
             }
+            hasEPG = false;
+        }
+        if (!hasEPG) {
+            loadLocalEPG();
         }
     }
 
     @Override
     public void loadEPGlistFailed(int error) {
-
+        mDetailBeans = null;
+        loadLocalEPG();
     }
 
     @Override
@@ -199,11 +216,18 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
 
     @Override
     public void loadEPGFailed(int error) {
-
+        loadLocalEPG();
     }
 
     @Override
     public void loadFailed(int data) {
 
+    }
+
+    //加载apk内置EPG文件
+    private void loadLocalEPG() {
+        String epgString = EPGUtils.getJson(this, "epg.json");
+        EPG epg = JSON.parseObject(epgString, EPG.class);
+        mEPGDetailAdapter.setData(epg.getDetail());
     }
 }
