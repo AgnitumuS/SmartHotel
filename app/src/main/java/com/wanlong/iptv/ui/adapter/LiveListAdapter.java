@@ -39,7 +39,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setData(List<Live.PlaylistBean> liveListDatas, int lastPosition) {
-        if (liveListDatas.size() >= lastPosition) {
+        if (liveListDatas.size() >= lastPosition && lastPosition != -1) {
             mlastPosition = lastPosition;
         } else {
             mlastPosition = 0;
