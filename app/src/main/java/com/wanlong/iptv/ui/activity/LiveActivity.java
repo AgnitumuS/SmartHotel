@@ -138,14 +138,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         liveLastPlayPosition = sharedPreferences.getInt(sp_lastPlayPosition, 0);
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText(getString(R.string.all));
-        mImgLeft.setVisibility(View.GONE);
-        mImgRight.setVisibility(View.GONE);
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+            currentType = -1;
+            getPresenter().loadLiveListData(this, type, currentType);
             mTvEpgMore.setVisibility(View.GONE);
+            mImgLeft.setVisibility(View.GONE);
+            mImgRight.setVisibility(View.GONE);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+            currentType = 0;
+            getPresenter().loadLiveTypeData(this, currentType);
         }
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
@@ -404,16 +406,42 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mIjkVideoView = null;
     }
 
-    @OnClick({R.id.img_left, R.id.img_right})
+    @OnClick({R.id.img_left, R.id.img_right, R.id.tv_epg_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_left:
                 resetTime(DISMISS_LIST);
                 resetTime(DISMISS_INFO);
+                if (currentType == 0) {
+                    return;
+                }
+                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
+                    currentType -= 1;
+                    if (currentType == 0) {
+                        mTvLiveCategory.setText(getString(R.string.all));
+                        getPresenter().loadLiveTypeData(this, currentType);
+                    } else {
+                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    }
+                    return;
+                }
                 break;
             case R.id.img_right:
                 resetTime(DISMISS_LIST);
                 resetTime(DISMISS_INFO);
+                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
+                    return;
+                }
+                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
+                    currentType += 1;
+                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    return;
+                }
+                break;
+            case R.id.tv_epg_more:
+                startActivity(new Intent(LiveActivity.this, EPGActivity.class));
                 break;
         }
     }
@@ -715,10 +743,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     };
 
     private Live mLive;
+    private List<String> mLiveTypes;//直播分类
+    private int currentType;//当前分类
 
     @Override
-    public void loadListSuccess(Live liveListDatas) {
+    public void loadListSuccess(Live liveListDatas, int position) {
         if (liveListDatas != null) {
+            if (position == 0) {
+                mLiveTypes = liveListDatas.getCategory();
+            }
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
@@ -787,10 +820,5 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     @Override
     public void loadFailed(int data) {
         Logger.d("请求直播数据失败");
-    }
-
-    @OnClick(R.id.tv_epg_more)
-    public void onViewClicked() {
-        startActivity(new Intent(LiveActivity.this, EPGActivity.class));
     }
 }

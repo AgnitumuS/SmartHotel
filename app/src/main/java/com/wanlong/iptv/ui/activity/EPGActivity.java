@@ -140,10 +140,10 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
     protected void initData() {
         setPresenter(new LivePresenter(this));
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, "直播");
+            getPresenter().loadLiveListData(this, "直播", -1);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+            getPresenter().loadLiveTypeData(this, 0);
         }
         mEPGTimeAdapter.setDate(TimeUtils.getDay(App.newtime * 1000) - 1);
     }
@@ -177,7 +177,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
     private Live mLive;
 
     @Override
-    public void loadListSuccess(Live liveListDatas) {
+    public void loadListSuccess(Live liveListDatas, int position) {
         if (liveListDatas != null) {
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {

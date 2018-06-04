@@ -138,10 +138,10 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
         mImgLeft.setVisibility(View.GONE);
         mImgRight.setVisibility(View.GONE);
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+            getPresenter().loadLiveListData(this, type,-1);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+            getPresenter().loadLiveTypeData(this,0);
         }
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
@@ -713,7 +713,7 @@ public class SelfManagementActivity extends BaseActivity<LivePresenter> implemen
     private Live mLive;
 
     @Override
-    public void loadListSuccess(Live liveListDatas) {
+    public void loadListSuccess(Live liveListDatas,int position) {
         if (liveListDatas != null) {
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
