@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DMM</string>
-    <string name="versionCode">1110</string>
-    <string name="versionName">1.3.8</string>
+    <string name="versionCode">1111</string>
+    <string name="versionName">1.3.9</string>
     <string name="english">English</string>
     <string name="chinese">中文</string>
     <string name="thai">ภาษาไทย</string>
