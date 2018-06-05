@@ -162,6 +162,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "S905W":
             case "Prevail CATV":
             case "p230":
+            case "KI_PLUS":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
