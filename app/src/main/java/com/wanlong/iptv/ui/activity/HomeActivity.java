@@ -1,6 +1,8 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,6 +78,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvSelfManagement;
     @BindView(R.id.tv_language)
     TextView mTvLanguage;
+    @BindView(R.id.tv_dtv)
+    TextView mTvDtv;
 
 
     @Override
@@ -110,6 +114,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvLanguage.setVisibility(View.GONE);
+            mTvDtv.setVisibility(View.GONE);
             autoLogin();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
@@ -207,7 +212,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,R.id.tv_dtv,
             R.id.tv_self_management, R.id.tv_vod, R.id.tv_language, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -222,6 +227,17 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 break;
             case R.id.tv_self_management:
                 startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
+                break;
+            case R.id.tv_dtv:
+                try{
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    //前提：知道要跳转应用的包名、类名
+                    ComponentName componentName = new ComponentName("th.dtv", "th.dtv.DtvMainActivity");
+                    intent.setComponent(componentName);
+                    startActivity(intent);
+                }catch (ActivityNotFoundException e){
+                    e.printStackTrace();
+                }
                 break;
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
