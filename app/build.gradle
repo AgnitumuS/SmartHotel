@@ -64,7 +64,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //fastjson https://github.com/alibaba/fastjson
-    implementation 'com.alibaba:fastjson:1.2.44'
+    implementation 'com.alibaba:fastjson:1.2.47'
 
     //图片加载框架glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
