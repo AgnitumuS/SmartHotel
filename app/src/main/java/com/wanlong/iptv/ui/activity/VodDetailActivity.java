@@ -51,7 +51,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     }
 
     private Intent intent;
-    private String url;
+    private String url_header;
     private String name;
     private String[] urls;
     private String vod_pic_url;
@@ -66,7 +66,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     @Override
     protected void initView() {
         intent = getIntent();
-        url = intent.getStringExtra("url_header");
+        url_header = intent.getStringExtra("url_header");
         urls = intent.getStringArrayExtra("urls");
         name = intent.getStringExtra("vod_name");
         total_sets = intent.getStringExtra("total_sets");
@@ -77,7 +77,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         vod_actor = intent.getStringExtra("vod_actor");
         vod_detail = intent.getStringExtra("vod_detail");
         vod_pic_url = intent.getStringExtra("vod_pic_url");
-        if (urls.length > 1) {
+        if (urls != null && urls.length > 1) {
             mLlMovieUrls.setVisibility(View.VISIBLE);
             mTextMovieDetailPlay.setVisibility(View.GONE);
             mTextMoviePeopleDetail.setMaxLines(4);
@@ -96,7 +96,7 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + vod_category);
         mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + vod_actor);
         mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + vod_detail);
-        if (vod_pic_url.equals("")) {
+        if (vod_pic_url == null || vod_pic_url.equals("")) {
             GlideApp.with(this)
                     .load(R.drawable.img_bg_color)
                     .centerCrop()
@@ -130,10 +130,10 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-                if (urls.length > 0) {
-                    intent.putExtra("url", url + urls[position]);
+                if (urls != null && urls.length > 0) {
+                    intent.putExtra("url", url_header + urls[position]);
                 } else {
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", url_header);
                 }
                 intent.putExtra("name", name);
                 startActivity(intent);
@@ -144,10 +144,10 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     @OnClick(R.id.text_movie_detail_play)
     public void onViewClicked() {
         Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-        if (urls.length > 0) {
-            intent.putExtra("url", url + urls[0]);
+        if (urls != null && urls.length > 0) {
+            intent.putExtra("url", url_header + urls[0]);
         } else {
-            intent.putExtra("url", url);
+            intent.putExtra("url", url_header);
         }
         intent.putExtra("name", name);
         startActivity(intent);
