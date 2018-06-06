@@ -45,7 +45,9 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mlastPosition = 0;
         }
         this.mLiveListDatas.clear();
-        this.mLiveListDatas.addAll(liveListDatas);
+        if (liveListDatas != null && liveListDatas.size() > 0) {
+            this.mLiveListDatas.addAll(liveListDatas);
+        }
         notifyDataSetChanged();
     }
 
@@ -55,12 +57,15 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return new ViewHolder(view);
     }
 
+    private boolean first = true;
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        if (position == mlastPosition) {
+        if (first && position == mlastPosition) {
             viewHolder.mReLiveChannel.requestFocus();
+            first = false;
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
@@ -84,6 +89,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
                 mOnItemClickListener.onItemClick(viewHolder.mTvItemLiveList, position);
+                mlastPosition = position;
             }
         });
     }

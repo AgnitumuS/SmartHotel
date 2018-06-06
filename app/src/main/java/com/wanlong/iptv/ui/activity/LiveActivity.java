@@ -754,8 +754,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 mLiveTypes = liveListDatas.getCategory();
             }
             mLive = liveListDatas;
+            mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
-                mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
                 if (liveLastPlayPosition >= 0 && liveLastPlayPosition < liveListDatas.getPlaylist().size()) {
                     currentPlayPosition = liveLastPlayPosition;
                 } else {
@@ -770,6 +770,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                             (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
                     mLayoutManager.scrollToPositionWithOffset(currentPlayPosition, 0);
                     RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
+                    ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).setVisibility(View.VISIBLE);
                     ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
