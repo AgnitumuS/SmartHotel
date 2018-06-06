@@ -190,21 +190,8 @@ public class VodPlayActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) < 2000) {
-//                new AlertDialog.Builder(LiveActivity.this)
-//                        .setTitle(getString(R.string.exitdialog_hint))
-//                        .setMessage(getString(R.string.exitdialog_out_hint))
-//                        .setPositiveButton(getString(R.string.exitdialog_out), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//确定按钮的响应事件
                 upload();
                 finish();
-//                            }
-//                        })
-//                        .setNegativeButton(getString(R.string.exitdialog_back), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {//响应事件
-//                            }
-//                        }).show();
             } else {
                 Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
