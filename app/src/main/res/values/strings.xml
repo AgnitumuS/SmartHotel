@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">DMM</string>
-    <string name="versionCode">1111</string>
+    <string name="versionCode">1112</string>
     <string name="versionName">1.3.9</string>
     <string name="english">English</string>
     <string name="chinese">中文</string>
@@ -305,6 +305,7 @@
     <string name="unable_to_watch_unauthorized_programs">Unable to watch unauthorized programs</string>
     <string name="more_infomation">More Infomation</string>
     <string name="today">Today</string>
+    <string name="playlist">Playlist</string>
 
     <!--ijkplayer-end                                                                               -->
 

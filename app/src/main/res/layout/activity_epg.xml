@@ -44,7 +44,7 @@
                 android:layout_height="80px"
                 android:focusable="false"
                 android:gravity="center"
-                android:text="节目列表"
+                android:text="@string/playlist"
                 android:textColor="@color/color_a3a3a3"
                 android:textSize="48px"
                 tools:text="节目列表" />
@@ -96,7 +96,7 @@
                 android:layout_height="80px"
                 android:focusable="false"
                 android:gravity="center"
-                android:text="时间"
+                android:text="@string/time"
                 android:textColor="@color/color_a3a3a3"
                 android:textSize="48px"
                 tools:text="时间" />
