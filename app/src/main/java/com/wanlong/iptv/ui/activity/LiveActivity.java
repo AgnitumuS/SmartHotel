@@ -342,14 +342,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 e.printStackTrace();
             }
         } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-            List<VideoOptionModel> optionModelList = new ArrayList<>();
-//            optionModelList.add(new VideoOptionModel(
-//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
-//            optionModelList.add(new VideoOptionModel(
-//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
-            optionModelList.add(new VideoOptionModel(
-                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
-            GSYVideoManager.instance().setOptionModelList(optionModelList);
+            if (GSYVideoManager.instance().getVideoType() == GSYVideoType.IJKPLAYER) {
+                List<VideoOptionModel> optionModelList = new ArrayList<>();
+//                optionModelList.add(new VideoOptionModel(
+//                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
+//                optionModelList.add(new VideoOptionModel(
+//                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
+                optionModelList.add(new VideoOptionModel(
+                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
+                GSYVideoManager.instance().setOptionModelList(optionModelList);
+            }
             mLiveVideoPlayer.setUp(newurl, false, "");
             mLiveVideoPlayer.startPlayLogic();
         }
