@@ -242,7 +242,6 @@ public class AdService extends Service {
                             loginFailed();
 //                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override

@@ -319,11 +319,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     }
 
                     @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                    }
-
-                    @Override
                     public void onError(Response<String> response) {
                         loginFailed();
                         super.onError(response);
