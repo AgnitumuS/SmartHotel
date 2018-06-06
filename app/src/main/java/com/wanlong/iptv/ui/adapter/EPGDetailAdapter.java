@@ -36,7 +36,9 @@ public class EPGDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void setData(List<EPG.DetailBean> detailBeans) {
         this.mDetailBeans.clear();
-        this.mDetailBeans.addAll(detailBeans);
+        if (detailBeans != null) {
+            this.mDetailBeans.addAll(detailBeans);
+        }
         notifyDataSetChanged();
     }
 
@@ -58,7 +60,7 @@ public class EPGDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mLlItemRecyclerEpg, position,lastPosition);
+                mOnItemClickListener.onItemClick(viewHolder.mLlItemRecyclerEpg, position, lastPosition);
                 lastPosition = position;
             }
         });
@@ -87,7 +89,7 @@ public class EPGDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnItemClickListener mOnItemClickListener;//声明接口
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position,int lastPosition);
+        void onItemClick(View view, int position, int lastPosition);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

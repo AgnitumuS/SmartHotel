@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.entity.EPG;
@@ -220,8 +219,9 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
 
     //加载apk内置EPG文件
     private void loadLocalEPG() {
-        String epgString = EPGUtils.getJson(this, "epg.json");
-        EPG epg = JSON.parseObject(epgString, EPG.class);
-        mEPGDetailAdapter.setData(epg.getDetail());
+        mEPGDetailAdapter.setData(null);
+//        String epgString = EPGUtils.getJson(this, "epg.json");
+//        EPG epg = JSON.parseObject(epgString, EPG.class);
+//        mEPGDetailAdapter.setData(epg.getDetail());
     }
 }
