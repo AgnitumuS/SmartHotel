@@ -1,6 +1,5 @@
 package com.wanlong.iptv.ui.activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -38,6 +37,7 @@ import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
 import com.wanlong.iptv.utils.Utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,8 +78,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvEpgNow;
     @BindView(R.id.tv_epg_next)
     AppCompatTextView mTvEpgNext;
-    @BindView(R.id.tv_epg_more)
-    AppCompatTextView mTvEpgMore;
     @BindView(R.id.btn_watch_hint)
     Button mBtnWatchHint;
 
@@ -144,7 +142,6 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             currentType = -1;
             getPresenter().loadLiveListData(this, type, currentType);
-            mTvEpgMore.setVisibility(View.GONE);
             mImgLeft.setVisibility(View.GONE);
             mImgRight.setVisibility(View.GONE);
         }
@@ -412,44 +409,14 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         mIjkVideoView = null;
     }
 
-    @OnClick({R.id.img_left, R.id.img_right, R.id.tv_epg_more})
+    @OnClick({R.id.img_left, R.id.img_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_left:
-//                resetTime(DISMISS_LIST);
-//                resetTime(DISMISS_INFO);
-//                if (currentType == 0) {
-//                    return;
-//                }
-//                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
-//                    currentType -= 1;
-//                    if (currentType == 0) {
-//                        mTvLiveCategory.setText(getString(R.string.all));
-//                        getPresenter().loadLiveTypeData(this, currentType);
-//                    } else {
-//                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
-//                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
-//                    }
-//                    return;
-//                }
                 switchType(LEFT);
                 break;
             case R.id.img_right:
-//                resetTime(DISMISS_LIST);
-//                resetTime(DISMISS_INFO);
-//                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
-//                    return;
-//                }
-//                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
-//                    currentType += 1;
-//                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
-//                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
-//                    return;
-//                }
                 switchType(RIGHT);
-                break;
-            case R.id.tv_epg_more:
-                startActivity(new Intent(LiveActivity.this, EPGActivity.class));
                 break;
         }
     }
@@ -606,33 +573,35 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private void switchType(int orientation) {
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
-        if (orientation == LEFT) {
-            mImgLeft.requestFocus();
-            if (currentType == 0) {
-                return;
-            }
-            if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
-                currentType -= 1;
+        if (ApkVersion.CURRENT_VERSION != ApkVersion.PRISON_VERSION) {
+            if (orientation == LEFT) {
+                mImgLeft.requestFocus();
                 if (currentType == 0) {
-                    mTvLiveCategory.setText(getString(R.string.all));
-                    getPresenter().loadLiveTypeData(this, currentType);
-                } else {
+                    return;
+                }
+                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
+                    currentType -= 1;
+                    if (currentType == 0) {
+                        mTvLiveCategory.setText(getString(R.string.all));
+                        getPresenter().loadLiveTypeData(this, currentType);
+                    } else {
+                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    }
+                    return;
+                }
+            }
+            if (orientation == RIGHT) {
+                mImgRight.requestFocus();
+                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
+                    return;
+                }
+                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
+                    currentType += 1;
                     mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
                     getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    return;
                 }
-                return;
-            }
-        }
-        if (orientation == RIGHT) {
-            mImgRight.requestFocus();
-            if (mLiveTypes != null && currentType == mLiveTypes.size()) {
-                return;
-            }
-            if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
-                currentType += 1;
-                mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
-                getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
-                return;
             }
         }
     }
@@ -832,14 +801,22 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
-        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
-        List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
-        for (int i = 0; i < detailBeans.size(); i++) {
-            if (time.equals(detailBeans.get(i).getDate())) {
-                getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
-                return;
+        String stime = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
+        try {
+            long ltime = new SimpleDateFormat("yyyy/MM/dd").parse(stime).getTime();
+            List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
+            for (int i = 0; i < detailBeans.size(); i++) {
+                long time = new SimpleDateFormat("yyyy/MM/dd")
+                        .parse(detailBeans.get(i).getDate()).getTime();
+                if (ltime == time) {
+                    getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+                    return;
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

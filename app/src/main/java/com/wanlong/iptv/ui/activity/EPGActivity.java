@@ -19,6 +19,7 @@ import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
 import com.wanlong.iptv.utils.TimeUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -156,17 +157,22 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
 
     //获取EPG
     private void loadEPG() {
-        String time = new SimpleDateFormat("yyyy/MM/dd")
+        String stime = new SimpleDateFormat("yyyy/MM/dd")
                 .format(new Date((App.newtime - datePosition * 24 * 3600) * 1000));
-        if (mDetailBeans != null) {
+        try {
+            long ltime = new SimpleDateFormat("yyyy/MM/dd").parse(stime).getTime();
             for (int i = 0; i < mDetailBeans.size(); i++) {
-                if (time.equals(mDetailBeans.get(i).getDate())) {
+                long time = new SimpleDateFormat("yyyy/MM/dd")
+                        .parse(mDetailBeans.get(i).getDate()).getTime();
+                if (ltime == time) {
                     getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
                     hasEPG = true;
                     return;
                 }
                 hasEPG = false;
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         if (!hasEPG) {
             loadLocalEPG();
