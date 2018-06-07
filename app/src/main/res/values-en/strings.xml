@@ -92,6 +92,7 @@
     <string name="more_infomation">More Infomation</string>
     <string name="today">Today</string>
     <string name="playlist">Playlist</string>
+    <string name="look_back">Look back</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>

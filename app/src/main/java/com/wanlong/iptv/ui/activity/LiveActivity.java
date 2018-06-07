@@ -416,35 +416,37 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_left:
-                resetTime(DISMISS_LIST);
-                resetTime(DISMISS_INFO);
-                if (currentType == 0) {
-                    return;
-                }
-                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
-                    currentType -= 1;
-                    if (currentType == 0) {
-                        mTvLiveCategory.setText(getString(R.string.all));
-                        getPresenter().loadLiveTypeData(this, currentType);
-                    } else {
-                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
-                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
-                    }
-                    return;
-                }
+//                resetTime(DISMISS_LIST);
+//                resetTime(DISMISS_INFO);
+//                if (currentType == 0) {
+//                    return;
+//                }
+//                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
+//                    currentType -= 1;
+//                    if (currentType == 0) {
+//                        mTvLiveCategory.setText(getString(R.string.all));
+//                        getPresenter().loadLiveTypeData(this, currentType);
+//                    } else {
+//                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+//                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+//                    }
+//                    return;
+//                }
+                switchType(LEFT);
                 break;
             case R.id.img_right:
-                resetTime(DISMISS_LIST);
-                resetTime(DISMISS_INFO);
-                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
-                    return;
-                }
-                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
-                    currentType += 1;
-                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
-                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
-                    return;
-                }
+//                resetTime(DISMISS_LIST);
+//                resetTime(DISMISS_INFO);
+//                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
+//                    return;
+//                }
+//                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
+//                    currentType += 1;
+//                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+//                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+//                    return;
+//                }
+                switchType(RIGHT);
                 break;
             case R.id.tv_epg_more:
                 startActivity(new Intent(LiveActivity.this, EPGActivity.class));
@@ -521,7 +523,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-//                    switchType(LEFT);
+                    switchType(LEFT);
                 }
                 showInfo();
                 break;
@@ -529,7 +531,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-//                    switchType(RIGHT);
+                    switchType(RIGHT);
                 }
                 showInfo();
                 break;
@@ -598,6 +600,41 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //左右键切换分类
+    private void switchType(int orientation) {
+        resetTime(DISMISS_LIST);
+        resetTime(DISMISS_INFO);
+        if (orientation == LEFT) {
+            mImgLeft.requestFocus();
+            if (currentType == 0) {
+                return;
+            }
+            if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
+                currentType -= 1;
+                if (currentType == 0) {
+                    mTvLiveCategory.setText(getString(R.string.all));
+                    getPresenter().loadLiveTypeData(this, currentType);
+                } else {
+                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                }
+                return;
+            }
+        }
+        if (orientation == RIGHT) {
+            mImgRight.requestFocus();
+            if (mLiveTypes != null && currentType == mLiveTypes.size()) {
+                return;
+            }
+            if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
+                currentType += 1;
+                mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                return;
+            }
+        }
     }
 
     private StringBuffer sb = new StringBuffer("");

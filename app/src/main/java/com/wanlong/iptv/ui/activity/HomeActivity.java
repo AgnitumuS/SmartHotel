@@ -80,6 +80,8 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvLanguage;
     @BindView(R.id.tv_dtv)
     TextView mTvDtv;
+    @BindView(R.id.tv_look_back)
+    TextView mTvLookBack;
 
 
     @Override
@@ -115,6 +117,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvLanguage.setVisibility(View.GONE);
             mTvDtv.setVisibility(View.GONE);
+            mTvLookBack.setVisibility(View.GONE);
             autoLogin();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
@@ -212,7 +215,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_dtv,
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_dtv,R.id.tv_look_back,
             R.id.tv_self_management, R.id.tv_vod, R.id.tv_language, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -238,6 +241,9 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 } catch (ActivityNotFoundException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.tv_look_back:
+                startActivity(new Intent(HomeActivity.this, EPGActivity.class));
                 break;
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));

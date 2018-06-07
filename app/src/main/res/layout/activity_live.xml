@@ -189,6 +189,7 @@
                 android:text="@string/more_infomation"
                 android:textColor="@color/white"
                 android:textSize="48px"
+                android:visibility="gone"
                 tools:text="更多信息" />
         </RelativeLayout>
 
