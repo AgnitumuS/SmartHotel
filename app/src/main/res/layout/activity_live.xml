@@ -194,4 +194,16 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/btn_watch_hint"
+        android:layout_width="700px"
+        android:layout_height="400px"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_bg_corners"
+        android:gravity="center"
+        android:text="@string/unable_to_watch_unauthorized_programs"
+        android:textColor="@color/white"
+        android:textSize="40px"
+        android:visibility="gone" />
+
 </RelativeLayout>
