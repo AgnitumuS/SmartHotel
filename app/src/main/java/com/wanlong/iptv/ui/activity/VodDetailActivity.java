@@ -14,6 +14,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.VodDetailPresenter;
 import com.wanlong.iptv.ui.adapter.VodUrlAdapter;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -85,17 +86,25 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         } else {
             mLlMovieUrls.setVisibility(View.GONE);
         }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            mTextMovieTimeDetail.setVisibility(View.GONE);
+            mTextMovieCountDetail.setVisibility(View.GONE);
+            mTextMovieTypeDetail.setVisibility(View.GONE);
+            mTextMoviePeopleDetail.setVisibility(View.GONE);
+            mTextMovieDescriptionDetail.setVisibility(View.GONE);
+        }else {
+            mTextMovieTimeDetail.setText(getString(R.string.time) + "：" + vod_release_time);
+            mTextMovieCountDetail.setText(vod_scores);
+            mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + vod_category);
+            mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + vod_actor);
+            mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + vod_detail);
+        }
         if (total_sets.equals("1")) {
             mTextMovieNameDetail.setText(name);
         } else {
             mTextMovieNameDetail.setText(name + "(" + getString(R.string.updated)
                     + " " + current_sets + "/" + getString(R.string.total) + " " + total_sets + ")");
         }
-        mTextMovieTimeDetail.setText(getString(R.string.time) + "：" + vod_release_time);
-        mTextMovieCountDetail.setText(vod_scores);
-        mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + vod_category);
-        mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + vod_actor);
-        mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + vod_detail);
         if (vod_pic_url == null || vod_pic_url.equals("")) {
             GlideApp.with(this)
                     .load(R.drawable.img_bg_color)
