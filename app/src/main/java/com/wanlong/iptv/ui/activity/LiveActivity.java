@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -79,6 +80,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvEpgNext;
     @BindView(R.id.tv_epg_more)
     AppCompatTextView mTvEpgMore;
+    @BindView(R.id.btn_watch_hint)
+    Button mBtnWatchHint;
 
     @Override
     protected int getContentResId() {
@@ -275,19 +278,19 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 } else if (expired_time.equals("0")) {
                     if (checkPackage(position)) {
                         play(newurl);
+                        mBtnWatchHint.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(this,
-                                (R.string.unable_to_watch_unauthorized_programs),
-                                Toast.LENGTH_SHORT).show();
+                        play("");
+                        mBtnWatchHint.setVisibility(View.VISIBLE);
                     }
 //                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
                 } else {
                     if (checkPackage(position)) {
                         play(newurl);
+                        mBtnWatchHint.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(this,
-                                (R.string.unable_to_watch_unauthorized_programs),
-                                Toast.LENGTH_SHORT).show();
+                        play("");
+                        mBtnWatchHint.setVisibility(View.VISIBLE);
                     }
                     try {
                         int time = Integer.parseInt(expired_time);

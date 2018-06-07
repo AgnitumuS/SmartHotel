@@ -200,6 +200,7 @@
         android:layout_height="400px"
         android:layout_centerInParent="true"
         android:background="@drawable/btn_bg_corners"
+        android:focusable="false"
         android:gravity="center"
         android:text="@string/unable_to_watch_unauthorized_programs"
         android:textColor="@color/white"
