@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DMM</string>
-    <string name="versionCode">1107</string>
-    <string name="versionName">1.3.8</string>
+    <string name="versionCode">1116</string>
+    <string name="versionName">1.3.9</string>
     <string name="english">English</string>
     <string name="chinese">中文</string>
     <string name="thai">ภาษาไทย</string>
@@ -274,6 +274,10 @@
     <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
+
+    <!--ijkplayer-end                                                                               -->
+
+
     <string name="tv_language">Language</string>
     <string name="user_is_not_registered">User is not registered</string>
     <string name="success">Success</string>
@@ -305,7 +309,10 @@
     <string name="unable_to_watch_unauthorized_programs">Unable to watch unauthorized programs</string>
     <string name="more_infomation">More Infomation</string>
     <string name="today">Today</string>
+    <string name="playlist">Playlist</string>
+    <string name="look_back">Look back</string>
+    <string name="russian">русский</string>
+    <string name="armenia">Հայաստան</string>
 
-    <!--ijkplayer-end                                                                               -->
 
 </resources>

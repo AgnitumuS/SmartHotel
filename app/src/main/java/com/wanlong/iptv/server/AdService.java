@@ -242,7 +242,6 @@ public class AdService extends Service {
                             loginFailed();
 //                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
@@ -258,8 +257,10 @@ public class AdService extends Service {
         try {
             editor.putString("group", data.getGroup());
             editor.putString("stb_name", data.getStb_name());
+            editor.putString("area", data.getArea());
             editor.putString("Owner_Group", data.getOwner_Group());
             editor.putString("Owner_Group_display", data.getOwner_Group_display());
+            editor.putString("playback_url", data.getPlayback_url());
             editor.commit();
         } catch (NullPointerException e) {
             e.printStackTrace();

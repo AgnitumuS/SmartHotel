@@ -12,7 +12,7 @@
         android:id="@+id/tv_item_recycler_vod_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/vod_list_bg_selector"
+        android:background="@drawable/live_list_bg_selector"
         android:focusable="true"
         android:gravity="center"
         android:maxLines="1"

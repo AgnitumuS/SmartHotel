@@ -9,6 +9,7 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.player.VodVideoPlayer;
+import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
 
@@ -45,6 +46,7 @@ public class ReviewActivity extends BaseActivity {
             case "S905W":
             case "Prevail CATV":
             case "p230":
+            case "KI_PLUS":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
@@ -53,8 +55,13 @@ public class ReviewActivity extends BaseActivity {
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                if (!Utils.isPhone(this)) {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                } else {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                }
                 break;
         }
         mVodPlayer.setUp(url, false, name);

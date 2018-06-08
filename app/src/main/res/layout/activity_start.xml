@@ -9,18 +9,21 @@
     tools:context=".ui.activity.StartActivity">
 
     <ImageView
-        android:id="@+id/img_start"
+        android:id="@+id/img_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="false"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wooden_house" />
+
+    <ImageView
+        android:id="@+id/img_start"
+        android:layout_width="240px"
+        android:layout_height="240px"
         android:layout_centerInParent="true"
         android:focusable="false"
         android:scaleType="centerCrop"
-        tools:src="@drawable/wooden_house" />
-
-    <com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView
-        android:id="@+id/ijkVideoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:src="@mipmap/ic_launcher"
+        tools:src="@mipmap/ic_launcher" />
 
 </RelativeLayout>

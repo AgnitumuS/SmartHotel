@@ -87,6 +87,8 @@
     <string name="unable_to_watch_unauthorized_programs">未授权节目，无法观看</string>
     <string name="more_infomation">更多信息</string>
     <string name="today">今天</string>
+    <string name="playlist">节目列表</string>
+    <string name="look_back">回看</string>
 
     <string-array name="day_of_week">
         <item>周日</item>

@@ -19,6 +19,7 @@ import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
 import com.wanlong.iptv.utils.TimeUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,8 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
         addListener();
     }
 
+    private int datePosition = 0;//右边时间列表日期位置
+
     //列表点击监听
     private void addListener() {
         //节目列表
@@ -81,6 +84,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
                 if (position != lastPosition) {
+                    loadEPGlist(mLive.getPlaylist().get(position).getChannel_number());
                     RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(lastPosition);
                     try {
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_live_number))
@@ -94,7 +98,6 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    loadEPG(mLive.getPlaylist().get(position).getChannel_number());
                 }
             }
         });
@@ -113,6 +116,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
             @Override
             public void onItemClick(View view, int position, int lastPosition) {
                 if (position != lastPosition) {
+                    datePosition = position;
                     RecyclerView.ViewHolder holder = mRecyclerTimeList.findViewHolderForAdapterPosition(lastPosition);
                     try {
                         ((TextView) holder.itemView.findViewById(R.id.tv_item_recycler_epg_time_week))
@@ -126,16 +130,7 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    String time = new SimpleDateFormat("yyyy/MM/dd")
-                            .format(new Date((App.newtime - position * 24 * 3600) * 1000));
-                    if (mDetailBeans != null) {
-                        for (int i = 0; i < mDetailBeans.size(); i++) {
-                            if (time.equals(mDetailBeans.get(i).getDate())) {
-                                getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
-                                return;
-                            }
-                        }
-                    }
+                    loadEPG();
                 }
             }
         });
@@ -145,50 +140,71 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
     protected void initData() {
         setPresenter(new LivePresenter(this));
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, "直播");
+            getPresenter().loadLiveListData(this, "直播", -1);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+            getPresenter().loadLiveTypeData(this, 0);
         }
         mEPGTimeAdapter.setDate(TimeUtils.getDay(App.newtime * 1000) - 1);
+    }
+
+    //获取EPG列表
+    private void loadEPGlist(String channel_number) {
+        getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
+    }
+
+    private boolean hasEPG = false;//是否有EPG
+
+    //获取EPG
+    private void loadEPG() {
+        String stime = new SimpleDateFormat("yyyy/MM/dd")
+                .format(new Date((App.newtime - datePosition * 24 * 3600) * 1000));
+        try {
+            long ltime = new SimpleDateFormat("yyyy/MM/dd").parse(stime).getTime();
+            for (int i = 0; i < mDetailBeans.size(); i++) {
+                long time = new SimpleDateFormat("yyyy/MM/dd")
+                        .parse(mDetailBeans.get(i).getDate()).getTime();
+                if (ltime == time) {
+                    getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
+                    hasEPG = true;
+                    return;
+                }
+                hasEPG = false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (!hasEPG) {
+            loadLocalEPG();
+        }
     }
 
     private Live mLive;
 
     @Override
-    public void loadListSuccess(Live liveListDatas) {
+    public void loadListSuccess(Live liveListDatas, int position) {
         if (liveListDatas != null) {
             mLive = liveListDatas;
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 mEPGListAdapter.setData(liveListDatas.getPlaylist(), 0);
-                loadEPG(mLive.getPlaylist().get(0).getChannel_number());
+                loadEPGlist(mLive.getPlaylist().get(0).getChannel_number());
                 mTvCurrentProgram.setText(mLive.getPlaylist().get(0).getService_name());
             }
         }
-    }
-
-    //获取EPG
-    private void loadEPG(String channel_number) {
-        getPresenter().loadEPGlist(this, Apis.HEADER + Apis.USER_EPG, channel_number);
     }
 
     private List<EPGlist.DetailBean> mDetailBeans;
 
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
-        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
         mDetailBeans = epGlist.getDetail();
-        for (int i = 0; i < mDetailBeans.size(); i++) {
-            if (time.equals(mDetailBeans.get(i).getDate())) {
-                getPresenter().loadEPGdetail(mDetailBeans.get(i).getUrl());
-                return;
-            }
-        }
+        loadEPG();
     }
 
     @Override
     public void loadEPGlistFailed(int error) {
-
+        mDetailBeans = null;
+        loadLocalEPG();
     }
 
     @Override
@@ -199,11 +215,19 @@ public class EPGActivity extends BaseActivity<LivePresenter> implements LivePres
 
     @Override
     public void loadEPGFailed(int error) {
-
+        loadLocalEPG();
     }
 
     @Override
     public void loadFailed(int data) {
 
+    }
+
+    //加载apk内置EPG文件
+    private void loadLocalEPG() {
+        mEPGDetailAdapter.setData(null);
+//        String epgString = EPGUtils.getJson(this, "epg.json");
+//        EPG epg = JSON.parseObject(epgString, EPG.class);
+//        mEPGDetailAdapter.setData(epg.getDetail());
     }
 }

@@ -14,6 +14,7 @@ import com.wanlong.iptv.R;
 import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.mvp.VodDetailPresenter;
 import com.wanlong.iptv.ui.adapter.VodUrlAdapter;
+import com.wanlong.iptv.utils.ApkVersion;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,17 +52,33 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     }
 
     private Intent intent;
-    private String url;
+    private String url_header;
     private String name;
     private String[] urls;
     private String vod_pic_url;
+    private String total_sets;
+    private String current_sets;
+    private String vod_release_time;
+    private String vod_scores;
+    private String vod_category;
+    private String vod_actor;
+    private String vod_detail;
 
     @Override
     protected void initView() {
         intent = getIntent();
-        url = intent.getStringExtra("url_header");
+        url_header = intent.getStringExtra("url_header");
         urls = intent.getStringArrayExtra("urls");
-        if (urls.length > 1) {
+        name = intent.getStringExtra("vod_name");
+        total_sets = intent.getStringExtra("total_sets");
+        current_sets = intent.getStringExtra("current_sets");
+        vod_scores = intent.getStringExtra("vod_scores");
+        vod_release_time = intent.getStringExtra("vod_release_time");
+        vod_category = intent.getStringExtra("vod_category");
+        vod_actor = intent.getStringExtra("vod_actor");
+        vod_detail = intent.getStringExtra("vod_detail");
+        vod_pic_url = intent.getStringExtra("vod_pic_url");
+        if (urls != null && urls.length > 1) {
             mLlMovieUrls.setVisibility(View.VISIBLE);
             mTextMovieDetailPlay.setVisibility(View.GONE);
             mTextMoviePeopleDetail.setMaxLines(4);
@@ -69,22 +86,26 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
         } else {
             mLlMovieUrls.setVisibility(View.GONE);
         }
-        name = intent.getStringExtra("vod_name");
-        String total_sets = intent.getStringExtra("total_sets");
-        String current_sets = intent.getStringExtra("current_sets");
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            mTextMovieTimeDetail.setVisibility(View.GONE);
+            mTextMovieCountDetail.setVisibility(View.GONE);
+            mTextMovieTypeDetail.setVisibility(View.GONE);
+            mTextMoviePeopleDetail.setVisibility(View.GONE);
+            mTextMovieDescriptionDetail.setVisibility(View.GONE);
+        }else {
+            mTextMovieTimeDetail.setText(getString(R.string.time) + "：" + vod_release_time);
+            mTextMovieCountDetail.setText(vod_scores);
+            mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + vod_category);
+            mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + vod_actor);
+            mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + vod_detail);
+        }
         if (total_sets.equals("1")) {
             mTextMovieNameDetail.setText(name);
         } else {
             mTextMovieNameDetail.setText(name + "(" + getString(R.string.updated)
                     + " " + current_sets + "/" + getString(R.string.total) + " " + total_sets + ")");
         }
-        mTextMovieTimeDetail.setText(getString(R.string.time) + "：" + intent.getStringExtra("vod_release_time"));
-        mTextMovieCountDetail.setText(intent.getStringExtra("vod_scores"));
-        mTextMovieTypeDetail.setText(getString(R.string.category) + "：" + intent.getStringExtra("vod_category"));
-        mTextMoviePeopleDetail.setText(getString(R.string.actor) + "：" + intent.getStringExtra("vod_actor"));
-        mTextMovieDescriptionDetail.setText(getString(R.string.synopsis) + "：" + intent.getStringExtra("vod_detail"));
-        vod_pic_url = intent.getStringExtra("vod_pic_url");
-        if (vod_pic_url.equals("")) {
+        if (vod_pic_url == null || vod_pic_url.equals("")) {
             GlideApp.with(this)
                     .load(R.drawable.img_bg_color)
                     .centerCrop()
@@ -118,10 +139,10 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-                if (urls.length > 0) {
-                    intent.putExtra("url", url + urls[position]);
+                if (urls != null && urls.length > 0) {
+                    intent.putExtra("url", url_header + urls[position]);
                 } else {
-                    intent.putExtra("url", url);
+                    intent.putExtra("url", url_header);
                 }
                 intent.putExtra("name", name);
                 startActivity(intent);
@@ -132,10 +153,10 @@ public class VodDetailActivity extends BaseActivity<VodDetailPresenter> implemen
     @OnClick(R.id.text_movie_detail_play)
     public void onViewClicked() {
         Intent intent = new Intent(VodDetailActivity.this, VodPlayActivity.class);
-        if (urls.length > 0) {
-            intent.putExtra("url", url + urls[0]);
+        if (urls != null && urls.length > 0) {
+            intent.putExtra("url", url_header + urls[0]);
         } else {
-            intent.putExtra("url", url);
+            intent.putExtra("url", url_header);
         }
         intent.putExtra("name", name);
         startActivity(intent);

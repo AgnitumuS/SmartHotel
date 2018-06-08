@@ -11,6 +11,7 @@ import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.entity.EPG;
 import com.wanlong.iptv.entity.EPGlist;
 import com.wanlong.iptv.entity.Live;
+import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.Utils;
 
 /**
@@ -25,11 +26,11 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
 
     //获取节目类型：直播、自办
     //获取所有节目
-    public void loadLiveTypeData(Context context, String url) {
-        Logger.d("LivePresenter:" + url);
-        OkGo.<String>post(url)
+    //position:     0：全部  -1：监狱版直播or监狱版自办   1、2、3、4...:标准版分类
+    public void loadLiveTypeData(Context context, int position) {
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LIVE)
                 .tag(this)
-                .cacheKey(url + "?")
+                .cacheKey(Apis.HEADER + Apis.USER_LIVE + "?")
                 .params("mac", Utils.getMac(context))
                 .params("category", "?")
                 .execute(new StringCallback() {
@@ -39,7 +40,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         try {
                             Live liveListDatas = JSON.parseObject(response.body(), Live.class);
                             if (liveListDatas.getCode().equals("0") || liveListDatas.getCode().equals("1")) {
-                                getView().loadListSuccess(liveListDatas);
+                                getView().loadListSuccess(liveListDatas, position);
                             } else {
                                 getView().loadFailed(1);
                             }
@@ -65,11 +66,11 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
     }
 
     //获取节目列表 type:直播、自办
-    public void loadLiveListData(Context context, String url, String type) {
-        Logger.d("LivePresenter:" + url);
-        OkGo.<String>post(url)
+    //position:     0：全部  -1：监狱版直播or监狱版自办   1、2、3、4...:标准版分类
+    public void loadLiveListData(Context context, String type, int position) {
+        OkGo.<String>post(Apis.HEADER + Apis.USER_LIVE)
                 .tag(this)
-                .cacheKey(url + type)
+                .cacheKey(Apis.HEADER + Apis.USER_LIVE + type)
                 .params("mac", Utils.getMac(context))
                 .params("category", type)
                 .execute(new StringCallback() {
@@ -79,7 +80,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
                         try {
                             Live liveListDatas = JSON.parseObject(response.body(), Live.class);
                             if (liveListDatas.getCode().equals("0") || liveListDatas.getCode().equals("1")) {
-                                getView().loadListSuccess(liveListDatas);
+                                getView().loadListSuccess(liveListDatas, position);
                             } else {
                                 getView().loadFailed(1);
                             }
@@ -189,7 +190,7 @@ public class LivePresenter extends BasePresenter<LivePresenter.LiveView> {
     }
 
     public interface LiveView extends BaseView {
-        void loadListSuccess(Live liveListDatas);
+        void loadListSuccess(Live liveListDatas, int position);
 
         void loadEPGlistSuccess(EPGlist epGlist);
 

@@ -2,18 +2,16 @@ package com.wanlong.iptv.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.ijkplayer.services.Settings;
-import com.wanlong.iptv.ijkplayer.widget.media.IjkVideoView;
-import com.wanlong.iptv.imageloader.GlideApp;
 import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
@@ -21,7 +19,6 @@ import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * Created by lingchen on 2018/1/24. 14:25
@@ -30,8 +27,8 @@ import tv.danmaku.ijk.media.player.IMediaPlayer;
 public class StartActivity extends BaseActivity {
     @BindView(R.id.img_start)
     ImageView mImgStart;
-    @BindView(R.id.ijkVideoView)
-    IjkVideoView mIjkVideoView;
+    @BindView(R.id.img_bg)
+    ImageView mImgBg;
 
     @Override
     protected int getContentResId() {
@@ -40,28 +37,34 @@ public class StartActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        GlideApp.with(this)
-                .load(R.drawable.wooden_house)
-                .centerCrop()
-                .into(mImgStart);
-//        Animation loadAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image);
-//        mImgStart.setAnimation(loadAnimation);
-//        loadAnimation.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            mImgBg.setVisibility(View.GONE);
+            startAnimation();
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            mImgStart.setVisibility(View.GONE);
+        }
+    }
 
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {
-//
-//            }
-//        });
+    private void startAnimation() {
+        Animation loadAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image);
+        mImgStart.setAnimation(loadAnimation);
+        loadAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mHandler.sendEmptyMessageDelayed(OPEN, 1000);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
     }
 
     private static final int OPEN = 1;
@@ -78,64 +81,9 @@ public class StartActivity extends BaseActivity {
         Logger.d("mac:" + Utils.getMac(this));
         Logger.d("model:" + Build.MODEL);
         createSP();
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            initPlayer();
-        }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
         }
-    }
-
-    private void initPlayer() {
-        mIjkVideoView.setVisibility(View.VISIBLE);
-        Settings.setPlayer(Settings.PV_PLAYER__AndroidMediaPlayer);
-        mIjkVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(IMediaPlayer iMediaPlayer) {
-                iMediaPlayer.start();
-            }
-        });
-        mIjkVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(IMediaPlayer iMediaPlayer) {
-                iMediaPlayer.stop();
-                mHandler.sendEmptyMessageDelayed(OPEN, 0);
-            }
-        });
-        mIjkVideoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(IMediaPlayer iMediaPlayer, int i, int i1) {
-                return false;
-            }
-        });
-        try {
-            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.prevail);
-            mIjkVideoView.setVideoURI(uri);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mIjkVideoView.canPause()) {
-            mIjkVideoView.pause();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!mIjkVideoView.isPlaying()) {
-            mIjkVideoView.resume();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mIjkVideoView.stopPlayback();
     }
 
     //创建SharedPreferences

@@ -3,7 +3,7 @@
     android:id="@+id/ll_item_recycler_time"
     android:layout_width="match_parent"
     android:layout_height="90px"
-    android:background="@drawable/vod_list_bg_selector"
+    android:background="@drawable/live_list_bg_selector"
     android:focusable="true"
     android:orientation="horizontal">
 
