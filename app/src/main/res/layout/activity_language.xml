@@ -17,7 +17,7 @@
         tools:src="@drawable/wooden_house" />
 
     <RelativeLayout
-        android:layout_width="1200px"
+        android:layout_width="1350px"
         android:layout_height="600px"
         android:layout_centerInParent="true"
         android:background="@drawable/input_green_normal"
@@ -64,12 +64,12 @@
 
             <Button
                 android:id="@+id/btn_english"
-                android:layout_width="320px"
+                android:layout_width="300px"
                 android:layout_height="100px"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="32px"
-                android:layout_marginRight="48px"
+                android:layout_marginRight="16px"
                 android:layout_toLeftOf="@+id/btn_thai"
                 android:background="@drawable/btn_background1"
                 android:focusable="true"
@@ -80,11 +80,13 @@
 
             <Button
                 android:id="@+id/btn_thai"
-                android:layout_width="320px"
+                android:layout_width="300px"
                 android:layout_height="100px"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="32px"
+                android:layout_marginLeft="16px"
+                android:layout_marginRight="16px"
                 android:background="@drawable/btn_background1"
                 android:focusable="true"
                 android:text="@string/thai"
@@ -94,13 +96,45 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btn_chinese"
-                android:layout_width="320px"
+                android:id="@+id/btn_russian"
+                android:layout_width="300px"
                 android:layout_height="100px"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="32px"
-                android:layout_marginLeft="48px"
+                android:layout_marginLeft="16px"
+                android:layout_marginRight="16px"
+                android:background="@drawable/btn_background1"
+                android:focusable="true"
+                android:text="@string/russian"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="48px" />
+
+            <Button
+                android:id="@+id/btn_armenia"
+                android:layout_width="300px"
+                android:layout_height="100px"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="32px"
+                android:layout_marginLeft="16px"
+                android:layout_marginRight="16px"
+                android:background="@drawable/btn_background1"
+                android:focusable="true"
+                android:text="@string/armenia"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="48px" />
+
+            <Button
+                android:id="@+id/btn_chinese"
+                android:layout_width="300px"
+                android:layout_height="100px"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="32px"
+                android:layout_marginLeft="16px"
                 android:layout_toRightOf="@+id/btn_thai"
                 android:background="@drawable/btn_background1"
                 android:focusable="true"

@@ -311,6 +311,8 @@
     <string name="today">Today</string>
     <string name="playlist">Playlist</string>
     <string name="look_back">Look back</string>
+    <string name="russian">русский</string>
+    <string name="armenia">Հայաստան</string>
 
 
 </resources>

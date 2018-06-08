@@ -24,7 +24,7 @@ public class LanguageSwitchUtils {
     private static SharedPreferences.Editor editor;
 
     /**
-     * 语言切换
+     * 语言切换 https://blog.csdn.net/LK1105010206/article/details/53812498
      */
     public static void languageSwitch(Context context, int language) {
         Resources resources = context.getResources();
@@ -38,22 +38,13 @@ public class LanguageSwitchUtils {
                 configuration.locale = Locale.ENGLISH;
                 break;
             case THAI:
-                String languageToLoad1 = "th-rTH";
-                Locale locale1 = new Locale(languageToLoad1);
-                Locale.setDefault(locale1);
-                configuration.locale = Locale.getDefault();
+                configuration.locale = new Locale("th", "TH");
                 break;
             case RUSSIAN:
-                String languageToLoad2 = "ru-rRU";
-                Locale locale2 = new Locale(languageToLoad2);
-                Locale.setDefault(locale2);
-                configuration.locale = Locale.getDefault();
+                configuration.locale = new Locale("ru", "RU");
                 break;
             case ARMENIA:
-                String languageToLoad3 = "hy-rAM";
-                Locale locale3 = new Locale(languageToLoad3);
-                Locale.setDefault(locale3);
-                configuration.locale = Locale.getDefault();
+                configuration.locale = new Locale("hy", "AM");
                 break;
         }
         resources.updateConfiguration(configuration, dm);
