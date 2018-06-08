@@ -115,9 +115,9 @@ public class EPGUtils {
                 }
                 //按时间降序
                 if (time1 > time2) {
-                    return -1;
-                } else if (time1 < time2) {
                     return 1;
+                } else if (time1 < time2) {
+                    return -1;
                 }
                 return 0;
             }
