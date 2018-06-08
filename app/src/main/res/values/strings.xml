@@ -1,88 +1,90 @@
 <resources>
     <string name="app_name">RBS</string>
-    <string name="versionCode">1101</string>
-    <string name="versionName">1.3.7</string>
+    <string name="versionCode">1116</string>
+    <string name="versionName">1.3.9</string>
     <string name="english">English</string>
     <string name="chinese">中文</string>
     <string name="thai">ภาษาไทย</string>
-    <string name="tv_hotel_login">โรงแรมที่พักIPTVเข้าสู่ระบบ</string>
-    <string name="btn_login">เข้าสู่ระบบ</string>
-    <string name="tv_live">ถ่ายทอดสด</string>
-    <string name="tv_vod">ตามความต้องการ</string>
-    <string name="tv_cuisines">อาหาร</string>
-    <string name="tv_services">บริการ</string>
-    <string name="tv_setting">การตั้งค่า</string>
-    <string name="tv_scnenrise">การท่องเที่ยว</string>
-    <string name="tv_expense">บิล</string>
-    <string name="exitdialog_out">ออก</string>
-    <string name="exitdialog_back">ดูอีกครั้ง</string>
-    <string name="exitdialog_hint">เคล็ดลับออก</string>
-    <string name="exitdialog_out_hint">คุณจะลาออกเหรอ？</string>
-    <string name="system_setting">การตั้งค่าระบบ</string>
-    <string name="ip_setting">การตั้งค่าที่อยู่เซิร์ฟเวอร์</string>
-    <string name="login_setting">การตั้งค่าการเข้าสู่ระบบ</string>
-    <string name="label_setting_host_tips">ที่นี่กล่องที่เชื่อมต่อกับเซิร์ฟเวอร์ที่ใช้ในการปรับเปลี่ยนที่อยู่ถ้าคุณแก้ไขข้อผิดพลาดกล่อง set - top จะไม่สามารถเชื่อมต่อเซิร์ฟเวอร์และเซิร์ฟเวอร์ไม่สามารถใช้งานได้ตามปกติและถ้าเปลี่ยนกรุณาปรึกษาสอบถามผู้ประกอบการท้องถิ่นที่อยู่ใหม่เพื่อให้แน่ใจว่าทำงานอย่างถูกต้อง , กล่อง set - top . . . . . . .</string>
-    <string name="submit">ส่ง</string>
-    <string name="recovery_address">เรียกคืนค่าเริ่มต้นที่อยู่</string>
-    <string name="server_address">ที่อยู่ของเซิร์ฟเวอร์</string>
-    <string name="room_number">ห้องหมายเลข</string>
+    <string name="tv_hotel_login">IPTV Login</string>
+    <string name="btn_login">Login</string>
+    <string name="tv_live">Live</string>
+    <string name="tv_vod">Vod</string>
+    <string name="tv_cuisines">Cuisines</string>
+    <string name="tv_services">Services</string>
+    <string name="tv_setting">Setting</string>
+    <string name="tv_scnenrise">Sceneries</string>
+    <string name="tv_expense">Expense</string>
+    <string name="exitdialog_out">Exit</string>
+    <string name="exitdialog_back">See again</string>
+    <string name="exitdialog_hint">Exit hints</string>
+    <string name="exitdialog_out_hint">Do you really want to quit?</string>
+    <string name="system_setting">System setting</string>
+    <string name="ip_setting">Server address setting</string>
+    <string name="login_setting">Login setting</string>
+    <string name="label_setting_host_tips">It is used to modify the server address connected to set-top box.
+        Any errors during modification might lead to connection fail and set-top box can’t work correctly.
+        To change the server address, please consult your local operator to check the new address to ensure set-top boxes work properly.</string>
+    <string name="submit">Submit</string>
+    <string name="recovery_address">Restore the default address</string>
+    <string name="server_address">Server address</string>
+    <string name="room_number">Room number</string>
 
-    <string name="device_id">ID ของอุปกรณ์:</string>
-    <string name="version">รุ่น:</string>
-    <string name="error">โปรแกรมออก ...</string>
-    <string name="click_again_to_welcome_activity">คลิกอีกครั้งเพื่อกลับสู่หน้าจอต้อนรับ</string>
-    <string name="play_setting">การเล่นการตั้งค่า</string>
-    <string name="update_setting">ปรับปรุงการตั้งค่า</string>
-    <string name="about_us">เกี่ยวกับเรื่องที่เรา</string>
-    <string name="report_setting">รายงานปัญหา</string>
-    <string name="click_again_to_exit_playback">คลิกอีกครั้งเพื่อออกจากการเล่น</string>
-    <string name="cctv_news">19:00 เครือข่ายข่าว</string>
-    <string name="animal_world">20:00 โลกของสัตว์</string>
-    <string name="check_update">การตรวจสอบการปรับปรุง......</string>
-    <string name="yes">แน่ใจว่า</string>
-    <string name="current_version">รุ่นปัจจุบัน .</string>
-    <string name="find_new_version">สำหรับเวอร์ชันใหม่</string>
-    <string name="new_version">เวอร์ชั่นใหม่</string>
-    <string name="cancel">การยกเลิก</string>
-    <string name="chinese_food">อาหารประเภทจีน</string>
-    <string name="france_food">อาหารฝรั่งเศส</string>
-    <string name="japan_food">ร้านอาหารญี่ปุ่น</string>
-    <string name="korea_food">อาหารเกาหลี</string>
-    <string name="xiaochi">ของหวานขนม</string>
-    <string name="caffe_tea">กาแฟดื่ม</string>
-    <string name="latast_version">คุณเป็นเจ้าของรุ่นล่าสุด</string>
-    <string name="wakeup_service">บริการโทรปลุก</string>
-    <string name="laundry_service">บริการซัก - รีด</string>
-    <string name="polish_shoes">บริการขัดรองเ้ท้า</string>
-    <string name="beauty_service">บริการความงาม</string>
-    <string name="flight_service">การให้บริการเที่ยวบิน</string>
-    <string name="fitness_Service">บริการฟิตเนส</string>
-    <string name="welcome_text">        ขอบคุณที่เข้าเยี่ยมชมโรงแรมที่คุณ xxx " pioneering วิญญาณเอกภาพและความก้าวหน้าและความสมบูรณ์ของความรักชั้นยอด " เป็นทฤษฎีการบริการของเรา ในที่พักของคุณในช่วงที่เราจะช่วยให้คุณมีบริการที่สมบูรณ์แบบและช่วยให้คุณรู้สึกอบอุ่นและจริงใจให้บริการของเราให้คุณประทับใจ \n
-            ขอให้มีความสุขในการเดินทางทางธุรกิจ , ความสำเร็จ ! \n
-            ยินดีต้อนรับคุณเยี่ยมชมอีกครั้ง ! </string>
-    <string name="respected_customers">เคารพของลูกค้า</string>
+    <string name="device_id">Device ID:</string>
+    <string name="version">Version:</string>
+    <string name="error">The program is running down...</string>
+    <string name="click_again_to_welcome_activity">Click back to the welcome interface again</string>
+    <string name="play_setting">Play Setting</string>
+    <string name="update_setting">Update Setting</string>
+    <string name="about_us">About Us</string>
+    <string name="report_setting">Report Setting</string>
+    <string name="click_again_to_exit_playback">Click again to exit playback</string>
+    <string name="cctv_news">19:00 CCTV News</string>
+    <string name="animal_world">20:00 Animal World</string>
+    <string name="check_update">Checking update now......</string>
+    <string name="yes">Yes</string>
+    <string name="current_version">Current Version</string>
+    <string name="find_new_version">Find new version</string>
+    <string name="new_version">new version</string>
+    <string name="cancel">cancel</string>
+    <string name="chinese_food">Chinese food</string>
+    <string name="france_food">French food</string>
+    <string name="japan_food">Japan food</string>
+    <string name="korea_food">Korea food</string>
+    <string name="xiaochi">Dessert snack</string>
+    <string name="caffe_tea">Coffee and tea</string>
+    <string name="latast_version">You have the latast version</string>
+    <string name="wakeup_service">Wake-up service</string>
+    <string name="laundry_service">Laundry service</string>
+    <string name="polish_shoes">Polish shoes</string>
+    <string name="beauty_service">Beauty service</string>
+    <string name="flight_service">Flight service</string>
+    <string name="fitness_Service">Fitness Service</string>
+    <string name="welcome_text">        It is our service tenet that you are here at XXX hotel. During your stay, we will provide the perfect service for you, make you feel warm and sincere service, we would like to give you a good impression. \n
+            Wish you a pleasant journey, business success, good luck in everything! \n
+            Welcome to your visit again!</string>
+    <string name="respected_customers">Respected customers</string>
 
     <string-array name="day_of_week">
-        <item>วันอาทิตย์</item>
-        <item>วันจันทร์</item>
-        <item>วันอังคาร</item>
-        <item>วันพุธ</item>
-        <item>วันพฤหัสบดี</item>
-        <item>วันศุกร์</item>
-        <item>วันเสาร์</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
     </string-array>
 
     <string-array name="live_category">
-        <item>ที่สถานีกลาง</item>
-        <item>โทรทัศน์ทั่วโลก</item>
-        <item>สถานีท้องถิ่น</item>
-        <item>โปรแกรมการจ่ายเงิน</item>
+        <item>CCTV</item>
+        <item>Provincial TV</item>
+        <item>Local TV</item>
+        <item>Pay Program</item>
     </string-array>
 
     <string-array name="vod_category">
-        <item>ค้นหา</item>
-        <item>ทั้งหมด</item>
-        <item>ตัวกรอง</item>
+        <item>Search</item>
+        <item>All</item>
+        <item>Filter</item>
         <item>Guess you like</item>
         <item>Hongkong film</item>
         <item>Animated film</item>
@@ -272,6 +274,10 @@
     <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
+
+    <!--ijkplayer-end                                                                               -->
+
+
     <string name="tv_language">Language</string>
     <string name="user_is_not_registered">User is not registered</string>
     <string name="success">Success</string>
@@ -301,7 +307,12 @@
     <string name="no_network_connection">No network connection</string>
     <string name="the_user_does_not_have_permission_to_watch_the_program">The user does not have permission to watch the program</string>
     <string name="unable_to_watch_unauthorized_programs">Unable to watch unauthorized programs</string>
+    <string name="more_infomation">More Infomation</string>
+    <string name="today">Today</string>
+    <string name="playlist">Playlist</string>
+    <string name="look_back">Look back</string>
+    <string name="russian">русский</string>
+    <string name="armenia">Հայաստան</string>
 
-    <!--ijkplayer-end                                                                               -->
 
 </resources>

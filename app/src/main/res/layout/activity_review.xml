@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_181818"
-    tools:context=".ui.activity.SceneriesActivity">
+    android:focusable="false"
+    tools:context=".ui.activity.ReviewActivity">
 
-    <com.youth.banner.Banner
-        android:id="@+id/scnenries_banner"
+    <com.wanlong.iptv.player.VodVideoPlayer
+        android:id="@+id/vod_player"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:focusable="true" />
 </RelativeLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/re_live_channel"
-    android:layout_width="450px"
+    android:layout_width="match_parent"
     android:layout_height="90px"
     android:background="@drawable/live_list_bg_selector"
     android:focusable="true"
@@ -21,8 +21,8 @@
         android:maxLines="1"
         android:paddingBottom="12px"
         android:paddingTop="12px"
-        android:textColor="@color/white"
-        android:textSize="40px" />
+        android:textColor="@color/color_8d9295"
+        android:textSize="44px" />
 
     <ImageView
         android:id="@+id/img_item_recycler_live_icon"
@@ -45,7 +45,7 @@
         android:gravity="left|center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="48px" />
+        android:textColor="@color/color_8d9295"
+        android:textSize="44px" />
 
 </com.zhy.autolayout.AutoLinearLayout>

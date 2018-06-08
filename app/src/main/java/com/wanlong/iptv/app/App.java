@@ -16,6 +16,7 @@ import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.squareup.leakcanary.LeakCanary;
@@ -75,9 +76,15 @@ public class App extends Application {
         GSYVideoType.enableMediaCodec();//开启硬解码
         GSYVideoType.enableMediaCodecTexture();//使能硬解码渲染优化
         GSYVideoType.setShowType(GSYVideoType.SCREEN_MATCH_FULL);
-        Debuger.enable();
         IjkMediaPlayer.loadLibrariesOnce(null);
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
+        if (ApkVersion.RELEASE_VERSION) {
+            Debuger.disable();
+            IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_ERROR);
+        } else {
+            Debuger.enable();
+            IjkPlayerManager.setLogLevel(IjkMediaPlayer.IJK_LOG_DEBUG);
+        }
     }
 
     //初始化OkGo

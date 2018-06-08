@@ -85,15 +85,19 @@
     <string name="no_network_connection">无网络连接</string>
     <string name="the_user_does_not_have_permission_to_watch_the_program">用户无权限观看此节目</string>
     <string name="unable_to_watch_unauthorized_programs">未授权节目，无法观看</string>
+    <string name="more_infomation">更多信息</string>
+    <string name="today">今天</string>
+    <string name="playlist">节目列表</string>
+    <string name="look_back">回看</string>
 
     <string-array name="day_of_week">
-        <item>星期天</item>
-        <item>星期一</item>
-        <item>星期二</item>
-        <item>星期三</item>
-        <item>星期四</item>
-        <item>星期五</item>
-        <item>星期六</item>
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
     </string-array>
 
     <string-array name="live_category">

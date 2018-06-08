@@ -22,50 +22,51 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by lingchen on 2018/1/27. 15:08
+ * Created by lingchen on 2018/5/28. 15:08
  * mail:lingchen52@foxmail.com
  */
-public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EPGListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<Live.PlaylistBean> mLiveListDatas;
     private LayoutInflater mInflater;
     private int mlastPosition;
 
-    public LiveListAdapter(Context context) {
+    public EPGListAdapter(Context context) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mLiveListDatas = new ArrayList<>();
     }
 
     public void setData(List<Live.PlaylistBean> liveListDatas, int lastPosition) {
-        if (liveListDatas.size() >= lastPosition && lastPosition != -1) {
+        if (liveListDatas.size() >= lastPosition) {
             mlastPosition = lastPosition;
         } else {
             mlastPosition = 0;
         }
         this.mLiveListDatas.clear();
-        if (liveListDatas != null && liveListDatas.size() > 0) {
-            this.mLiveListDatas.addAll(liveListDatas);
-        }
+        this.mLiveListDatas.addAll(liveListDatas);
         notifyDataSetChanged();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_recycler_live_list, parent, false);
+        View view = mInflater.inflate(R.layout.item_recycler_epg_live_list, parent, false);
         return new ViewHolder(view);
     }
 
-    private boolean first = true;
+    private int lastPosition;
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.setIsRecyclable(false);
-        if (first && position == mlastPosition) {
+        if (position == mlastPosition) {
             viewHolder.mReLiveChannel.requestFocus();
-            first = false;
+        }
+        if (position == 0) {
+            viewHolder.mTvItemRecyclerLiveNumber.setTextColor(mContext.getResources().getColor(R.color.white));
+            viewHolder.mTvItemLiveList.setTextColor(mContext.getResources().getColor(R.color.white));
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             viewHolder.mImgItemLiveIcon.setVisibility(View.GONE);
@@ -88,8 +89,10 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             @Override
             public void onClick(View v) {
                 int position = viewHolder.getLayoutPosition();
-                mOnItemClickListener.onItemClick(viewHolder.mTvItemLiveList, position);
-                mlastPosition = position;
+                viewHolder.mTvItemRecyclerLiveNumber.setTextColor(mContext.getResources().getColor(R.color.white));
+                viewHolder.mTvItemLiveList.setTextColor(mContext.getResources().getColor(R.color.white));
+                mOnItemClickListener.onItemClick(viewHolder.mTvItemLiveList, position, lastPosition);
+                lastPosition = position;
             }
         });
     }
@@ -119,7 +122,7 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnItemClickListener mOnItemClickListener;//声明接口
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position, int lastPosition);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

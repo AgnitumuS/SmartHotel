@@ -242,7 +242,6 @@ public class AdService extends Service {
                             loginFailed();
 //                            Toast.makeText(LoginSettingActivity.this, "服务器返回数据异常", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
@@ -258,8 +257,10 @@ public class AdService extends Service {
         try {
             editor.putString("group", data.getGroup());
             editor.putString("stb_name", data.getStb_name());
+            editor.putString("area", data.getArea());
             editor.putString("Owner_Group", data.getOwner_Group());
             editor.putString("Owner_Group_display", data.getOwner_Group_display());
+            editor.putString("playback_url", data.getPlayback_url());
             editor.commit();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -320,6 +321,7 @@ public class AdService extends Service {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Logger.json(response.body());
                         if (response != null && response.body() != null) {
                             try {
                                 pushMSG = JSON.parseObject(response.body(), PushMSG.class);
@@ -349,7 +351,7 @@ public class AdService extends Service {
 
     //处理返回数据
     private void executeData(int type, PushMSG mPushMSG, Response<String> response) {
-        if (mPushMSG != null && mPushMSG.getCode().equals("0")) {
+        if (mPushMSG != null) {
             if (type == AD_TYPE_TEXT) {
                 if (textResult == null) {
                     textResult = response.body();

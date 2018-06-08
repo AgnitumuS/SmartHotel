@@ -34,6 +34,10 @@ public class LanguageActivity extends BaseActivity {
     ImageView mImgLanguageActivity;
     @BindView(R.id.btn_thai)
     Button mBtnThai;
+    @BindView(R.id.btn_russian)
+    Button mBtnRussian;
+    @BindView(R.id.btn_armenia)
+    Button mBtnArmenia;
 
     @Override
     protected int getContentResId() {
@@ -52,17 +56,15 @@ public class LanguageActivity extends BaseActivity {
     }
 
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private boolean firstOpen;
 
     @Override
     protected void initData() {
         sharedPreferences = ApkVersion.getSP(this);
-        editor = sharedPreferences.edit();
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
     }
 
-    @OnClick({R.id.btn_chinese, R.id.btn_english, R.id.btn_thai})
+    @OnClick({R.id.btn_chinese, R.id.btn_english, R.id.btn_thai, R.id.btn_russian, R.id.btn_armenia})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_chinese:
@@ -75,6 +77,14 @@ public class LanguageActivity extends BaseActivity {
                 break;
             case R.id.btn_thai:
                 LanguageSwitchUtils.languageSwitch(this, LanguageSwitchUtils.THAI);
+                toHomeActivity();
+                break;
+            case R.id.btn_russian:
+                LanguageSwitchUtils.languageSwitch(this, LanguageSwitchUtils.RUSSIAN);
+                toHomeActivity();
+                break;
+            case R.id.btn_armenia:
+                LanguageSwitchUtils.languageSwitch(this, LanguageSwitchUtils.ARMENIA);
                 toHomeActivity();
                 break;
         }
