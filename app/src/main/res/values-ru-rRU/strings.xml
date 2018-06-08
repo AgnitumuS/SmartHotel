@@ -1,0 +1,89 @@
+<resources>
+
+    <string name="tv_hotel_login">Вход в IPTV</string>
+    <string name="btn_login">Вход </string>
+    <string name="tv_live">эфир</string>
+    <string name="tv_vod">Vod</string>
+    <string name="tv_cuisines">кухни</string>
+    <string name="tv_services">Сервисы</string>
+    <string name="tv_setting">Настройки</string>
+    <string name="tv_scnenrise">декорации</string>
+    <string name="tv_expense">расходы</string>
+    <string name="exitdialog_out">выход</string>
+    <string name="exitdialog_back">увидеть снова</string>
+    <string name="exitdialog_hint">вывод подсказок</string>
+    <string name="exitdialog_out_hint">Вы действительно хотите выйти?</string>
+    <string name="system_setting">системные настройки</string>
+    <string name="ip_setting">настройка адреса сервера</string>
+    <string name="login_setting">настройка входа</string>
+    <string name="label_setting_host_tips">Он используется для изменения адреса сервера, подключенного к телевизионной приставке.
+        Любые ошибки во время модификации могут привести к сбою соединения, а приставка не может работать правильно.
+        Чтобы изменить адрес сервера, обратитесь к местному оператору, чтобы проверить новый адрес, чтобы обеспечить правильную работу телеприставки.</string>
+    <string name="submit">подтвердить</string>
+    <string name="recovery_address">Восстановить адрес по умолчанию</string>
+    <string name="server_address">Адрес сервера</string>
+    <string name="room_number">Номер комнаты</string>
+    <string name="device_id">Идентификатор устройства:</string>
+    <string name="version">Версия:</string>
+    <string name="error">Программа Выключается...</string>
+    <string name="click_again_to_welcome_activity">Вернитесь снова к приветствующему интерфейсу</string>
+    <string name="play_setting">Настройка воспроизведения</string>
+    <string name="update_setting">Настройка обновления</string>
+    <string name="about_us">О нас</string>
+    <string name="report_setting">Настройка отчета</string>
+    <string name="click_again_to_exit_playback">Нажмите еще раз, чтобы выйти из режима</string>
+    <string name="check_update">Проверка обновления сейчас ......</string>
+    <string name="yes">да</string>
+    <string name="current_version">Текущая версия</string>
+    <string name="find_new_version">Найти новую версию</string>
+    <string name="new_version">новая версия</string>
+    <string name="cancel">Отмена</string>
+    <string name="latast_version">У вас есть последняя версия</string>
+    <string name="tv_language">язык</string>
+    <string name="user_is_not_registered">Пользователь не зарегистрирован</string>
+    <string name="success">Успех</string>
+    <string name="submit_failed">Submit Failed</string>
+    <string name="login_failed">Не удалось отправить</string>
+    <string name="please_enter_the_correct_address">Пожалуйста, введите правильный IP-адрес</string>
+    <string name="all">Все</string>
+    <string name="the_user_has_expired_and_can_not_continue_to_watch">Пользователь истек и не может продолжать смотреть</string>
+    <string name="the_program_you_entered_did_not_exist">Программа, которую вы ввели не существует</string>
+    <string name="time">Время</string>
+    <string name="category">Категория</string>
+    <string name="actor">Актер</string>
+    <string name="synopsis">Краткий обзор</string>
+    <string name="full_screen_play">Полный экран воспроизведения</string>
+    <string name="updated">Обновление</string>
+    <string name="total">Общая</string>
+    <string name="selections">Выбор</string>
+    <string name="the_user_is_going_to_expire">Пользователь собирается истечь</string>
+    <string name="administrator_password">Пароль администратора</string>
+    <string name="please_enter_the_password">Пожалуйста, введите 8-значный пароль</string>
+    <string name="password_error_please_retype">Ошибка пароль, пожалуйста введите</string>
+    <string name="downloading">Загрузка......</string>
+    <string name="a_mandatory_program_is_playing">Обязательная программа играет</string>
+    <string name="enter_the_insert_program">Войдите в программу Вставка</string>
+    <string name="it_will_be_broadcast_again_later">Оно будет транслироваться позже</string>
+    <string name="language_setting">Языковые настройки</string>
+    <string name="no_network_connection">Отсутствует сетевое подключение</string>
+    <string name="the_user_does_not_have_permission_to_watch_the_program">Пользователь не имеет разрешения для просмотра программы</string>
+    <string name="unable_to_watch_unauthorized_programs">Не удается смотреть несанкционированных программ</string>
+    <string name="more_infomation">Больше информация</string>
+    <string name="today">Сегодня</string>
+    <string name="playlist">Плейлист</string>
+    <string-array name="day_of_week">
+        <item>Воскресенье</item>
+        <item>понедельник</item>
+        <item>вторник</item>
+        <item>среда</item>
+        <item>Четверг</item>
+        <item>пятница</item>
+        <item>суббота</item>
+    </string-array>
+    <string-array name="vod_category">
+        <item>Поиск</item>
+        <item>Все</item>
+        <item>Фильтр</item>
+        <item>Думаю, что вам нравится</item>
+    </string-array>
+</resources>

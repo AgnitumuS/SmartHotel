@@ -1,0 +1,89 @@
+<resources>
+
+    <string name="tv_hotel_login">IPTV Մուտք</string>
+    <string name="btn_login">Մուտք</string>
+    <string name="tv_live">Եթեր</string>
+    <string name="tv_vod">Vod</string>
+    <string name="tv_cuisines">խոհանոցներ</string>
+    <string name="tv_services">ծառայություններ</string>
+    <string name="tv_setting">կարգավորումներ</string>
+    <string name="tv_scnenrise">Տեսարան</string>
+    <string name="tv_expense">ծախսերը</string>
+    <string name="exitdialog_out">ելք</string>
+    <string name="exitdialog_back">կրկին տեսնել</string>
+    <string name="exitdialog_hint">ելքի ակնարկներ</string>
+    <string name="exitdialog_out_hint">իսկապես ցանկանում եք դուրս գալ?</string>
+    <string name="system_setting">համակարգի կարգավորումներ</string>
+    <string name="ip_setting">սերվերի հասցեի կարգավորում</string>
+    <string name="login_setting">մուտքի կարգավորում</string>
+    <string name="label_setting_host_tips">Այն օգտագործվում է փոփոխելու սերվերի հասցեն, որը կապված է վերին տուփի վանդակում:
+        Փոփոխությունների ընթացքում կատարված ցանկացած սխալ կարող է հանգեցնել կապի ձախողման, իսկ վահանակը, չի կարող ճիշտ աշխատել:
+        Սերվերի հասցեն փոխելու համար խնդրում ենք խորհրդակցել ձեր տեղական օպերատորին `նոր հասցեն ստուգելու համար, որը սահմանափակում է արկղերի պատշաճ աշխատանքը:</string>
+    <string name="submit">հաստատել</string>
+    <string name="recovery_address">Վերականգնել կանխադրված հասցեն</string>
+    <string name="server_address">Սերվերի հասցե</string>
+    <string name="room_number">Սենյակի համար</string>
+    <string name="device_id">Սարքի ID:</string>
+    <string name="version">Տարբերակ:</string>
+    <string name="error">Ծրագիրը անջատվում է...</string>
+    <string name="click_again_to_welcome_activity">Սեղմեք ետ նորից ողջույնի ինտերֆեյսին</string>
+    <string name="play_setting">վերարտադրման կարգավորումներ</string>
+    <string name="update_setting">կարգավորումների թարմացում</string>
+    <string name="about_us">Մեր մասին</string>
+    <string name="report_setting">Հաշվետվության կարգավորում</string>
+    <string name="click_again_to_exit_playback">Սեղմեք կրկին ռեժիմից դուրս գալու համար:</string>
+    <string name="check_update">Թարմացումն այժմ ստուգում է......</string>
+    <string name="yes">Այո</string>
+    <string name="current_version">Ընթացիկ տարբերակ</string>
+    <string name="find_new_version">Գտնել նոր տարբերակ</string>
+    <string name="new_version">նոր տարբերակ</string>
+    <string name="cancel">չեղարկել</string>
+    <string name="latast_version">Դուք ունեք վերջին տարբերակը</string>
+    <string name="tv_language">Լեզու</string>
+    <string name="user_is_not_registered">Օգտվողը գրանցված չէ</string>
+    <string name="success">Հաջողություն</string>
+    <string name="submit_failed">Ներկայացրեք չհաջողվեց</string>
+    <string name="login_failed">Մուտք գործել</string>
+    <string name="please_enter_the_correct_address">Մուտքագրեք ճիշտ IP հասցեն</string>
+    <string name="all">Բոլորը</string>
+    <string name="the_user_has_expired_and_can_not_continue_to_watch">Օգտագործողի ժամկետը լրացել է եւ չի կարող շարունակել դիտել</string>
+    <string name="the_program_you_entered_did_not_exist">Ձեր մուտքագրած ծրագիրը գոյություն չուներ</string>
+    <string name="time">Ժամանակը</string>
+    <string name="category">Կատեգորիա</string>
+    <string name="actor">Դերասան</string>
+    <string name="synopsis">Սինոփսիս</string>
+    <string name="full_screen_play">Ամբողջ էկրանով խաղալու համար</string>
+    <string name="updated">Թարմացվել է</string>
+    <string name="total">Ընդամենը</string>
+    <string name="selections">Ընտրություններ</string>
+    <string name="the_user_is_going_to_expire">Օգտվողը սպառվում է</string>
+    <string name="administrator_password">Ադմինիստրատոր գաղտնաբառը</string>
+    <string name="please_enter_the_password">Խնդրում ենք մուտքագրել 8 նիշանոց գաղտնաբառը</string>
+    <string name="password_error_please_retype">Գաղտնաբառի սխալ, խնդրում ենք վերաթարմացնել</string>
+    <string name="downloading">Ներբեռնում......</string>
+    <string name="a_mandatory_program_is_playing">Պարտադիր ծրագիր է խաղում</string>
+    <string name="enter_the_insert_program">Մուտքագրեք ներդիր ծրագիրը</string>
+    <string name="it_will_be_broadcast_again_later">Այն կցուցադրվի ավելի ուշ</string>
+    <string name="language_setting">Լեզվի կարգավորում</string>
+    <string name="no_network_connection">Ցանցի կապ չկա</string>
+    <string name="the_user_does_not_have_permission_to_watch_the_program">Օգտվողը չունի ծրագիր դիտելու թույլտվություն</string>
+    <string name="unable_to_watch_unauthorized_programs">Չհաջողվեց դիտել չարտոնված ծրագրեր</string>
+    <string name="more_infomation">Լրացուցիչ տեղեկություն</string>
+    <string name="today">Այսօր</string>
+    <string name="playlist">Տեսացանկ</string>
+    <string-array name="day_of_week">
+        <item>Կիրակի</item>
+        <item>Երկուշաբթի</item>
+        <item>Երեքշաբթի</item>
+        <item>Չորեքշաբթի</item>
+        <item>Հինգշաբթի</item>
+        <item>Ուրբաթ</item>
+        <item>Շաբաթ</item>
+    </string-array>
+    <string-array name="vod_category">
+        <item>Որոնում</item>
+        <item>Բոլորը</item>
+        <item>Ֆիլտր</item>
+        <item>Գուշակիր, որ սիրում ես</item>
+    </string-array>
+</resources>

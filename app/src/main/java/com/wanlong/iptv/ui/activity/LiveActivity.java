@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,7 +35,9 @@ import com.wanlong.iptv.ui.adapter.LiveListAdapter;
 import com.wanlong.iptv.utils.Apis;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.EPGUtils;
+import com.wanlong.iptv.utils.Utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,6 +78,8 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     AppCompatTextView mTvEpgNow;
     @BindView(R.id.tv_epg_next)
     AppCompatTextView mTvEpgNext;
+    @BindView(R.id.btn_watch_hint)
+    Button mBtnWatchHint;
 
     @Override
     protected int getContentResId() {
@@ -134,13 +139,15 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
         liveLastPlayPosition = sharedPreferences.getInt(sp_lastPlayPosition, 0);
         setPresenter(new LivePresenter(this));
         mTvLiveCategory.setText(getString(R.string.all));
-        mImgLeft.setVisibility(View.GONE);
-        mImgRight.setVisibility(View.GONE);
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            getPresenter().loadLiveListData(this, Apis.HEADER + Apis.USER_LIVE, type);
+            currentType = -1;
+            getPresenter().loadLiveListData(this, type, currentType);
+            mImgLeft.setVisibility(View.GONE);
+            mImgRight.setVisibility(View.GONE);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            getPresenter().loadLiveTypeData(this, Apis.HEADER + Apis.USER_LIVE);
+            currentType = 0;
+            getPresenter().loadLiveTypeData(this, currentType);
         }
         resetTime(DISMISS_LIST);
         resetTime(DISMISS_INFO);
@@ -155,6 +162,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
             case "S905W":
             case "Prevail CATV":
             case "p230":
+            case "KI_PLUS":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
@@ -167,8 +175,13 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 initIjkVideoView();
                 break;
             default:
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                if (!Utils.isPhone(this)) {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                } else {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                }
                 break;
         }
         mLiveVideoPlayer.setIsTouchWigetFull(true);
@@ -262,19 +275,19 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 } else if (expired_time.equals("0")) {
                     if (checkPackage(position)) {
                         play(newurl);
+                        mBtnWatchHint.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(this,
-                                (R.string.unable_to_watch_unauthorized_programs),
-                                Toast.LENGTH_SHORT).show();
+                        play("");
+                        mBtnWatchHint.setVisibility(View.VISIBLE);
                     }
 //                    Toast.makeText(this, "用户即将过期", Toast.LENGTH_SHORT).show();
                 } else {
                     if (checkPackage(position)) {
                         play(newurl);
+                        mBtnWatchHint.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(this,
-                                (R.string.unable_to_watch_unauthorized_programs),
-                                Toast.LENGTH_SHORT).show();
+                        play("");
+                        mBtnWatchHint.setVisibility(View.VISIBLE);
                     }
                     try {
                         int time = Integer.parseInt(expired_time);
@@ -329,14 +342,16 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 e.printStackTrace();
             }
         } else if (mLiveVideoPlayer != null && mLiveVideoPlayer.getVisibility() == View.VISIBLE) {
-            List<VideoOptionModel> optionModelList = new ArrayList<>();
-//            optionModelList.add(new VideoOptionModel(
-//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
-//            optionModelList.add(new VideoOptionModel(
-//                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
-            optionModelList.add(new VideoOptionModel(
-                    IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
-            GSYVideoManager.instance().setOptionModelList(optionModelList);
+            if (GSYVideoManager.instance().getVideoType() == GSYVideoType.IJKPLAYER) {
+                List<VideoOptionModel> optionModelList = new ArrayList<>();
+//                optionModelList.add(new VideoOptionModel(
+//                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-buffer-size", 10 * 1024 * 1024));
+//                optionModelList.add(new VideoOptionModel(
+//                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "reconnect", 5));
+                optionModelList.add(new VideoOptionModel(
+                        IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0));
+                GSYVideoManager.instance().setOptionModelList(optionModelList);
+            }
             mLiveVideoPlayer.setUp(newurl, false, "");
             mLiveVideoPlayer.startPlayLogic();
         }
@@ -398,12 +413,10 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_left:
-                resetTime(DISMISS_LIST);
-                resetTime(DISMISS_INFO);
+                switchType(LEFT);
                 break;
             case R.id.img_right:
-                resetTime(DISMISS_LIST);
-                resetTime(DISMISS_INFO);
+                switchType(RIGHT);
                 break;
         }
     }
@@ -477,7 +490,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-//                    switchType(LEFT);
+                    switchType(LEFT);
                 }
                 showInfo();
                 break;
@@ -485,7 +498,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 if (mChannelList.getVisibility() == View.GONE) {
                     showList();
                 } else {
-//                    switchType(RIGHT);
+                    switchType(RIGHT);
                 }
                 showInfo();
                 break;
@@ -554,6 +567,43 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //左右键切换分类
+    private void switchType(int orientation) {
+        resetTime(DISMISS_LIST);
+        resetTime(DISMISS_INFO);
+        if (ApkVersion.CURRENT_VERSION != ApkVersion.PRISON_VERSION) {
+            if (orientation == LEFT) {
+                mImgLeft.requestFocus();
+                if (currentType == 0) {
+                    return;
+                }
+                if (mLiveTypes != null && currentType > 0 && currentType <= mLiveTypes.size()) {
+                    currentType -= 1;
+                    if (currentType == 0) {
+                        mTvLiveCategory.setText(getString(R.string.all));
+                        getPresenter().loadLiveTypeData(this, currentType);
+                    } else {
+                        mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                        getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    }
+                    return;
+                }
+            }
+            if (orientation == RIGHT) {
+                mImgRight.requestFocus();
+                if (mLiveTypes != null && currentType == mLiveTypes.size()) {
+                    return;
+                }
+                if (mLiveTypes != null && currentType >= 0 && currentType < mLiveTypes.size()) {
+                    currentType += 1;
+                    mTvLiveCategory.setText(mLiveTypes.get(currentType - 1));
+                    getPresenter().loadLiveListData(this, mLiveTypes.get(currentType - 1), currentType);
+                    return;
+                }
+            }
+        }
     }
 
     private StringBuffer sb = new StringBuffer("");
@@ -705,13 +755,18 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     };
 
     private Live mLive;
+    private List<String> mLiveTypes;//直播分类
+    private int currentType;//当前分类
 
     @Override
-    public void loadListSuccess(Live liveListDatas) {
+    public void loadListSuccess(Live liveListDatas, int position) {
         if (liveListDatas != null) {
+            if (position == 0) {
+                mLiveTypes = liveListDatas.getCategory();
+            }
             mLive = liveListDatas;
+            mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
-                mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
                 if (liveLastPlayPosition >= 0 && liveLastPlayPosition < liveListDatas.getPlaylist().size()) {
                     currentPlayPosition = liveLastPlayPosition;
                 } else {
@@ -726,6 +781,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                             (LinearLayoutManager) mRecyclerLiveList.getLayoutManager();
                     mLayoutManager.scrollToPositionWithOffset(currentPlayPosition, 0);
                     RecyclerView.ViewHolder holder = mRecyclerLiveList.findViewHolderForAdapterPosition(currentPlayPosition);
+                    ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).setVisibility(View.VISIBLE);
                     ((LinearLayout) holder.itemView.findViewById(R.id.re_live_channel)).requestFocus();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -745,14 +801,22 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
 
     @Override
     public void loadEPGlistSuccess(EPGlist epGlist) {
-        String time = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
-        List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
-        for (int i = 0; i < detailBeans.size(); i++) {
-            if (time.equals(detailBeans.get(i).getDate())) {
-                getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
-                return;
+        String stime = new SimpleDateFormat("yyyy/MM/dd").format(new Date(App.newtime * 1000));
+        try {
+            long ltime = new SimpleDateFormat("yyyy/MM/dd").parse(stime).getTime();
+            List<EPGlist.DetailBean> detailBeans = epGlist.getDetail();
+            for (int i = 0; i < detailBeans.size(); i++) {
+                long time = new SimpleDateFormat("yyyy/MM/dd")
+                        .parse(detailBeans.get(i).getDate()).getTime();
+                if (ltime == time) {
+                    getPresenter().loadEPGdetail(detailBeans.get(i).getUrl());
+                    return;
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

@@ -29,7 +29,7 @@
         <LinearLayout
             android:id="@+id/channel_list"
             android:layout_width="450px"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="80px"
             android:layout_marginTop="60px"
             android:background="@color/transparent"
@@ -48,8 +48,11 @@
                     android:layout_height="80px"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:src="@drawable/arrow_left_normal" />
+                    android:layout_marginBottom="8px"
+                    android:layout_marginLeft="8px"
+                    android:layout_marginTop="8px"
+                    android:focusable="true"
+                    android:src="@drawable/arrow_left" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_live_category"
@@ -68,8 +71,11 @@
                     android:layout_height="80px"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:clickable="true"
-                    android:src="@drawable/arrow_right_normal" />
+                    android:layout_marginBottom="8px"
+                    android:layout_marginRight="8px"
+                    android:layout_marginTop="8px"
+                    android:focusable="true"
+                    android:src="@drawable/arrow_right" />
             </RelativeLayout>
             <!--<android.support.v7.widget.RecyclerView-->
             <!--android:id="@+id/recycler_live_category"-->
@@ -166,10 +172,40 @@
                     android:textColor="@color/white"
                     android:textSize="48px"
                     tools:text="@string/animal_world" />
+
             </LinearLayout>
 
+            <!--<android.support.v7.widget.AppCompatTextView-->
+            <!--android:id="@+id/tv_epg_more"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="80px"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="60px"-->
+            <!--android:background="@drawable/vod_list_bg_selector"-->
+            <!--android:focusable="true"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="8px"-->
+            <!--android:text="@string/more_infomation"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="48px"-->
+            <!--android:visibility="gone"-->
+            <!--tools:text="更多信息" />-->
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_watch_hint"
+        android:layout_width="700px"
+        android:layout_height="400px"
+        android:layout_centerInParent="true"
+        android:background="@drawable/btn_bg_corners"
+        android:focusable="false"
+        android:gravity="center"
+        android:text="@string/unable_to_watch_unauthorized_programs"
+        android:textColor="@color/white"
+        android:textSize="40px"
+        android:visibility="gone" />
 
 </RelativeLayout>

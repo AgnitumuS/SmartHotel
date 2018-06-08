@@ -20,6 +20,7 @@ import com.wanlong.iptv.player.LiveVideoPlayer;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.weigets.MarqueeTextView;
+import com.wanlong.iptv.utils.Utils;
 
 import butterknife.BindView;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
@@ -76,6 +77,7 @@ public class AdActivity extends BaseActivity {
             case "S905W":
             case "Prevail CATV":
             case "p230":
+            case "KI_PLUS":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
@@ -85,8 +87,13 @@ public class AdActivity extends BaseActivity {
 //                GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
             default:
-                GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
-                GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                if (!Utils.isPhone(this)) {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
+                } else {
+                    GSYVideoManager.instance().setVideoType(this, GSYVideoType.IJKPLAYER);
+                    GSYVideoType.setRenderType(GSYVideoType.TEXTURE);
+                }
                 break;
         }
         mAdPlayer.setUp(url, false, "");
@@ -131,7 +138,6 @@ public class AdActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             new AlertDialog.Builder(AdActivity.this, R.style.Theme_AppCompat_Dialog_Alert)
                     .setTitle(getString(R.string.exitdialog_hint))
                     .setMessage(getString(R.string.exitdialog_out_hint))
@@ -151,10 +157,6 @@ public class AdActivity extends BaseActivity {
 
                         }
                     }).show();
-//                return true;
-//            } else {
-//                finish();
-//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

@@ -1,6 +1,8 @@
 package com.wanlong.iptv.ui.activity;
 
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,6 +78,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     TextView mTvSelfManagement;
     @BindView(R.id.tv_language)
     TextView mTvLanguage;
+    @BindView(R.id.tv_dtv)
+    TextView mTvDtv;
+    @BindView(R.id.tv_look_back)
+    TextView mTvLookBack;
 
 
     @Override
@@ -95,21 +101,23 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         }
     }
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences SP;
     private SharedPreferences.Editor editor;
     private boolean firstOpen;
 
     @Override
     protected void initView() {
-        sharedPreferences = ApkVersion.getSP(this);
-        editor = sharedPreferences.edit();
-        firstOpen = sharedPreferences.getBoolean("firstOpen", true);
+        SP = ApkVersion.getSP(this);
+        editor = SP.edit();
+        firstOpen = SP.getBoolean("firstOpen", true);
         if (firstOpen) {
             editor.putBoolean("firstOpen", false);
             editor.commit();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mTvLanguage.setVisibility(View.GONE);
+            mTvDtv.setVisibility(View.GONE);
+            mTvLookBack.setVisibility(View.GONE);
             autoLogin();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
@@ -188,25 +196,16 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     //刷新首页数据
     private void reflashData() {
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "上海市宝山监狱") + " : " +
-                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                    sharedPreferences.getString("stb_name", ""));
+            mTvWelcomeGuest.setText(SP.getString("Owner_Group", "上海市宝山监狱") + " : " +
+                    SP.getString("area", "") + " " +
+                    SP.getString("stb_name", ""));
         } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
-                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
-                        sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                        sharedPreferences.getString("stb_name", ""));
+            if (SP.getString("Owner_Group_display", "off").equals("on")) {
+                mTvWelcomeGuest.setText(SP.getString("Owner_Group", "DMM") + " : " +
+                        SP.getString("area", "") + " " +
+                        SP.getString("stb_name", ""));
             }
         }
-//        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-//            mTvWelcomeGuest.setText("上海市宝山监狱:" +
-//                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-//                    sharedPreferences.getString("stb_name", ""));
-//        } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-//
-//            mTvWelcomeGuest.setText(getString(R.string.room_number) + ":" +
-//                    sharedPreferences.getString("room", Apis.ROOM_ORIGIN));
-//        }
         if (Utils.getMac(this).equals("02:00:00:00:00:00")) {
             mTvRoom.setText(R.string.no_network_connection);
         } else {
@@ -216,7 +215,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
         getPresenter().loadHomeADData(this, Apis.HEADER + Apis.USER_HOME_AD);
     }
 
-    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live,
+    @OnClick({R.id.img_show, R.id.img_weather, R.id.img_ad, R.id.tv_live, R.id.tv_dtv,R.id.tv_look_back,
             R.id.tv_self_management, R.id.tv_vod, R.id.tv_language, R.id.tv_setting})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -232,6 +231,20 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             case R.id.tv_self_management:
                 startActivity(new Intent(HomeActivity.this, SelfManagementActivity.class));
                 break;
+            case R.id.tv_dtv:
+                try {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    //前提：知道要跳转应用的包名、类名
+                    ComponentName componentName = new ComponentName("th.dtv", "th.dtv.DtvMainActivity");
+                    intent.setComponent(componentName);
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case R.id.tv_look_back:
+                startActivity(new Intent(HomeActivity.this, EPGActivity.class));
+                break;
             case R.id.tv_vod:
                 startActivity(new Intent(HomeActivity.this, VodListActivity.class));
                 break;
@@ -239,12 +252,7 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                 startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
                 break;
             case R.id.tv_setting:
-//                if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 startActivity(new Intent(HomeActivity.this, PasswordActivity.class));
-//                }
-//                if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-//                    startActivity(new Intent(HomeActivity.this, SettingActivity.class));
-//                }
                 break;
         }
     }
@@ -253,11 +261,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     private String ip;
 
     private void autoLogin() {
-        ip = sharedPreferences.getString("ip", "");
+        ip = SP.getString("ip", "");
         if (ip.equals("")) {
             editor.putString("ip", Apis.HEADER);
             editor.commit();
-            ip = sharedPreferences.getString("ip", "");
+            ip = SP.getString("ip", "");
         }
         Apis.HEADER = ip;
         OkGo.<String>post(Apis.HEADER + Apis.USER_LOGIN)
@@ -317,11 +325,6 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
                     }
 
                     @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                    }
-
-                    @Override
                     public void onError(Response<String> response) {
                         loginFailed();
                         super.onError(response);
@@ -336,8 +339,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             editor.putString("ip", Apis.HEADER);
             editor.putString("group", data.getGroup());
             editor.putString("stb_name", data.getStb_name());
+            editor.putString("area", data.getArea());
             editor.putString("Owner_Group", data.getOwner_Group());
             editor.putString("Owner_Group_display", data.getOwner_Group_display());
+            editor.putString("playback_url", data.getPlayback_url());
             editor.commit();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -345,14 +350,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             e.printStackTrace();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "上海市宝山监狱") + " : " +
-                    sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                    sharedPreferences.getString("stb_name", ""));
+            mTvWelcomeGuest.setText(SP.getString("Owner_Group", "上海市宝山监狱") + " : " +
+                    SP.getString("area", "") + " " +
+                    SP.getString("stb_name", ""));
         } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-            if (sharedPreferences.getString("Owner_Group_display", "off").equals("on")) {
-                mTvWelcomeGuest.setText(sharedPreferences.getString("Owner_Group", "DMM") + " : " +
-                        sharedPreferences.getString("group", Apis.ROOM_ORIGIN) + " " +
-                        sharedPreferences.getString("stb_name", ""));
+            if (SP.getString("Owner_Group_display", "off").equals("on")) {
+                mTvWelcomeGuest.setText(SP.getString("Owner_Group", "DMM") + " : " +
+                        SP.getString("area", "") + " " +
+                        SP.getString("stb_name", ""));
             }
         }
     }
@@ -579,29 +584,19 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if ((System.currentTimeMillis() - exitTime) < 2000) {
-//            if (App.PRISON) {
-//                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-//                finish();
-//            } else {
-//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-//                finish();
-//            }
             if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
                 if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
                     return true;
                 } else {
                     showExitHintDialog();
                 }
-            } else {
-                showExitHintDialog();
-//                startActivity(new Intent(HomeActivity.this, LanguageActivity.class));
-//                finish();
+            } else if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+                if (Build.MODEL.equals("0008") || Build.MODEL.equals("Prevail CATV")) {
+                    return true;
+                } else {
+                    showExitHintDialog();
+                }
             }
-//            } else {
-//                Toast.makeText(this, R.string.click_again_to_welcome_activity, Toast.LENGTH_SHORT).show();
-//                exitTime = System.currentTimeMillis();
-//            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

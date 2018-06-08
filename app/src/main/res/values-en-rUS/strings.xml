@@ -89,6 +89,10 @@
     <string name="no_network_connection">No network connection</string>
     <string name="the_user_does_not_have_permission_to_watch_the_program">The user does not have permission to watch the program</string>
     <string name="unable_to_watch_unauthorized_programs">Unable to watch unauthorized programs</string>
+    <string name="more_infomation">More Infomation</string>
+    <string name="today">Today</string>
+    <string name="playlist">Playlist</string>
+    <string name="look_back">Look back</string>
 
     <string-array name="day_of_week">
         <item>Sunday</item>

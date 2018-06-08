@@ -4,34 +4,23 @@ import android.os.Build;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
-import com.orhanobut.logger.Logger;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.wanlong.iptv.R;
-import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.player.SimpleVideoCallBack;
 import com.wanlong.iptv.player.VodVideoPlayer;
-import com.wanlong.iptv.utils.Apis;
-import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.Utils;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.BindView;
 
-public class VodPlayActivity extends BaseActivity {
+public class ReviewActivity extends BaseActivity {
 
     @BindView(R.id.vod_player)
     VodVideoPlayer mVodPlayer;
 
     @Override
     protected int getContentResId() {
-        return R.layout.activity_vod_play;
+        return R.layout.activity_review;
     }
 
     private String url;
@@ -48,11 +37,6 @@ public class VodPlayActivity extends BaseActivity {
     protected void initData() {
 
     }
-
-    private String starttime;
-    private String playtime;
-    private long start;//开始时间戳
-    private String vod_expired_time;
 
     private void initPlayer() {
         switch (Build.MODEL) {
@@ -80,36 +64,7 @@ public class VodPlayActivity extends BaseActivity {
                 }
                 break;
         }
-        vod_expired_time = ApkVersion.getSP(this).getString("vod_expired_time", "-1");
-        if (App.look_permission) {
-            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-                mVodPlayer.setUp(url, false, name);
-            }
-            if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
-                if (vod_expired_time.startsWith("-")) {
-                    Toast.makeText(this,
-                            getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
-                            Toast.LENGTH_SHORT).show();
-                } else if (vod_expired_time.equals("0")) {
-                    mVodPlayer.setUp(url, false, name);
-                    Toast.makeText(this, getString(R.string.the_user_is_going_to_expire), Toast.LENGTH_SHORT).show();
-                } else {
-                    mVodPlayer.setUp(url, false, name);
-                    try {
-                        int time = Integer.parseInt(vod_expired_time);
-                        if (time <= 3) {
-                            Toast.makeText(this, getString(R.string.the_user_is_going_to_expire), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(this,
-                    getString(R.string.the_user_has_expired_and_can_not_continue_to_watch),
-                    Toast.LENGTH_SHORT).show();
-        }
+        mVodPlayer.setUp(url, false, name);
         mVodPlayer.setBackgroundColor(getResources().getColor(R.color.color_181818));
         mVodPlayer.startPlayLogic();
         mVodPlayer.setIsTouchWigetFull(true);
@@ -117,8 +72,6 @@ public class VodPlayActivity extends BaseActivity {
             @Override
             public void onPrepared(String url, Object... objects) {
                 super.onPrepared(url, objects);
-                start = App.newtime * 1000;
-                starttime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(App.newtime * 1000));
             }
 
             @Override
@@ -150,35 +103,11 @@ public class VodPlayActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         mVodPlayer.release();
-//        upload();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    private void upload() {
-        playtime = new SimpleDateFormat("HH:mm:ss").format(new Date(App.newtime * 1000 - start));
-        OkGo.<String>post(Apis.HEADER + Apis.USER_VOD_PLAYBACK_INFO_UPLOAD)
-                .tag(this)
-                .cacheMode(CacheMode.NO_CACHE)
-                .params("mac", Utils.getMac(this))
-                .params("program_name", name)
-                .params("watch_start_time", starttime)
-                .params("watch_continue_time", playtime)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Logger.d("upload vod playback info success");
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        Logger.d("upload vod playback info failed");
-                    }
-                });
     }
 
     /**
@@ -190,7 +119,6 @@ public class VodPlayActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) < 2000) {
-                upload();
                 finish();
             } else {
                 Toast.makeText(this, R.string.click_again_to_exit_playback, Toast.LENGTH_SHORT).show();
