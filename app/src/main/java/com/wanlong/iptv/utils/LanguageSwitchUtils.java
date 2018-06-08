@@ -17,6 +17,8 @@ public class LanguageSwitchUtils {
     public static final int CHINESE = 0;//中文
     public static final int ENGLISH = 1;//英语
     public static final int THAI = 2;//泰语
+    public static final int RUSSIAN = 3;//俄语
+    public static final int ARMENIA = 4;//亚美尼亚语
 
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
@@ -36,9 +38,21 @@ public class LanguageSwitchUtils {
                 configuration.locale = Locale.ENGLISH;
                 break;
             case THAI:
-                String languageToLoad = "th-rTH";
-                Locale locale = new Locale(languageToLoad);
-                Locale.setDefault(locale);
+                String languageToLoad1 = "th-rTH";
+                Locale locale1 = new Locale(languageToLoad1);
+                Locale.setDefault(locale1);
+                configuration.locale = Locale.getDefault();
+                break;
+            case RUSSIAN:
+                String languageToLoad2 = "ru-rRU";
+                Locale locale2 = new Locale(languageToLoad2);
+                Locale.setDefault(locale2);
+                configuration.locale = Locale.getDefault();
+                break;
+            case ARMENIA:
+                String languageToLoad3 = "hy-rAM";
+                Locale locale3 = new Locale(languageToLoad3);
+                Locale.setDefault(locale3);
                 configuration.locale = Locale.getDefault();
                 break;
         }
