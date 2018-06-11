@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.R;
 import com.wanlong.iptv.server.UpdateService;
 import com.wanlong.iptv.utils.Apis;
+import com.wanlong.iptv.utils.ApkUtils;
 import com.wanlong.iptv.utils.ApkVersion;
 import com.wanlong.iptv.utils.LanguageSwitchUtils;
 import com.wanlong.iptv.utils.Utils;
@@ -72,15 +73,16 @@ public class StartActivity extends BaseActivity {
     private SharedPreferences.Editor editor;
     private boolean firstOpen;
     private String ip;
+    private boolean hasDTV;
+    private String mac;
+    private String model;
 
     @Override
     protected void initData() {
+        createSP();
         if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             startService(new Intent(getApplicationContext(), UpdateService.class));
         }
-        Logger.d("mac:" + Utils.getMac(this));
-        Logger.d("model:" + Build.MODEL);
-        createSP();
         if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
         }
@@ -89,15 +91,28 @@ public class StartActivity extends BaseActivity {
     //创建SharedPreferences
     private void createSP() {
         sharedPreferences = ApkVersion.getSP(this);
+        editor = sharedPreferences.edit();
         firstOpen = sharedPreferences.getBoolean("firstOpen", true);
         ip = sharedPreferences.getString("ip", "");
         if (ip.equals("")) {
-            editor = sharedPreferences.edit();
             editor.putString("ip", Apis.HEADER);
             editor.commit();
             ip = sharedPreferences.getString("ip", "");
         }
         Apis.HEADER = ip;
+        mac = Utils.getMac(this);
+        model = Build.MODEL;
+        Logger.d("mac:" + mac);
+        Logger.d("model:" + model);
+        hasDTV = ApkUtils.isAvailable(this, "th.dtv");
+        if (mac != null && !mac.equals("") && !mac.equals("02:00:00:00:00:00")) {
+            editor.putString("mac", mac);
+        } else {
+            editor.putString("mac", "");
+        }
+        editor.putString("model", model);
+        editor.putBoolean("hasDTV", hasDTV);
+        editor.commit();
     }
 
     private Handler mHandler = new Handler() {
