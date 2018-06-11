@@ -118,15 +118,14 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             mTvLanguage.setVisibility(View.GONE);
             mTvDtv.setVisibility(View.GONE);
             mTvLookBack.setVisibility(View.GONE);
-            autoLogin();
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
             mTvSelfManagement.setVisibility(View.GONE);
             if (!SP.getBoolean("hasDTV", true)) {
                 mTvDtv.setVisibility(View.GONE);
             }
-            autoLogin();
         }
+        autoLogin();
         if (!Utils.isPhone(this)) {
             mTvLive.requestFocus();
         }
