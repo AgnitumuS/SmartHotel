@@ -82,9 +82,12 @@ public class StartActivity extends BaseActivity {
         createSP();
         if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             startService(new Intent(getApplicationContext(), UpdateService.class));
-        }
-        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
+        }
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            if (Build.MODEL.equals("KI PLUS")) {
+                startService(new Intent(getApplicationContext(), UpdateService.class));
+            }
         }
     }
 

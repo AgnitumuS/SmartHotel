@@ -68,9 +68,17 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     };
 
     private String url = "";
+    private boolean autoUpdate = false;
 
     private void autoUpdate() {
         if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            autoUpdate = true;
+        } else if (Build.MODEL.equals("KI PLUS") && ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
+            autoUpdate = true;
+        } else {
+            autoUpdate = false;
+        }
+        if (autoUpdate) {
             if (ApkVersion.RELEASE_VERSION) {
                 url = Apis.HEADER + Apis.USER_APP_UPDATE;
             } else {
@@ -87,7 +95,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
     public void downloadSuccess(File apkFile) {
         try {
             if (formetFileSize(getFileSize(apkFile), SIZETYPE_MB) > 10) {
-                if (Build.MODEL.equals("0008")) {
+                if (Build.MODEL.equals("0008") || Build.MODEL.equals("KI PLUS")) {
                     mFile = apkFile;
                     mUpdateListener.showDialog();
                     mHandler.sendEmptyMessageDelayed(0, 5 * 1000);
