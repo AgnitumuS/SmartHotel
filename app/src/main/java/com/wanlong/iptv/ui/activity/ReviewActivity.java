@@ -46,7 +46,7 @@ public class ReviewActivity extends BaseActivity {
             case "S905W":
             case "Prevail CATV":
             case "p230":
-            case "KI_PLUS":
+            case "KI PLUS":
                 GSYVideoManager.instance().setVideoType(this, GSYVideoType.SYSTEMPLAYER);
                 GSYVideoType.setRenderType(GSYVideoType.SUFRACE);
                 break;
