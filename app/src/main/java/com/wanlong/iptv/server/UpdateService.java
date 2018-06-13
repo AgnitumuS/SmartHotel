@@ -35,7 +35,7 @@ public class UpdateService extends Service implements OnPackagedObserver, Update
         super.onCreate();
     }
 
-    public static final int INTERVAL_TIME = 10 * 60;//间隔时间:秒
+    public static final int INTERVAL_TIME = 3 * 60;//间隔时间:秒
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

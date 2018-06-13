@@ -52,7 +52,7 @@ public class AdService extends Service {
         if (mTimer != null && mTimerTask != null) {
             try {
                 mTimer.schedule(mTimerTask, 0, INTERVAL_TIME * 1000);
-                mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 4 * 1000);
+                mTimer.schedule(mLoginTask, 0, INTERVAL_TIME * 3 * 1000);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             } catch (Exception e) {
