@@ -7,7 +7,7 @@ android {
         applicationId "com.wanlong.iptv"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1119
+        versionCode 1120
         versionName "1.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
