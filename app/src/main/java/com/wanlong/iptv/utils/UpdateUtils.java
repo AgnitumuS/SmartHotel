@@ -3,6 +3,7 @@ package com.wanlong.iptv.utils;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.widget.TextView;
 
@@ -207,6 +208,23 @@ public class UpdateUtils {
 
     //下载APK
     public static void downloadApk(Context context, String url, boolean showDialog) {
+        SharedPreferences mSharedPreferences = ApkVersion.getSP(context);
+        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+        String apkFile = mSharedPreferences.getString("apkFile", "");
+        if (!apkFile.equals("")) {
+            try {
+                File file = new File(apkFile);
+                if (file.exists() && file.isFile()) {
+                    if (file.delete()) {
+                        Logger.d("删除成功");
+                        mEditor.putString("apkFile", "");
+                        mEditor.commit();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         OkGo.<File>get(url)
                 .tag(context)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -230,6 +248,8 @@ public class UpdateUtils {
                         if (showDialog) {
                             progressDialog.dismiss();
                         }
+                        mEditor.putString("apkFile", response.body().getAbsoluteFile().getAbsolutePath());
+                        mEditor.commit();
                         mDownloadListener.downloadSuccess(response.body().getAbsoluteFile());
                     }
 
