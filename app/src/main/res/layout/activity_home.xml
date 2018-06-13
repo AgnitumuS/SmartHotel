@@ -139,6 +139,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/tv_live"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -153,6 +154,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="自办"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -167,6 +169,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="DTV"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -181,6 +184,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/look_back"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -195,6 +199,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/tv_vod"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -264,6 +269,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/tv_language"
             android:textColor="@color/white"
             android:textSize="48px" />
@@ -277,6 +283,7 @@
             android:background="@drawable/btn_background1"
             android:focusable="true"
             android:gravity="center"
+            android:maxLines="1"
             android:text="@string/tv_setting"
             android:textColor="@color/white"
             android:textSize="48px" />
