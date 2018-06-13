@@ -80,8 +80,10 @@ public class StartActivity extends BaseActivity {
     @Override
     protected void initData() {
         createSP();
-        if (Build.MODEL.equals("0008") && ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
-            startService(new Intent(getApplicationContext(), UpdateService.class));
+        if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+            if (Build.MODEL.equals("0008")) {
+                startService(new Intent(getApplicationContext(), UpdateService.class));
+            }
             mHandler.sendEmptyMessageDelayed(OPEN, 1000);
         }
         if (ApkVersion.CURRENT_VERSION == ApkVersion.STANDARD_VERSION) {
