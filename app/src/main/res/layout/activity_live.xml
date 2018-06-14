@@ -141,7 +141,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="200px"
                 android:focusable="false"
-                android:text="CCTV1"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="64px" />
 

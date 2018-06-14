@@ -757,6 +757,7 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
     private Live mLive;
     private List<String> mLiveTypes;//直播分类
     private int currentType;//当前分类
+    private List<Live.PlaylistBean> mLiveListDatas;
 
     @Override
     public void loadListSuccess(Live liveListDatas, int position) {
@@ -765,6 +766,25 @@ public class LiveActivity extends BaseActivity<LivePresenter> implements LivePre
                 mLiveTypes = liveListDatas.getCategory();
             }
             mLive = liveListDatas;
+            if (ApkVersion.CURRENT_VERSION == ApkVersion.PRISON_VERSION) {
+                mLiveListDatas = new ArrayList<>();
+                group = ApkVersion.getSP(this).getString("group", "");
+                if (group.equals(" ") || group.equals("")) {
+
+                } else {
+                    if (liveListDatas.getPlaylist() != null) {
+                        for (int i = 0; i < liveListDatas.getPlaylist().size(); i++) {
+                            live_package = liveListDatas.getPlaylist().get(i).getLive_package()
+                                    .replaceAll(" ", "");
+                            if (live_package.indexOf(group) != -1) {
+                                mLiveListDatas.add(liveListDatas.getPlaylist().get(i));
+                            }
+                        }
+                    }
+                }
+                liveListDatas.setPlaylist(mLiveListDatas);
+                mLive = liveListDatas;
+            }
             mLiveListAdapter.setData(liveListDatas.getPlaylist(), liveLastPlayPosition);
             if (liveListDatas.getPlaylist() != null && liveListDatas.getPlaylist().size() > 0) {
                 if (liveLastPlayPosition >= 0 && liveLastPlayPosition < liveListDatas.getPlaylist().size()) {
