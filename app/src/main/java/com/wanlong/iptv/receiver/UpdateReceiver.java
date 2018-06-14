@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.wanlong.iptv.ui.activity.StartActivity;
+import com.wanlong.iptv.utils.UpdateUtils;
 
 /**
  * Created by lingchen on 2018/5/21. 17:06
@@ -16,6 +17,7 @@ public class UpdateReceiver extends BroadcastReceiver {
         // TODO Auto-generated method stub
         if (intent.getAction().equals("android.intent.action.PACKAGE_REPLACED")) {
 //            Toast.makeText(context, "升级成功", Toast.LENGTH_SHORT).show();
+            UpdateUtils.deleteApk(context);
             Intent intent2 = new Intent(context, StartActivity.class);
             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent2);

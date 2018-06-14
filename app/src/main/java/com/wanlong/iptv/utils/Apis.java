@@ -6,8 +6,12 @@ package com.wanlong.iptv.utils;
 
 public class Apis {
     public static final String KEY = "76c833fa47e747d5c3bd24241f027eac";
-    public static String HEADER = "http://192.168.1.241:9080/";//杭州服务器http://60.191.94.91:9080/
-    public static final String HEADER_ORIGIN = "http://192.168.1.241:9080/";//上海客户潘俊服务器http://192.168.50.2:9080/
+
+    //杭州服务器http://60.191.117.131:9080/
+    //上海客户潘俊服务器http://192.168.50.2:9080/
+    public static final String HEADER_ORIGIN = "http://192.168.1.241:9080/";
+    public static String HEADER = HEADER_ORIGIN;
+
     public static String ROOM_ORIGIN = "501";
     public static final String SETTING_PASSWORD = "56013700";
     ////////////////////////////////////////////////////////////////////////////////////////////////
