@@ -120,6 +120,8 @@ public class AdService extends Service {
                 .params("mac", Utils.getMac(this))
                 .params("uuid", App.sUUID.toString())
                 .params("ip", Utils.getIpAddressString())
+                .params("versionName", getString(R.string.versionName))
+                .params("versionCode", getString(R.string.versionCode))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

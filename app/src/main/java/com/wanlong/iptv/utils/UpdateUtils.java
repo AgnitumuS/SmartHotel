@@ -141,6 +141,7 @@ public class UpdateUtils {
             update = false;
         }
         if (update) {
+            deleteApk(context);
             version = String.valueOf(versionCode);
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < version.length(); i++) {
@@ -208,23 +209,7 @@ public class UpdateUtils {
 
     //下载APK
     public static void downloadApk(Context context, String url, boolean showDialog) {
-        SharedPreferences mSharedPreferences = ApkVersion.getSP(context);
-        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-        String apkFile = mSharedPreferences.getString("apkFile", "");
-        if (!apkFile.equals("")) {
-            try {
-                File file = new File(apkFile);
-                if (file.exists() && file.isFile()) {
-                    if (file.delete()) {
-                        Logger.d("删除成功");
-                        mEditor.putString("apkFile", "");
-                        mEditor.commit();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        deleteApk(context);
         OkGo.<File>get(url)
                 .tag(context)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -248,8 +233,9 @@ public class UpdateUtils {
                         if (showDialog) {
                             progressDialog.dismiss();
                         }
-                        mEditor.putString("apkFile", response.body().getAbsoluteFile().getAbsolutePath());
-                        mEditor.commit();
+                        ApkVersion.getSP(context).edit()
+                                .putString("apkFile", response.body().getAbsoluteFile().getAbsolutePath())
+                                .commit();
                         mDownloadListener.downloadSuccess(response.body().getAbsoluteFile());
                     }
 
@@ -272,6 +258,27 @@ public class UpdateUtils {
                         mDownloadListener.downloadFailed();
                     }
                 });
+    }
+
+    //删除APK
+    public static void deleteApk(Context context) {
+        SharedPreferences mSharedPreferences = ApkVersion.getSP(context);
+        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+        String apkFile = mSharedPreferences.getString("apkFile", "");
+        if (!apkFile.equals("")) {
+            try {
+                File file = new File(apkFile);
+                if (file.exists() && file.isFile()) {
+                    if (file.delete()) {
+                        Logger.d("删除成功");
+                        mEditor.putString("apkFile", "");
+                        mEditor.commit();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static DownloadListener mDownloadListener;
