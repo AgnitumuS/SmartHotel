@@ -148,7 +148,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }.start();
         }
         //保存日志文件
-        String filename = Utils.getMac(mContext) + "-" + saveCrashInfo2File(ex);
+        String filename = saveCrashInfo2File(ex);
         if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
             uploadFile(filename);
         }
@@ -281,7 +281,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 timestamp = System.currentTimeMillis();
             }
             String time = format.format(new Date(timestamp));
-            String fileName = time + "-" + timestamp + ".log";
+            String fileName = "crash-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/";
                 File dir = new File(path);
