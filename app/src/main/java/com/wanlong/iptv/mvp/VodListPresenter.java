@@ -52,7 +52,13 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed(1);
+                        try {
+                            getView().loadFailed(1);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -87,7 +93,13 @@ public class VodListPresenter extends BasePresenter<VodListPresenter.VodListView
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        getView().loadFailed(2);
+                        try {
+                            getView().loadFailed(2);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
