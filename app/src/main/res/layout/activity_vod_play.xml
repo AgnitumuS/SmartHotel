@@ -17,6 +17,6 @@
             android:id="@+id/vod_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusable="false" />
+            android:focusable="true" />
     </FrameLayout>
 </RelativeLayout>

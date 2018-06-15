@@ -273,4 +273,19 @@ public class VodVideoPlayer extends StandardGSYVideoPlayer {
         mHandler.sendEmptyMessageDelayed(CANCLE, 2500);
     }
 
+    @Override
+    protected void dismissProgressDialog() {
+        try {
+            if (mProgressDialog != null) {
+                mProgressDialog.dismiss();
+                mProgressDialog = null;
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

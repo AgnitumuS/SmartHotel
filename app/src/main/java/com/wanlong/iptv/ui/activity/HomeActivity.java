@@ -163,7 +163,11 @@ public class HomeActivity extends BaseActivity<HomePresenter> implements HomePre
             if (Utils.getMac(HomeActivity.this).equals("02:00:00:00:00:00")) {
                 mTvRoom.setText(R.string.no_network_connection);
             } else {
-                mTvRoom.setText("Mac:" + Utils.getMac(HomeActivity.this));
+                if (Utils.isNetworkConnected(HomeActivity.this)) {
+                    mTvRoom.setText("Mac:" + Utils.getMac(HomeActivity.this));
+                } else {
+                    mTvRoom.setText(R.string.no_network_connection);
+                }
             }
         }
     }
