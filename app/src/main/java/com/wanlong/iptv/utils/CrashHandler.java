@@ -125,7 +125,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * @return 处理了该异常返回true, 否则false
      */
     private boolean showToast;
-    private boolean filehasUpload;
 
     private boolean handleException(Throwable ex) {
         if (ex == null) {
@@ -149,7 +148,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
         //保存日志文件
         String filename = saveCrashInfo2File(ex);
-        if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
+        if (filename != null && Utils.isNetworkConnected(mContext)) {
             uploadFile(filename);
         }
         return true;
@@ -177,6 +176,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                     public void onResponse(SimpleResponse<String, String> response) {
                         if (response.isSucceed()) {
                             Log.d("crashlog", "upload error log success");
+                            try {
+                                File dir = new File(file);
+                                if (dir.exists() && dir.isFile()) {
+                                    dir.delete();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else {
 
                         }
@@ -185,7 +192,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                     @Override
                     public void onException(Exception e) {
                         super.onException(e);
-                        filehasUpload = false;
                         Log.d("crashlog", "upload error log failed");
                     }
 
@@ -200,7 +206,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        filehasUpload = true;
                         Log.d("crashlog", "upload error log finish");
                     }
                 });
