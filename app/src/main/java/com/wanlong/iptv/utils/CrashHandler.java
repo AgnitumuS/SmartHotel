@@ -10,16 +10,14 @@ import android.os.Environment;
 import android.os.Looper;
 import android.util.Log;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Progress;
-import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.wanlong.iptv.app.App;
 import com.wanlong.iptv.server.AdService;
 import com.wanlong.iptv.ui.activity.HomeActivity;
 import com.wanlong.iptv.ui.activity.LoginActivity;
+import com.yanzhenjie.kalle.Kalle;
+import com.yanzhenjie.kalle.simple.SimpleCallback;
+import com.yanzhenjie.kalle.simple.SimpleResponse;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,10 +26,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -129,7 +125,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * @return 处理了该异常返回true, 否则false
      */
     private boolean showToast;
-    private boolean filehasUpload;
 
     private boolean handleException(Throwable ex) {
         if (ex == null) {
@@ -153,7 +148,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
         //保存日志文件
         String filename = saveCrashInfo2File(ex);
-        if (filename != null && Utils.isNetworkConnected(mContext) && !filehasUpload) {
+        if (filename != null && Utils.isNetworkConnected(mContext)) {
             uploadFile(filename);
         }
         return true;
@@ -163,52 +158,57 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 上传文件到服务器
      */
     private void uploadFile(String filename) {
-        Log.d("hotel-crash", filename);
-        Log.d("hotel-crash", Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD);
-        final String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
-        Log.d("hotel-crash", file);
-        List<File> files = new ArrayList<>();
-        files.add(new File(filename));
-        OkGo.<String>post(Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD)
-                .tag(this)
-                .cacheMode(CacheMode.NO_CACHE)
-//                .params("mac",Utils.getMac(mContext))
-//                .upFile(new File(file))
-                .params("crashlog", new File(file))
-//                .addFileParams("crashlog",files)
-                .execute(new StringCallback() {
-
+        Log.d("crashlog", filename);
+        Log.d("crashlog", Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD);
+        String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/crash/" + filename;
+        Kalle.post(Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD)
+                .cacheKey(Apis.HEADER + Apis.USER_CRASHLOG_UPLOAD)
+                .cacheMode(com.yanzhenjie.kalle.simple.cache.CacheMode.NETWORK)
+                .param("mac", Utils.getMac(mContext))
+                .file("crashlog", new File(file))
+                .perform(new SimpleCallback<String>() {
                     @Override
-                    public void onSuccess(Response<String> response) {
-                        Log.d("hotel-crash", response.body().toString());
-                        Log.d("hotel-crash", "upload error log success");
+                    public void onStart() {
+                        super.onStart();
                     }
 
                     @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        File dir = new File(file);
-                        if (dir.exists()) {
-                            dir.delete();
+                    public void onResponse(SimpleResponse<String, String> response) {
+                        if (response.isSucceed()) {
+                            Log.d("crashlog", "upload error log success");
+                            try {
+                                File dir = new File(file);
+                                if (dir.exists() && dir.isFile()) {
+                                    dir.delete();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+
                         }
-                        filehasUpload = true;
-                        Log.d("hotel-crash", "upload error log finish");
                     }
 
                     @Override
-                    public void uploadProgress(Progress progress) {
-                        super.uploadProgress(progress);
-                        Log.d("hotel-crash", "progress:" + progress.currentSize);
+                    public void onException(Exception e) {
+                        super.onException(e);
+                        Log.d("crashlog", "upload error log failed");
                     }
 
                     @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        filehasUpload = false;
-                        Log.d("hotel-crash", "upload error log failed");
+                    public void onEnd() {
+                        super.onEnd();
+                        try {
+                            File dir = new File(file);
+                            if (dir.exists() && dir.isFile()) {
+                                dir.delete();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("crashlog", "upload error log finish");
                     }
                 });
-        Log.d("hotel-crash", "OkGo");
     }
 
     /**
@@ -229,6 +229,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             }
         } catch (PackageManager.NameNotFoundException e) {
             Logger.e(TAG + "  an error occured when collect package info  " + e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //获取所有系统信息
         Field[] fields = Build.class.getDeclaredFields();
@@ -247,7 +249,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 添加自定义参数
      */
     private void addCustomInfo() {
-
+        paramsMap.put("mac", Utils.getMac(mContext));
     }
 
     /**

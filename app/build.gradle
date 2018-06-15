@@ -7,7 +7,7 @@ android {
         applicationId "com.wanlong.iptv"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1123
+        versionCode 1126
         versionName "1.4.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -82,6 +82,8 @@ dependencies {
 
     //网络框架okgo https://github.com/jeasonlzy/okhttp-OkGo
     implementation 'com.lzy.net:okgo:3.0.4'
+    //网络框架Kalle  https://github.com/yanzhenjie/Kalle
+    implementation 'com.yanzhenjie:okalle:0.1.3'
 
     //内存泄漏检测leakcanary  https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
